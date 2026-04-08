@@ -1,0 +1,87 @@
+╔════════════════════════════════════════════════════════════════════╗
+║              PAYROLLHUB - LANZA EL PROYECTO LOCALMENTE             ║
+╚════════════════════════════════════════════════════════════════════╝
+
+🚀 LANZAMIENTO RÁPIDO (5 PASOS)
+
+Paso 1: Abre una Terminal
+└─ Cmd + T (Mac) o Ctrl + ` (Windows)
+
+Paso 2: Navega a la carpeta
+└─ cd /path/to/payroll-saas
+
+Paso 3: Instala dependencias
+└─ npm install
+   (Espera 2-3 minutos)
+
+Paso 4: Configura Supabase
+└─ Copia .env.example a .env.local
+└─ Edita .env.local con tus credenciales de Supabase
+   (Ver SETUP_SUPABASE.md para instrucciones)
+
+Paso 5: Lanza el servidor
+└─ npm run dev
+
+✅ ¡Hecho!
+
+Abre tu navegador en: http://localhost:3000
+
+════════════════════════════════════════════════════════════════════
+
+📋 COMANDOS ÚTILES
+
+npm run dev         → Lanza servidor desarrollo (auto-reload)
+npm run build       → Crea build para producción
+npm run lint        → Verifica código
+npm run db:push     → Aplica migraciones a base de datos
+npm run db:seed     → Agrega datos de prueba
+
+════════════════════════════════════════════════════════════════════
+
+🔑 PRIMERO: CONFIGURA SUPABASE
+
+1. Ve a https://supabase.com
+2. Crea un nuevo proyecto (región: USA)
+3. Obtén tus 3 claves:
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+   - SUPABASE_SERVICE_ROLE_KEY
+
+4. Pégalas en .env.local
+
+Ver: SETUP_SUPABASE.md para detalles
+
+════════════════════════════════════════════════════════════════════
+
+📚 DOCUMENTACIÓN
+
+00_START_HERE.md         → Comienza aquí (2 min)
+QUICK_START.md          → Setup rápido (5 min)
+DEVELOPMENT.md          → Guía de desarrollo
+docs/ARCHITECTURE.md    → Diseño del sistema
+INDEX.md                → Mapa de documentación
+
+════════════════════════════════════════════════════════════════════
+
+💡 TIPS
+
+• Los cambios en código se recargan automáticamente
+• Presiona Ctrl+C para detener el servidor
+• Abre DevTools con F12 para ver errores
+• Lee la documentación mientras la app se lanza
+• Si necesitas ayuda, check DEVELOPMENT.md
+
+════════════════════════════════════════════════════════════════════
+
+🎯 PRÓXIMOS PASOS DESPUÉS DE LANZAR
+
+1. Explora la estructura del código (src/ folder)
+2. Lee ARCHITECTURE.md para entender el sistema
+3. Comienza a construir componentes React
+4. Conecta tus endpoints API
+5. Prueba con datos reales
+
+════════════════════════════════════════════════════════════════════
+
+¡Buena suerte! 🚀
+

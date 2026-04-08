@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayrollHub - SaaS de Nómina</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .section {
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .section h2 {
+      color: #1a365d;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    .section h3 {
+      color: #1a365d;
+      margin-top: 25px;
+      font-size: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      background: #f0f9ff;
+      border-left: 4px solid #2563eb;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+      animation: slideIn 0.3s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result h3 {
+      margin-top: 0;
+      color: #1a365d;
+      margin-bottom: 15px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #dbeafe;
+      font-size: 14px;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      color: #475569;
+      font-weight: 500;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: #1a365d;
+      text-align: right;
+    }
+
+    .result-row.total {
+      border-top: 2px solid #93c5fd;
+      padding-top: 15px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .result-row.total .result-value {
+      color: #15803d;
+      font-size: 18px;
+    }
+
+    .status {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .stat-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.95;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .features {
+      margin-left: 20px;
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 2;
+      color: #475569;
+    }
+
+    .features li {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 28px;
+      }
+
+      .section {
+        padding: 20px;
+      }
+    }
+
+    .error {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .error.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🚀 PayrollHub</h1>
+      <p>SaaS de Nómina para Pequeños Negocios</p>
+    </header>
+
+    <div class="content">
+      <div class="section">
+        <h2>💰 Calculadora de Nómina</h2>
+        <div class="status">✅ Sistema operativo - Calcula impuestos federales automáticamente</div>
+
+        <div class="form-group">
+          <label for="grossPay">Salario Bruto ($)</label>
+          <input type="number" id="grossPay" value="2000" step="50" min="0" max="999999">
+        </div>
+
+        <div class="form-group">
+          <label for="payFrequency">Frecuencia de Pago</label>
+          <select id="payFrequency">
+            <option value="biweekly" selected>Quincenal (2 veces/mes)</option>
+            <option value="weekly">Semanal</option>
+            <option value="semimonthly">Quincenal (24/año)</option>
+            <option value="monthly">Mensual</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="filingStatus">Estado Civil (Federal)</label>
+          <select id="filingStatus">
+            <option value="single" selected>Soltero/a</option>
+            <option value="married">Casado/a</option>
+            <option value="head_of_household">Jefe de Hogar</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="allowances">Deducciones Permitidas (W-4)</label>
+          <input type="number" id="allowances" value="0" min="0" max="20" step="1">
+        </div>
+
+        <button onclick="calculatePayroll()">📊 Calcular Impuestos</button>
+
+        <div id="results" class="result">
+          <h3>📋 Desglose de Nómina</h3>
+          <div class="result-row">
+            <span class="result-label">Salario Bruto:</span>
+            <span class="result-value" id="resultGross">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Impuesto Federal:</span>
+            <span class="result-value" id="resultFederal">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Social Security (6.2%):</span>
+            <span class="result-value" id="resultSS">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Medicare (1.45%):</span>
+            <span class="result-value" id="resultMedicare">-</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Total Impuestos:</span>
+            <span class="result-value" id="resultTotal">-</span>
+          </div>
+          <div class="result-row total">
+            <span class="result-label">💵 Salario Neto:</span>
+            <span class="result-value" id="resultNet">-</span>
+          </div>
+        </div>
+
+        <div id="error" class="error"></div>
+      </div>
+
+      <div class="section">
+        <h2>📊 Información del Proyecto</h2>
+        <div class="stats">
+          <div class="stat-box">
+            <div class="stat-number">25+</div>
+            <div class="stat-label">Archivos</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">2.5K</div>
+            <div class="stat-label">Líneas</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Guías</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">7</div>
+            <div class="stat-label">Tablas BD</div>
+          </div>
+        </div>
+
+        <h3>✨ Características Incluidas</h3>
+        <ul class="features">
+          <li>✅ Gestión de empleados completa</li>
+          <li>✅ Cálculo automático de nómina</li>
+          <li>✅ Arquitectura multi-tenant con RLS</li>
+          <li>✅ API REST funcional</li>
+          <li>✅ Base de datos PostgreSQL</li>
+          <li>✅ Autenticación JWT</li>
+          <li>✅ Bilingüe (EN/ES)</li>
+          <li>✅ Documentación completa</li>
+        </ul>
+
+        <h3>🛠️ Tech Stack</h3>
+        <ul class="features">
+          <li>Frontend: Next.js 14 + React 18</li>
+          <li>Backend: Node.js + TypeScript</li>
+          <li>Base de datos: PostgreSQL</li>
+          <li>Auth: Supabase JWT</li>
+          <li>Estilos: TailwindCSS</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(amount);
+    }
+
+    function calculateTaxes(grossPay, payFrequency, filingStatus, allowances = 0) {
+      const periodMultiplier = {
+        'weekly': 52,
+        'biweekly': 26,
+        'semimonthly': 24,
+        'monthly': 12
+      }[payFrequency] || 12;
+
+      const annualGross = grossPay * periodMultiplier;
+
+      // Social Security (6.2%)
+      const ssTax = grossPay * 0.062;
+
+      // Medicare (1.45%)
+      const medicareTax = grossPay * 0.0145;
+
+      // Federal income tax
+      const standardDeduction = {
+        'single': 14600,
+        'married': 29200,
+        'head_of_household': 21900
+      }[filingStatus] || 14600;
+
+      const allowanceValue = 5150;
+      const taxableAnnual = Math.max(0, annualGross - standardDeduction - (allowances * allowanceValue));
+      const annualFedTax = taxableAnnual * 0.12;
+      const federalTax = annualFedTax / periodMultiplier;
+
+      return {
+        federalIncomeTax: Math.max(0, federalTax),
+        socialSecurityTax: ssTax,
+        medicareTax: medicareTax,
+        totalTax: Math.max(0, federalTax) + ssTax + medicareTax
+      };
+    }
+
+    function calculatePayroll() {
+      const grossPay = parseFloat(document.getElementById('grossPay').value);
+      const payFrequency = document.getElementById('payFrequency').value;
+      const filingStatus = document.getElementById('filingStatus').value;
+      const allowances = parseInt(document.getElementById('allowances').value) || 0;
+
+      const errorDiv = document.getElementById('error');
+      errorDiv.classList.remove('show');
+
+      if (!grossPay || grossPay <= 0) {
+        errorDiv.textContent = '⚠️ Por favor ingresa un salario bruto válido';
+        errorDiv.classList.add('show');
+        return;
+      }
+
+      try {
+        const taxes = calculateTaxes(grossPay, payFrequency, filingStatus, allowances);
+        const netPay = grossPay - taxes.totalTax;
+
+        document.getElementById('resultGross').textContent = formatCurrency(grossPay);
+        document.getElementById('resultFederal').textContent = formatCurrency(taxes.federalIncomeTax);
+        document.getElementById('resultSS').textContent = formatCurrency(taxes.socialSecurityTax);
+        document.getElementById('resultMedicare').textContent = formatCurrency(taxes.medicareTax);
+        document.getElementById('resultTotal').textContent = formatCurrency(taxes.totalTax);
+        document.getElementById('resultNet').textContent = formatCurrency(netPay);
+
+        document.getElementById('results').classList.add('show');
+      } catch (error) {
+        errorDiv.textContent = '❌ Error en el cálculo: ' + error.message;
+        errorDiv.classList.add('show');
+      }
+    }
+
+    // Calcular al cargar
+    window.addEventListener('load', () => {
+      calculatePayroll();
+    });
+
+    // Recalcular cuando cambian los valores
+    document.getElementById('grossPay').addEventListener('change', calculatePayroll);
+    document.getElementById('payFrequency').addEventListener('change', calculatePayroll);
+    document.getElementById('filingStatus').addEventListener('change', calculatePayroll);
+    document.getElementById('allowances').addEventListener('change', calculatePayroll);
+  </script>
+</body>
+</html>
