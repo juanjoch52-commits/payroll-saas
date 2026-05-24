@@ -2,6 +2,9 @@
 
 Esta guía cubre el deploy a producción de MyJova en Vercel + Supabase + Stripe.
 
+> **Antes que nada**: lee `MANUAL_STEPS.md` — es la checklist completa con todas las
+> integraciones (Mapbox, Resend, Twilio, VAPID, Track1099) que esta guía asume hechas.
+
 ## 1. Crear proyecto Supabase de producción
 
 1. https://supabase.com/dashboard → **New project** (separado del de dev).
@@ -17,7 +20,12 @@ supabase link --project-ref <prod-ref>
 supabase db push
 ```
 
-Esto aplica las 12 migraciones que están en `supabase/migrations/`.
+Esto aplica las 26 migraciones que están en `supabase/migrations/`
+(20 originales del MVP + 6 nuevas del sprint overnight: support_tickets, broadcasts,
+feature_overrides, impersonation_sessions, notifications, tax_filings).
+
+Después en Dashboard → Database → Replication → habilita Realtime en `notifications`
+(necesario para que el bell con badge se actualice live).
 
 Verifica en Supabase Studio (Table Editor) que aparezcan:
 - `organizations`, `memberships`, `invitations`
@@ -83,6 +91,21 @@ vercel env add STRIPE_WEBHOOK_SECRET production          # whsec_...
 vercel env add STRIPE_PRICE_ESSENTIAL production
 vercel env add STRIPE_PRICE_ADVANCED production
 vercel env add STRIPE_PRICE_PREMIUM production
+# Mapbox
+vercel env add NEXT_PUBLIC_MAPBOX_TOKEN production
+# Resend (email)
+vercel env add RESEND_API_KEY production
+vercel env add RESEND_FROM_EMAIL production
+# Twilio (optional SMS)
+vercel env add TWILIO_ACCOUNT_SID production
+vercel env add TWILIO_AUTH_TOKEN production
+vercel env add TWILIO_FROM_NUMBER production
+# VAPID (web push)
+vercel env add NEXT_PUBLIC_VAPID_PUBLIC_KEY production
+vercel env add VAPID_PRIVATE_KEY production
+vercel env add VAPID_SUBJECT production
+# Track1099 (optional e-filing)
+vercel env add TRACK1099_API_KEY production
 ```
 
 Luego deploya:

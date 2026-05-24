@@ -7,13 +7,18 @@ MyJova es una plataforma SaaS multi-tenant que automatiza el cálculo de nómina
 ## Stack
 
 - **Next.js 14** (App Router) + **TypeScript**
-- **Supabase** — Postgres + Auth + Row Level Security + Storage
-- **Tailwind CSS** + **shadcn/ui** + **Radix UI**
-- **next-intl** — i18n bilingüe ES/EN desde día 1
+- **Supabase** — Postgres + Auth + Row Level Security + Storage + Realtime
+- **Tailwind CSS** + **shadcn/ui** + **Radix UI** + **next-themes** (dark mode)
+- **next-intl** — 4 locales (EN, ES, FR, FR-CA)
 - **React Hook Form** + **Zod** — formularios validados
 - **Zustand** — estado global mínimo
 - **Stripe** — suscripciones y pagos
-- **@react-pdf/renderer** — generación de PDFs (W-2, 1099-NEC)
+- **@react-pdf/renderer** — W-2, 1099-NEC, T4, T4A, ROE PDFs
+- **Mapbox GL JS** — mapas 3D, clustering, heatmap, time-travel
+- **framer-motion** + **GSAP** + **lottie-react** — landing animations
+- **embla-carousel-react** + **recharts** — UI
+- **Resend** (email) + **Twilio** (SMS) + **web-push** (VAPID) — notificaciones multi-canal
+- **@playwright/test** — visual QA suite
 
 ## Tiers
 
@@ -138,13 +143,58 @@ NUNCA uses el **service role key** desde el browser. Solo en:
 - Server Components / Server Actions (`createClient()` en `lib/supabase/server.ts`)
 - Webhooks externos sin sesión (`createAdminClient()`)
 
+## Features (state as of overnight sprint)
+
+### Landing (15 sections)
+Hero with Mapbox 3D + animated counters, Features grid, Industry use-cases (6 industries), HowItWorks with GSAP scroll-trigger, Mobile Showcase (device frame), ROI Calculator (interactive sliders), Comparison vs Gusto/Square/Homebase, Testimonials carousel (Embla), Integrations marquee, Pricing toggle (monthly/annual), Video demo placeholder, FAQ accordion, FinalCTA mesh gradient, Footer with newsletter.
+
+### Tenant dashboards
+- KPIs, live map with Mapbox (3D, satellite, heatmap, time-travel slider)
+- Employees CRUD, payroll runs, time-tracking approvals
+- 4 pay schemes (hourly OT, salary, daily, commission tiers)
+- Worksites with drag-drop geofence editor
+- Notification bell with Supabase Realtime
+- Notification preferences (type × channel matrix)
+- Settings: API keys, integrations
+
+### Worker portal (mobile-first PWA)
+Clock in/out with photo + GPS, history, pay stubs, profile, push notifications.
+
+### Platform super-admin (`/admin`)
+Tenant detail tabs (Overview / Users / Subscription / Audit / Flags / Support), audit logs with filters, support tickets, broadcasts composer (target by all/plan/tenant/role, channels in-app/email/sms/push), analytics (DAU/MAU areas via recharts), feature overrides per tenant, **secure impersonation** (audit-logged, sticky red banner).
+
+### Notifications (4 channels with graceful fallback)
+- In-app (Supabase Realtime) — bell with unread count
+- Email via Resend, templates EN/ES/FR/FR-CA
+- SMS via Twilio
+- Web Push via VAPID (sw.js + register helper)
+- `dispatch()` router consults preferences + dedupe_key
+
+### Tax reports (US + Canada)
+- US Federal: W-2, W-3, 1099-NEC, 1096, 941, 940 with `@react-pdf/renderer`
+- US States: California (Method B), New York (IT-2104), Texas/Florida (no income tax), Pennsylvania (flat 3.07%), Illinois (4.95% with allowances)
+- Canada Federal: T4127 brackets + CPP/QPP + EI/QPIP
+- Provinces: Ontario, Quebec, BC, Alberta
+- Forms: T4, T4A, ROE (bilingual EN/FR)
+- E-filing stubs: Track1099 API, IRS FIRE Pub 1220 builder, CRA T4 XML
+- Tax calendar 2026 (12+ deadlines US + Canada)
+
+### Internationalization
+4 locales — `en`, `es`, `fr`, `fr-CA` — with dropdown switcher (flags). All UI, emails and PDFs translated.
+
+### Theme
+Dark mode toggle in app/admin/employee/preview (next-themes, system default). Landing renders in user's theme via tokens. Semantic Badge variants — no hardcoded colors.
+
+### Visual QA
+Playwright suite generates per-locale × per-theme screenshots to `tests/screenshots/`. Subagent-friendly: a reviewer can diff visual regressions per route.
+
 ## Roadmap
 
-- **MVP (Fase 1-6)**: Auth, empleados CRUD, motor de nómina, W-2/1099 US, billing Stripe.
-- **Fase 7**: Subscripciones Stripe y enforcement de tiers.
-- **Fase 8**: API pública REST + webhook stub MyRavex.
-- **Fase 9**: Deploy a producción en Vercel.
-- **Phase 2 (post-MVP)**: Canadá (T4, T4A, ROE, CPP/EI), portal de empleado, integración bancaria ACH.
+- Mapbox token + Mapbox 3D maps in Hero
+- Real client testimonials (replacing representative placeholders)
+- E-filing automation (currently we build the files; the user uploads to IRS FIRE / CRA MyBusiness)
+- Per-municipality local taxes (Pennsylvania EIT, NYC, etc.)
+- Bank ACH direct deposit integration (Phase 2)
 
 ## Licencia
 
