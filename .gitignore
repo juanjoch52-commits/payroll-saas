@@ -60,3 +60,9 @@ _legacy_backup/
 .vercel
 next-env.d.ts
 tsconfig.tsbuildinfo
+
+# Playwright
+/tests/test-results
+/tests/playwright-report
+/tests/screenshots
+/playwright/.cache
