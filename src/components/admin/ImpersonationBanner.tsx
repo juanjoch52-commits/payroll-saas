@@ -1,6 +1,7 @@
 import { AlertTriangle, LogOut } from 'lucide-react'
 
-import { endImpersonation, getImpersonationDetails } from '@/lib/admin/impersonate'
+import { endImpersonation } from '@/lib/admin/impersonate'
+import { getImpersonationDetails } from '@/lib/admin/impersonate-helpers'
 
 /**
  * Banner rojo fijado arriba que aparece SIEMPRE que hay una sesión de

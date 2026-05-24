@@ -3,7 +3,7 @@
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { createAdminClient, createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { requirePlatformAdmin } from '@/lib/auth/platform'
 
 const COOKIE_NAME = 'myjova_impersonation'
@@ -17,17 +17,6 @@ export type ImpersonationCookie = {
   startedAt: number
 }
 
-/**
- * Inicia una sesión de impersonation.
- *
- * - Verifica que el usuario actual es platform_admin
- * - Crea fila en impersonation_sessions (esto dispara audit log via trigger)
- * - Setea cookie firmada con sessionId + targetOrgId
- * - Redirige al dashboard del tenant
- *
- * El middleware lee la cookie y reescribe el contexto org del usuario
- * para que vea el dashboard como el tenant.
- */
 export async function startImpersonation(formData: FormData) {
   const targetUserId = String(formData.get('targetUserId') || '')
   const targetOrgId = String(formData.get('targetOrgId') || '')
@@ -78,10 +67,6 @@ export async function startImpersonation(formData: FormData) {
   redirect(`/${locale}/dashboard`)
 }
 
-/**
- * Termina una sesión de impersonation activa.
- * Marca ended_at en la BD (que escribe audit log via trigger) y borra cookie.
- */
 export async function endImpersonation(locale: string = 'en') {
   const raw = cookies().get(COOKIE_NAME)?.value
   if (!raw) {
@@ -107,50 +92,3 @@ export async function endImpersonation(locale: string = 'en') {
   cookies().delete(COOKIE_NAME)
   redirect(`/${locale}/admin`)
 }
-
-/**
- * Lee la cookie y devuelve datos de impersonation actual, o null.
- * Server-side only.
- */
-export function getActiveImpersonation(): ImpersonationCookie | null {
-  const raw = cookies().get(COOKIE_NAME)?.value
-  if (!raw) return null
-  try {
-    return JSON.parse(raw) as ImpersonationCookie
-  } catch {
-    return null
-  }
-}
-
-/**
- * Útil para Server Components: si hay impersonation activa, devuelve los datos
- * adicionales del target (email del usuario + nombre de la org) para mostrar
- * en el banner.
- */
-export async function getImpersonationDetails() {
-  const imp = getActiveImpersonation()
-  if (!imp) return null
-
-  const admin = createAdminClient()
-  const [userRes, orgRes] = await Promise.all([
-    admin.auth.admin.getUserById(imp.targetUserId),
-    admin.from('organizations').select('name').eq('id', imp.targetOrgId).single(),
-  ])
-
-  return {
-    ...imp,
-    targetEmail: userRes.data?.user?.email ?? 'unknown',
-    targetOrgName: orgRes.data?.name ?? 'unknown',
-  }
-}
-
-/**
- * Hint helper for layouts. Returns true if the request is currently
- * impersonating something; banner/RLS adjustments hook here.
- */
-export async function isImpersonating(): Promise<boolean> {
-  return getActiveImpersonation() !== null
-}
-
-// Re-exports for compatibility with imports
-export { createClient }
