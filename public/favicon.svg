@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- MyJova isotipo simplificado para favicon 16-64px.
+       Representa: J azul + cabeza de figura + manecilla de reloj amarilla -->
+  <rect width="64" height="64" rx="12" fill="#2563eb"/>
+
+  <!-- Cabeza de la figura (círculo arriba) -->
+  <circle cx="40" cy="14" r="5.5" fill="white"/>
+
+  <!-- Cuerpo / vertical de la J -->
+  <path
+    d="M40 22 L40 44 C40 50 35 54 28 54 C22 54 17 50 17 44"
+    stroke="white"
+    stroke-width="6"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <!-- Manecilla de reloj amarilla (V-shape) -->
+  <path
+    d="M22 22 L28 28 L36 18"
+    stroke="#f59e0b"
+    stroke-width="4.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+
+  <!-- Marcas de horas del reloj (laterales) -->
+  <rect x="9" y="29" width="4" height="2" rx="1" fill="white"/>
+  <rect x="28" y="14" width="4" height="2" rx="1" fill="white"/>
+</svg>

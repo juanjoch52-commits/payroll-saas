@@ -1,188 +1,151 @@
-# Payroll SaaS - Gestión de Nómina para Pequeños Negocios
+# MyJova — Multi-tenant Payroll SaaS
 
-**PayrollHub** es una plataforma web moderna para gestionar empleados, calcular nóminas y generar reportes fiscales. Diseñado específicamente para pequeñas empresas en industrias como construcción, remodelación, mecánica y restaurantes.
+> Nómina e impuestos, simplificados para contratistas y restaurantes pequeños en US y Canadá.
 
-## 🎯 Características del MVP
+MyJova es una plataforma SaaS multi-tenant que automatiza el cálculo de nómina y la generación de reportes fiscales anuales. Soporta 4 esquemas de pago (por hora, salario, por día y comisión) y se integrará con MyRavex (Field Service Management) en el plan Premium Bundle.
 
-### Gestión de Empleados
-- ✅ Crear, editar, eliminar empleados
-- ✅ Datos personales y de contacto
-- ✅ Información de salario y beneficios
-- ✅ Historial de cambios
+## Stack
 
-### Cálculo de Nómina
-- ✅ Cálculo automático de salarios
-- ✅ Deducciones (impuestos federales, FICA)
-- ✅ Bonificaciones y horas extra
-- ✅ Retenciones voluntarias
+- **Next.js 14** (App Router) + **TypeScript**
+- **Supabase** — Postgres + Auth + Row Level Security + Storage
+- **Tailwind CSS** + **shadcn/ui** + **Radix UI**
+- **next-intl** — i18n bilingüe ES/EN desde día 1
+- **React Hook Form** + **Zod** — formularios validados
+- **Zustand** — estado global mínimo
+- **Stripe** — suscripciones y pagos
+- **@react-pdf/renderer** — generación de PDFs (W-2, 1099-NEC)
 
-### Reportes
-- ✅ Recibos de pago (stubs)
-- ✅ Reporte de impuestos federales
-- ✅ Análisis de costos laborales
-- ✅ Exportación a PDF/CSV
+## Tiers
 
-### Seguridad
-- ✅ Autenticación con Supabase Auth
-- ✅ Control multi-tenant (cada empresa aislada)
-- ✅ Roles y permisos (Admin, Manager, Employee)
-- ✅ Cumplimiento GDPR
+| Plan | Precio | Empleados | Features clave |
+|---|---|---|---|
+| **Esencial** | $49/mes | 10 | Pago hourly + salary, cálculo básico de impuestos |
+| **Avanzado** | $99/mes | 50 | + daily, commission, W-2/1099 anuales, multi-usuario |
+| **Premium Bundle** | $199/mes | Ilimitado | + API REST, MyRavex, soporte prioritario |
 
-## 📋 Stack Tecnológico
+## Instalación local
 
-| Capa | Tecnología |
-|------|-----------|
-| Frontend | Next.js 14 + React 18 + TailwindCSS |
-| Backend | Next.js API Routes + Supabase |
-| Base de Datos | PostgreSQL (Supabase) |
-| Auth | Supabase Auth |
-| UI Components | Shadcn/ui + Lucide Icons |
-| Validación | Zod + React Hook Form |
-| Estado | Zustand |
-| Internacionalización | next-intl (EN/ES) |
+### 1. Prerequisitos
 
-## 🚀 Guía Rápida de Instalación
+- Node.js 18.17+
+- npm (incluido con Node)
+- Cuenta en [Supabase](https://supabase.com/)
+- Supabase CLI: `brew install supabase/tap/supabase`
 
-### Prerequisitos
-- Node.js 18+
-- npm o yarn
-- Cuenta en Supabase
-
-### Pasos
+### 2. Instalar dependencias
 
 ```bash
-# 1. Clonar repositorio
-git clone <repo-url>
-cd payroll-saas
-
-# 2. Instalar dependencias
 npm install
+```
 
-# 3. Configurar variables de entorno
+### 3. Crear proyecto Supabase
+
+1. Ve a https://supabase.com/dashboard → **New project**.
+2. Guarda la **Database password**.
+3. Espera ~2 min mientras se aprovisiona.
+4. En **Settings → API** copia:
+   - `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+   - `anon public` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `service_role` → `SUPABASE_SERVICE_ROLE_KEY`
+
+### 4. Configurar variables de entorno
+
+```bash
 cp .env.example .env.local
+# Edita .env.local y pega los valores reales
+```
 
-# 4. Configurar Supabase
-npm run db:push
+### 5. Linkear Supabase CLI
 
-# 5. Iniciar servidor de desarrollo
+```bash
+supabase link --project-ref <tu-ref>     # ej. abcd1234efgh5678
+```
+
+### 6. Aplicar migraciones (Fase 1)
+
+```bash
+npm run db:push       # aplica supabase/migrations/*
+npm run db:types      # regenera src/types/database.ts
+```
+
+### 7. Levantar el servidor
+
+```bash
 npm run dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+Abre [http://localhost:3000](http://localhost:3000). Debería redirigir a `/en` y mostrar la landing de MyJova.
 
-## 🏗️ Estructura del Proyecto
+## Estructura del repo
 
 ```
-payroll-saas/
+.
 ├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── [locale]/          # Rutas por idioma
-│   │   ├── api/               # API Routes
-│   │   └── globals.css        # Estilos globales
-│   ├── components/            # Componentes React reutilizables
-│   │   ├── auth/              # Componentes de autenticación
-│   │   ├── employee/          # Componentes de empleados
-│   │   ├── payroll/           # Componentes de nómina
-│   │   └── common/            # Componentes comunes
+│   ├── app/
+│   │   ├── [locale]/         # Rutas internacionalizadas (en, es)
+│   │   │   ├── (auth)/       # login, signup, forgot-password
+│   │   │   └── (app)/        # dashboard, employees, payroll, reports
+│   │   └── api/              # API routes (webhooks, v1 pública)
+│   ├── components/
+│   │   ├── layout/           # sidebar, header, switchers
+│   │   └── ui/               # shadcn primitives
 │   ├── lib/
-│   │   ├── supabase.ts        # Cliente Supabase
-│   │   ├── auth.ts            # Funciones de autenticación
-│   │   └── utils/             # Utilidades (formateo, validación)
-│   ├── types/                 # TypeScript types
-│   ├── hooks/                 # React custom hooks
-│   └── stores/                # Zustand stores
+│   │   ├── supabase/         # client.ts, server.ts, middleware.ts
+│   │   ├── payroll/          # engine.ts (cálculo)
+│   │   ├── tax-forms/        # W-2, 1099-NEC PDF templates
+│   │   ├── stripe/           # checkout, webhook handler
+│   │   └── utils.ts
+│   ├── i18n/                 # config, messages/{en,es}.json
+│   ├── styles/globals.css
+│   ├── types/database.ts     # generado por `npm run db:types`
+│   └── middleware.ts
 ├── supabase/
-│   ├── migrations/            # Migraciones de base de datos
-│   └── seed.sql              # Datos de prueba
-├── public/                    # Activos estáticos
-├── .env.example              # Variables de entorno
-├── tsconfig.json             # Configuración TypeScript
-├── tailwind.config.ts        # Configuración Tailwind
-├── next.config.js            # Configuración Next.js
+│   ├── migrations/           # SQL versionado
+│   └── config.toml
+├── _legacy_backup/           # código viejo, ignorado por git
 └── package.json
 ```
 
-## 📊 Modelo de Base de Datos
+## Scripts disponibles
 
-### Tablas Principales
+| Comando | Descripción |
+|---|---|
+| `npm run dev` | Servidor de desarrollo en :3000 |
+| `npm run build` | Build de producción |
+| `npm run start` | Servidor de producción |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | Verificación de TypeScript sin emitir |
+| `npm run db:push` | Aplica migraciones SQL a Supabase |
+| `npm run db:pull` | Trae el schema remoto a `supabase/migrations` |
+| `npm run db:reset` | **Destructivo**: borra y reaplica todo el schema |
+| `npm run db:types` | Regenera `src/types/database.ts` |
+| `npm run format` | Prettier sobre `src/**/*` |
 
-**companies**
-- id, name, address, city, state, zip, phone, email, ein (federal tax id)
+## Multi-tenancy
 
-**employees**
-- id, company_id, first_name, last_name, email, phone, hire_date, salary, hourly_rate, department
+Cada cliente de MyJova es una **organization**. Los usuarios pertenecen a una (o más) organizations mediante la tabla `memberships` con un rol (`owner`, `admin`, `manager`, `viewer`).
 
-**payroll_runs**
-- id, company_id, pay_period_start, pay_period_end, status, created_at
+**Toda** tabla con datos de tenant lleva una columna `organization_id uuid not null` y una política RLS:
 
-**payroll_items**
-- id, payroll_run_id, employee_id, gross_salary, federal_tax, fica_tax, net_pay
-
-**employees_history** (auditoría)
-- id, employee_id, action, changed_fields, user_id, created_at
-
-## 🔐 Autenticación y Autorización
-
-### Roles
-- **Admin**: Acceso total, gestión de usuarios
-- **Manager**: Gestión de empleados y nómina
-- **Employee**: Solo puede ver su información personal
-
-### Tabla RLS (Row Level Security)
-- Cada usuario puede acceder solo a su empresa
-- Los empleados solo ven su propia información
-
-## 💳 Modelo de Precios (SaaS)
-
-| Plan | Precio | Empleados | Características |
-|------|--------|-----------|-----------------|
-| Starter | $50/mes | Hasta 5 | Básico |
-| Professional | $100/mes | Hasta 25 | Reportes avanzados |
-| Enterprise | Custom | Ilimitado | Soporte dedicado |
-
-## 📱 Roadmap Futuro (Post-MVP)
-
-- [ ] Integración bancaria (ACH, transferencias)
-- [ ] Gestión de impuestos estatales
-- [ ] Portal para empleados (consultar recibos)
-- [ ] Integración con contabilidad (QuickBooks, Xero)
-- [ ] App móvil
-- [ ] Notificaciones de pago
-- [ ] Cumplimiento I-9
-- [ ] Gestión de beneficios
-
-## 🛠️ Desarrollo
-
-### Crear una nueva página
-
-```bash
-# Páginas se crean en src/app/[locale]/
-# con estructura automática de enrutamiento
+```sql
+create policy "tenant_isolation" on <table> for all
+  using (organization_id in (
+    select organization_id from memberships where user_id = auth.uid()
+  ));
 ```
 
-### Variables de Entorno Requeridas
+NUNCA uses el **service role key** desde el browser. Solo en:
+- Server Components / Server Actions (`createClient()` en `lib/supabase/server.ts`)
+- Webhooks externos sin sesión (`createAdminClient()`)
 
-```
-NEXT_PUBLIC_SUPABASE_URL=your-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-key
-DATABASE_URL=your-db-url
-```
+## Roadmap
 
-## 📞 Soporte y Documentación
+- **MVP (Fase 1-6)**: Auth, empleados CRUD, motor de nómina, W-2/1099 US, billing Stripe.
+- **Fase 7**: Subscripciones Stripe y enforcement de tiers.
+- **Fase 8**: API pública REST + webhook stub MyRavex.
+- **Fase 9**: Deploy a producción en Vercel.
+- **Phase 2 (post-MVP)**: Canadá (T4, T4A, ROE, CPP/EI), portal de empleado, integración bancaria ACH.
 
-- [Documentación API](./docs/api.md)
-- [Guía de Base de Datos](./docs/database.md)
-- [Guía de Componentes](./docs/components.md)
+## Licencia
 
-## 📄 Licencia
-
-MIT
-
-## 👥 Equipo
-
-Desarrollado por: Payroll SaaS Team
-
----
-
-**¿Preguntas?** Contacta a: support@payrollhub.io
+Privado — © MyJova. Todos los derechos reservados.

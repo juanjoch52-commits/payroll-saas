@@ -1,0 +1,334 @@
+{
+  "common": {
+    "appName": "MyJova",
+    "tagline": "Payroll & tax reporting, simplified.",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "noData": "No data to show",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "payroll": "Payroll",
+    "timeTracking": "Time tracking",
+    "worksites": "Worksites",
+    "reports": "Reports",
+    "billing": "Billing",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "clock": "Clock",
+    "history": "History",
+    "paystubs": "Pay stubs",
+    "profile": "Profile"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "organizationName": "Company name",
+    "forgotPassword": "Forgot password?",
+    "createAccount": "Create an account",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInToContinue": "Sign in to continue to MyJova",
+    "createYourCompany": "Create your company on MyJova",
+    "signUpHelp": "We'll set up a 14-day free trial of the Esencial plan.",
+    "checkYourEmail": "Check your email",
+    "weSentConfirmation": "We sent a confirmation link to {email}.",
+    "invalidCredentials": "Invalid email or password.",
+    "signUpFailed": "Could not create account. Try again."
+  },
+  "dashboard": {
+    "welcome": "Welcome to MyJova",
+    "summary": "Here's what's happening in your company.",
+    "activeEmployees": "Active employees",
+    "lastPayrollRun": "Last payroll run",
+    "upcomingFilings": "Upcoming tax filings",
+    "noRunsYet": "No payroll runs yet — start with your first one."
+  },
+  "employees": {
+    "title": "Employees",
+    "addEmployee": "Add employee",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "hireDate": "Hire date",
+    "status": "Status",
+    "type": "Type",
+    "payScheme": "Pay scheme",
+    "jurisdiction": "Jurisdiction",
+    "schemes": {
+      "hourly": "Hourly",
+      "salary": "Salary",
+      "daily": "Daily",
+      "commission": "Commission"
+    },
+    "limitReached": "You've reached the employee limit of your current plan. Upgrade to add more."
+  },
+  "payroll": {
+    "title": "Payroll",
+    "newRun": "New payroll run",
+    "periodStart": "Period start",
+    "periodEnd": "Period end",
+    "payDate": "Pay date",
+    "status": {
+      "draft": "Draft",
+      "approved": "Approved",
+      "paid": "Paid",
+      "posted": "Posted"
+    },
+    "grossPay": "Gross pay",
+    "netPay": "Net pay",
+    "totalTaxes": "Total taxes",
+    "approve": "Approve",
+    "markPaid": "Mark as paid"
+  },
+  "reports": {
+    "title": "Tax reports",
+    "yearEnd": "Year-end forms",
+    "generateW2": "Generate W-2s",
+    "generate1099": "Generate 1099-NECs",
+    "selectYear": "Select tax year",
+    "upgradeRequired": "Tax report generation requires the Avanzado plan or higher."
+  },
+  "billing": {
+    "title": "Plans & billing",
+    "currentPlan": "Your current plan",
+    "trialEndsIn": "Trial ends in {days} days",
+    "plans": {
+      "essential": {
+        "name": "Esencial",
+        "tagline": "For small teams",
+        "features": [
+          "Up to 10 employees",
+          "Hourly + salary pay",
+          "Basic tax calculation",
+          "1 admin user"
+        ]
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "tagline": "For growing teams",
+        "features": [
+          "Up to 50 employees",
+          "All pay schemes (daily, commission)",
+          "Annual W-2 and 1099 reports",
+          "Multi-user with roles"
+        ]
+      },
+      "premium": {
+        "name": "Premium Bundle",
+        "tagline": "For full integration",
+        "features": [
+          "Unlimited employees",
+          "REST API access",
+          "1099-NEC and T4A contractor forms",
+          "MyRavex integration",
+          "Priority support"
+        ]
+      }
+    },
+    "upgrade": "Upgrade",
+    "currentBadge": "Current"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "unauthorized": "You're not authorized to do that.",
+    "notFound": "Not found."
+  },
+  "clock": {
+    "title": "Clock in / out",
+    "clockIn": "Clock in",
+    "clockOut": "Clock out",
+    "currentlyClockedIn": "You're clocked in",
+    "since": "Since {time}",
+    "openTurnDuration": "{hours}h {minutes}m so far",
+    "notClockedIn": "Not clocked in",
+    "tapToClockIn": "Tap the button below to start your shift.",
+    "needsCamera": "Camera and location are required.",
+    "capturingLocation": "Getting your location...",
+    "uploadingPhoto": "Uploading photo...",
+    "submitting": "Submitting...",
+    "clockedInSuccess": "Clocked in successfully.",
+    "clockedOutSuccess": "Clocked out. Total: {duration}",
+    "outsideGeofence": "You're outside the worksite area. Your manager will be notified."
+  },
+  "timeTracking": {
+    "title": "Time tracking",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "approveSelected": "Approve selected",
+    "rejectSelected": "Reject selected",
+    "viewMap": "Map view",
+    "viewTable": "Table view",
+    "filterAll": "All",
+    "noEntries": "No time entries to show.",
+    "duration": "Duration",
+    "clockInAt": "Clock in",
+    "clockOutAt": "Clock out",
+    "worksite": "Worksite",
+    "flagged": "Outside worksite"
+  },
+  "worksites": {
+    "title": "Worksites",
+    "addWorksite": "Add worksite",
+    "name": "Name",
+    "address": "Address",
+    "radius": "Radius (meters)",
+    "active": "Active",
+    "selectOnMap": "Click on the map to set location"
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "signIn": "Sign in",
+      "startTrial": "Start free trial"
+    },
+    "hero": {
+      "badge": "New · Clock in with photo + GPS",
+      "headline": "Payroll and time tracking, simplified for field teams",
+      "sub": "Workers clock in from the job site with a photo and GPS. Hours flow into payroll automatically. W-2s and 1099-NECs generate at year end. All in one mobile app.",
+      "primaryCta": "Start free trial",
+      "secondaryCta": "See how it works",
+      "microcopy": "14-day free trial · No credit card required",
+      "mockupWorkerName": "Maria García",
+      "mockupClockedSince": "Clocked in since 7:42 AM",
+      "mockupJobsite": "Brooklyn job site"
+    },
+    "trust": {
+      "title": "Built for the businesses that build America",
+      "industries": {
+        "construction": "Construction",
+        "restaurants": "Restaurants",
+        "trades": "Trades",
+        "painting": "Painting"
+      }
+    },
+    "features": {
+      "title": "Everything you need to pay your team right",
+      "sub": "From the first clock-in to the year-end tax form, MyJova handles the work.",
+      "items": {
+        "clockIn": {
+          "title": "Clock in with proof",
+          "desc": "Photo and GPS captured on every shift. Geofence flags entries outside the worksite."
+        },
+        "paySchemes": {
+          "title": "4 pay schemes",
+          "desc": "Hourly with overtime, salary, daily rate, and tiered commissions — all from one engine."
+        },
+        "taxForms": {
+          "title": "Year-end tax forms",
+          "desc": "W-2 and 1099-NEC PDFs generated and stored automatically when the year closes."
+        },
+        "dashboard": {
+          "title": "Live admin dashboard",
+          "desc": "See who's working, where they are, and how many hours you owe — in real time."
+        },
+        "mobile": {
+          "title": "Mobile employee portal",
+          "desc": "Workers see their hours and pay stubs from any phone. No app store install required."
+        },
+        "secure": {
+          "title": "Secure by design",
+          "desc": "Row-level security at the database. Each company's data is fully isolated."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "From paper timecards to paid in 3 steps",
+      "steps": {
+        "invite": {
+          "title": "Invite your team",
+          "desc": "Add employees and send portal invitations by email in seconds."
+        },
+        "clock": {
+          "title": "Workers clock in & out",
+          "desc": "From the job site, with a photo and GPS automatically captured."
+        },
+        "pay": {
+          "title": "Run payroll",
+          "desc": "Approved hours flow into payroll. Taxes calculated. Pay stubs delivered."
+        }
+      }
+    },
+    "mobile": {
+      "title": "Designed for the job site",
+      "sub": "Workers don't need to download anything. The MyJova portal works on any modern phone browser — even on slow 4G.",
+      "bullets": {
+        "clock": "Clock in and out with one tap",
+        "history": "See past shifts and totals",
+        "paystubs": "View pay stubs anytime",
+        "geofence": "Get alerted if you're outside the worksite"
+      }
+    },
+    "pricing": {
+      "title": "Simple pricing",
+      "sub": "Start free. Pay only when your team grows.",
+      "mostPopular": "Most popular",
+      "ctaStart": "Start free trial",
+      "ctaSales": "Talk to sales",
+      "footer": "All plans include a 14-day free trial. Cancel anytime."
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": {
+        "card": {
+          "q": "Do I need a credit card to start?",
+          "a": "No. You can start a 14-day free trial without a card. We only charge if you decide to keep using MyJova."
+        },
+        "noEmail": {
+          "q": "What if my workers don't have email?",
+          "a": "In the current version, each worker needs an email to receive their portal invitation. We're adding PIN-based access for shared kiosks in a future release."
+        },
+        "states": {
+          "q": "Which states are supported for tax withholding?",
+          "a": "Federal US withholding (IRS Pub 15-T 2026) is fully supported. State withholding is currently zero for all states — we're rolling out state-by-state, prioritizing CA, NY, TX, FL, IL."
+        },
+        "filing": {
+          "q": "Does MyJova file taxes for me?",
+          "a": "MyJova generates the W-2 and 1099-NEC PDFs. The official filing with IRS / SSA is still manual today. Direct e-filing integration is on our 2026 roadmap."
+        },
+        "secure": {
+          "q": "Is my data secure?",
+          "a": "Yes. We use Supabase with Row Level Security at the database, encrypted at rest, and strict multi-tenancy isolation. No company can see another's data."
+        },
+        "cancel": {
+          "q": "Can I cancel anytime?",
+          "a": "Yes. No contracts, no minimum commitment. Cancel from the billing page in one click."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Ready to simplify payroll?",
+      "sub": "Join the small businesses tracking time and paying their teams with MyJova.",
+      "cta": "Start free trial"
+    },
+    "footer": {
+      "tagline": "Payroll and time tracking for contractors and restaurants in the US and Canada.",
+      "product": "Product",
+      "company": "Company",
+      "resources": "Resources",
+      "about": "About",
+      "contact": "Contact",
+      "legal": "Legal",
+      "docs": "Docs",
+      "status": "Status",
+      "changelog": "Changelog",
+      "copyright": "© 2026 MyJova. All rights reserved."
+    }
+  }
+}

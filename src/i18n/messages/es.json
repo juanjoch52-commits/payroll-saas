@@ -1,0 +1,334 @@
+{
+  "common": {
+    "appName": "MyJova",
+    "tagline": "Nómina e impuestos, simplificados.",
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "actions": "Acciones",
+    "noData": "Sin datos para mostrar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "employees": "Empleados",
+    "payroll": "Nómina",
+    "timeTracking": "Asistencia",
+    "worksites": "Sitios de trabajo",
+    "reports": "Reportes",
+    "billing": "Suscripción",
+    "settings": "Configuración",
+    "signOut": "Cerrar sesión",
+    "clock": "Marcar",
+    "history": "Historial",
+    "paystubs": "Recibos",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "organizationName": "Nombre de la empresa",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "createAccount": "Crear cuenta",
+    "alreadyHaveAccount": "¿Ya tienes cuenta?",
+    "signInToContinue": "Inicia sesión para continuar en MyJova",
+    "createYourCompany": "Crea tu empresa en MyJova",
+    "signUpHelp": "Activamos una prueba gratuita de 14 días del plan Esencial.",
+    "checkYourEmail": "Revisa tu correo",
+    "weSentConfirmation": "Te enviamos un enlace de confirmación a {email}.",
+    "invalidCredentials": "Correo o contraseña incorrectos.",
+    "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo."
+  },
+  "dashboard": {
+    "welcome": "Bienvenido a MyJova",
+    "summary": "Este es el estado actual de tu empresa.",
+    "activeEmployees": "Empleados activos",
+    "lastPayrollRun": "Última nómina",
+    "upcomingFilings": "Declaraciones próximas",
+    "noRunsYet": "Aún no tienes nóminas — empieza con la primera."
+  },
+  "employees": {
+    "title": "Empleados",
+    "addEmployee": "Agregar empleado",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "hireDate": "Fecha de contratación",
+    "status": "Estado",
+    "type": "Tipo",
+    "payScheme": "Esquema de pago",
+    "jurisdiction": "Jurisdicción",
+    "schemes": {
+      "hourly": "Por hora",
+      "salary": "Salario",
+      "daily": "Por día",
+      "commission": "Comisión"
+    },
+    "limitReached": "Alcanzaste el límite de empleados de tu plan. Actualiza para agregar más."
+  },
+  "payroll": {
+    "title": "Nómina",
+    "newRun": "Nueva nómina",
+    "periodStart": "Inicio del período",
+    "periodEnd": "Fin del período",
+    "payDate": "Fecha de pago",
+    "status": {
+      "draft": "Borrador",
+      "approved": "Aprobada",
+      "paid": "Pagada",
+      "posted": "Cerrada"
+    },
+    "grossPay": "Pago bruto",
+    "netPay": "Pago neto",
+    "totalTaxes": "Impuestos totales",
+    "approve": "Aprobar",
+    "markPaid": "Marcar como pagada"
+  },
+  "reports": {
+    "title": "Reportes fiscales",
+    "yearEnd": "Formularios anuales",
+    "generateW2": "Generar W-2",
+    "generate1099": "Generar 1099-NEC",
+    "selectYear": "Selecciona el año fiscal",
+    "upgradeRequired": "Generar reportes fiscales requiere el plan Avanzado o superior."
+  },
+  "billing": {
+    "title": "Planes y facturación",
+    "currentPlan": "Tu plan actual",
+    "trialEndsIn": "La prueba termina en {days} días",
+    "plans": {
+      "essential": {
+        "name": "Esencial",
+        "tagline": "Para equipos pequeños",
+        "features": [
+          "Hasta 10 empleados",
+          "Pago por hora y salario",
+          "Cálculo básico de impuestos",
+          "1 usuario administrador"
+        ]
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "tagline": "Para equipos en crecimiento",
+        "features": [
+          "Hasta 50 empleados",
+          "Todos los esquemas de pago (diario, comisión)",
+          "Reportes anuales W-2 y 1099",
+          "Multi-usuario con roles"
+        ]
+      },
+      "premium": {
+        "name": "Premium Bundle",
+        "tagline": "Para integración total",
+        "features": [
+          "Empleados ilimitados",
+          "Acceso a API REST",
+          "Formularios de contratistas 1099-NEC y T4A",
+          "Integración con MyRavex",
+          "Soporte prioritario"
+        ]
+      }
+    },
+    "upgrade": "Actualizar",
+    "currentBadge": "Actual"
+  },
+  "errors": {
+    "generic": "Algo salió mal. Inténtalo de nuevo.",
+    "unauthorized": "No tienes permiso para hacer eso.",
+    "notFound": "No encontrado."
+  },
+  "clock": {
+    "title": "Marcar entrada / salida",
+    "clockIn": "Marcar entrada",
+    "clockOut": "Marcar salida",
+    "currentlyClockedIn": "Estás trabajando",
+    "since": "Desde {time}",
+    "openTurnDuration": "Llevas {hours}h {minutes}m",
+    "notClockedIn": "Sin turno activo",
+    "tapToClockIn": "Toca el botón para iniciar tu turno.",
+    "needsCamera": "Se requiere cámara y ubicación.",
+    "capturingLocation": "Obteniendo tu ubicación...",
+    "uploadingPhoto": "Subiendo foto...",
+    "submitting": "Enviando...",
+    "clockedInSuccess": "Entrada registrada.",
+    "clockedOutSuccess": "Salida registrada. Total: {duration}",
+    "outsideGeofence": "Estás fuera del sitio de trabajo. Tu manager será notificado."
+  },
+  "timeTracking": {
+    "title": "Asistencia",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "approveSelected": "Aprobar seleccionados",
+    "rejectSelected": "Rechazar seleccionados",
+    "viewMap": "Vista mapa",
+    "viewTable": "Vista tabla",
+    "filterAll": "Todos",
+    "noEntries": "No hay registros de tiempo.",
+    "duration": "Duración",
+    "clockInAt": "Entrada",
+    "clockOutAt": "Salida",
+    "worksite": "Sitio",
+    "flagged": "Fuera del sitio"
+  },
+  "worksites": {
+    "title": "Sitios de trabajo",
+    "addWorksite": "Agregar sitio",
+    "name": "Nombre",
+    "address": "Dirección",
+    "radius": "Radio (metros)",
+    "active": "Activo",
+    "selectOnMap": "Haz click en el mapa para fijar la ubicación"
+  },
+  "landing": {
+    "nav": {
+      "features": "Funciones",
+      "pricing": "Precios",
+      "faq": "Preguntas",
+      "signIn": "Iniciar sesión",
+      "startTrial": "Probar gratis"
+    },
+    "hero": {
+      "badge": "Nuevo · Clock in con foto + GPS",
+      "headline": "Nómina y asistencia, simplificadas para tu equipo en campo",
+      "sub": "Tus trabajadores marcan entrada desde el sitio con foto y GPS. Las horas fluyen automáticamente a la nómina. Los W-2 y 1099-NEC se generan al cierre del año. Todo en una sola app móvil.",
+      "primaryCta": "Probar gratis",
+      "secondaryCta": "Ver cómo funciona",
+      "microcopy": "14 días gratis · No necesitas tarjeta",
+      "mockupWorkerName": "María García",
+      "mockupClockedSince": "Entró a las 7:42 AM",
+      "mockupJobsite": "Obra en Brooklyn"
+    },
+    "trust": {
+      "title": "Hecho para los negocios que construyen el país",
+      "industries": {
+        "construction": "Construcción",
+        "restaurants": "Restaurantes",
+        "trades": "Oficios",
+        "painting": "Pintura"
+      }
+    },
+    "features": {
+      "title": "Todo lo que necesitas para pagarle bien a tu gente",
+      "sub": "Desde el primer clock-in hasta el formulario fiscal del fin de año, MyJova hace el trabajo.",
+      "items": {
+        "clockIn": {
+          "title": "Clock in con prueba",
+          "desc": "Foto y GPS capturados en cada turno. Geofence marca entradas fuera del sitio."
+        },
+        "paySchemes": {
+          "title": "4 esquemas de pago",
+          "desc": "Por hora con overtime, salario fijo, por día y comisiones por tramos — todo desde un mismo motor."
+        },
+        "taxForms": {
+          "title": "Formularios fiscales anuales",
+          "desc": "W-2 y 1099-NEC en PDF generados y guardados automáticamente al cierre del año."
+        },
+        "dashboard": {
+          "title": "Panel admin en vivo",
+          "desc": "Ve quién está trabajando, dónde están y cuántas horas debes — en tiempo real."
+        },
+        "mobile": {
+          "title": "Portal móvil del empleado",
+          "desc": "Tus trabajadores ven sus horas y recibos desde cualquier teléfono. Sin instalar app."
+        },
+        "secure": {
+          "title": "Seguro por diseño",
+          "desc": "Row-level security a nivel de base de datos. Los datos de cada empresa están totalmente aislados."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "De la tarjeta de papel al pago en 3 pasos",
+      "steps": {
+        "invite": {
+          "title": "Invita a tu equipo",
+          "desc": "Agrega empleados y manda invitaciones al portal en segundos."
+        },
+        "clock": {
+          "title": "Los trabajadores marcan entrada y salida",
+          "desc": "Desde el sitio de trabajo, con foto y GPS automáticos."
+        },
+        "pay": {
+          "title": "Corre la nómina",
+          "desc": "Las horas aprobadas entran a la nómina. Impuestos calculados. Recibos generados."
+        }
+      }
+    },
+    "mobile": {
+      "title": "Diseñado para el sitio de trabajo",
+      "sub": "Los trabajadores no necesitan descargar nada. El portal MyJova funciona desde cualquier navegador móvil moderno — incluso con 4G lento.",
+      "bullets": {
+        "clock": "Marcar entrada y salida con un toque",
+        "history": "Ver turnos pasados y totales",
+        "paystubs": "Consultar recibos de pago cuando quieran",
+        "geofence": "Alerta si están fuera del sitio de trabajo"
+      }
+    },
+    "pricing": {
+      "title": "Precios simples",
+      "sub": "Empieza gratis. Paga solo cuando tu equipo crezca.",
+      "mostPopular": "Más popular",
+      "ctaStart": "Probar gratis",
+      "ctaSales": "Hablar con ventas",
+      "footer": "Todos los planes incluyen 14 días gratis. Cancela cuando quieras."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": {
+        "card": {
+          "q": "¿Necesito tarjeta de crédito para empezar?",
+          "a": "No. Puedes empezar la prueba de 14 días sin tarjeta. Solo cobramos si decides seguir usando MyJova."
+        },
+        "noEmail": {
+          "q": "¿Y si mis trabajadores no tienen correo?",
+          "a": "En la versión actual cada trabajador necesita un email para recibir la invitación al portal. Estamos añadiendo acceso por PIN para tablets compartidas en una versión futura."
+        },
+        "states": {
+          "q": "¿Qué estados soportan retención fiscal?",
+          "a": "La retención federal de US (IRS Pub 15-T 2026) está completa. La retención estatal está actualmente en cero para todos los estados — la estamos sumando estado por estado, priorizando CA, NY, TX, FL, IL."
+        },
+        "filing": {
+          "q": "¿MyJova presenta los impuestos por mí?",
+          "a": "MyJova genera los PDFs de W-2 y 1099-NEC. La presentación oficial ante IRS / SSA sigue siendo manual hoy. La integración de e-filing directo está en nuestro roadmap 2026."
+        },
+        "secure": {
+          "q": "¿Mis datos están seguros?",
+          "a": "Sí. Usamos Supabase con Row Level Security a nivel de base de datos, encripción en reposo, y aislamiento estricto multi-tenant. Ninguna empresa puede ver los datos de otra."
+        },
+        "cancel": {
+          "q": "¿Puedo cancelar cuando quiera?",
+          "a": "Sí. Sin contratos ni compromisos mínimos. Cancela desde la página de facturación en un click."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "¿Listo para simplificar tu nómina?",
+      "sub": "Únete a los pequeños negocios que registran tiempo y pagan a su equipo con MyJova.",
+      "cta": "Probar gratis"
+    },
+    "footer": {
+      "tagline": "Nómina y asistencia para contratistas y restaurantes en Estados Unidos y Canadá.",
+      "product": "Producto",
+      "company": "Empresa",
+      "resources": "Recursos",
+      "about": "Acerca",
+      "contact": "Contacto",
+      "legal": "Legal",
+      "docs": "Documentación",
+      "status": "Estado",
+      "changelog": "Novedades",
+      "copyright": "© 2026 MyJova. Todos los derechos reservados."
+    }
+  }
+}
