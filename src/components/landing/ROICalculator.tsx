@@ -8,6 +8,11 @@ import { Calculator, TrendingUp, Clock, DollarSign } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { SectionReveal } from './SectionReveal'
 import { AnimatedCounter } from './AnimatedCounter'
+import {
+  convertFromUSD,
+  formatPrice,
+  type Currency,
+} from '@/lib/pricing/currency'
 
 /**
  * Calculadora de ROI interactiva.
@@ -17,11 +22,20 @@ import { AnimatedCounter } from './AnimatedCounter'
  *   - Errores de timesheet ~2% del payroll total
  *   - Multas IRS típicas ~$845 promedio por error de payroll
  */
-export function ROICalculator() {
+export function ROICalculator({
+  currency = 'USD',
+  bcp47 = 'en-US',
+}: {
+  currency?: Currency
+  /** BCP 47 locale for Intl.NumberFormat (e.g. 'fr-CA' for Quebec). */
+  bcp47?: string
+} = {}) {
   const t = useTranslations('landing.roi')
   const [employees, setEmployees] = useState(15)
   const [hoursPerWeek, setHoursPerWeek] = useState(40)
-  const [hourlyRate, setHourlyRate] = useState(28)
+  // Default hourly rate adjusted to local currency (28 USD ≈ 38 CAD ≈ 26 EUR)
+  const defaultHourly = currency === 'CAD' ? 38 : currency === 'EUR' ? 26 : 28
+  const [hourlyRate, setHourlyRate] = useState(defaultHourly)
 
   const savings = useMemo(() => {
     // Tiempo manual de tracking: 12 min/empleado/día × 20 días = 4h/mes/empleado
@@ -32,15 +46,19 @@ export function ROICalculator() {
     const monthlyPayroll = employees * hoursPerWeek * 4.33 * hourlyRate
     const errorCost = monthlyPayroll * 0.02
 
-    // Costo MyJova plan adecuado
-    const myjovaCost = employees <= 10 ? 49 : employees <= 50 ? 99 : 199
+    // Costo MyJova plan adecuado (convertir USD → moneda local)
+    const myjovaCostUsd = employees <= 10 ? 49 : employees <= 50 ? 99 : 199
+    const myjovaCost = convertFromUSD(myjovaCostUsd, currency)
 
     const monthly = Math.max(0, Math.round(timeCost + errorCost - myjovaCost))
     const yearly = monthly * 12
     const hoursReclaimed = manualTimeHoursPerMonth
 
     return { monthly, yearly, hoursReclaimed, myjovaCost }
-  }, [employees, hoursPerWeek, hourlyRate])
+  }, [employees, hoursPerWeek, hourlyRate, currency])
+
+  // Currency symbol for the hourly slider prefix
+  const currencySymbol = currency === 'CAD' ? 'CA$' : currency === 'EUR' ? '€' : '$'
 
   return (
     <section id="roi" className="py-16 md:py-24">
@@ -81,10 +99,10 @@ export function ROICalculator() {
                   label={t('inputs.hourlyRate')}
                   value={hourlyRate}
                   min={10}
-                  max={100}
+                  max={150}
                   step={1}
                   onChange={setHourlyRate}
-                  prefix="$"
+                  prefix={currencySymbol}
                 />
                 <p className="text-xs text-muted-foreground">{t('disclaimer')}</p>
               </div>
@@ -102,7 +120,7 @@ export function ROICalculator() {
                     transition={{ duration: 0.3 }}
                     className="text-4xl font-bold tabular-nums md:text-5xl"
                   >
-                    <AnimatedCounter value={savings.monthly} prefix="$" duration={0.8} />
+                    <AnimatedCounter value={savings.monthly} prefix={currencySymbol} duration={0.8} locale={bcp47} />
                   </motion.div>
                 </div>
 
@@ -116,7 +134,7 @@ export function ROICalculator() {
                     animate={{ opacity: 1 }}
                     className="text-2xl font-bold tabular-nums md:text-3xl"
                   >
-                    <AnimatedCounter value={savings.yearly} prefix="$" duration={0.8} />
+                    <AnimatedCounter value={savings.yearly} prefix={currencySymbol} duration={0.8} locale={bcp47} />
                   </motion.div>
                 </div>
 
@@ -129,7 +147,7 @@ export function ROICalculator() {
                   </div>
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-4 w-4 opacity-80" />
-                    <span>{t('results.planCost', { cost: savings.myjovaCost })}</span>
+                    <span>{t('results.planCost', { cost: formatPrice(savings.myjovaCost, currency, bcp47) })}</span>
                   </div>
                   <div className="flex items-center gap-2 text-base font-semibold">
                     <TrendingUp className="h-4 w-4" />

@@ -320,7 +320,8 @@
       "monthly": "Monthly",
       "annual": "Annual",
       "perMonth": "/month",
-      "perYear": "/year"
+      "perYear": "/year",
+      "currencyHint": "Prices in {currency} · detected location: {country}"
     },
     "comparison": {
       "title": "How MyJova compares",
@@ -355,7 +356,7 @@
         "monthly": "You save per month",
         "yearly": "Yearly savings",
         "hoursReclaimed": "{hours} hours/month of admin reclaimed",
-        "planCost": "MyJova cost: ${cost}/month",
+        "planCost": "MyJova cost: {cost}/month",
         "roi": "{roi}% ROI on MyJova"
       },
       "disclaimer": "Estimates based on 12 min/employee/day of manual tracking + 2% payroll error rate (APA 2024 reports)."

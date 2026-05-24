@@ -320,7 +320,8 @@
       "monthly": "Mensual",
       "annual": "Anual",
       "perMonth": "/mes",
-      "perYear": "/año"
+      "perYear": "/año",
+      "currencyHint": "Precios en {currency} · ubicación detectada: {country}"
     },
     "comparison": {
       "title": "Cómo se compara MyJova",
@@ -355,7 +356,7 @@
         "monthly": "Ahorras al mes",
         "yearly": "Ahorro anual",
         "hoursReclaimed": "{hours} horas/mes de administración recuperadas",
-        "planCost": "Costo MyJova: ${cost}/mes",
+        "planCost": "Costo MyJova: {cost}/mes",
         "roi": "{roi}% de ROI sobre MyJova"
       },
       "disclaimer": "Estimaciones basadas en 12 min/empleado/día de tracking manual + 2% de error en nómina (estudio APA 2024)."
