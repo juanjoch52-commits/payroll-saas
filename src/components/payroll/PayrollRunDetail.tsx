@@ -161,7 +161,7 @@ export function PayrollRunDetail({
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl">{employees.length}</CardTitle>
-            <p className="text-sm text-muted-foreground">Empleados</p>
+            <p className="text-sm text-muted-foreground">{t('payroll.employeesCount')}</p>
           </CardHeader>
         </Card>
       </div>

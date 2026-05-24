@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { Clock, History, Receipt, User } from 'lucide-react'
 import { requireSession } from '@/lib/auth/session'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
 import { JovaWordmark } from '@/components/branding/JovaWordmark'
 import { signOut } from '@/app/actions/auth'
 
@@ -53,6 +54,7 @@ export default async function EmployeeLayout({
         </Link>
         <div className="flex items-center gap-2">
           <LocaleSwitcher locale={locale} />
+          <ThemeToggle />
           <form action={handleSignOut}>
             <button type="submit" className="text-xs text-muted-foreground hover:text-foreground">
               {t('nav.signOut')}

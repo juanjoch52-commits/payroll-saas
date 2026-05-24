@@ -15,7 +15,26 @@
     "actions": "Acciones",
     "noData": "Sin datos para mostrar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "theme": {
+      "toggle": "Cambiar tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "revoked": "Revocado",
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "open": "Abierto",
+      "closed": "Cerrado",
+      "flagged": "Marcado",
+      "outsideGeofence": "Fuera del área"
+    },
+    "comingSoon": "Próximamente"
   },
   "nav": {
     "dashboard": "Panel",
@@ -92,7 +111,8 @@
     "netPay": "Pago neto",
     "totalTaxes": "Impuestos totales",
     "approve": "Aprobar",
-    "markPaid": "Marcar como pagada"
+    "markPaid": "Marcar como pagada",
+    "employeesCount": "Empleados"
   },
   "reports": {
     "title": "Reportes fiscales",

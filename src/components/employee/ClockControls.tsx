@@ -212,10 +212,10 @@ export function ClockControls({
         <CardContent className="py-6 text-center">
           {openEntry ? (
             <>
-              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                <ClockIcon className="h-8 w-8 text-green-700" />
+              <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-success/15 dark:bg-success/25">
+                <ClockIcon className="h-8 w-8 text-success dark:text-success-foreground" />
               </div>
-              <p className="text-lg font-semibold text-green-700">
+              <p className="text-lg font-semibold text-success dark:text-success-foreground">
                 {t('clock.currentlyClockedIn')}
               </p>
               <p className="text-sm text-muted-foreground">
@@ -227,7 +227,7 @@ export function ClockControls({
                 </p>
               )}
               {openEntry.clock_in_outside_geofence && (
-                <div className="mt-3 flex items-center justify-center gap-1 text-xs text-amber-700">
+                <div className="mt-3 flex items-center justify-center gap-1 text-xs text-warning dark:text-warning-foreground">
                   <AlertTriangle className="h-3 w-3" />
                   <span>{t('clock.outsideGeofence')}</span>
                 </div>

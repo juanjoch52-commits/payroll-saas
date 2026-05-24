@@ -8,6 +8,7 @@ import { Map, List, Check, X, AlertTriangle } from 'lucide-react'
 import { approveTimeEntry, rejectTimeEntry } from '@/app/actions/time-tracking'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { LiveMap, type MapPoint, type MapGeofence } from './LiveMap'
 import { formatDate } from '@/lib/utils'
 
@@ -221,9 +222,7 @@ export function TimeTrackingPanel({
                           </div>
                         </>
                       ) : (
-                        <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                          Open
-                        </span>
+                        <Badge variant="success">{t('common.status.open')}</Badge>
                       )}
                     </td>
                     <td className="px-4 py-3">
@@ -234,10 +233,10 @@ export function TimeTrackingPanel({
                     </td>
                     <td className="px-4 py-3">
                       {e.clock_in_outside_geofence && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
+                        <Badge variant="warning" className="inline-flex items-center gap-1">
                           <AlertTriangle className="h-3 w-3" />
                           {t('timeTracking.flagged')}
-                        </span>
+                        </Badge>
                       )}
                     </td>
                   </tr>

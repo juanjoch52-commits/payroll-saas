@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/server'
+import { Badge } from '@/components/ui/badge'
 
 export default async function WebhookEventsPage() {
   const admin = createAdminClient()
@@ -38,17 +39,11 @@ export default async function WebhookEventsPage() {
                 </td>
                 <td className="px-4 py-3">
                   {e.error ? (
-                    <span className="rounded-full bg-destructive/10 px-2 py-0.5 text-xs text-destructive">
-                      error
-                    </span>
+                    <Badge variant="destructive">error</Badge>
                   ) : e.processed_at ? (
-                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                      processed
-                    </span>
+                    <Badge variant="success">processed</Badge>
                   ) : (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-                      pending
-                    </span>
+                    <Badge variant="warning">pending</Badge>
                   )}
                 </td>
               </tr>

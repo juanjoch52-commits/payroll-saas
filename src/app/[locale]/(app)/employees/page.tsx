@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/lib/utils'
 
 export default async function EmployeesPage({
@@ -78,17 +79,17 @@ export default async function EmployeesPage({
                   </td>
                   <td className="px-4 py-3">{e.primary_jurisdiction_code}</td>
                   <td className="px-4 py-3">
-                    <span
-                      className={
+                    <Badge
+                      variant={
                         e.status === 'active'
-                          ? 'inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700'
+                          ? 'success'
                           : e.status === 'on_leave'
-                            ? 'inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700'
-                            : 'inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700'
+                            ? 'warning'
+                            : 'muted'
                       }
                     >
                       {e.status}
-                    </span>
+                    </Badge>
                   </td>
                 </tr>
               )

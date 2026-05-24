@@ -35,6 +35,14 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    /* Status tokens — usados por <Badge variant="success|warning|info"> */
+    --success: 142 71% 45%;
+    --success-foreground: 142 76% 24%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 30 100% 24%;
+    --info: 199 89% 48%;
+    --info-foreground: 199 89% 24%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
@@ -66,6 +74,13 @@
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
+    --success: 142 60% 50%;
+    --success-foreground: 142 76% 86%;
+    --warning: 38 92% 60%;
+    --warning-foreground: 38 92% 88%;
+    --info: 199 89% 58%;
+    --info-foreground: 199 89% 88%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;

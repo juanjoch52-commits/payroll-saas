@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { WorksiteForm } from '@/components/admin/WorksiteForm'
 import { LiveMap, type MapGeofence } from '@/components/admin/LiveMap'
 
@@ -76,13 +77,9 @@ export default async function WorksitesPage({
                 <td className="px-4 py-3">{w.radius_m}m</td>
                 <td className="px-4 py-3">
                   {w.is_active ? (
-                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                      {t('common.yes')}
-                    </span>
+                    <Badge variant="success">{t('common.yes')}</Badge>
                   ) : (
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700">
-                      {t('common.no')}
-                    </span>
+                    <Badge variant="muted">{t('common.no')}</Badge>
                   )}
                 </td>
               </tr>

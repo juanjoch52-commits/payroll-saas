@@ -6,6 +6,7 @@ import { createApiKey, revokeApiKey } from '@/app/actions/api-keys'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
 
 type ApiKey = {
   id: string
@@ -74,11 +75,11 @@ export function ApiKeyManager({ keys }: { keys: ApiKey[] }) {
       </form>
 
       {newKey && (
-        <div className="rounded-md border border-amber-300 bg-amber-50 p-4">
-          <p className="text-sm font-semibold text-amber-900">
+        <div className="rounded-md border border-warning/40 bg-warning/10 p-4 dark:border-warning/30 dark:bg-warning/15">
+          <p className="text-sm font-semibold text-warning-foreground dark:text-warning">
             Save this key now — it won&apos;t be shown again.
           </p>
-          <code className="mt-2 block break-all rounded bg-white p-2 text-xs">{newKey.key}</code>
+          <code className="mt-2 block break-all rounded bg-background p-2 text-xs">{newKey.key}</code>
         </div>
       )}
 
@@ -105,11 +106,9 @@ export function ApiKeyManager({ keys }: { keys: ApiKey[] }) {
                 </td>
                 <td className="px-4 py-3">
                   {k.revoked_at ? (
-                    <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs">Revoked</span>
+                    <Badge variant="muted">{t('common.status.revoked')}</Badge>
                   ) : (
-                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                      Active
-                    </span>
+                    <Badge variant="success">{t('common.status.active')}</Badge>
                   )}
                 </td>
                 <td className="px-4 py-3 text-right">

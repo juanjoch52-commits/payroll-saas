@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { InviteEmployeeButton } from '@/components/employees/InviteEmployeeButton'
 import { formatMoney, formatDate } from '@/lib/utils'
 
@@ -65,9 +66,9 @@ export default async function EmployeeDetailPage({
           />
         )}
         {employee.user_id && (
-          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+          <Badge variant="success" className="px-3 py-1">
             Portal account active
-          </span>
+          </Badge>
         )}
       </div>
 

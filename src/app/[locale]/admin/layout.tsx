@@ -1,7 +1,19 @@
 import Link from 'next/link'
-import { LayoutDashboard, Building2, CreditCard, BarChart3, Webhook } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Building2,
+  CreditCard,
+  BarChart3,
+  Webhook,
+  FileSearch,
+  LifeBuoy,
+  Megaphone,
+  TrendingUp,
+} from 'lucide-react'
 import { requirePlatformAdmin } from '@/lib/auth/platform'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
+import { Badge } from '@/components/ui/badge'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,7 +34,11 @@ export default async function PlatformAdminLayout({
     { href: '/admin', label: 'Overview', icon: LayoutDashboard },
     { href: '/admin/tenants', label: 'Tenants', icon: Building2 },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: CreditCard },
+    { href: '/admin/analytics', label: 'Analytics', icon: TrendingUp },
     { href: '/admin/metrics', label: 'Metrics', icon: BarChart3 },
+    { href: '/admin/audit', label: 'Audit logs', icon: FileSearch },
+    { href: '/admin/support', label: 'Support', icon: LifeBuoy },
+    { href: '/admin/broadcasts', label: 'Broadcasts', icon: Megaphone },
     { href: '/admin/webhooks', label: 'Webhook events', icon: Webhook },
   ]
 
@@ -30,11 +46,11 @@ export default async function PlatformAdminLayout({
     <div className="flex min-h-screen bg-background">
       <aside className="hidden w-64 shrink-0 border-r bg-card md:flex md:flex-col">
         <div className="flex h-16 items-center border-b px-6">
-          <Link href={`/${locale}/admin`} className="text-xl font-bold tracking-tight">
+          <Link href={`/${locale}/admin`} className="flex items-center gap-2 text-xl font-bold tracking-tight">
             MyJova
-            <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-700">
+            <Badge variant="warning" className="text-[10px] uppercase">
               Platform
-            </span>
+            </Badge>
           </Link>
         </div>
         <nav className="flex-1 space-y-1 p-3">
@@ -58,6 +74,7 @@ export default async function PlatformAdminLayout({
       <div className="flex flex-1 flex-col">
         <header className="flex h-16 items-center justify-end gap-3 border-b bg-card px-6">
           <LocaleSwitcher locale={locale} />
+          <ThemeToggle />
           <Link href={`/${locale}/dashboard`} className="text-sm text-muted-foreground hover:text-foreground">
             ← Tenant view
           </Link>

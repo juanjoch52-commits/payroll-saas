@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { LocaleSwitcher } from './LocaleSwitcher'
+import { ThemeToggle } from './ThemeToggle'
 import { UserMenu } from './UserMenu'
 import { OrgSwitcher } from './OrgSwitcher'
 import type { ActiveSession } from '@/lib/auth/session'
@@ -34,6 +35,7 @@ export async function AppHeader({
       </div>
       <div className="flex items-center gap-3">
         <LocaleSwitcher locale={locale} />
+        <ThemeToggle />
         <UserMenu session={session} locale={locale} />
       </div>
     </header>

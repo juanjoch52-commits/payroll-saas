@@ -15,7 +15,26 @@
     "actions": "Actions",
     "noData": "No data to show",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "revoked": "Revoked",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "open": "Open",
+      "closed": "Closed",
+      "flagged": "Flagged",
+      "outsideGeofence": "Outside geofence"
+    },
+    "comingSoon": "Coming soon"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -92,7 +111,8 @@
     "netPay": "Net pay",
     "totalTaxes": "Total taxes",
     "approve": "Approve",
-    "markPaid": "Mark as paid"
+    "markPaid": "Mark as paid",
+    "employeesCount": "Employees"
   },
   "reports": {
     "title": "Tax reports",
