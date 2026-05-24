@@ -215,8 +215,16 @@
       "features": "Fonctionnalités",
       "pricing": "Tarifs",
       "faq": "FAQ",
+      "howItWorks": "Comment ça marche",
+      "industries": "Industries",
       "signIn": "Se connecter",
-      "startTrial": "Essai gratuit"
+      "startTrial": "Essai gratuit",
+      "about": "À propos",
+      "contact": "Contact",
+      "legal": "Légal",
+      "docs": "Documentation",
+      "status": "Statut",
+      "changelog": "Changements"
     },
     "hero": {
       "badge": "Nouveau · Poinçon avec photo + GPS",
@@ -227,7 +235,14 @@
       "microcopy": "Essai gratuit de 14 jours · Sans carte de crédit",
       "mockupWorkerName": "Maria García",
       "mockupClockedSince": "Poinçonnée depuis 7h42",
-      "mockupJobsite": "Chantier de Brooklyn"
+      "mockupJobsite": "Chantier de Brooklyn",
+      "trustSecurity": "Prêt SOC 2 · Sécurité bancaire",
+      "trustSpeed": "Poinçon en moins d'une seconde depuis n'importe quel téléphone",
+      "stats": {
+        "savedPerEmp": "économisées/mois par employé",
+        "fewer": "d'erreurs de paie en moins",
+        "trial": "gratuit · sans carte"
+      }
     },
     "trust": {
       "title": "Conçu pour les entreprises qui bâtissent l'Amérique",
@@ -301,7 +316,187 @@
       "mostPopular": "Le plus populaire",
       "ctaStart": "Essai gratuit",
       "ctaSales": "Parler aux ventes",
-      "footer": "Tous les plans incluent un essai gratuit de 14 jours. Annulez à tout moment."
+      "footer": "Tous les plans incluent un essai gratuit de 14 jours. Annulez à tout moment.",
+      "monthly": "Mensuel",
+      "annual": "Annuel",
+      "perMonth": "/mois",
+      "perYear": "/an"
+    },
+    "comparison": {
+      "title": "Comment MyJova se compare",
+      "sub": "Côte à côte avec les apps de paie et de suivi du temps les plus populaires.",
+      "disclaimer": "Les marques sont la propriété de leurs détenteurs respectifs. Comparaison basée sur les tarifs et fonctionnalités publiques au 2026-05.",
+      "th": {
+        "feature": "Fonctionnalité"
+      },
+      "rows": {
+        "clockInPhoto": "Poinçon avec preuve photo",
+        "geofence": "Alertes GPS géorepérage",
+        "payrollUS": "Paie fédérale US",
+        "payrollCA": "Paie Canada (T4/T4A/RE)",
+        "w2_1099": "T4 / T4A fin d'année",
+        "spanish": "Interface espagnole pour employés",
+        "french": "Interface française (Québec)",
+        "smallBizPricing": "Prix de départ",
+        "mobileApp": "Portail mobile-first",
+        "apiAccess": "API REST publique"
+      }
+    },
+    "roi": {
+      "badge": "Calculateur gratuit",
+      "title": "Voyez combien vous allez économiser",
+      "sub": "Ajustez les curseurs pour estimer vos économies mensuelles vs feuilles de temps papier et Excel.",
+      "inputs": {
+        "employees": "Employés",
+        "hoursPerWeek": "Heures par semaine / employé",
+        "hourlyRate": "Taux horaire moyen"
+      },
+      "results": {
+        "monthly": "Vous économisez par mois",
+        "yearly": "Économies annuelles",
+        "hoursReclaimed": "{hours} heures/mois d'administration récupérées",
+        "planCost": "Coût MyJova : ${cost}/mois",
+        "roi": "{roi}% de ROI sur MyJova"
+      },
+      "disclaimer": "Estimations basées sur 12 min/employé/jour de suivi manuel + 2% de taux d'erreur de paie (APA 2024)."
+    },
+    "video": {
+      "title": "MyJova en action",
+      "sub": "Tour de 90 secondes : poinçon, paie et feuillets fiscaux.",
+      "play": "Lire la démo",
+      "duration": "0:00 / 1:32",
+      "comingSoonTitle": "Vidéo démo bientôt disponible",
+      "comingSoonBody": "Nous enregistrons une nouvelle visite guidée. En attendant, entrez directement dans l'aperçu en direct depuis le tableau de bord."
+    },
+    "testimonials": {
+      "title": "Adopté par les équipes sur le terrain",
+      "sub": "Histoires d'entrepreneurs et restaurants qui utilisent MyJova tous les jours.",
+      "prev": "Précédent",
+      "next": "Suivant",
+      "disclaimer": "Les noms et entreprises affichés sont des exemples représentatifs en attendant les témoignages clients signés.",
+      "quotes": {
+        "construction": "Avant MyJova mes contremaîtres m'envoyaient les heures par texto le dimanche. Maintenant tout est étiqueté avec photo et GPS. La paie prend 20 minutes au lieu de toute la fin de semaine.",
+        "restaurants": "Trois emplacements, 40 personnes. La cuisine poinçonne sur une tablette, les serveurs sur leur cellulaire. Plus de chicane d'arrondis au pourboire.",
+        "trades": "Les alertes de géorepérage ont attrapé deux assistants qui gonflaient leurs heures sur un chantier à 50 km du site. A payé l'année en une semaine.",
+        "painting": "J'ai une équipe de 12. Le portail en espagnol a été décisif — les employés l'utilisent sans que je doive l'expliquer dix fois.",
+        "cleaning": "Les T4 de fin d'année prenaient une fin de semaine entière à ma comptable. Avec MyJova ils sont prêts pour le 5 janvier.",
+        "landscaping": "Le poinçon mobile m'a évité d'acheter des horloges biométriques pour chaque camion. ROI dès le premier mois."
+      }
+    },
+    "integrations": {
+      "title": "S'intègre bien à votre stack",
+      "footer": "Les intégrations directes avec ces outils arrivent en 2026."
+    },
+    "useCases": {
+      "title": "Conçu pour votre vraie façon de travailler",
+      "sub": "Choisissez votre industrie pour voir comment MyJova s'intègre à votre quotidien.",
+      "benefitsLabel": "Ce que vous obtenez",
+      "industries": {
+        "construction": {
+          "label": "Construction",
+          "headline": "Des fondations à la facture finale",
+          "story": "Les équipes vont sur différents chantiers chaque semaine. MyJova rattache chaque heure à un chantier géolocalisé pour facturer les projets précisément et prouver la conformité lors d'une vérification.",
+          "benefits": [
+            "Étiquetage par projet pour un job costing précis",
+            "Poinçon géorepéré avec photo à chaque quart",
+            "Paiement journalier, horaire et T4A sous-traitants en une app",
+            "Feuillets T4 + T4A prêts à fin d'année"
+          ]
+        },
+        "restaurants": {
+          "label": "Restauration",
+          "headline": "Salle, cuisine, multi-emplacements",
+          "story": "Cuisine sur tablette, serveurs sur cellulaire. Tip pools et tip credits gérés dans le moteur de paie. Ventes quotidiennes importées pour les rôles à commission.",
+          "benefits": [
+            "Champs tip pool / declared tips intégrés",
+            "Bascule entre emplacements en un tap",
+            "Pourboires CSST/CNESST gérés correctement",
+            "Alertes d'heures supplémentaires conscientes de l'horaire"
+          ]
+        },
+        "trades": {
+          "label": "Métiers manuels",
+          "headline": "Plomberie, CVC, électricité",
+          "story": "Le technicien tourne entre les appels toute la journée. Clock-out auto à la dernière intervention. Notes par appel attachées pour la facturation aval.",
+          "benefits": [
+            "Capture temps + matériel par intervention",
+            "Kilométrage entre les chantiers via GPS",
+            "Factures client dans la même entrée de temps",
+            "Préset géorepérage 'camion comme chantier'"
+          ]
+        },
+        "painting": {
+          "label": "Peinture",
+          "headline": "Équipes sur 3-4 chantiers par jour",
+          "story": "Les employés passent d'un intérieur résidentiel le matin à un site commercial l'après-midi. Chaque poinçon étiquette le bon projet pour des estimés précis.",
+          "benefits": [
+            "Étiquetage multi-projets dans le même quart",
+            "Flux bilingue (espagnol-first)",
+            "Preuve photo du prep work terminé",
+            "Mode de paie journalier pour les courts chantiers"
+          ]
+        },
+        "cleaning": {
+          "label": "Nettoyage",
+          "headline": "Conciergerie, résidentiel, commercial",
+          "story": "Équipes de nuit en quarts de 2-3 personnes. Poinçon à l'entrée du bâtiment, photo de checklist requise par les clients corporatifs.",
+          "benefits": [
+            "Support de scheduling par quarts",
+            "Photo de checklist attachée à l'entrée",
+            "Différentiel horaire par bâtiment",
+            "Paie hebdomadaire par défaut"
+          ]
+        },
+        "landscaping": {
+          "label": "Aménagement paysager",
+          "headline": "Équipes saisonnières, par tournée",
+          "story": "Les équipes font des tournées de 8-12 propriétés par jour. Poinçon rapide à chaque arrêt capture arrivée, départ et photo de la propriété.",
+          "benefits": [
+            "Poinçon rapide par arrêt sans quitter l'app",
+            "Totaux par propriété pour facturation précise",
+            "Le chef d'équipe poinçonne son équipe en un tap",
+            "Feuillets pour travailleur saisonnier prêts à fin d'année"
+          ]
+        }
+      }
+    },
+    "mobileShowcase": {
+      "title": "Les employés l'adorent dès le premier jour",
+      "sub": "Aucune installation d'app. Fonctionne sur tout cellulaire avec navigateur. Le portail complet en trois taps.",
+      "mockCta": "Poinçonner l'entrée",
+      "mockLocationOk": "Sur site · GPS précis à 4m",
+      "mockLastPaystub": "Dernier bulletin",
+      "mockYtd": "Revenus de l'année",
+      "mockHourlyRole": "Horaire · 28 $/h",
+      "mockProfilePay": "Détails de paiement",
+      "mockProfileTaxes": "Infos fiscales",
+      "mockProfileLang": "Langue",
+      "screens": {
+        "clock": {
+          "label": "Poinçonner",
+          "title": "Poinçon en un tap",
+          "desc": "Photo + GPS capturés automatiquement. Alerte si hors du chantier.",
+          "color": "primary"
+        },
+        "history": {
+          "label": "Historique",
+          "title": "Voir chaque quart",
+          "desc": "Totaux quotidiens, modifications, approbations — les employés savent toujours où ils en sont.",
+          "color": "emerald"
+        },
+        "paystubs": {
+          "label": "Bulletins",
+          "title": "Bulletins dans leur poche",
+          "desc": "Téléchargement PDF, totaux annuels, retenues expliquées ligne par ligne.",
+          "color": "purple"
+        },
+        "profile": {
+          "label": "Profil",
+          "title": "Profil libre-service",
+          "desc": "Mise à jour des infos fiscales, bancaires et langue sans passer par les RH.",
+          "color": "orange"
+        }
+      }
     },
     "faq": {
       "title": "Questions fréquentes",
@@ -333,9 +528,12 @@
       }
     },
     "finalCta": {
+      "badge": "Quand vous êtes prêt",
       "title": "Prêt à simplifier la paie ?",
       "sub": "Joignez-vous aux petites entreprises qui suivent le temps et paient leurs équipes avec MyJova.",
-      "cta": "Essai gratuit"
+      "cta": "Essai gratuit",
+      "demo": "ou explorez l'aperçu en direct →",
+      "microcopy": "14 jours gratuits · Sans carte de crédit"
     },
     "footer": {
       "tagline": "Paie et suivi du temps pour les entrepreneurs et restaurants des États-Unis et du Canada.",
@@ -348,7 +546,10 @@
       "docs": "Documentation",
       "status": "Statut",
       "changelog": "Changements",
-      "copyright": "© 2026 MyJova. Tous droits réservés."
+      "copyright": "© 2026 MyJova. Tous droits réservés.",
+      "newsletterPlaceholder": "votre@courriel.com",
+      "newsletterCta": "S'abonner",
+      "newsletterSuccess": "Merci ! On vous tient au courant."
     }
   }
 }

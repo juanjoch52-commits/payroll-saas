@@ -215,11 +215,19 @@
       "features": "Funciones",
       "pricing": "Precios",
       "faq": "Preguntas",
+      "howItWorks": "Cómo funciona",
+      "industries": "Industrias",
       "signIn": "Iniciar sesión",
-      "startTrial": "Probar gratis"
+      "startTrial": "Probar gratis",
+      "about": "Acerca",
+      "contact": "Contacto",
+      "legal": "Legal",
+      "docs": "Documentación",
+      "status": "Estado",
+      "changelog": "Cambios"
     },
     "hero": {
-      "badge": "Nuevo · Clock in con foto + GPS",
+      "badge": "Nuevo · Marcado con foto + GPS",
       "headline": "Nómina y asistencia, simplificadas para tu equipo en campo",
       "sub": "Tus trabajadores marcan entrada desde el sitio con foto y GPS. Las horas fluyen automáticamente a la nómina. Los W-2 y 1099-NEC se generan al cierre del año. Todo en una sola app móvil.",
       "primaryCta": "Probar gratis",
@@ -227,7 +235,14 @@
       "microcopy": "14 días gratis · No necesitas tarjeta",
       "mockupWorkerName": "María García",
       "mockupClockedSince": "Entró a las 7:42 AM",
-      "mockupJobsite": "Obra en Brooklyn"
+      "mockupJobsite": "Obra en Brooklyn",
+      "trustSecurity": "Listo para SOC 2 · Seguridad bancaria",
+      "trustSpeed": "Marcado en menos de un segundo desde cualquier teléfono",
+      "stats": {
+        "savedPerEmp": "ahorradas/mes por empleado",
+        "fewer": "menos errores de nómina",
+        "trial": "gratis · sin tarjeta"
+      }
     },
     "trust": {
       "title": "Hecho para los negocios que construyen el país",
@@ -301,7 +316,187 @@
       "mostPopular": "Más popular",
       "ctaStart": "Probar gratis",
       "ctaSales": "Hablar con ventas",
-      "footer": "Todos los planes incluyen 14 días gratis. Cancela cuando quieras."
+      "footer": "Todos los planes incluyen 14 días gratis. Cancela cuando quieras.",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "perMonth": "/mes",
+      "perYear": "/año"
+    },
+    "comparison": {
+      "title": "Cómo se compara MyJova",
+      "sub": "Lado a lado con las apps de nómina y asistencia más populares.",
+      "disclaimer": "Las marcas son propiedad de sus respectivos dueños. La comparación refleja precios y funciones públicas a fecha de 2026-05.",
+      "th": {
+        "feature": "Función"
+      },
+      "rows": {
+        "clockInPhoto": "Marcado con foto como prueba",
+        "geofence": "Alertas GPS por geocerca",
+        "payrollUS": "Nómina federal US",
+        "payrollCA": "Nómina Canadá (T4/T4A/ROE)",
+        "w2_1099": "W-2 / 1099-NEC fin de año",
+        "spanish": "Interfaz en español para empleados",
+        "french": "Interfaz en francés (Quebec)",
+        "smallBizPricing": "Precio inicial",
+        "mobileApp": "Portal mobile-first",
+        "apiAccess": "API REST pública"
+      }
+    },
+    "roi": {
+      "badge": "Calculadora gratis",
+      "title": "Mira cuánto vas a ahorrar",
+      "sub": "Mueve los sliders para estimar tu ahorro mensual frente a planillas en papel y Excel.",
+      "inputs": {
+        "employees": "Empleados",
+        "hoursPerWeek": "Horas por semana / empleado",
+        "hourlyRate": "Tarifa por hora promedio"
+      },
+      "results": {
+        "monthly": "Ahorras al mes",
+        "yearly": "Ahorro anual",
+        "hoursReclaimed": "{hours} horas/mes de administración recuperadas",
+        "planCost": "Costo MyJova: ${cost}/mes",
+        "roi": "{roi}% de ROI sobre MyJova"
+      },
+      "disclaimer": "Estimaciones basadas en 12 min/empleado/día de tracking manual + 2% de error en nómina (estudio APA 2024)."
+    },
+    "video": {
+      "title": "MyJova en acción",
+      "sub": "Tour de 90 segundos por marcado, nómina y formularios fiscales.",
+      "play": "Reproducir demo",
+      "duration": "0:00 / 1:32",
+      "comingSoonTitle": "Video demo próximamente",
+      "comingSoonBody": "Estamos grabando un recorrido nuevo. Mientras tanto, entra directo al preview en vivo desde el dashboard."
+    },
+    "testimonials": {
+      "title": "Confiado por equipos en campo",
+      "sub": "Historias de contratistas y restaurantes que usan MyJova todos los días.",
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "disclaimer": "Los nombres y empresas son ejemplos representativos mientras recopilamos testimonios firmados de clientes.",
+      "quotes": {
+        "construction": "Antes de MyJova mis capataces me mandaban las horas por texto los domingos. Ahora todo viene con foto y GPS. La nómina toma 20 minutos en vez de todo el fin de semana.",
+        "restaurants": "Tres locales, 40 personas. Cocina marca desde una tablet, meseros desde su teléfono. Se acabaron las peleas por el redondeo de propinas.",
+        "trades": "Las alertas de geocerca atraparon a dos ayudantes inflando horas en un trabajo a 50 km del sitio. Pagó el año en una semana.",
+        "painting": "Tengo cuadrilla de 12. El portal en español fue clave — los trabajadores lo usan sin que tenga que explicarlo diez veces.",
+        "cleaning": "Los W-2 de fin de año le tomaban un fin de semana a mi contadora. Con MyJova ya están listos para el 5 de enero.",
+        "landscaping": "El marcado móvil me evitó comprar relojes biométricos para cada camioneta. ROI en el primer mes."
+      }
+    },
+    "integrations": {
+      "title": "Se lleva bien con tu stack",
+      "footer": "Las integraciones directas con estas herramientas llegan durante 2026."
+    },
+    "useCases": {
+      "title": "Hecho para tu forma real de trabajar",
+      "sub": "Elige tu industria para ver cómo MyJova encaja en tu día a día.",
+      "benefitsLabel": "Lo que obtienes",
+      "industries": {
+        "construction": {
+          "label": "Construcción",
+          "headline": "Del cimiento a la factura final",
+          "story": "Las cuadrillas van a diferentes obras cada semana. MyJova ata cada hora a un sitio geoetiquetado para que factures proyectos con precisión y demuestres cumplimiento en una auditoría DOL.",
+          "benefits": [
+            "Etiquetado por proyecto para job costing preciso",
+            "Marcado geofenced con foto en cada turno",
+            "Pago diario, por hora y a 1099 subcontratistas en una app",
+            "Formularios W-2 + 1099-NEC listos a fin de año"
+          ]
+        },
+        "restaurants": {
+          "label": "Restaurantes",
+          "headline": "Salón, cocina, varias sedes",
+          "story": "Cocina en tablet, meseros en teléfono. Tip pools y tip credits los maneja el motor de nómina. Ventas diarias importadas para roles con comisión sobre venta.",
+          "benefits": [
+            "Campos de tip pool / declared tips integrados",
+            "Cambio entre sedes en un tap",
+            "FICA tip credit calculado automáticamente",
+            "Alertas de overtime conscientes del horario"
+          ]
+        },
+        "trades": {
+          "label": "Oficios",
+          "headline": "Plomería, HVAC, eléctrico",
+          "story": "El técnico rota entre servicios todo el día. Clock-out automático en la última parada. Notas por servicio adjuntas para facturación posterior.",
+          "benefits": [
+            "Captura tiempo + materiales por servicio",
+            "Kilometraje entre trabajos rastreado por GPS",
+            "Facturas al cliente desde la misma entrada",
+            "Geocerca preset para 'camioneta como sitio'"
+          ]
+        },
+        "painting": {
+          "label": "Pintura",
+          "headline": "Cuadrillas en 3-4 trabajos por día",
+          "story": "Los trabajadores van de un interior residencial en la mañana a un comercial por la tarde. Cada marcado etiqueta el proyecto correcto para mantener estimados precisos.",
+          "benefits": [
+            "Etiquetado multi-proyecto en un mismo turno",
+            "Flujo bilingüe (español-first)",
+            "Foto de evidencia de prep work terminado",
+            "Esquema diario para trabajos cortos"
+          ]
+        },
+        "cleaning": {
+          "label": "Limpieza",
+          "headline": "Conserjería, residencial, comercial",
+          "story": "Cuadrillas trabajan de noche en turnos de 2-3 personas. Marcado en entrada del edificio, foto del checklist requerida por clientes corporativos.",
+          "benefits": [
+            "Soporte de scheduling por turnos",
+            "Foto de checklist adjunta al time entry",
+            "Diferencial por hora por edificio",
+            "Nómina semanal por defecto"
+          ]
+        },
+        "landscaping": {
+          "label": "Paisajismo",
+          "headline": "Cuadrillas de temporada, por ruta",
+          "story": "Las cuadrillas corren rutas de 8-12 propiedades al día. Marcado rápido en cada parada captura llegada, salida y foto de la propiedad.",
+          "benefits": [
+            "Marcado rápido por parada sin salir de la app",
+            "Total por propiedad para facturar exacto",
+            "El líder de cuadrilla marca a su equipo en un tap",
+            "Formularios H-2B de trabajador estacional a fin de año"
+          ]
+        }
+      }
+    },
+    "mobileShowcase": {
+      "title": "A tus empleados les encanta desde el día uno",
+      "sub": "Sin instalación de app. Funciona en cualquier teléfono con navegador. El portal completo en tres taps.",
+      "mockCta": "Marcar entrada",
+      "mockLocationOk": "En sitio · GPS preciso a 4m",
+      "mockLastPaystub": "Último recibo",
+      "mockYtd": "Ingresos del año",
+      "mockHourlyRole": "Por hora · $28/h",
+      "mockProfilePay": "Datos de pago",
+      "mockProfileTaxes": "Datos fiscales",
+      "mockProfileLang": "Idioma",
+      "screens": {
+        "clock": {
+          "label": "Marcar",
+          "title": "Marcado en un tap",
+          "desc": "Foto + GPS capturados automáticamente. Aviso si está fuera del sitio.",
+          "color": "primary"
+        },
+        "history": {
+          "label": "Historial",
+          "title": "Ve cada turno",
+          "desc": "Totales diarios, ediciones, aprobaciones — los trabajadores siempre saben dónde están parados.",
+          "color": "emerald"
+        },
+        "paystubs": {
+          "label": "Recibos",
+          "title": "Recibos en su bolsillo",
+          "desc": "Descarga PDF, totales del año, deducciones explicadas línea por línea.",
+          "color": "purple"
+        },
+        "profile": {
+          "label": "Perfil",
+          "title": "Perfil self-service",
+          "desc": "Actualiza datos fiscales, banco e idioma sin involucrar a Recursos Humanos.",
+          "color": "orange"
+        }
+      }
     },
     "faq": {
       "title": "Preguntas frecuentes",
@@ -333,9 +528,12 @@
       }
     },
     "finalCta": {
+      "badge": "Cuando quieras empezar",
       "title": "¿Listo para simplificar tu nómina?",
       "sub": "Únete a los pequeños negocios que registran tiempo y pagan a su equipo con MyJova.",
-      "cta": "Probar gratis"
+      "cta": "Probar gratis",
+      "demo": "o explora el preview en vivo →",
+      "microcopy": "14 días gratis · Sin tarjeta"
     },
     "footer": {
       "tagline": "Nómina y asistencia para contratistas y restaurantes en Estados Unidos y Canadá.",
@@ -348,7 +546,10 @@
       "docs": "Documentación",
       "status": "Estado",
       "changelog": "Novedades",
-      "copyright": "© 2026 MyJova. Todos los derechos reservados."
+      "copyright": "© 2026 MyJova. Todos los derechos reservados.",
+      "newsletterPlaceholder": "tu@email.com",
+      "newsletterCta": "Suscribirme",
+      "newsletterSuccess": "¡Gracias! Te mantendremos al tanto."
     }
   }
 }

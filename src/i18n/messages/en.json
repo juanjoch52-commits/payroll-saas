@@ -215,8 +215,16 @@
       "features": "Features",
       "pricing": "Pricing",
       "faq": "FAQ",
+      "howItWorks": "How it works",
+      "industries": "Industries",
       "signIn": "Sign in",
-      "startTrial": "Start free trial"
+      "startTrial": "Start free trial",
+      "about": "About",
+      "contact": "Contact",
+      "legal": "Legal",
+      "docs": "Docs",
+      "status": "Status",
+      "changelog": "Changelog"
     },
     "hero": {
       "badge": "New · Clock in with photo + GPS",
@@ -227,7 +235,14 @@
       "microcopy": "14-day free trial · No credit card required",
       "mockupWorkerName": "Maria García",
       "mockupClockedSince": "Clocked in since 7:42 AM",
-      "mockupJobsite": "Brooklyn job site"
+      "mockupJobsite": "Brooklyn job site",
+      "trustSecurity": "SOC 2-ready · Bank-grade security",
+      "trustSpeed": "Sub-second clock in from any phone",
+      "stats": {
+        "savedPerEmp": "saved/month per employee",
+        "fewer": "fewer payroll errors",
+        "trial": "free trial · no card"
+      }
     },
     "trust": {
       "title": "Built for the businesses that build America",
@@ -301,7 +316,187 @@
       "mostPopular": "Most popular",
       "ctaStart": "Start free trial",
       "ctaSales": "Talk to sales",
-      "footer": "All plans include a 14-day free trial. Cancel anytime."
+      "footer": "All plans include a 14-day free trial. Cancel anytime.",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "perMonth": "/month",
+      "perYear": "/year"
+    },
+    "comparison": {
+      "title": "How MyJova compares",
+      "sub": "Side-by-side with the most popular payroll and time-tracking apps.",
+      "disclaimer": "Trademarks are property of their respective owners. Comparison reflects publicly available pricing and feature sets as of 2026-05.",
+      "th": {
+        "feature": "Feature"
+      },
+      "rows": {
+        "clockInPhoto": "Clock in with photo proof",
+        "geofence": "GPS geofence alerts",
+        "payrollUS": "US federal payroll",
+        "payrollCA": "Canada payroll (T4/T4A/ROE)",
+        "w2_1099": "W-2 / 1099-NEC year-end",
+        "spanish": "Spanish UI for workers",
+        "french": "French UI (Quebec ready)",
+        "smallBizPricing": "Starting price",
+        "mobileApp": "Mobile-first portal",
+        "apiAccess": "Public REST API"
+      }
+    },
+    "roi": {
+      "badge": "Free calculator",
+      "title": "See how much you'll save",
+      "sub": "Adjust the sliders to estimate your monthly savings vs paper timesheets and Excel.",
+      "inputs": {
+        "employees": "Employees",
+        "hoursPerWeek": "Hours per week / employee",
+        "hourlyRate": "Average hourly rate"
+      },
+      "results": {
+        "monthly": "You save per month",
+        "yearly": "Yearly savings",
+        "hoursReclaimed": "{hours} hours/month of admin reclaimed",
+        "planCost": "MyJova cost: ${cost}/month",
+        "roi": "{roi}% ROI on MyJova"
+      },
+      "disclaimer": "Estimates based on 12 min/employee/day of manual tracking + 2% payroll error rate (APA 2024 reports)."
+    },
+    "video": {
+      "title": "See MyJova in action",
+      "sub": "A 90-second tour of clock in, payroll and tax forms.",
+      "play": "Play demo video",
+      "duration": "0:00 / 1:32",
+      "comingSoonTitle": "Demo video coming soon",
+      "comingSoonBody": "We're recording a fresh walkthrough. In the meantime, jump straight into the live preview from the dashboard."
+    },
+    "testimonials": {
+      "title": "Trusted by teams in the field",
+      "sub": "Stories from contractors and restaurants using MyJova every day.",
+      "prev": "Previous",
+      "next": "Next",
+      "disclaimer": "Names and companies shown are representative examples while we collect signed customer testimonials.",
+      "quotes": {
+        "construction": "Before MyJova my foremen texted me hours on Sundays. Now everything's tagged with photo and GPS. Payroll takes 20 minutes instead of all weekend.",
+        "restaurants": "Three locations, 40 staff. The kitchen clocks in from one tablet, servers from their phones. No more rounding fights when we close out tips.",
+        "trades": "Geofence alerts caught two helpers padding time on a job 30 miles from the site. Paid for the year in one week.",
+        "painting": "I run a 12-person crew. The Spanish portal was the dealbreaker — workers actually use it without me explaining it ten times.",
+        "cleaning": "Year-end W-2s used to take my CPA a whole weekend. With MyJova they're already prepared by January 5.",
+        "landscaping": "Mobile clock in saved me from buying biometric punch clocks for every truck. ROI in month one."
+      }
+    },
+    "integrations": {
+      "title": "Plays nice with your stack",
+      "footer": "Direct API integrations with these tools are rolling out in 2026."
+    },
+    "useCases": {
+      "title": "Built for the way you actually work",
+      "sub": "Choose your industry to see how MyJova fits your daily flow.",
+      "benefitsLabel": "What you get",
+      "industries": {
+        "construction": {
+          "label": "Construction",
+          "headline": "From foundation to final invoice",
+          "story": "Crews show up at different sites every week. MyJova ties every hour to a geo-tagged worksite so you can bill projects accurately and prove compliance during a DOL audit.",
+          "benefits": [
+            "Per-project hour tagging for accurate job costing",
+            "Geofenced clock in with photo proof for every shift",
+            "Daily, hourly and 1099 subcontractor payment in one app",
+            "Tax forms ready for W-2 + 1099-NEC at year end"
+          ]
+        },
+        "restaurants": {
+          "label": "Restaurants",
+          "headline": "FOH, BOH, multi-location",
+          "story": "Kitchen on a tablet, servers on phones. Tip pools and tip credits handled in the payroll engine. Daily sales pulled in for percent-of-sales commission roles.",
+          "benefits": [
+            "Tip pool / declared tips fields built into time entries",
+            "Multi-location switch in one tap",
+            "FICA tip credit calculated automatically",
+            "Schedule-aware overtime warnings"
+          ]
+        },
+        "trades": {
+          "label": "Trades",
+          "headline": "Plumbing, HVAC, electrical",
+          "story": "Tech rolls between calls all day. Auto clock-out at the last service stop. Per-call notes attached to the time entry for downstream invoicing.",
+          "benefits": [
+            "Per-call time + materials capture",
+            "Mileage between jobs tracked from GPS pings",
+            "Customer-facing invoices in the same time entry",
+            "Truck-as-worksite geofence presets"
+          ]
+        },
+        "painting": {
+          "label": "Painting",
+          "headline": "Crews split across 3-4 jobs a day",
+          "story": "Workers move from a residential interior in the morning to a commercial site in the afternoon. Each clock-in tags the right project so estimates stay accurate.",
+          "benefits": [
+            "Multi-project tagging in a single shift",
+            "Bilingual workflow (Spanish-first option)",
+            "Photo evidence of completed prep work",
+            "Daily pay scheme for short jobs"
+          ]
+        },
+        "cleaning": {
+          "label": "Cleaning",
+          "headline": "Janitorial, residential, commercial",
+          "story": "Crews work overnight in shifts of 2-3 people. Clock in/out at building entry, photo of completed checklist required by enterprise clients.",
+          "benefits": [
+            "Shift-based scheduling support",
+            "Checklist photo attached to time entry",
+            "Per-building hourly differential",
+            "Weekly payroll runs default"
+          ]
+        },
+        "landscaping": {
+          "label": "Landscaping",
+          "headline": "Seasonal crews, route-based",
+          "story": "Crews run a route of 8-12 properties per day. Quick clock in at each stop captures arrival, departure and a property photo.",
+          "benefits": [
+            "Quick stop-based punches without leaving the app",
+            "Per-property time totals for accurate billing",
+            "Crew leader can clock in their team in one tap",
+            "Seasonal H-2B worker forms ready at year end"
+          ]
+        }
+      }
+    },
+    "mobileShowcase": {
+      "title": "Workers love it on day one",
+      "sub": "No app store install. Works on every phone with a browser. The full portal in three taps.",
+      "mockCta": "Clock in",
+      "mockLocationOk": "On site · GPS accurate to 4m",
+      "mockLastPaystub": "Last pay stub",
+      "mockYtd": "Year-to-date earnings",
+      "mockHourlyRole": "Hourly · $28/h",
+      "mockProfilePay": "Payment details",
+      "mockProfileTaxes": "Tax info",
+      "mockProfileLang": "Language",
+      "screens": {
+        "clock": {
+          "label": "Clock in",
+          "title": "One-tap clock in",
+          "desc": "Photo + GPS captured automatically. Geofence warning if outside the worksite.",
+          "color": "primary"
+        },
+        "history": {
+          "label": "History",
+          "title": "See every shift",
+          "desc": "Daily totals, edits, approvals — workers always know where they stand.",
+          "color": "emerald"
+        },
+        "paystubs": {
+          "label": "Pay stubs",
+          "title": "Pay stubs in their pocket",
+          "desc": "PDF downloads, year-to-date totals, deductions explained line by line.",
+          "color": "purple"
+        },
+        "profile": {
+          "label": "Profile",
+          "title": "Self-service profile",
+          "desc": "Update tax info, banking and language without HR involvement.",
+          "color": "orange"
+        }
+      }
     },
     "faq": {
       "title": "Frequently asked questions",
@@ -333,9 +528,12 @@
       }
     },
     "finalCta": {
+      "badge": "Ready when you are",
       "title": "Ready to simplify payroll?",
       "sub": "Join the small businesses tracking time and paying their teams with MyJova.",
-      "cta": "Start free trial"
+      "cta": "Start free trial",
+      "demo": "or explore the live preview →",
+      "microcopy": "14-day free trial · No credit card required"
     },
     "footer": {
       "tagline": "Payroll and time tracking for contractors and restaurants in the US and Canada.",
@@ -348,7 +546,10 @@
       "docs": "Docs",
       "status": "Status",
       "changelog": "Changelog",
-      "copyright": "© 2026 MyJova. All rights reserved."
+      "copyright": "© 2026 MyJova. All rights reserved.",
+      "newsletterPlaceholder": "your@email.com",
+      "newsletterCta": "Subscribe",
+      "newsletterSuccess": "Thanks! We'll keep you posted."
     }
   }
 }

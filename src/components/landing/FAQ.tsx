@@ -1,36 +1,45 @@
-import { ChevronDown } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+'use client'
 
-const items = ['card', 'noEmail', 'states', 'filing', 'secure', 'cancel'] as const
+import { useTranslations } from 'next-intl'
 
-export async function FAQ() {
-  const t = await getTranslations()
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { SectionReveal } from './SectionReveal'
+
+const QUESTIONS = ['card', 'noEmail', 'states', 'filing', 'secure', 'cancel']
+
+export function FAQ() {
+  const t = useTranslations('landing.faq')
 
   return (
-    <section id="faq" className="container py-20 md:py-28">
-      <div className="mx-auto max-w-3xl">
-        <div className="text-center">
-          <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
-            {t('landing.faq.title')}
-          </h2>
-        </div>
+    <section id="faq" className="py-16 md:py-24">
+      <div className="container">
+        <SectionReveal className="mx-auto max-w-3xl space-y-3 text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{t('title')}</h2>
+        </SectionReveal>
 
-        <div className="mt-12 space-y-3">
-          {items.map((key) => (
-            <details
-              key={key}
-              className="group rounded-xl border bg-card p-5 transition-colors hover:bg-accent/30"
-            >
-              <summary className="flex cursor-pointer items-center justify-between text-sm font-semibold marker:hidden">
-                {t(`landing.faq.items.${key}.q` as 'landing.faq.items.card.q')}
-                <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" />
-              </summary>
-              <p className="mt-3 text-sm text-muted-foreground">
-                {t(`landing.faq.items.${key}.a` as 'landing.faq.items.card.a')}
-              </p>
-            </details>
-          ))}
-        </div>
+        <SectionReveal index={1} className="mx-auto mt-12 max-w-3xl">
+          <Accordion type="single" collapsible className="space-y-2">
+            {QUESTIONS.map((q) => (
+              <AccordionItem
+                key={q}
+                value={q}
+                className="rounded-xl border bg-background px-5 transition-colors hover:border-primary/30"
+              >
+                <AccordionTrigger className="text-left">
+                  {t(`items.${q}.q`)}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">
+                  {t(`items.${q}.a`)}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </SectionReveal>
       </div>
     </section>
   )
