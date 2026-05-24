@@ -15,6 +15,7 @@ import {
   calcUSEmployerFUTA,
   type FilingStatus,
 } from './us/federal-2026'
+import { calcStateWithholding } from './us/states'
 
 // -----------------------------------------------------------------------------
 // Tipos públicos
@@ -33,6 +34,8 @@ export type PayrollInput = {
   ytdGrossCents?: number
   // Periodos por año del scheme — necesario para anualizar el gross y mirar brackets.
   periodsPerYear: number
+  /** State jurisdiction code (e.g. 'CA', 'US-CA'). Empty → no state withholding. */
+  stateCode?: string
 }
 
 export type PayrollComponent = {
@@ -184,7 +187,15 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
   const socialSecurityCents = calcUSSocialSecurity(grossCents, input.ytdGrossCents ?? 0)
   const medicareCents = calcUSMedicare(grossCents, input.ytdGrossCents ?? 0)
 
-  const stateTaxCents = 0  // stub — Phase 2 expand
+  const stateTaxCents = input.stateCode
+    ? calcStateWithholding({
+        grossCents,
+        periodsPerYear: input.periodsPerYear,
+        filingStatus: input.filingStatus,
+        dependents: input.w4Dependents,
+        stateCode: input.stateCode,
+      })
+    : 0
   const otherDeductionsCents = 0
 
   // Costos del employer (no afectan el net del empleado)

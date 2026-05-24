@@ -1,31 +1,57 @@
 // =============================================================================
-// US State withholding — placeholder stubs
+// US State withholding registry
 // =============================================================================
-// Cada función devuelve 0 por defecto. Para implementar un estado:
-//   1) Crear un archivo state-XX.ts con la lógica real de ese estado.
-//   2) Importar y enrutar abajo.
-//
-// Estados con income tax que requieren implementación real (en orden de prioridad
-// por mercado de MyJova — contratistas y restaurantes):
-//   - CA, NY, NJ, IL, PA, MA, MD, GA, NC, VA  (top 10 por payroll volume)
-// Estados sin income tax (devuelven 0 siempre):
-//   - AK, FL, NV, NH, SD, TN, TX, WA, WY
+// Maps state code (e.g. 'CA', 'US-CA') to its calc function.
+// New states: implement in their own file, then register here.
 // =============================================================================
 
 import type { FilingStatus } from '../federal-2026'
+import { calcCaliforniaWithholding } from './california'
+import { calcTexasWithholding } from './texas'
+import { calcNewYorkWithholding } from './new-york'
+import { calcFloridaWithholding } from './florida'
+import { calcPennsylvaniaWithholding } from './pennsylvania'
+import { calcIllinoisWithholding } from './illinois'
 
 export type StateWithholdingInput = {
   grossCents: number
   periodsPerYear: number
   filingStatus: FilingStatus
   dependents: number
-  stateCode: string  // ej. 'US-CA', 'US-NY'
+  /**
+   * State code. Accepts 'CA', 'US-CA', 'us-ca' — normalized to 2-letter upper.
+   * If unknown / not implemented, returns 0 silently (W-2 will show $0 in Box 17).
+   */
+  stateCode: string
+}
+
+function normalize(code: string): string {
+  return code.replace(/^us-?/i, '').toUpperCase().trim()
 }
 
 export function calcStateWithholding(input: StateWithholdingInput): number {
-  // TODO: ramificar por stateCode cuando se implementen estados.
-  // Por ahora, todos los estados devuelven 0 — el motor sigue funcionando
-  // y el W-2 muestra $0 en Box 17 (state tax).
-  void input
-  return 0
+  const code = normalize(input.stateCode)
+  switch (code) {
+    case 'CA':
+      return calcCaliforniaWithholding(input)
+    case 'TX':
+      return calcTexasWithholding()
+    case 'NY':
+      return calcNewYorkWithholding(input)
+    case 'FL':
+      return calcFloridaWithholding()
+    case 'PA':
+      return calcPennsylvaniaWithholding(input)
+    case 'IL':
+      return calcIllinoisWithholding({
+        grossCents: input.grossCents,
+        periodsPerYear: input.periodsPerYear,
+        allowances: input.dependents,
+      })
+    default:
+      return 0
+  }
 }
+
+/** List of states with implemented withholding (for UI / docs) */
+export const SUPPORTED_STATES = ['CA', 'TX', 'NY', 'FL', 'PA', 'IL'] as const
