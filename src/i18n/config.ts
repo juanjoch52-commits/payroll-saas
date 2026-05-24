@@ -1,16 +1,19 @@
 /**
  * Configuración central de internacionalización (i18n) de MyJova.
  *
- * Los locales soportados son inglés y español. El locale por defecto
- * es inglés porque el mercado MVP de MyJova es US-first.
+ * Locales soportados:
+ *   - `en`   — Inglés (US), MVP US-first.
+ *   - `es`   — Español, contratistas y restaurantes de habla hispana en US.
+ *   - `fr`   — Francés (genérico, Europa).
+ *   - `fr-CA` — Francés canadiense (Quebec, terminología payroll CRA).
  *
- * Si añades un nuevo locale:
+ * Para añadir un nuevo locale:
  *   1. Agrégalo a `locales` aquí.
  *   2. Crea `src/i18n/messages/<locale>.json` con todas las claves.
- *   3. Actualiza el switcher de idioma en `components/layout/LocaleSwitcher.tsx`.
+ *   3. Asegúrate de que LocaleSwitcher lo muestre.
  */
 
-export const locales = ['en', 'es'] as const
+export const locales = ['en', 'es', 'fr', 'fr-CA'] as const
 export type Locale = (typeof locales)[number]
 
 export const defaultLocale: Locale = 'en'
@@ -19,4 +22,22 @@ export const defaultLocale: Locale = 'en'
 export const localeLabels: Record<Locale, string> = {
   en: 'English',
   es: 'Español',
+  fr: 'Français',
+  'fr-CA': 'Français (Canada)',
+}
+
+/** Banderas emoji por locale — usadas en el dropdown del switcher. */
+export const localeFlags: Record<Locale, string> = {
+  en: '🇺🇸',
+  es: '🇪🇸',
+  fr: '🇫🇷',
+  'fr-CA': '🇨🇦',
+}
+
+/** Códigos compactos mostrados en el botón. */
+export const localeShort: Record<Locale, string> = {
+  en: 'EN',
+  es: 'ES',
+  fr: 'FR',
+  'fr-CA': 'FR-CA',
 }

@@ -2,44 +2,67 @@
 
 import { useRouter, usePathname } from 'next/navigation'
 import { Globe } from 'lucide-react'
-import { locales, localeLabels, type Locale } from '@/i18n/config'
-import { cn } from '@/lib/utils'
+import {
+  locales,
+  localeLabels,
+  localeFlags,
+  localeShort,
+  type Locale,
+} from '@/i18n/config'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 /**
- * Botón para cambiar entre EN y ES.
- *
- * Reemplaza el segmento de locale en la URL actual y navega manteniendo
- * el resto del path. El middleware de next-intl reescribe los mensajes.
+ * Selector de idioma con 4 locales. Dropdown con bandera + nombre nativo.
+ * Reemplaza el segmento de locale en la URL (`/en/...` → `/fr-CA/...`).
  */
 export function LocaleSwitcher({ locale }: { locale: string }) {
   const router = useRouter()
   const pathname = usePathname()
 
+  const current = (locales as readonly string[]).includes(locale)
+    ? (locale as Locale)
+    : 'en'
+
   function switchTo(target: Locale) {
-    // Reemplaza el primer segmento (`/en/...` → `/es/...`).
-    const newPath = pathname.replace(/^\/(en|es)/, `/${target}`)
+    // Reemplaza el primer segmento (`/en/...` → `/fr-CA/...`).
+    const newPath = pathname.replace(/^\/(en|es|fr|fr-CA)(?=\/|$)/, `/${target}`)
     router.push(newPath)
     router.refresh()
   }
 
   return (
-    <div className="flex items-center gap-1 rounded-md border bg-background p-1">
-      <Globe className="ml-1 h-3 w-3 text-muted-foreground" />
-      {locales.map((l) => (
-        <button
-          key={l}
-          onClick={() => switchTo(l)}
-          className={cn(
-            'rounded px-2 py-0.5 text-xs font-medium transition-colors',
-            l === locale
-              ? 'bg-primary text-primary-foreground'
-              : 'text-muted-foreground hover:text-foreground',
-          )}
-          aria-label={localeLabels[l]}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-2"
+          aria-label={localeLabels[current]}
         >
-          {l.toUpperCase()}
-        </button>
-      ))}
-    </div>
+          <Globe className="h-4 w-4" />
+          <span className="hidden text-xs font-medium sm:inline">
+            {localeShort[current]}
+          </span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {locales.map((l) => (
+          <DropdownMenuItem
+            key={l}
+            onClick={() => switchTo(l)}
+            className={l === current ? 'bg-accent font-medium' : ''}
+          >
+            <span className="mr-2">{localeFlags[l]}</span>
+            {localeLabels[l]}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

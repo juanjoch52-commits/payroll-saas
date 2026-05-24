@@ -1,0 +1,354 @@
+{
+  "common": {
+    "appName": "MyJova",
+    "tagline": "Paie et déclarations fiscales, simplifiées.",
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "back": "Retour",
+    "next": "Suivant",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "actions": "Actions",
+    "noData": "Aucune donnée à afficher",
+    "yes": "Oui",
+    "no": "Non",
+    "theme": {
+      "toggle": "Changer le thème",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "revoked": "Révoqué",
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Refusé",
+      "open": "Ouvert",
+      "closed": "Fermé",
+      "flagged": "Signalé",
+      "outsideGeofence": "Hors de la zone"
+    },
+    "comingSoon": "Bientôt disponible"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "employees": "Employés",
+    "payroll": "Paie",
+    "timeTracking": "Suivi du temps",
+    "worksites": "Chantiers",
+    "reports": "Rapports",
+    "billing": "Facturation",
+    "settings": "Paramètres",
+    "signOut": "Déconnexion",
+    "clock": "Poinçon",
+    "history": "Historique",
+    "paystubs": "Bulletins de paie",
+    "profile": "Profil"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "email": "Courriel",
+    "password": "Mot de passe",
+    "organizationName": "Nom de l'entreprise",
+    "forgotPassword": "Mot de passe oublié ?",
+    "createAccount": "Créer un compte",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "signInToContinue": "Connectez-vous pour continuer sur MyJova",
+    "createYourCompany": "Créez votre entreprise sur MyJova",
+    "signUpHelp": "Nous activons un essai gratuit de 14 jours du plan Esencial.",
+    "checkYourEmail": "Vérifiez votre courriel",
+    "weSentConfirmation": "Nous avons envoyé un lien de confirmation à {email}.",
+    "invalidCredentials": "Courriel ou mot de passe invalide.",
+    "signUpFailed": "Impossible de créer le compte. Réessayez."
+  },
+  "dashboard": {
+    "welcome": "Bienvenue sur MyJova",
+    "summary": "Voici ce qui se passe dans votre entreprise.",
+    "activeEmployees": "Employés actifs",
+    "lastPayrollRun": "Dernière paie",
+    "upcomingFilings": "Déclarations fiscales à venir",
+    "noRunsYet": "Aucune paie pour l'instant — commencez par la première."
+  },
+  "employees": {
+    "title": "Employés",
+    "addEmployee": "Ajouter un employé",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Courriel",
+    "hireDate": "Date d'embauche",
+    "status": "Statut",
+    "type": "Type",
+    "payScheme": "Mode de rémunération",
+    "jurisdiction": "Juridiction",
+    "schemes": {
+      "hourly": "Horaire",
+      "salary": "Salaire",
+      "daily": "Journalier",
+      "commission": "Commission"
+    },
+    "limitReached": "Vous avez atteint la limite d'employés de votre plan. Améliorez votre plan pour en ajouter plus."
+  },
+  "payroll": {
+    "title": "Paie",
+    "newRun": "Nouvelle paie",
+    "periodStart": "Début de période",
+    "periodEnd": "Fin de période",
+    "payDate": "Date de paie",
+    "status": {
+      "draft": "Brouillon",
+      "approved": "Approuvée",
+      "paid": "Payée",
+      "posted": "Comptabilisée"
+    },
+    "grossPay": "Salaire brut",
+    "netPay": "Salaire net",
+    "totalTaxes": "Total des retenues",
+    "approve": "Approuver",
+    "markPaid": "Marquer comme payée",
+    "employeesCount": "Employés"
+  },
+  "reports": {
+    "title": "Rapports fiscaux",
+    "yearEnd": "Feuillets de fin d'année",
+    "generateW2": "Générer les feuillets T4",
+    "generate1099": "Générer les T4A",
+    "selectYear": "Sélectionner l'année fiscale",
+    "upgradeRequired": "La génération de rapports fiscaux nécessite le plan Avanzado ou supérieur."
+  },
+  "billing": {
+    "title": "Plans et facturation",
+    "currentPlan": "Votre plan actuel",
+    "trialEndsIn": "L'essai se termine dans {days} jours",
+    "plans": {
+      "essential": {
+        "name": "Esencial",
+        "tagline": "Pour les petites équipes",
+        "features": [
+          "Jusqu'à 10 employés",
+          "Paie horaire et salaire",
+          "Calcul fiscal de base",
+          "1 utilisateur administrateur"
+        ]
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "tagline": "Pour les équipes en croissance",
+        "features": [
+          "Jusqu'à 50 employés",
+          "Tous les modes de paie (journalier, commission)",
+          "Feuillets annuels T4 et T4A",
+          "Multi-utilisateurs avec rôles"
+        ]
+      },
+      "premium": {
+        "name": "Premium Bundle",
+        "tagline": "Pour l'intégration complète",
+        "features": [
+          "Employés illimités",
+          "Accès API REST",
+          "Feuillets T4, T4A et Relevé d'emploi",
+          "Intégration MyRavex",
+          "Soutien prioritaire"
+        ]
+      }
+    },
+    "upgrade": "Mettre à niveau",
+    "currentBadge": "Actuel"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "unauthorized": "Vous n'êtes pas autorisé à faire cela.",
+    "notFound": "Introuvable."
+  },
+  "clock": {
+    "title": "Poinçon",
+    "clockIn": "Poinçonner l'entrée",
+    "clockOut": "Poinçonner la sortie",
+    "currentlyClockedIn": "Vous êtes poinçonné",
+    "since": "Depuis {time}",
+    "openTurnDuration": "{hours}h {minutes}m jusqu'à présent",
+    "notClockedIn": "Non poinçonné",
+    "tapToClockIn": "Appuyez sur le bouton ci-dessous pour commencer votre quart.",
+    "needsCamera": "La caméra et la localisation sont requises.",
+    "capturingLocation": "Obtention de votre position...",
+    "uploadingPhoto": "Envoi de la photo...",
+    "submitting": "Envoi en cours...",
+    "clockedInSuccess": "Poinçon d'entrée enregistré.",
+    "clockedOutSuccess": "Poinçon de sortie enregistré. Total : {duration}",
+    "outsideGeofence": "Vous êtes hors de la zone du chantier. Votre superviseur sera avisé."
+  },
+  "timeTracking": {
+    "title": "Suivi du temps",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Refusé",
+    "approveSelected": "Approuver la sélection",
+    "rejectSelected": "Refuser la sélection",
+    "viewMap": "Vue carte",
+    "viewTable": "Vue tableau",
+    "filterAll": "Tous",
+    "noEntries": "Aucune entrée de temps à afficher.",
+    "duration": "Durée",
+    "clockInAt": "Entrée",
+    "clockOutAt": "Sortie",
+    "worksite": "Chantier",
+    "flagged": "Hors du chantier"
+  },
+  "worksites": {
+    "title": "Chantiers",
+    "addWorksite": "Ajouter un chantier",
+    "name": "Nom",
+    "address": "Adresse",
+    "radius": "Rayon (mètres)",
+    "active": "Actif",
+    "selectOnMap": "Cliquez sur la carte pour définir l'emplacement"
+  },
+  "landing": {
+    "nav": {
+      "features": "Fonctionnalités",
+      "pricing": "Tarifs",
+      "faq": "FAQ",
+      "signIn": "Se connecter",
+      "startTrial": "Essai gratuit"
+    },
+    "hero": {
+      "badge": "Nouveau · Poinçon avec photo + GPS",
+      "headline": "Paie et suivi du temps, simplifiés pour les équipes sur le terrain",
+      "sub": "Les employés poinçonnent depuis le chantier avec photo et GPS. Les heures alimentent automatiquement la paie. Feuillets T4 et T4A générés en fin d'année. Tout dans une seule application mobile.",
+      "primaryCta": "Essai gratuit",
+      "secondaryCta": "Voir comment ça fonctionne",
+      "microcopy": "Essai gratuit de 14 jours · Sans carte de crédit",
+      "mockupWorkerName": "Maria García",
+      "mockupClockedSince": "Poinçonnée depuis 7h42",
+      "mockupJobsite": "Chantier de Brooklyn"
+    },
+    "trust": {
+      "title": "Conçu pour les entreprises qui bâtissent l'Amérique",
+      "industries": {
+        "construction": "Construction",
+        "restaurants": "Restauration",
+        "trades": "Métiers manuels",
+        "painting": "Peinture"
+      }
+    },
+    "features": {
+      "title": "Tout ce qu'il faut pour payer votre équipe correctement",
+      "sub": "Du premier poinçon au feuillet fiscal de fin d'année, MyJova s'occupe du travail.",
+      "items": {
+        "clockIn": {
+          "title": "Poinçon avec preuve",
+          "desc": "Photo et GPS capturés à chaque quart. Le géorepérage signale les entrées hors du chantier."
+        },
+        "paySchemes": {
+          "title": "4 modes de rémunération",
+          "desc": "Horaire avec heures supplémentaires, salaire, journalier et commissions par paliers — d'un seul moteur."
+        },
+        "taxForms": {
+          "title": "Feuillets fiscaux de fin d'année",
+          "desc": "Feuillets T4 et T4A générés et stockés automatiquement à la clôture de l'année."
+        },
+        "dashboard": {
+          "title": "Tableau de bord en direct",
+          "desc": "Voyez qui travaille, où ils sont et combien d'heures vous leur devez — en temps réel."
+        },
+        "mobile": {
+          "title": "Portail employé mobile",
+          "desc": "Les employés voient leurs heures et bulletins depuis n'importe quel téléphone. Aucune installation requise."
+        },
+        "secure": {
+          "title": "Sécurisé par conception",
+          "desc": "Sécurité au niveau des lignes dans la base de données. Les données de chaque entreprise sont totalement isolées."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Des feuilles de temps papier au paiement en 3 étapes",
+      "steps": {
+        "invite": {
+          "title": "Invitez votre équipe",
+          "desc": "Ajoutez des employés et envoyez les invitations au portail par courriel en quelques secondes."
+        },
+        "clock": {
+          "title": "Les employés poinçonnent",
+          "desc": "Depuis le chantier, avec photo et GPS capturés automatiquement."
+        },
+        "pay": {
+          "title": "Lancez la paie",
+          "desc": "Les heures approuvées alimentent la paie. Les retenues sont calculées. Les bulletins livrés."
+        }
+      }
+    },
+    "mobile": {
+      "title": "Conçu pour le chantier",
+      "sub": "Les employés n'ont rien à télécharger. Le portail MyJova fonctionne sur n'importe quel navigateur mobile moderne — même en 4G lente.",
+      "bullets": {
+        "clock": "Poinçonnez en un seul appui",
+        "history": "Consultez vos quarts passés et totaux",
+        "paystubs": "Voyez vos bulletins de paie à tout moment",
+        "geofence": "Soyez avisé si vous êtes hors du chantier"
+      }
+    },
+    "pricing": {
+      "title": "Tarifs simples",
+      "sub": "Commencez gratuitement. Payez quand votre équipe grandit.",
+      "mostPopular": "Le plus populaire",
+      "ctaStart": "Essai gratuit",
+      "ctaSales": "Parler aux ventes",
+      "footer": "Tous les plans incluent un essai gratuit de 14 jours. Annulez à tout moment."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": {
+        "card": {
+          "q": "Ai-je besoin d'une carte de crédit pour commencer ?",
+          "a": "Non. Vous pouvez démarrer un essai de 14 jours sans carte. Nous ne facturons que si vous décidez de continuer avec MyJova."
+        },
+        "noEmail": {
+          "q": "Et si mes employés n'ont pas de courriel ?",
+          "a": "Dans la version actuelle, chaque employé a besoin d'un courriel pour recevoir son invitation au portail. Nous ajoutons un accès par NIP pour les bornes partagées dans une prochaine version."
+        },
+        "states": {
+          "q": "Quelles provinces ou états sont supportés pour la retenue d'impôt ?",
+          "a": "La retenue fédérale US (IRS Pub 15-T 2026) est entièrement supportée. Les retenues provinciales canadiennes (T4127) et provinciales clés (QC, ON, BC, AB) sont en déploiement."
+        },
+        "filing": {
+          "q": "MyJova produit-il mes déclarations fiscales ?",
+          "a": "MyJova génère les feuillets T4 et T4A. La transmission officielle à l'ARC est encore manuelle aujourd'hui. L'intégration NETFILE direct est sur notre feuille de route 2026."
+        },
+        "secure": {
+          "q": "Mes données sont-elles sécurisées ?",
+          "a": "Oui. Nous utilisons Supabase avec sécurité au niveau des lignes dans la base, chiffrement au repos, et isolation multi-locataire stricte. Aucune entreprise ne peut voir les données d'une autre."
+        },
+        "cancel": {
+          "q": "Puis-je annuler à tout moment ?",
+          "a": "Oui. Pas de contrat, pas d'engagement minimum. Annulez depuis la page facturation en un clic."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Prêt à simplifier la paie ?",
+      "sub": "Joignez-vous aux petites entreprises qui suivent le temps et paient leurs équipes avec MyJova.",
+      "cta": "Essai gratuit"
+    },
+    "footer": {
+      "tagline": "Paie et suivi du temps pour les entrepreneurs et restaurants des États-Unis et du Canada.",
+      "product": "Produit",
+      "company": "Entreprise",
+      "resources": "Ressources",
+      "about": "À propos",
+      "contact": "Contact",
+      "legal": "Légal",
+      "docs": "Documentation",
+      "status": "Statut",
+      "changelog": "Changements",
+      "copyright": "© 2026 MyJova. Tous droits réservés."
+    }
+  }
+}
