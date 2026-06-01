@@ -625,5 +625,23 @@
     "deductions": "Impôts et retenues",
     "noDeductions": "Aucune retenue",
     "download": "Télécharger le PDF"
+  },
+  "kiosk": {
+    "pairTitle": "Jumeler cette tablette",
+    "pairPrompt": "Entrez le code de jumelage de votre panneau d’administration",
+    "pair": "Jumeler",
+    "pairHint": "Générez un code dans Paramètres → Appareils",
+    "title": "Pointeuse",
+    "noEmployees": "Aucun employé actif",
+    "noPin": "Sans code",
+    "enterPin": "Entrez votre code à 4 chiffres",
+    "takePhoto": "Prenez une photo pour pointer",
+    "cameraHint": "Centrez votre visage",
+    "confirm": "Confirmer",
+    "clockedIn": "Entrée enregistrée",
+    "clockedOut": "Sortie enregistrée",
+    "outsideGeofence": "Hors de la zone du site",
+    "tryAgain": "Réessayer",
+    "unpairConfirm": "Dissocier cette tablette ? Vous aurez besoin d’un nouveau code."
   }
 }

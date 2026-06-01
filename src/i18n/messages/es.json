@@ -625,5 +625,23 @@
     "deductions": "Impuestos y deducciones",
     "noDeductions": "Sin deducciones",
     "download": "Descargar PDF"
+  },
+  "kiosk": {
+    "pairTitle": "Emparejar esta tablet",
+    "pairPrompt": "Ingresa el código de tu panel de administración",
+    "pair": "Emparejar",
+    "pairHint": "Genera un código en Ajustes → Dispositivos",
+    "title": "Reloj checador",
+    "noEmployees": "No hay empleados activos",
+    "noPin": "Sin PIN",
+    "enterPin": "Ingresa tu PIN de 4 dígitos",
+    "takePhoto": "Tómate una foto para fichar",
+    "cameraHint": "Centra tu rostro",
+    "confirm": "Confirmar",
+    "clockedIn": "Entrada registrada",
+    "clockedOut": "Salida registrada",
+    "outsideGeofence": "Fuera del área del sitio",
+    "tryAgain": "Intentar de nuevo",
+    "unpairConfirm": "¿Desemparejar esta tablet? Necesitarás un nuevo código para configurarla."
   }
 }

@@ -625,5 +625,23 @@
     "deductions": "Taxes & deductions",
     "noDeductions": "No deductions",
     "download": "Download PDF"
+  },
+  "kiosk": {
+    "pairTitle": "Pair this tablet",
+    "pairPrompt": "Enter the pairing code from your admin panel",
+    "pair": "Pair",
+    "pairHint": "Generate a code in Settings → Devices",
+    "title": "Time clock",
+    "noEmployees": "No active employees",
+    "noPin": "No PIN",
+    "enterPin": "Enter your 4-digit PIN",
+    "takePhoto": "Take a photo to clock in or out",
+    "cameraHint": "Center your face",
+    "confirm": "Confirm",
+    "clockedIn": "Clocked in",
+    "clockedOut": "Clocked out",
+    "outsideGeofence": "Outside the worksite area",
+    "tryAgain": "Try again",
+    "unpairConfirm": "Unpair this tablet? You will need a new code to set it up again."
   }
 }
