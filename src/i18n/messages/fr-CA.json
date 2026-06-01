@@ -34,7 +34,8 @@
       "flagged": "Signalé",
       "outsideGeofence": "Hors de la zone"
     },
-    "comingSoon": "Bientôt disponible"
+    "comingSoon": "Bientôt disponible",
+    "saved": "Enregistré"
   },
   "nav": {
     "dashboard": "Tableau de bord",
@@ -67,7 +68,8 @@
     "checkYourEmail": "Vérifiez votre courriel",
     "weSentConfirmation": "Nous avons envoyé un lien de confirmation à {email}.",
     "invalidCredentials": "Courriel ou mot de passe invalide.",
-    "signUpFailed": "Impossible de créer le compte. Réessayez."
+    "signUpFailed": "Impossible de créer le compte. Réessayez.",
+    "industry": "Secteur"
   },
   "dashboard": {
     "welcome": "Bienvenue sur MyJova",
@@ -582,6 +584,36 @@
       "approved": "Approuvé",
       "rejected": "Rejeté",
       "edited": "Modifié"
+    }
+  },
+  "industry": {
+    "types": {
+      "general": "Général",
+      "construction": "Construction",
+      "restaurant": "Restaurant",
+      "retail": "Commerce de détail",
+      "cleaning": "Entretien ménager",
+      "landscaping": "Aménagement paysager",
+      "manufacturing": "Fabrication",
+      "healthcare": "Santé",
+      "transportation": "Transport"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": "Général",
+      "subtitle": "Secteur et préférences de l’organisation.",
+      "industry": "Secteur",
+      "recommendedPay": "Types de paie recommandés",
+      "suggestions": "Configuration suggérée",
+      "setUp": "Configurer",
+      "nudges": {
+        "kiosk": "Configurez un kiosque sur tablette pour le pointage partagé",
+        "worksites": "Définissez vos chantiers",
+        "geofence": "Activez la géolocalisation au pointage",
+        "production": "Enregistrez la production à la pièce",
+        "tips": "Suivez les pourboires"
+      }
     }
   }
 }

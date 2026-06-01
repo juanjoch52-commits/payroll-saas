@@ -34,7 +34,8 @@
       "flagged": "Marcado",
       "outsideGeofence": "Fuera del área"
     },
-    "comingSoon": "Próximamente"
+    "comingSoon": "Próximamente",
+    "saved": "Guardado"
   },
   "nav": {
     "dashboard": "Panel",
@@ -67,7 +68,8 @@
     "checkYourEmail": "Revisa tu correo",
     "weSentConfirmation": "Te enviamos un enlace de confirmación a {email}.",
     "invalidCredentials": "Correo o contraseña incorrectos.",
-    "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo."
+    "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo.",
+    "industry": "Industria"
   },
   "dashboard": {
     "welcome": "Bienvenido a MyJova",
@@ -582,6 +584,36 @@
       "approved": "Aprobado",
       "rejected": "Rechazado",
       "edited": "Editado"
+    }
+  },
+  "industry": {
+    "types": {
+      "general": "General",
+      "construction": "Construcción",
+      "restaurant": "Restaurante",
+      "retail": "Comercio minorista",
+      "cleaning": "Limpieza",
+      "landscaping": "Jardinería",
+      "manufacturing": "Manufactura",
+      "healthcare": "Salud",
+      "transportation": "Transporte"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": "General",
+      "subtitle": "Industria y valores por defecto de la organización.",
+      "industry": "Industria",
+      "recommendedPay": "Tipos de pago recomendados",
+      "suggestions": "Configuración sugerida",
+      "setUp": "Configurar",
+      "nudges": {
+        "kiosk": "Configura un kiosko en tablet para fichaje compartido",
+        "worksites": "Define tus sitios de trabajo",
+        "geofence": "Activa el geocerco en el fichaje",
+        "production": "Registra producción a destajo",
+        "tips": "Registra las propinas"
+      }
     }
   }
 }

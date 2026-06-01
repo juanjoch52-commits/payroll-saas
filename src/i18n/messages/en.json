@@ -34,7 +34,8 @@
       "flagged": "Flagged",
       "outsideGeofence": "Outside geofence"
     },
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "saved": "Saved"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -67,7 +68,8 @@
     "checkYourEmail": "Check your email",
     "weSentConfirmation": "We sent a confirmation link to {email}.",
     "invalidCredentials": "Invalid email or password.",
-    "signUpFailed": "Could not create account. Try again."
+    "signUpFailed": "Could not create account. Try again.",
+    "industry": "Industry"
   },
   "dashboard": {
     "welcome": "Welcome to MyJova",
@@ -582,6 +584,36 @@
       "approved": "Approved",
       "rejected": "Rejected",
       "edited": "Edited"
+    }
+  },
+  "industry": {
+    "types": {
+      "general": "General",
+      "construction": "Construction",
+      "restaurant": "Restaurant",
+      "retail": "Retail",
+      "cleaning": "Cleaning",
+      "landscaping": "Landscaping",
+      "manufacturing": "Manufacturing",
+      "healthcare": "Healthcare",
+      "transportation": "Transportation"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": "General",
+      "subtitle": "Industry and organization defaults.",
+      "industry": "Industry",
+      "recommendedPay": "Recommended pay types",
+      "suggestions": "Suggested setup",
+      "setUp": "Set up",
+      "nudges": {
+        "kiosk": "Set up a tablet kiosk for shared check-in",
+        "worksites": "Define your worksites",
+        "geofence": "Enable geofence on check-in",
+        "production": "Record piece-rate production",
+        "tips": "Track employee tips"
+      }
     }
   }
 }

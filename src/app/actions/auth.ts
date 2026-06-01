@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { INDUSTRY_TYPES, type IndustryType } from '@/lib/industry/presets'
 
 // =============================================================================
 // Server Actions — Auth
@@ -19,6 +20,9 @@ const signUpSchema = z.object({
   organizationName: z.string().min(2, 'El nombre de la empresa debe tener al menos 2 caracteres.'),
   locale: z.string().default('en'),
   country: z.enum(['US', 'CA']).default('US'),
+  industryType: z
+    .enum(INDUSTRY_TYPES as unknown as [IndustryType, ...IndustryType[]])
+    .default('general'),
 })
 
 export type SignUpResult =
@@ -41,6 +45,7 @@ export async function signUp(formData: FormData): Promise<SignUpResult> {
     organizationName: formData.get('organizationName'),
     locale: formData.get('locale') ?? 'en',
     country: formData.get('country') ?? 'US',
+    industryType: formData.get('industryType') ?? 'general',
   })
 
   if (!parsed.success) {
@@ -48,7 +53,7 @@ export async function signUp(formData: FormData): Promise<SignUpResult> {
     return { success: false, error: issue.message, field: issue.path[0]?.toString() }
   }
 
-  const { email, password, organizationName, locale, country } = parsed.data
+  const { email, password, organizationName, locale, country, industryType } = parsed.data
   const supabase = createClient()
 
   const { error } = await supabase.auth.signUp({
@@ -60,6 +65,7 @@ export async function signUp(formData: FormData): Promise<SignUpResult> {
         pending_org_name: organizationName,
         locale,
         country,
+        industry_type: industryType,
       },
     },
   })

@@ -7,6 +7,7 @@ import { signUp, type SignUpResult } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { INDUSTRY_TYPES } from '@/lib/industry/presets'
 
 /**
  * Formulario de signup.
@@ -51,6 +52,22 @@ export function SignUpForm({ locale }: { locale: string }) {
           autoComplete="organization"
           placeholder="Acme Construction"
         />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="industryType">{t('auth.industry')}</Label>
+        <select
+          id="industryType"
+          name="industryType"
+          defaultValue="general"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+        >
+          {INDUSTRY_TYPES.map((it) => (
+            <option key={it} value={it}>
+              {t(`industry.types.${it}` as 'industry.types.general')}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">
