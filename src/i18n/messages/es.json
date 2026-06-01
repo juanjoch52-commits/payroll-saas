@@ -615,5 +615,15 @@
         "tips": "Registra las propinas"
       }
     }
+  },
+  "paystub": {
+    "back": "Atrás",
+    "payDate": "Fecha de pago",
+    "net": "Pago neto",
+    "gross": "Pago bruto",
+    "earnings": "Ingresos",
+    "deductions": "Impuestos y deducciones",
+    "noDeductions": "Sin deducciones",
+    "download": "Descargar PDF"
   }
 }

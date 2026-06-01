@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
@@ -39,7 +40,8 @@ export default async function PaystubsPage({
       {(items ?? []).map((it: { id: string; gross_cents: number; net_cents: number; federal_tax_cents: number; social_security_cents: number; medicare_cents: number; payroll_runs: { period_start: string; period_end: string; pay_date: string; status: string } | { period_start: string; period_end: string; pay_date: string; status: string }[] }) => {
         const run = Array.isArray(it.payroll_runs) ? it.payroll_runs[0] : it.payroll_runs
         return (
-          <Card key={it.id}>
+          <Link key={it.id} href={`/${locale}/paystubs/${it.id}`} className="block">
+          <Card className="transition-colors hover:bg-accent">
             <CardContent className="py-4">
               <div className="flex items-start justify-between">
                 <div>
@@ -70,6 +72,7 @@ export default async function PaystubsPage({
               </div>
             </CardContent>
           </Card>
+          </Link>
         )
       })}
 

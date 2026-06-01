@@ -615,5 +615,15 @@
         "tips": "Track employee tips"
       }
     }
+  },
+  "paystub": {
+    "back": "Back",
+    "payDate": "Pay date",
+    "net": "Net pay",
+    "gross": "Gross pay",
+    "earnings": "Earnings",
+    "deductions": "Taxes & deductions",
+    "noDeductions": "No deductions",
+    "download": "Download PDF"
   }
 }

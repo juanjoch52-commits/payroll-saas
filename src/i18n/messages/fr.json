@@ -615,5 +615,15 @@
         "tips": "Suivez les pourboires"
       }
     }
+  },
+  "paystub": {
+    "back": "Retour",
+    "payDate": "Date de paie",
+    "net": "Salaire net",
+    "gross": "Salaire brut",
+    "earnings": "Revenus",
+    "deductions": "Impôts et retenues",
+    "noDeductions": "Aucune retenue",
+    "download": "Télécharger le PDF"
   }
 }
