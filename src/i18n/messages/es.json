@@ -35,7 +35,8 @@
       "outsideGeofence": "Fuera del área"
     },
     "comingSoon": "Próximamente",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "copy": "Copiar"
   },
   "nav": {
     "dashboard": "Panel",
@@ -643,5 +644,33 @@
     "outsideGeofence": "Fuera del área del sitio",
     "tryAgain": "Intentar de nuevo",
     "unpairConfirm": "¿Desemparejar esta tablet? Necesitarás un nuevo código para configurarla."
+  },
+  "devices": {
+    "title": "Dispositivos y kiosko",
+    "subtitle": "Configura kioskos en tablet y PINs de empleados para fichaje compartido.",
+    "pairTablet": "Emparejar una tablet",
+    "worksite": "Sitio de trabajo",
+    "deviceName": "Nombre del dispositivo",
+    "generateCode": "Generar código",
+    "codeReady": "Abre la URL del kiosko en la tablet e ingresa este código:",
+    "codeExpires": "Este código expira en 15 minutos.",
+    "openKiosk": "Abrir kiosko",
+    "noWorksites": "Crea un sitio de trabajo primero para ligar un kiosko.",
+    "devicesList": "Dispositivos emparejados",
+    "noDevices": "Aún no hay dispositivos.",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "lastSeen": "Visto",
+    "never": "Nunca conectado",
+    "deactivate": "Desactivar",
+    "confirmDelete": "¿Borrar este dispositivo?",
+    "employeePins": "PINs de empleados",
+    "pinsHint": "Los empleados necesitan un PIN de 4 dígitos para fichar en el kiosko.",
+    "hasPin": "PIN listo",
+    "noPin": "Sin PIN",
+    "setPin": "Poner PIN",
+    "changePin": "Cambiar PIN",
+    "clearPin": "Quitar",
+    "noEmployees": "No hay empleados activos."
   }
 }

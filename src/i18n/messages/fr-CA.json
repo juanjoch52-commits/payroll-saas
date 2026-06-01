@@ -35,7 +35,8 @@
       "outsideGeofence": "Hors de la zone"
     },
     "comingSoon": "Bientôt disponible",
-    "saved": "Enregistré"
+    "saved": "Enregistré",
+    "copy": "Copier"
   },
   "nav": {
     "dashboard": "Tableau de bord",
@@ -643,5 +644,33 @@
     "outsideGeofence": "Hors de la zone du site",
     "tryAgain": "Réessayer",
     "unpairConfirm": "Dissocier cette tablette ? Vous aurez besoin d’un nouveau code."
+  },
+  "devices": {
+    "title": "Appareils et kiosque",
+    "subtitle": "Configurez les kiosques sur tablette et les NIP des employés.",
+    "pairTablet": "Jumeler une tablette",
+    "worksite": "Site",
+    "deviceName": "Nom de l’appareil",
+    "generateCode": "Générer un code",
+    "codeReady": "Ouvrez l’URL du kiosque sur la tablette et entrez ce code :",
+    "codeExpires": "Ce code expire dans 15 minutes.",
+    "openKiosk": "Ouvrir le kiosque",
+    "noWorksites": "Créez d’abord un site pour y associer un kiosque.",
+    "devicesList": "Appareils jumelés",
+    "noDevices": "Aucun appareil.",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "lastSeen": "Vu",
+    "never": "Jamais connecté",
+    "deactivate": "Désactiver",
+    "confirmDelete": "Supprimer cet appareil ?",
+    "employeePins": "NIP des employés",
+    "pinsHint": "Les employés ont besoin d’un NIP à 4 chiffres pour pointer au kiosque.",
+    "hasPin": "NIP défini",
+    "noPin": "Sans NIP",
+    "setPin": "Définir le NIP",
+    "changePin": "Changer le NIP",
+    "clearPin": "Retirer",
+    "noEmployees": "Aucun employé actif."
   }
 }

@@ -35,7 +35,8 @@
       "outsideGeofence": "Outside geofence"
     },
     "comingSoon": "Coming soon",
-    "saved": "Saved"
+    "saved": "Saved",
+    "copy": "Copy"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -643,5 +644,33 @@
     "outsideGeofence": "Outside the worksite area",
     "tryAgain": "Try again",
     "unpairConfirm": "Unpair this tablet? You will need a new code to set it up again."
+  },
+  "devices": {
+    "title": "Devices & kiosk",
+    "subtitle": "Set up tablet kiosks and employee PINs for shared check-in.",
+    "pairTablet": "Pair a tablet",
+    "worksite": "Worksite",
+    "deviceName": "Device name",
+    "generateCode": "Generate code",
+    "codeReady": "Open the kiosk URL on the tablet and enter this code:",
+    "codeExpires": "This code expires in 15 minutes.",
+    "openKiosk": "Open kiosk",
+    "noWorksites": "Create a worksite first to bind a kiosk to it.",
+    "devicesList": "Paired devices",
+    "noDevices": "No devices yet.",
+    "active": "Active",
+    "inactive": "Inactive",
+    "lastSeen": "Last seen",
+    "never": "Never connected",
+    "deactivate": "Deactivate",
+    "confirmDelete": "Delete this device?",
+    "employeePins": "Employee PINs",
+    "pinsHint": "Employees need a 4-digit PIN to clock in at the kiosk.",
+    "hasPin": "PIN set",
+    "noPin": "No PIN",
+    "setPin": "Set PIN",
+    "changePin": "Change PIN",
+    "clearPin": "Remove",
+    "noEmployees": "No active employees."
   }
 }
