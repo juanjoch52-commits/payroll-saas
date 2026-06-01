@@ -672,5 +672,22 @@
     "changePin": "Change PIN",
     "clearPin": "Remove",
     "noEmployees": "No active employees."
+  },
+  "quickbooks": {
+    "desc": "Sync payroll to QuickBooks as journal entries, or export IIF/CSV.",
+    "planTag": "Advanced",
+    "upgrade": "Upgrade to connect",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "serverNote": "Online sync needs Intuit keys on the server. File export (IIF/CSV) works now.",
+    "connect": "Connect QuickBooks",
+    "disconnect": "Disconnect",
+    "syncEmployees": "Sync employees",
+    "lastSync": "Last sync",
+    "accountMapping": "Account mapping",
+    "mappingHint": "Paste the QuickBooks account IDs to post journal entries to.",
+    "recentRuns": "Recent payroll runs",
+    "noRuns": "No payroll runs yet.",
+    "sync": "Sync"
   }
 }

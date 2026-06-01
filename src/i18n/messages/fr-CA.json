@@ -672,5 +672,22 @@
     "changePin": "Changer le NIP",
     "clearPin": "Retirer",
     "noEmployees": "Aucun employé actif."
+  },
+  "quickbooks": {
+    "desc": "Synchronisez la paie vers QuickBooks (écritures) ou exportez en IIF/CSV.",
+    "planTag": "Avancé",
+    "upgrade": "Améliorez votre forfait",
+    "connected": "Connecté",
+    "notConnected": "Non connecté",
+    "serverNote": "La synchronisation en ligne nécessite des clés Intuit sur le serveur. Lexport de fichiers (IIF/CSV) fonctionne déjà.",
+    "connect": "Connecter QuickBooks",
+    "disconnect": "Déconnecter",
+    "syncEmployees": "Synchroniser les employés",
+    "lastSync": "Dernière synchro",
+    "accountMapping": "Correspondance des comptes",
+    "mappingHint": "Collez les ID de comptes QuickBooks pour les écritures.",
+    "recentRuns": "Paies récentes",
+    "noRuns": "Aucune paie.",
+    "sync": "Synchroniser"
   }
 }

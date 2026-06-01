@@ -672,5 +672,22 @@
     "changePin": "Cambiar PIN",
     "clearPin": "Quitar",
     "noEmployees": "No hay empleados activos."
+  },
+  "quickbooks": {
+    "desc": "Sincroniza la nómina a QuickBooks como asientos, o exporta IIF/CSV.",
+    "planTag": "Avanzado",
+    "upgrade": "Mejora tu plan para conectar",
+    "connected": "Conectado",
+    "notConnected": "No conectado",
+    "serverNote": "La sincronización en línea necesita llaves de Intuit en el servidor. El export de archivos (IIF/CSV) ya funciona.",
+    "connect": "Conectar QuickBooks",
+    "disconnect": "Desconectar",
+    "syncEmployees": "Sincronizar empleados",
+    "lastSync": "Última sincronización",
+    "accountMapping": "Mapeo de cuentas",
+    "mappingHint": "Pega los IDs de cuentas de QuickBooks donde se postearán los asientos.",
+    "recentRuns": "Nóminas recientes",
+    "noRuns": "Aún no hay nóminas.",
+    "sync": "Sincronizar"
   }
 }

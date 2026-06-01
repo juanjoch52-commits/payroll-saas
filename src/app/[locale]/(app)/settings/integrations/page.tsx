@@ -3,8 +3,13 @@ import { ChevronLeft, Plug, Lock } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { checkFeature } from '@/lib/auth/checkFeature'
+import { isQuickBooksConfigured } from '@/lib/integrations/quickbooks/client'
+import { QuickBooksCard } from '@/components/settings/QuickBooksCard'
+
+type QboConfig = { accountMapping?: Record<string, string> } | null
 
 export default async function IntegrationsPage({
   params: { locale },
@@ -14,6 +19,25 @@ export default async function IntegrationsPage({
   const t = await getTranslations()
   const session = await requireSession(`/${locale}/login`)
   const hasMyRavex = await checkFeature(session.organizationId, 'myravex_integration')
+  const hasQuickBooks = await checkFeature(session.organizationId, 'quickbooks_integration')
+
+  const supabase = createClient()
+  const { data: qbo } = await supabase
+    .from('integrations')
+    .select('status, last_synced_at, last_error, config')
+    .eq('organization_id', session.organizationId)
+    .eq('provider', 'quickbooks')
+    .maybeSingle()
+  const { data: runs } = await supabase
+    .from('payroll_runs')
+    .select('id, period_start, period_end, pay_date, status')
+    .eq('organization_id', session.organizationId)
+    .order('pay_date', { ascending: false })
+    .limit(8)
+
+  const qboRow = qbo as
+    | { status: string; last_synced_at: string | null; last_error: string | null; config: QboConfig }
+    | null
 
   return (
     <div className="space-y-6">
@@ -26,6 +50,17 @@ export default async function IntegrationsPage({
       </Link>
 
       <h1 className="text-3xl font-bold tracking-tight">Integrations</h1>
+
+      <QuickBooksCard
+        locale={locale}
+        hasFeature={hasQuickBooks}
+        serverConfigured={isQuickBooksConfigured()}
+        status={qboRow?.status ?? null}
+        lastSyncedAt={qboRow?.last_synced_at ?? null}
+        lastError={qboRow?.last_error ?? null}
+        accountMapping={(qboRow?.config?.accountMapping as never) ?? null}
+        runs={(runs ?? []) as never}
+      />
 
       <Card>
         <CardHeader>
