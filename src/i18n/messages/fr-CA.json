@@ -49,7 +49,8 @@
     "clock": "Poinçon",
     "history": "Historique",
     "paystubs": "Bulletins de paie",
-    "profile": "Profil"
+    "profile": "Profil",
+    "production": "Production"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -557,6 +558,30 @@
       "newsletterPlaceholder": "votre@courriel.com",
       "newsletterCta": "S'abonner",
       "newsletterSuccess": "Merci ! On vous tient au courant."
+    }
+  },
+  "production": {
+    "title": "Production",
+    "subtitle": "Enregistrez la production à la pièce et approuvez-la pour la paie.",
+    "recordTitle": "Enregistrer la production",
+    "employee": "Employé",
+    "date": "Date",
+    "quantity": "Quantité",
+    "unitLabel": "Unité",
+    "ratePerUnit": "Tarif par unité ($)",
+    "rateHint": "Utilise le tarif du barème",
+    "record": "Enregistrer",
+    "recent": "Entrées récentes",
+    "empty": "Aucune entrée de production.",
+    "noEmployees": "Aucun employé à la pièce. Créez un employé avec un barème « À la pièce » pour enregistrer la production.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "status": {
+      "open": "Ouvert",
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "edited": "Modifié"
     }
   }
 }

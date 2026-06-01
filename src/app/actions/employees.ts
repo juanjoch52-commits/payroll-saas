@@ -67,12 +67,17 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
     }
   }
 
-  // 5) Si requiere daily/commission, validar feature del plan
-  if (paySchemeConfig.type === 'daily' || paySchemeConfig.type === 'commission') {
+  // 5) Esquemas que requieren feature del plan (daily/commission/piecerate).
+  const gatedFeatureByScheme: Record<string, string> = {
+    daily: 'payroll_daily',
+    commission: 'payroll_commission',
+    piecerate: 'payroll_piecerate',
+  }
+  const requiredFeature = gatedFeatureByScheme[paySchemeConfig.type]
+  if (requiredFeature) {
     const { data: hasFeature } = await supabase.rpc('check_plan_feature', {
       org_id: session.organizationId,
-      feature_key:
-        paySchemeConfig.type === 'daily' ? 'payroll_daily' : 'payroll_commission',
+      feature_key: requiredFeature,
     })
     if (!hasFeature) {
       return {

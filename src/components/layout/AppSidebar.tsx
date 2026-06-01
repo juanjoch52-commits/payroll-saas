@@ -7,6 +7,7 @@ import {
   FileText,
   CreditCard,
   Settings,
+  Boxes,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { JovaWordmark } from '@/components/branding/JovaWordmark'
@@ -32,6 +33,7 @@ const navItems: {
   { href: '/employees',     labelKey: 'nav.employees',     icon: Users,           minRole: 'viewer' },
   { href: '/payroll',       labelKey: 'nav.payroll',       icon: Calculator,      minRole: 'viewer' },
   { href: '/time-tracking', labelKey: 'nav.timeTracking',  icon: Calculator,      minRole: 'manager' },
+  { href: '/production',    labelKey: 'nav.production',     icon: Boxes,           minRole: 'manager' },
   { href: '/worksites',     labelKey: 'nav.worksites',     icon: Settings,        minRole: 'manager' },
   { href: '/reports',       labelKey: 'nav.reports',       icon: FileText,        minRole: 'admin' },
   { href: '/billing',       labelKey: 'nav.billing',       icon: CreditCard,      minRole: 'owner' },

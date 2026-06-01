@@ -49,7 +49,8 @@
     "clock": "Clock",
     "history": "History",
     "paystubs": "Pay stubs",
-    "profile": "Profile"
+    "profile": "Profile",
+    "production": "Production"
   },
   "auth": {
     "signIn": "Sign in",
@@ -557,6 +558,30 @@
       "newsletterPlaceholder": "your@email.com",
       "newsletterCta": "Subscribe",
       "newsletterSuccess": "Thanks! We'll keep you posted."
+    }
+  },
+  "production": {
+    "title": "Production",
+    "subtitle": "Record piece-rate output and approve it for payroll.",
+    "recordTitle": "Record production",
+    "employee": "Employee",
+    "date": "Date",
+    "quantity": "Quantity",
+    "unitLabel": "Unit",
+    "ratePerUnit": "Rate per unit ($)",
+    "rateHint": "Defaults to scheme rate",
+    "record": "Record",
+    "recent": "Recent entries",
+    "empty": "No production entries yet.",
+    "noEmployees": "No piece-rate employees yet. Add an employee with a \"Piece rate\" pay scheme to record production.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "status": {
+      "open": "Open",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "edited": "Edited"
     }
   }
 }

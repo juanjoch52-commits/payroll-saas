@@ -49,7 +49,8 @@
     "clock": "Marcar",
     "history": "Historial",
     "paystubs": "Recibos",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "production": "Producción"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -557,6 +558,30 @@
       "newsletterPlaceholder": "tu@email.com",
       "newsletterCta": "Suscribirme",
       "newsletterSuccess": "¡Gracias! Te mantendremos al tanto."
+    }
+  },
+  "production": {
+    "title": "Producción",
+    "subtitle": "Registra la producción a destajo y apruébala para la nómina.",
+    "recordTitle": "Registrar producción",
+    "employee": "Empleado",
+    "date": "Fecha",
+    "quantity": "Cantidad",
+    "unitLabel": "Unidad",
+    "ratePerUnit": "Tarifa por unidad ($)",
+    "rateHint": "Usa la tarifa del esquema",
+    "record": "Registrar",
+    "recent": "Entradas recientes",
+    "empty": "Aún no hay producción registrada.",
+    "noEmployees": "No hay empleados a destajo. Crea un empleado con esquema \"Por producción\" para registrar producción.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "status": {
+      "open": "Abierto",
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "edited": "Editado"
     }
   }
 }

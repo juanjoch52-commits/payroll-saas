@@ -65,6 +65,7 @@ const itemInputSchema = z.object({
   overtimeHours: z.coerce.number().optional(),
   daysWorked: z.coerce.number().optional(),
   salesAmountCents: z.coerce.number().optional(),
+  unitsProduced: z.coerce.number().optional(),
 })
 
 const calculateRunSchema = z.object({
@@ -129,6 +130,26 @@ export async function calculateRunItems(
     billableByEmployee.set(e.employee_id, existing)
   }
 
+  // 2b2) Trae production_entries APROBADAS dentro del período por empleado
+  //      (piece-rate). Igual que billableByEmployee pero sumando cantidades.
+  const { data: approvedProduction } = await supabase
+    .from('production_entries')
+    .select('id, employee_id, quantity')
+    .in('employee_id', employeeIds)
+    .eq('organization_id', session.organizationId)
+    .eq('status', 'approved')
+    .is('payroll_item_id', null)
+    .gte('work_date', run.period_start)
+    .lte('work_date', run.period_end)
+
+  const productionByEmployee = new Map<string, { totalUnits: number; entryIds: string[] }>()
+  for (const p of (approvedProduction ?? []) as { id: string; employee_id: string; quantity: number | string }[]) {
+    const existing = productionByEmployee.get(p.employee_id) ?? { totalUnits: 0, entryIds: [] }
+    existing.totalUnits += Number(p.quantity) || 0
+    existing.entryIds.push(p.id)
+    productionByEmployee.set(p.employee_id, existing)
+  }
+
   // 2c) Calcular YTD gross por empleado (suma de payroll_items del año en curso
   //     antes del period_start). Necesario para Social Security cap y Medicare additional.
   const yearStart = `${run.period_start.slice(0, 4)}-01-01`
@@ -154,6 +175,8 @@ export async function calculateRunItems(
     overtime_hours: number | null
     days_worked: number | null
     sales_amount_cents: number | null
+    units_produced: number | null
+    production_amount_cents: number | null
     gross_cents: number
     federal_tax_cents: number
     state_tax_cents: number
@@ -204,12 +227,28 @@ export async function calculateRunItems(
       }
     }
 
+    // Para piecerate: si el manager no especificó unidades, derivar de
+    // production_entries aprobadas. Las horas para el suelo FLSA salen de
+    // time_entries (si el trabajador a destajo también fichó tiempo).
+    let unitsProduced = input.unitsProduced
+    let hoursForFloor: number | undefined
+    if (scheme.type === 'piecerate') {
+      if (unitsProduced === undefined || unitsProduced === 0) {
+        const prod = productionByEmployee.get(emp.id)
+        if (prod) unitsProduced = prod.totalUnits
+      }
+      const billable = billableByEmployee.get(emp.id)
+      if (billable) hoursForFloor = billable.totalMinutes / 60
+    }
+
     const calcInput: PayrollInput = {
       scheme,
       hoursWorked,
       overtimeHours: input.overtimeHours,
       daysWorked: input.daysWorked,
       salesAmountCents: input.salesAmountCents,
+      unitsProduced,
+      hoursForFloor,
       filingStatus: emp.w4_filing_status,
       w4Dependents: emp.w4_dependents,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,
@@ -217,6 +256,9 @@ export async function calculateRunItems(
     }
 
     const calc = calculatePayroll(calcInput)
+
+    // Para piece-rate, guarda unidades y monto bruto del destajo (antes del make-up).
+    const pieceComp = calc.components.find((c) => c.code === 'piecerate')
 
     itemRows.push({
       payroll_run_id: runId,
@@ -226,6 +268,8 @@ export async function calculateRunItems(
       overtime_hours: input.overtimeHours ?? null,
       days_worked: input.daysWorked ?? null,
       sales_amount_cents: input.salesAmountCents ?? null,
+      units_produced: scheme.type === 'piecerate' ? unitsProduced ?? 0 : null,
+      production_amount_cents: pieceComp ? pieceComp.amountCents : null,
       gross_cents: calc.grossCents,
       federal_tax_cents: calc.federalTaxCents,
       state_tax_cents: calc.stateTaxCents,
@@ -262,10 +306,9 @@ export async function calculateRunItems(
     .eq('payroll_run_id', runId)
 
   if (oldItems && oldItems.length > 0) {
-    await supabase
-      .from('time_entries')
-      .update({ payroll_item_id: null })
-      .in('payroll_item_id', oldItems.map((i: { id: string }) => i.id))
+    const oldIds = oldItems.map((i: { id: string }) => i.id)
+    await supabase.from('time_entries').update({ payroll_item_id: null }).in('payroll_item_id', oldIds)
+    await supabase.from('production_entries').update({ payroll_item_id: null }).in('payroll_item_id', oldIds)
   }
 
   await supabase.from('payroll_items').delete().eq('payroll_run_id', runId)
@@ -286,6 +329,16 @@ export async function calculateRunItems(
       .from('time_entries')
       .update({ payroll_item_id: pItemId })
       .in('id', billable.entryIds)
+  }
+
+  // 4c) Marcar las production_entries consumidas en este run.
+  for (const [empId, prod] of productionByEmployee) {
+    const pItemId = itemIdByEmpForTimeEntries.get(empId)
+    if (!pItemId || prod.entryIds.length === 0) continue
+    await supabase
+      .from('production_entries')
+      .update({ payroll_item_id: pItemId })
+      .in('id', prod.entryIds)
   }
 
   // 5) Inserta los components con los IDs reales
