@@ -41,7 +41,7 @@ export type SendPushResult = {
   skipped: boolean
 }
 
-export async function sendPushToUser(
+export async function sendWebPushToUser(
   userId: string,
   payload: PushPayload,
 ): Promise<SendPushResult> {
@@ -93,4 +93,25 @@ export async function sendPushToUser(
   )
 
   return { attempted: subs.length, delivered, failed, skipped: false }
+}
+
+/**
+ * Envía a TODOS los transportes de push del usuario: web-push (VAPID) + Expo
+ * (app móvil). El dispatcher de notificaciones llama a esta función.
+ */
+export async function sendPushToUser(
+  userId: string,
+  payload: PushPayload,
+): Promise<SendPushResult> {
+  const { sendExpoPushToUser } = await import('./expo')
+  const [web, expo] = await Promise.all([
+    sendWebPushToUser(userId, payload),
+    sendExpoPushToUser(userId, payload),
+  ])
+  return {
+    attempted: web.attempted + expo.attempted,
+    delivered: web.delivered + expo.delivered,
+    failed: web.failed + expo.failed,
+    skipped: web.skipped && expo.skipped,
+  }
 }
