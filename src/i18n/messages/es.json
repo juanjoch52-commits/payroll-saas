@@ -91,9 +91,15 @@
       "hourly": "Por hora",
       "salary": "Salario",
       "daily": "Por día",
-      "commission": "Comisión"
+      "commission": "Comisión",
+      "piecerate": "Por producción"
     },
-    "limitReached": "Alcanzaste el límite de empleados de tu plan. Actualiza para agregar más."
+    "limitReached": "Alcanzaste el límite de empleados de tu plan. Actualiza para agregar más.",
+    "piecerate": {
+      "ratePerUnit": "Tarifa por unidad ($)",
+      "unitLabel": "Etiqueta de unidad",
+      "minFloor": "Salario mínimo ($/h, opcional)"
+    }
   },
   "payroll": {
     "title": "Nómina",

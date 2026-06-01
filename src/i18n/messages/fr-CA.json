@@ -91,9 +91,15 @@
       "hourly": "Horaire",
       "salary": "Salaire",
       "daily": "Journalier",
-      "commission": "Commission"
+      "commission": "Commission",
+      "piecerate": "À la pièce"
     },
-    "limitReached": "Vous avez atteint la limite d'employés de votre plan. Améliorez votre plan pour en ajouter plus."
+    "limitReached": "Vous avez atteint la limite d'employés de votre plan. Améliorez votre plan pour en ajouter plus.",
+    "piecerate": {
+      "ratePerUnit": "Taux par unité ($)",
+      "unitLabel": "Libellé d’unité",
+      "minFloor": "Salaire minimum ($/h, optionnel)"
+    }
   },
   "payroll": {
     "title": "Paie",

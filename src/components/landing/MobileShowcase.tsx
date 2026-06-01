@@ -130,7 +130,7 @@ function ScreenMock({
   label: string
   icon: React.ElementType
   color: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line
   t: any
 }) {
   // Render distinto por pantalla

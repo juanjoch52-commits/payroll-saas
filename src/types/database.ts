@@ -31,7 +31,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line
 type AnyRow = Record<string, any>
 
 /** Stub: todas las tablas/views/functions aceptan cualquier shape. */

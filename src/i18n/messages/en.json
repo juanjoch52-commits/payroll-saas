@@ -91,9 +91,15 @@
       "hourly": "Hourly",
       "salary": "Salary",
       "daily": "Daily",
-      "commission": "Commission"
+      "commission": "Commission",
+      "piecerate": "Piece rate"
     },
-    "limitReached": "You've reached the employee limit of your current plan. Upgrade to add more."
+    "limitReached": "You've reached the employee limit of your current plan. Upgrade to add more.",
+    "piecerate": {
+      "ratePerUnit": "Rate per unit ($)",
+      "unitLabel": "Unit label",
+      "minFloor": "Min wage floor ($/h, optional)"
+    }
   },
   "payroll": {
     "title": "Payroll",

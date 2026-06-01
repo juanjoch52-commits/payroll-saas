@@ -27,6 +27,10 @@ export type PayrollInput = {
   overtimeHours?: number
   daysWorked?: number
   salesAmountCents?: number
+  /** Unidades producidas en el período (scheme 'piecerate'). */
+  unitsProduced?: number
+  /** Horas trabajadas, solo para el suelo de salario mínimo FLSA del scheme 'piecerate'. */
+  hoursForFloor?: number
   // Datos del empleado necesarios para impuestos
   filingStatus: FilingStatus
   w4Dependents: number
@@ -165,6 +169,40 @@ function calcGross(input: PayrollInput): {
         amountCents: commissionCents,
       })
       return { grossCents: scheme.baseCents + commissionCents, components }
+    }
+
+    case 'piecerate': {
+      const units = input.unitsProduced ?? 0
+      let gross = Math.round(units * scheme.ratePerUnitCents)
+      components.push({
+        type: 'earning',
+        code: 'piecerate',
+        label: `Piece rate (${units} ${scheme.unitLabel} × ${(scheme.ratePerUnitCents / 100).toFixed(2)})`,
+        amountCents: gross,
+      })
+
+      // Suelo FLSA: un trabajador a destajo debe ganar al menos el salario
+      // mínimo por las horas trabajadas. Si el destajo queda por debajo del
+      // mínimo × horas, añadimos un "make-up" hasta el suelo.
+      if (
+        scheme.minimumHourlyFloorCents &&
+        scheme.minimumHourlyFloorCents > 0 &&
+        input.hoursForFloor &&
+        input.hoursForFloor > 0
+      ) {
+        const floor = Math.round(input.hoursForFloor * scheme.minimumHourlyFloorCents)
+        if (floor > gross) {
+          components.push({
+            type: 'earning',
+            code: 'piecerate_makeup',
+            label: 'Minimum wage make-up',
+            amountCents: floor - gross,
+          })
+          gross = floor
+        }
+      }
+
+      return { grossCents: gross, components }
     }
   }
 }

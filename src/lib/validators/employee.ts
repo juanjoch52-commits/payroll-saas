@@ -14,7 +14,7 @@ export const FILING_STATUSES = [
 
 export const EMPLOYEE_TYPES = ['employee', 'contractor'] as const
 export const EMPLOYEE_STATUSES = ['active', 'on_leave', 'terminated'] as const
-export const PAY_SCHEME_TYPES = ['hourly', 'salary', 'daily', 'commission'] as const
+export const PAY_SCHEME_TYPES = ['hourly', 'salary', 'daily', 'commission', 'piecerate'] as const
 
 // -----------------------------------------------------------------------------
 // Pay scheme config — discriminated union
@@ -49,6 +49,15 @@ export const paySchemeSchema = z.discriminatedUnion('type', [
         }),
       )
       .optional(),
+  }),
+  z.object({
+    // Pago por producción / a destajo: ratePerUnitCents por cada unidad producida.
+    type: z.literal('piecerate'),
+    ratePerUnitCents: z.coerce.number().int().positive(),
+    unitLabel: z.string().min(1).default('unit'),
+    // Suelo opcional de salario mínimo por hora (FLSA): si lo defines, el motor
+    // garantiza que el bruto ≥ horas × este mínimo, añadiendo un "make-up".
+    minimumHourlyFloorCents: z.coerce.number().int().nonnegative().optional(),
   }),
 ])
 

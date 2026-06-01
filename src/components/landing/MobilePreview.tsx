@@ -49,7 +49,7 @@ export async function MobilePreview() {
             <div className="space-y-3 p-5 pb-8">
               {/* Mini items que simulan el portal */}
               <div className="rounded-lg border bg-card p-3">
-                <p className="text-xs font-medium">Today's shift</p>
+                <p className="text-xs font-medium">Today&apos;s shift</p>
                 <p className="mt-1 text-2xl font-bold">8h 14m</p>
                 <p className="text-xs text-muted-foreground">Approved</p>
               </div>

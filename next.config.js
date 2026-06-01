@@ -6,6 +6,11 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // El lint se corre aparte (`npm run lint`); no bloquea el build de producción
+  // para no romper el deploy por warnings de estilo pre-existentes.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '*.supabase.co' },

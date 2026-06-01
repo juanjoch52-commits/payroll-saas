@@ -39,6 +39,10 @@ export function EmployeeForm({
   const [dailyDollars, setDailyDollars] = useState<string>('200')
   const [commissionBase, setCommissionBase] = useState<string>('2000')
   const [commissionPct, setCommissionPct] = useState<string>('10')
+  // Piece-rate (pago por producción / a destajo)
+  const [pieceRateDollars, setPieceRateDollars] = useState<string>('0.50')
+  const [pieceUnitLabel, setPieceUnitLabel] = useState<string>('unit')
+  const [pieceMinFloor, setPieceMinFloor] = useState<string>('') // opcional, $/h
 
   function buildPaySchemeJson(): string {
     switch (scheme) {
@@ -65,6 +69,15 @@ export function EmployeeForm({
           type: 'commission',
           baseCents: Math.round(parseFloat(commissionBase) * 100),
           ratePct: parseFloat(commissionPct) / 100,
+        })
+      case 'piecerate':
+        return JSON.stringify({
+          type: 'piecerate',
+          ratePerUnitCents: Math.round(parseFloat(pieceRateDollars) * 100),
+          unitLabel: pieceUnitLabel.trim() || 'unit',
+          ...(pieceMinFloor.trim()
+            ? { minimumHourlyFloorCents: Math.round(parseFloat(pieceMinFloor) * 100) }
+            : {}),
         })
     }
   }
@@ -180,7 +193,7 @@ export function EmployeeForm({
         <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           {t('employees.payScheme')}
         </h3>
-        <div className="grid gap-2 sm:grid-cols-4">
+        <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {PAY_SCHEME_TYPES.map((s) => (
             <button
               type="button"
@@ -282,6 +295,39 @@ export function EmployeeForm({
                 value={commissionPct}
                 onChange={(e) => setCommissionPct(e.target.value)}
                 required
+              />
+            </div>
+          </div>
+        )}
+
+        {scheme === 'piecerate' && (
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label>{t('employees.piecerate.ratePerUnit')}</Label>
+              <Input
+                type="number"
+                step="0.01"
+                value={pieceRateDollars}
+                onChange={(e) => setPieceRateDollars(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>{t('employees.piecerate.unitLabel')}</Label>
+              <Input
+                value={pieceUnitLabel}
+                onChange={(e) => setPieceUnitLabel(e.target.value)}
+                placeholder="box, shirt, unit"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>{t('employees.piecerate.minFloor')}</Label>
+              <Input
+                type="number"
+                step="0.01"
+                value={pieceMinFloor}
+                onChange={(e) => setPieceMinFloor(e.target.value)}
+                placeholder="7.25"
               />
             </div>
           </div>
