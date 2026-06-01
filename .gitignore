@@ -66,3 +66,10 @@ tsconfig.tsbuildinfo
 /tests/playwright-report
 /tests/screenshots
 /playwright/.cache
+
+# Expo / mobile app
+apps/mobile/node_modules
+apps/mobile/.expo
+apps/mobile/dist
+apps/mobile/web-build
+apps/*/.env
