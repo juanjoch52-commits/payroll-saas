@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { calculatePayroll, type PayrollInput } from '@/lib/payroll/engine'
 import { paySchemeSchema } from '@/lib/validators/employee'
+import { splitByWeeks, type HoursSplit, type OvertimeRules } from '@/lib/payroll/overtime'
+import { getOvertimeRules, hasMealBreakPremium } from '@/lib/payroll/overtime-presets'
 
 // =============================================================================
 // Server Actions — Payroll Runs
@@ -103,7 +105,7 @@ export async function calculateRunItems(
   const employeeIds = items.map((i) => i.employeeId)
   const { data: employees, error: empErr } = await supabase
     .from('employees')
-    .select('id, w4_filing_status, w4_dependents, pay_schemes!inner(scheme_type, config)')
+    .select('id, w4_filing_status, w4_dependents, primary_jurisdiction_code, pay_schemes!inner(scheme_type, config)')
     .in('id', employeeIds)
     .eq('organization_id', session.organizationId)
     .is('pay_schemes.effective_to', null)
@@ -114,7 +116,7 @@ export async function calculateRunItems(
   //     (solo las que no han sido consumidas por otra run).
   const { data: approvedEntries } = await supabase
     .from('time_entries')
-    .select('id, employee_id, billable_minutes')
+    .select('id, employee_id, billable_minutes, clock_in_at, break_minutes, duration_minutes')
     .in('employee_id', employeeIds)
     .eq('organization_id', session.organizationId)
     .eq('status', 'approved')
@@ -122,11 +124,31 @@ export async function calculateRunItems(
     .gte('clock_in_at', `${run.period_start}T00:00:00Z`)
     .lte('clock_in_at', `${run.period_end}T23:59:59Z`)
 
-  const billableByEmployee = new Map<string, { totalMinutes: number; entryIds: string[] }>()
-  for (const e of approvedEntries ?? []) {
-    const existing = billableByEmployee.get(e.employee_id) ?? { totalMinutes: 0, entryIds: [] }
-    existing.totalMinutes += e.billable_minutes ?? 0
+  type BillableAcc = {
+    totalMinutes: number
+    entryIds: string[]
+    dayMinutes: Map<string, number>
+    mealMissed: number
+  }
+  const billableByEmployee = new Map<string, BillableAcc>()
+  for (const e of (approvedEntries ?? []) as {
+    id: string
+    employee_id: string
+    billable_minutes: number | null
+    clock_in_at: string
+    break_minutes: number | null
+    duration_minutes: number | null
+  }[]) {
+    const existing =
+      billableByEmployee.get(e.employee_id) ??
+      { totalMinutes: 0, entryIds: [], dayMinutes: new Map<string, number>(), mealMissed: 0 }
+    const min = e.billable_minutes ?? 0
+    existing.totalMinutes += min
     existing.entryIds.push(e.id)
+    const day = e.clock_in_at.slice(0, 10)
+    existing.dayMinutes.set(day, (existing.dayMinutes.get(day) ?? 0) + min)
+    // Prima por descanso/comida perdido: turno > 5h (300 min) con descanso < 30 min.
+    if ((e.duration_minutes ?? 0) > 300 && (e.break_minutes ?? 0) < 30) existing.mealMissed += 1
     billableByEmployee.set(e.employee_id, existing)
   }
 
@@ -240,10 +262,28 @@ export async function calculateRunItems(
     // Para hourly: si el manager no especificó hoursWorked, derivar de
     // time_entries aprobadas en el período.
     let hoursWorked = input.hoursWorked
-    if (scheme.type === 'hourly' && (hoursWorked === undefined || hoursWorked === 0)) {
+    let hoursSplit: HoursSplit | undefined
+    let overtimeRules: OvertimeRules | undefined
+    let extraEarnings: { code: string; label: string; amountCents: number }[] | undefined
+    if (scheme.type === 'hourly') {
       const billable = billableByEmployee.get(emp.id)
-      if (billable) {
+      if ((hoursWorked === undefined || hoursWorked === 0) && billable) {
         hoursWorked = billable.totalMinutes / 60
+      }
+      const jur = (emp as { primary_jurisdiction_code?: string }).primary_jurisdiction_code
+      overtimeRules = getOvertimeRules(jur)
+      if (billable && billable.dayMinutes.size > 0) {
+        const dayEntries = [...billable.dayMinutes.entries()].map(([date, m]) => ({ date, hours: m / 60 }))
+        hoursSplit = splitByWeeks(dayEntries, overtimeRules)
+      }
+      if (billable && billable.mealMissed > 0 && hasMealBreakPremium(jur)) {
+        extraEarnings = [
+          {
+            code: 'meal_premium',
+            label: `Meal break premium (${billable.mealMissed})`,
+            amountCents: Math.round(billable.mealMissed * scheme.rateCents),
+          },
+        ]
       }
     }
 
@@ -272,6 +312,9 @@ export async function calculateRunItems(
       unitsProduced,
       hoursForFloor,
       tipsCents,
+      hoursSplit,
+      overtimeRules,
+      extraEarnings,
       filingStatus: emp.w4_filing_status,
       w4Dependents: emp.w4_dependents,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,

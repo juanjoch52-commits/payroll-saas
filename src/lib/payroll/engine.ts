@@ -16,6 +16,7 @@ import {
   type FilingStatus,
 } from './us/federal-2026'
 import { calcStateWithholding } from './us/states'
+import type { OvertimeRules, HoursSplit } from './overtime'
 
 // -----------------------------------------------------------------------------
 // Tipos públicos
@@ -33,6 +34,12 @@ export type PayrollInput = {
   hoursForFloor?: number
   /** Propinas del período (gravables, se suman al bruto). */
   tipsCents?: number
+  /** Split de horas precomputado (regular/OT/DT) por jurisdicción — scheme 'hourly'. */
+  hoursSplit?: HoursSplit
+  /** Reglas de OT (para los multiplicadores). */
+  overtimeRules?: OvertimeRules
+  /** Ingresos extra gravables (p.ej. prima por descanso perdido). */
+  extraEarnings?: { code: string; label: string; amountCents: number }[]
   // Datos del empleado necesarios para impuestos
   filingStatus: FilingStatus
   w4Dependents: number
@@ -79,6 +86,25 @@ function calcGross(input: PayrollInput): {
 
   switch (scheme.type) {
     case 'hourly': {
+      // Modo avanzado: split precomputado (OT diaria, doble tiempo, 7º día).
+      if (input.hoursSplit && input.overtimeRules) {
+        const sp = input.hoursSplit
+        const rules = input.overtimeRules
+        const reg = Math.round(sp.regular * scheme.rateCents)
+        const otc = Math.round(sp.overtime * scheme.rateCents * rules.otMultiplier)
+        const dtc = Math.round(sp.doubletime * scheme.rateCents * rules.dtMultiplier)
+        if (reg > 0) {
+          components.push({ type: 'earning', code: 'regular_hours', label: `Regular (${sp.regular}h)`, amountCents: reg })
+        }
+        if (otc > 0) {
+          components.push({ type: 'earning', code: 'overtime_hours', label: `Overtime (${sp.overtime}h × ${rules.otMultiplier})`, amountCents: otc })
+        }
+        if (dtc > 0) {
+          components.push({ type: 'earning', code: 'doubletime_hours', label: `Double time (${sp.doubletime}h × ${rules.dtMultiplier})`, amountCents: dtc })
+        }
+        return { grossCents: reg + otc + dtc, components }
+      }
+
       const regularHours = Math.min(input.hoursWorked ?? 0, scheme.overtimeThresholdHours)
       const overtimeHours = Math.max(
         (input.hoursWorked ?? 0) - scheme.overtimeThresholdHours,
@@ -220,7 +246,12 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
   if (tipsCents > 0) {
     earnings.push({ type: 'earning', code: 'tips', label: 'Tips', amountCents: tipsCents })
   }
-  const grossCents = base.grossCents + tipsCents
+  const extra = input.extraEarnings ?? []
+  for (const x of extra) {
+    earnings.push({ type: 'earning', code: x.code, label: x.label, amountCents: x.amountCents })
+  }
+  const extraTotal = extra.reduce((s, x) => s + x.amountCents, 0)
+  const grossCents = base.grossCents + tipsCents + extraTotal
 
   // Impuestos del empleado (US, MVP)
   const federalTaxCents = calcUSFederalWithholding({
