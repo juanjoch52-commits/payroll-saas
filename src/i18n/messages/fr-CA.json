@@ -96,7 +96,21 @@
     "activeEmployees": "Employés actifs",
     "lastPayrollRun": "Dernière paie",
     "upcomingFilings": "Déclarations fiscales à venir",
-    "noRunsYet": "Aucune paie pour l'instant — commencez par la première."
+    "noRunsYet": "Aucune paie pour l'instant — commencez par la première.",
+    "clockedInNow": "Pointés maintenant",
+    "hoursToday": "Heures aujourd’hui",
+    "pendingApprovals": "Approbations en attente",
+    "review": "Réviser",
+    "liveActivity": "Activité en direct",
+    "nobodyClockedIn": "Personne n’est pointé en ce moment.",
+    "working": "au travail",
+    "quickActions": "Actions rapides",
+    "view": "Voir",
+    "actions": {
+      "runPayroll": "Lancer la paie",
+      "reviewTime": "Réviser le temps",
+      "reports": "Rapports"
+    }
   },
   "employees": {
     "title": "Employés",

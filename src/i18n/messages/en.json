@@ -96,7 +96,21 @@
     "activeEmployees": "Active employees",
     "lastPayrollRun": "Last payroll run",
     "upcomingFilings": "Upcoming tax filings",
-    "noRunsYet": "No payroll runs yet — start with your first one."
+    "noRunsYet": "No payroll runs yet — start with your first one.",
+    "clockedInNow": "Clocked in now",
+    "hoursToday": "Hours today",
+    "pendingApprovals": "Pending approvals",
+    "review": "Review",
+    "liveActivity": "Live activity",
+    "nobodyClockedIn": "Nobody is clocked in right now.",
+    "working": "currently working",
+    "quickActions": "Quick actions",
+    "view": "View",
+    "actions": {
+      "runPayroll": "Run payroll",
+      "reviewTime": "Review time",
+      "reports": "Reports"
+    }
   },
   "employees": {
     "title": "Employees",

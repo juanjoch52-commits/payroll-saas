@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { PageHeader } from '@/components/ui/page-header'
 
 export default async function SettingsPage({
   params: { locale },
@@ -21,7 +22,7 @@ export default async function SettingsPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">{t('nav.settings')}</h1>
+      <PageHeader title={t('nav.settings')} />
 
       <div className="grid gap-4 md:grid-cols-2">
         {sections.map((s) => (

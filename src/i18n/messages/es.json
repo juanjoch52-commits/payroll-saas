@@ -96,7 +96,21 @@
     "activeEmployees": "Empleados activos",
     "lastPayrollRun": "Última nómina",
     "upcomingFilings": "Declaraciones próximas",
-    "noRunsYet": "Aún no tienes nóminas — empieza con la primera."
+    "noRunsYet": "Aún no tienes nóminas — empieza con la primera.",
+    "clockedInNow": "Fichados ahora",
+    "hoursToday": "Horas hoy",
+    "pendingApprovals": "Aprobaciones pendientes",
+    "review": "Revisar",
+    "liveActivity": "Actividad en vivo",
+    "nobodyClockedIn": "Nadie está fichado ahora mismo.",
+    "working": "trabajando ahora",
+    "quickActions": "Acciones rápidas",
+    "view": "Ver",
+    "actions": {
+      "runPayroll": "Procesar nómina",
+      "reviewTime": "Revisar tiempo",
+      "reports": "Reportes"
+    }
   },
   "employees": {
     "title": "Empleados",

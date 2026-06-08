@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { checkFeature } from '@/lib/auth/checkFeature'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { PageHeader } from '@/components/ui/page-header'
 import { YearEndForm } from '@/components/reports/YearEndForm'
 import { ReportsExports } from '@/components/reports/ReportsExports'
 
@@ -33,9 +34,7 @@ export default async function ReportsPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t('reports.title')}</h1>
-      </div>
+      <PageHeader title={t('reports.title')} />
 
       <Card>
         <CardHeader>

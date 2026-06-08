@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { AlertTriangle, Clock, Users, DollarSign } from 'lucide-react'
+import { AlertTriangle, Clock, Users, Timer, Plus, Calculator, ClipboardCheck, FileText } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { PageHeader } from '@/components/ui/page-header'
+import { StatCard } from '@/components/ui/stat-card'
 import { LiveMap, type MapPoint, type MapGeofence } from '@/components/admin/LiveMap'
+import { canSee, type Role } from '@/components/layout/nav-config'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
-import { formatMoney } from '@/lib/utils'
 
 export default async function DashboardPage({
   params: { locale },
@@ -103,112 +106,112 @@ export default async function DashboardPage({
     label: w.name,
   }))
 
+  const role = session.role as Role
+  const pendingPositive = (pendingCount ?? 0) > 0
+
+  // Acciones rápidas gateadas por rol.
+  type QuickAction = { href: string; label: string; icon: React.ComponentType<{ className?: string }> }
+  const quickActions: QuickAction[] = []
+  if (canSee('manager', role)) {
+    quickActions.push(
+      { href: `/${locale}/employees/new`, label: t('employees.addEmployee'), icon: Plus },
+      { href: `/${locale}/payroll/new`, label: t('dashboard.actions.runPayroll'), icon: Calculator },
+      { href: `/${locale}/time-tracking`, label: t('dashboard.actions.reviewTime'), icon: ClipboardCheck },
+    )
+  }
+  if (canSee('admin', role)) {
+    quickActions.push({ href: `/${locale}/reports`, label: t('dashboard.actions.reports'), icon: FileText })
+  }
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t('dashboard.welcome')}</h1>
-        <p className="text-muted-foreground">{t('dashboard.summary')}</p>
-      </div>
+    <div className="space-y-6" data-tour="dashboard">
+      <PageHeader title={t('dashboard.welcome')} description={t('dashboard.summary')} />
+
+      {/* Acciones rápidas */}
+      {quickActions.length > 0 && (
+        <div className="flex flex-wrap gap-2" data-tour="quick-actions">
+          {quickActions.map(({ href, label, icon: Icon }) => (
+            <Button key={href} asChild variant="outline" size="sm">
+              <Link href={href}>
+                <Icon className="mr-2 h-4 w-4" />
+                {label}
+              </Link>
+            </Button>
+          ))}
+        </div>
+      )}
 
       {/* KPIs */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardDescription>Active employees</CardDescription>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{activeEmployees ?? 0}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardDescription>Clocked in now</CardDescription>
-            <Clock className="h-4 w-4 text-green-700" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">{(openEntries ?? []).length}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardDescription>Hours today</CardDescription>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-tour="kpis">
+        <StatCard label={t('dashboard.activeEmployees')} value={activeEmployees ?? 0} icon={Users} tone="primary" />
+        <StatCard
+          label={t('dashboard.clockedInNow')}
+          value={(openEntries ?? []).length}
+          icon={Clock}
+          tone="success"
+        />
+        <StatCard
+          label={t('dashboard.hoursToday')}
+          value={
+            <>
               {(totalMinutesToday / 60).toFixed(1)}
               <span className="ml-1 text-base font-normal text-muted-foreground">h</span>
-            </p>
+            </>
+          }
+          icon={Timer}
+          tone="info"
+        />
+        <StatCard
+          label={t('dashboard.pendingApprovals')}
+          value={pendingCount ?? 0}
+          icon={AlertTriangle}
+          tone="warning"
+          highlight={pendingPositive}
+          href={pendingPositive ? `/${locale}/time-tracking` : undefined}
+          hint={pendingPositive ? <span className="text-primary">{t('dashboard.review')} →</span> : undefined}
+        />
+      </div>
+
+      {/* Actividad en vivo + última nómina */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>{t('dashboard.liveActivity')}</CardTitle>
+            <CardDescription>
+              {mapPoints.length === 0
+                ? t('dashboard.nobodyClockedIn')
+                : `${mapPoints.length} ${t('dashboard.working')}`}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LiveMap points={mapPoints} geofences={mapGeofences} height={400} />
           </CardContent>
         </Card>
 
-        <Card className={pendingCount && pendingCount > 0 ? 'border-amber-300' : undefined}>
-          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardDescription>Pending approvals</CardDescription>
-            <AlertTriangle
-              className={
-                pendingCount && pendingCount > 0
-                  ? 'h-4 w-4 text-amber-700'
-                  : 'h-4 w-4 text-muted-foreground'
-              }
-            />
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">{t('dashboard.lastPayrollRun')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">{pendingCount ?? 0}</p>
-            {pendingCount && pendingCount > 0 && (
+            {lastRun ? (
               <Link
-                href={`/${locale}/time-tracking`}
-                className="text-xs text-primary hover:underline"
+                href={`/${locale}/payroll/${lastRun.id}`}
+                className="-m-2 flex items-center justify-between rounded-md p-2 hover:bg-accent"
               >
-                Review →
+                <div>
+                  <p className="font-medium">
+                    {lastRun.period_start} → {lastRun.period_end}
+                  </p>
+                  <p className="text-sm capitalize text-muted-foreground">{lastRun.status}</p>
+                </div>
+                <span className="text-primary">{t('dashboard.view')} →</span>
               </Link>
+            ) : (
+              <p className="text-muted-foreground">{t('dashboard.noRunsYet')}</p>
             )}
           </CardContent>
         </Card>
       </div>
-
-      {/* Live map */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Live activity</CardTitle>
-          <CardDescription>
-            {mapPoints.length === 0
-              ? 'Nobody is clocked in right now.'
-              : `${mapPoints.length} ${mapPoints.length === 1 ? 'person' : 'people'} working`}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <LiveMap points={mapPoints} geofences={mapGeofences} height={400} />
-        </CardContent>
-      </Card>
-
-      {/* Última nómina */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">{t('dashboard.lastPayrollRun')}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {lastRun ? (
-            <Link
-              href={`/${locale}/payroll/${lastRun.id}`}
-              className="flex items-center justify-between hover:bg-accent rounded-md p-2 -m-2"
-            >
-              <div>
-                <p className="font-medium">
-                  {lastRun.period_start} → {lastRun.period_end}
-                </p>
-                <p className="text-sm capitalize text-muted-foreground">{lastRun.status}</p>
-              </div>
-              <span className="text-primary">View →</span>
-            </Link>
-          ) : (
-            <p className="text-muted-foreground">{t('dashboard.noRunsYet')}</p>
-          )}
-        </CardContent>
-      </Card>
     </div>
   )
 }

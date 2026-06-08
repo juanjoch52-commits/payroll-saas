@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/ui/page-header'
 import { WorksiteForm } from '@/components/admin/WorksiteForm'
 import { LiveMap, type MapGeofence } from '@/components/admin/LiveMap'
 
@@ -33,7 +34,7 @@ export default async function WorksitesPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">{t('worksites.title')}</h1>
+      <PageHeader title={t('worksites.title')} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
