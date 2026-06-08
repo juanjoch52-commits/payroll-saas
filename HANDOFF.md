@@ -32,7 +32,30 @@ Dos sprints construidos sobre la base original:
 
 Estado de gates al cerrar el sprint: **typecheck ✅, vitest 70/70 ✅, build ✅, lint ✅.**
 Migraciones del H-sprint: `supabase/migrations/20260501000001..014`.
-**Próximo timestamp libre: `20260501000015`.**
+
+## Design sprint (UX + onboarding + admin) — COMPLETO ✅ (2026-06-08)
+
+Sobre la base anterior, 5 fases (commit por fase, gates verdes):
+- **UI-1** (2531c10): primitivos de diseño basados en tokens — `PageHeader`,
+  `StatCard`, `EmptyState`, `Callout` (`src/components/ui/`). Limpieza de colores
+  crudos (green/amber/red → tokens) en dashboard, history, settings, admin.
+- **UI-2** (4a77e4b): sidebar agrupado por secciones con estado activo
+  (`SidebarNav` client + `nav-config`) + **nav móvil** (`MobileNav` drawer — antes
+  no había nav < md) + bottom-nav del empleado con activo. i18n `nav.sections.*`.
+- **UI-3** (d06a966): rediseño del dashboard manager (StatCards con tono, quick
+  actions por rol, grid mapa/nómina, `data-tour`), headers vía `PageHeader`.
+- **OB** (d5c9bbe): **onboarding interactivo**. Migración `...015`
+  `organizations.onboarding_state jsonb`. `onboarding.ts` (dismiss/reset).
+  Checklist de primeros pasos con progreso REAL (`OnboardingChecklist`) + tour
+  guiado spotlight (`tourStore` zustand + `ProductTour` + welcome dialog) en el
+  dashboard. i18n `onboarding.*`.
+- **ADM** (51898c1): panel admin completo. Tickets de soporte
+  (`/admin/support/[id]` hilo + reply + status, `support.ts`), CRUD de feature
+  overrides (`feature-overrides.ts` + `FeatureOverridesManager`), entrega real de
+  broadcasts (fan-out inapp + `broadcast_deliveries`).
+
+Gates al cerrar: **typecheck ✅, vitest 70/70 ✅, build ✅, lint ✅.**
+**Próximo timestamp de migración libre: `20260501000016`.**
 
 ## Cómo trabajar (convenciones aprendidas — IMPORTANTE)
 
