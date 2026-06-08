@@ -832,5 +832,30 @@
     "mockNote": "Demo data (Square not connected).",
     "noTips": "No tips in range.",
     "distributeHint": "Use these totals in the Tip pool tool to distribute."
+  },
+  "bank": {
+    "myTitle": "Direct deposit",
+    "title": "Payments & direct deposit",
+    "subtitle": "Company bank account + ACH (NACHA) file generation.",
+    "routing": "Routing number",
+    "account": "Account number",
+    "accountType": "Account type",
+    "save": "Save",
+    "saved": "Saved",
+    "onFile": "On file",
+    "secureNote": "Your bank info is encrypted and only used to pay you.",
+    "companyAccount": "Company bank account",
+    "companyName": "Company name (on the account)",
+    "companyId": "Company ID (NACHA)",
+    "encNote": "Set ENCRYPTION_KEY on the server to store bank info.",
+    "achTitle": "ACH file (direct deposit)",
+    "achHint": "Generate a NACHA file per payroll run to upload to your bank.",
+    "noRuns": "No payroll runs yet.",
+    "downloadAch": "Download ACH",
+    "missingNote": "{n} employee(s) skipped (no bank account).",
+    "types": {
+      "checking": "Checking",
+      "savings": "Savings"
+    }
   }
 }

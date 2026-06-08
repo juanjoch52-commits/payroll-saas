@@ -832,5 +832,30 @@
     "mockNote": "Données de démo (Square non connecté).",
     "noTips": "Aucun pourboire.",
     "distributeHint": "Utilisez ces totaux dans loutil de cagnotte."
+  },
+  "bank": {
+    "myTitle": "Dépôt direct",
+    "title": "Paiements et dépôt direct",
+    "subtitle": "Compte de lentreprise + génération de fichier ACH.",
+    "routing": "Numéro dacheminement",
+    "account": "Numéro de compte",
+    "accountType": "Type de compte",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "onFile": "Au dossier",
+    "secureNote": "Vos coordonnées bancaires sont chiffrées et servent uniquement à vous payer.",
+    "companyAccount": "Compte bancaire de lentreprise",
+    "companyName": "Nom de lentreprise",
+    "companyId": "ID dentreprise (NACHA)",
+    "encNote": "Configurez ENCRYPTION_KEY sur le serveur pour stocker les coordonnées.",
+    "achTitle": "Fichier ACH (dépôt direct)",
+    "achHint": "Générez un fichier NACHA par paie à téléverser à votre banque.",
+    "noRuns": "Aucune paie.",
+    "downloadAch": "Télécharger ACH",
+    "missingNote": "{n} employé(s) ignoré(s) (sans compte).",
+    "types": {
+      "checking": "Chèques",
+      "savings": "Épargne"
+    }
   }
 }

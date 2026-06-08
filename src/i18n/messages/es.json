@@ -832,5 +832,30 @@
     "mockNote": "Datos de prueba (Square no conectado).",
     "noTips": "Sin propinas en el rango.",
     "distributeHint": "Usa estos totales en el pool de propinas para repartir."
+  },
+  "bank": {
+    "myTitle": "Depósito directo",
+    "title": "Pagos y depósito directo",
+    "subtitle": "Cuenta de la empresa + generación de archivo ACH (NACHA).",
+    "routing": "Número de ruta (routing)",
+    "account": "Número de cuenta",
+    "accountType": "Tipo de cuenta",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "onFile": "Registrada",
+    "secureNote": "Tus datos bancarios se cifran y solo se usan para pagarte.",
+    "companyAccount": "Cuenta bancaria de la empresa",
+    "companyName": "Nombre de la empresa (en la cuenta)",
+    "companyId": "ID de empresa (NACHA)",
+    "encNote": "Configura ENCRYPTION_KEY en el servidor para guardar datos bancarios.",
+    "achTitle": "Archivo ACH (depósito directo)",
+    "achHint": "Genera un archivo NACHA por nómina para subir a tu banco.",
+    "noRuns": "Aún no hay nóminas.",
+    "downloadAch": "Descargar ACH",
+    "missingNote": "{n} empleado(s) omitido(s) (sin cuenta).",
+    "types": {
+      "checking": "Corriente",
+      "savings": "Ahorros"
+    }
   }
 }
