@@ -31,6 +31,8 @@ export type PayrollInput = {
   unitsProduced?: number
   /** Horas trabajadas, solo para el suelo de salario mínimo FLSA del scheme 'piecerate'. */
   hoursForFloor?: number
+  /** Propinas del período (gravables, se suman al bruto). */
+  tipsCents?: number
   // Datos del empleado necesarios para impuestos
   filingStatus: FilingStatus
   w4Dependents: number
@@ -212,7 +214,13 @@ function calcGross(input: PayrollInput): {
 // -----------------------------------------------------------------------------
 
 export function calculatePayroll(input: PayrollInput): PayrollCalculation {
-  const { grossCents, components: earnings } = calcGross(input)
+  const base = calcGross(input)
+  const tipsCents = input.tipsCents ?? 0
+  const earnings = [...base.components]
+  if (tipsCents > 0) {
+    earnings.push({ type: 'earning', code: 'tips', label: 'Tips', amountCents: tipsCents })
+  }
+  const grossCents = base.grossCents + tipsCents
 
   // Impuestos del empleado (US, MVP)
   const federalTaxCents = calcUSFederalWithholding({

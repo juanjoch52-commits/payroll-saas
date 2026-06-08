@@ -104,6 +104,18 @@ describe('calcGross — regresión de esquemas existentes', () => {
     expect(out.grossCents).toBe(300000)
   })
 
+  it('las propinas se suman al bruto como ingreso gravable', () => {
+    const out = calculatePayroll({
+      ...base,
+      scheme: { type: 'hourly', rateCents: 2500, overtimeMultiplier: 1.5, overtimeThresholdHours: 40 },
+      hoursWorked: 40,
+      tipsCents: 10000,
+    })
+    // 40×2500 = 100000 + propinas 10000 = 110000
+    expect(out.grossCents).toBe(110000)
+    expect(out.components.find((c) => c.code === 'tips')?.amountCents).toBe(10000)
+  })
+
   it('net = gross − impuestos del empleado', () => {
     const out = calculatePayroll({
       ...base,

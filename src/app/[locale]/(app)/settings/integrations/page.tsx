@@ -7,7 +7,9 @@ import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { checkFeature } from '@/lib/auth/checkFeature'
 import { isQuickBooksConfigured } from '@/lib/integrations/quickbooks/client'
+import { isSquareConfigured } from '@/lib/integrations/square/client'
 import { QuickBooksCard } from '@/components/settings/QuickBooksCard'
+import { SquareCard } from '@/components/settings/SquareCard'
 
 type QboConfig = { accountMapping?: Record<string, string> } | null
 
@@ -39,6 +41,14 @@ export default async function IntegrationsPage({
     | { status: string; last_synced_at: string | null; last_error: string | null; config: QboConfig }
     | null
 
+  const { data: sq } = await supabase
+    .from('integrations')
+    .select('status')
+    .eq('organization_id', session.organizationId)
+    .eq('provider', 'square')
+    .maybeSingle()
+  const sqStatus = (sq as { status: string } | null)?.status ?? null
+
   return (
     <div className="space-y-6">
       <Link
@@ -60,6 +70,13 @@ export default async function IntegrationsPage({
         lastError={qboRow?.last_error ?? null}
         accountMapping={(qboRow?.config?.accountMapping as never) ?? null}
         runs={(runs ?? []) as never}
+      />
+
+      <SquareCard
+        locale={locale}
+        hasFeature={hasQuickBooks}
+        serverConfigured={isSquareConfigured()}
+        status={sqStatus}
       />
 
       <Card>

@@ -150,6 +150,25 @@ export async function calculateRunItems(
     productionByEmployee.set(p.employee_id, existing)
   }
 
+  // 2b3) Propinas APROBADAS sin consumir, por empleado.
+  const { data: approvedTips } = await supabase
+    .from('tip_entries')
+    .select('id, employee_id, amount_cents')
+    .in('employee_id', employeeIds)
+    .eq('organization_id', session.organizationId)
+    .eq('status', 'approved')
+    .is('payroll_item_id', null)
+    .gte('work_date', run.period_start)
+    .lte('work_date', run.period_end)
+
+  const tipsByEmployee = new Map<string, { totalCents: number; entryIds: string[] }>()
+  for (const tp of (approvedTips ?? []) as { id: string; employee_id: string; amount_cents: number }[]) {
+    const existing = tipsByEmployee.get(tp.employee_id) ?? { totalCents: 0, entryIds: [] }
+    existing.totalCents += Number(tp.amount_cents) || 0
+    existing.entryIds.push(tp.id)
+    tipsByEmployee.set(tp.employee_id, existing)
+  }
+
   // 2c) Calcular YTD gross por empleado (suma de payroll_items del año en curso
   //     antes del period_start). Necesario para Social Security cap y Medicare additional.
   const yearStart = `${run.period_start.slice(0, 4)}-01-01`
@@ -177,6 +196,7 @@ export async function calculateRunItems(
     sales_amount_cents: number | null
     units_produced: number | null
     production_amount_cents: number | null
+    tips_cents: number | null
     gross_cents: number
     federal_tax_cents: number
     state_tax_cents: number
@@ -241,6 +261,8 @@ export async function calculateRunItems(
       if (billable) hoursForFloor = billable.totalMinutes / 60
     }
 
+    const tipsCents = tipsByEmployee.get(emp.id)?.totalCents ?? 0
+
     const calcInput: PayrollInput = {
       scheme,
       hoursWorked,
@@ -249,6 +271,7 @@ export async function calculateRunItems(
       salesAmountCents: input.salesAmountCents,
       unitsProduced,
       hoursForFloor,
+      tipsCents,
       filingStatus: emp.w4_filing_status,
       w4Dependents: emp.w4_dependents,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,
@@ -270,6 +293,7 @@ export async function calculateRunItems(
       sales_amount_cents: input.salesAmountCents ?? null,
       units_produced: scheme.type === 'piecerate' ? unitsProduced ?? 0 : null,
       production_amount_cents: pieceComp ? pieceComp.amountCents : null,
+      tips_cents: tipsCents || null,
       gross_cents: calc.grossCents,
       federal_tax_cents: calc.federalTaxCents,
       state_tax_cents: calc.stateTaxCents,
@@ -309,6 +333,7 @@ export async function calculateRunItems(
     const oldIds = oldItems.map((i: { id: string }) => i.id)
     await supabase.from('time_entries').update({ payroll_item_id: null }).in('payroll_item_id', oldIds)
     await supabase.from('production_entries').update({ payroll_item_id: null }).in('payroll_item_id', oldIds)
+    await supabase.from('tip_entries').update({ payroll_item_id: null }).in('payroll_item_id', oldIds)
   }
 
   await supabase.from('payroll_items').delete().eq('payroll_run_id', runId)
@@ -339,6 +364,13 @@ export async function calculateRunItems(
       .from('production_entries')
       .update({ payroll_item_id: pItemId })
       .in('id', prod.entryIds)
+  }
+
+  // 4d) Marcar las tip_entries consumidas en este run.
+  for (const [empId, tips] of tipsByEmployee) {
+    const pItemId = itemIdByEmpForTimeEntries.get(empId)
+    if (!pItemId || tips.entryIds.length === 0) continue
+    await supabase.from('tip_entries').update({ payroll_item_id: pItemId }).in('id', tips.entryIds)
   }
 
   // 5) Inserta los components con los IDs reales

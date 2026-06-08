@@ -55,7 +55,8 @@
     "production": "Producción",
     "schedule": "Horario",
     "timeOff": "Tiempo libre",
-    "documents": "Documentos"
+    "documents": "Documentos",
+    "tips": "Propinas"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -788,5 +789,48 @@
       "contract": "Contrato",
       "other": "Otro"
     }
+  },
+  "tips": {
+    "title": "Propinas",
+    "subtitle": "Registra propinas y reparte pools — entran a la nómina.",
+    "record": "Registrar propina",
+    "employee": "Empleado",
+    "date": "Fecha",
+    "amount": "Monto",
+    "source": "Origen",
+    "add": "Añadir",
+    "pool": "Pool de propinas",
+    "total": "Total",
+    "method": "Método",
+    "byHours": "Por horas",
+    "equal": "Igual",
+    "distribute": "Repartir",
+    "recent": "Propinas recientes",
+    "empty": "Aún no hay propinas.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "sources": {
+      "card": "Tarjeta",
+      "cash": "Efectivo",
+      "pool": "Pool",
+      "declared": "Declarada"
+    },
+    "status": {
+      "approved": "Aprobado",
+      "pending": "Pendiente",
+      "rejected": "Rechazado"
+    }
+  },
+  "square": {
+    "desc": "Trae el total de propinas de Square por día para repartir.",
+    "serverNote": "Necesita llaves de Square en el servidor. Las propinas funcionan manual igual.",
+    "connect": "Conectar Square",
+    "tipTotals": "Total de propinas por día",
+    "from": "Desde",
+    "to": "Hasta",
+    "pull": "Obtener totales",
+    "mockNote": "Datos de prueba (Square no conectado).",
+    "noTips": "Sin propinas en el rango.",
+    "distributeHint": "Usa estos totales en el pool de propinas para repartir."
   }
 }

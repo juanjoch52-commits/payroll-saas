@@ -55,7 +55,8 @@
     "production": "Production",
     "schedule": "Horaire",
     "timeOff": "Congés",
-    "documents": "Documents"
+    "documents": "Documents",
+    "tips": "Pourboires"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -788,5 +789,48 @@
       "contract": "Contrat",
       "other": "Autre"
     }
+  },
+  "tips": {
+    "title": "Pourboires",
+    "subtitle": "Enregistrez les pourboires et répartissez les cagnottes.",
+    "record": "Enregistrer un pourboire",
+    "employee": "Employé",
+    "date": "Date",
+    "amount": "Montant",
+    "source": "Source",
+    "add": "Ajouter",
+    "pool": "Cagnotte",
+    "total": "Total",
+    "method": "Méthode",
+    "byHours": "Par heures",
+    "equal": "Égal",
+    "distribute": "Répartir",
+    "recent": "Pourboires récents",
+    "empty": "Aucun pourboire.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "sources": {
+      "card": "Carte",
+      "cash": "Comptant",
+      "pool": "Cagnotte",
+      "declared": "Déclaré"
+    },
+    "status": {
+      "approved": "Approuvé",
+      "pending": "En attente",
+      "rejected": "Rejeté"
+    }
+  },
+  "square": {
+    "desc": "Importez les totaux de pourboires de Square.",
+    "serverNote": "Nécessite les clés Square sur le serveur. Les pourboires fonctionnent manuellement.",
+    "connect": "Connecter Square",
+    "tipTotals": "Totaux de pourboires par jour",
+    "from": "Du",
+    "to": "Au",
+    "pull": "Obtenir les totaux",
+    "mockNote": "Données de démo (Square non connecté).",
+    "noTips": "Aucun pourboire.",
+    "distributeHint": "Utilisez ces totaux dans loutil de cagnotte."
   }
 }

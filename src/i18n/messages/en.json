@@ -55,7 +55,8 @@
     "production": "Production",
     "schedule": "Schedule",
     "timeOff": "Time off",
-    "documents": "Documents"
+    "documents": "Documents",
+    "tips": "Tips"
   },
   "auth": {
     "signIn": "Sign in",
@@ -788,5 +789,48 @@
       "contract": "Contract",
       "other": "Other"
     }
+  },
+  "tips": {
+    "title": "Tips",
+    "subtitle": "Record tips and distribute pools — they flow into payroll.",
+    "record": "Record a tip",
+    "employee": "Employee",
+    "date": "Date",
+    "amount": "Amount",
+    "source": "Source",
+    "add": "Add",
+    "pool": "Tip pool",
+    "total": "Total",
+    "method": "Method",
+    "byHours": "By hours",
+    "equal": "Equal",
+    "distribute": "Distribute",
+    "recent": "Recent tips",
+    "empty": "No tips yet.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "sources": {
+      "card": "Card",
+      "cash": "Cash",
+      "pool": "Pool",
+      "declared": "Declared"
+    },
+    "status": {
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    }
+  },
+  "square": {
+    "desc": "Pull daily tip totals from Square to distribute.",
+    "serverNote": "Needs Square keys on the server. Tips still work manually.",
+    "connect": "Connect Square",
+    "tipTotals": "Tip totals by day",
+    "from": "From",
+    "to": "To",
+    "pull": "Get totals",
+    "mockNote": "Demo data (Square not connected).",
+    "noTips": "No tips in range.",
+    "distributeHint": "Use these totals in the Tip pool tool to distribute."
   }
 }
