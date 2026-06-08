@@ -135,7 +135,14 @@
     "generateW2": "Générer les feuillets T4",
     "generate1099": "Générer les T4A",
     "selectYear": "Sélectionner l'année fiscale",
-    "upgradeRequired": "La génération de rapports fiscaux nécessite le plan Avanzado ou supérieur."
+    "upgradeRequired": "La génération de rapports fiscaux nécessite le plan Avanzado ou supérieur.",
+    "exports": "Rapports et exports",
+    "exportsDesc": "Téléchargez la paie, les heures et les pourboires en CSV.",
+    "payrollRegister": "Registre de paie",
+    "from": "Du",
+    "to": "Au",
+    "hours": "Heures CSV",
+    "tips": "Pourboires CSV"
   },
   "billing": {
     "title": "Plans et facturation",

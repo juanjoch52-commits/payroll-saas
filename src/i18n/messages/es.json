@@ -135,7 +135,14 @@
     "generateW2": "Generar W-2",
     "generate1099": "Generar 1099-NEC",
     "selectYear": "Selecciona el año fiscal",
-    "upgradeRequired": "Generar reportes fiscales requiere el plan Avanzado o superior."
+    "upgradeRequired": "Generar reportes fiscales requiere el plan Avanzado o superior.",
+    "exports": "Reportes y exportaciones",
+    "exportsDesc": "Descarga nómina, horas y propinas en CSV.",
+    "payrollRegister": "Registro de nómina",
+    "from": "Desde",
+    "to": "Hasta",
+    "hours": "Horas CSV",
+    "tips": "Propinas CSV"
   },
   "billing": {
     "title": "Planes y facturación",

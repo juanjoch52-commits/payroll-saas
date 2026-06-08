@@ -135,7 +135,14 @@
     "generateW2": "Générer les W-2",
     "generate1099": "Générer les 1099-NEC",
     "selectYear": "Sélectionner l'année fiscale",
-    "upgradeRequired": "La génération de rapports fiscaux nécessite le plan Avanzado ou supérieur."
+    "upgradeRequired": "La génération de rapports fiscaux nécessite le plan Avanzado ou supérieur.",
+    "exports": "Rapports et exports",
+    "exportsDesc": "Téléchargez la paie, les heures et les pourboires en CSV.",
+    "payrollRegister": "Registre de paie",
+    "from": "Du",
+    "to": "Au",
+    "hours": "Heures CSV",
+    "tips": "Pourboires CSV"
   },
   "billing": {
     "title": "Plans et facturation",

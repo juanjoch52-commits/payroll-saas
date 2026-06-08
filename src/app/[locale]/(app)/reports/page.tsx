@@ -4,6 +4,7 @@ import { requireSession } from '@/lib/auth/session'
 import { checkFeature } from '@/lib/auth/checkFeature'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { YearEndForm } from '@/components/reports/YearEndForm'
+import { ReportsExports } from '@/components/reports/ReportsExports'
 
 export default async function ReportsPage({
   params: { locale },
@@ -23,11 +24,28 @@ export default async function ReportsPage({
     .order('tax_year', { ascending: false })
     .order('generated_at', { ascending: false })
 
+  const { data: runs } = await supabase
+    .from('payroll_runs')
+    .select('id, period_start, period_end, pay_date')
+    .eq('organization_id', session.organizationId)
+    .order('pay_date', { ascending: false })
+    .limit(12)
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">{t('reports.title')}</h1>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('reports.exports')}</CardTitle>
+          <CardDescription>{t('reports.exportsDesc')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ReportsExports runs={(runs ?? []) as never} />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

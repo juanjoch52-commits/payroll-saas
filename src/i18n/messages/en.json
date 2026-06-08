@@ -135,7 +135,14 @@
     "generateW2": "Generate W-2s",
     "generate1099": "Generate 1099-NECs",
     "selectYear": "Select tax year",
-    "upgradeRequired": "Tax report generation requires the Avanzado plan or higher."
+    "upgradeRequired": "Tax report generation requires the Avanzado plan or higher.",
+    "exports": "Reports & exports",
+    "exportsDesc": "Download payroll, hours and tips as CSV.",
+    "payrollRegister": "Payroll register",
+    "from": "From",
+    "to": "To",
+    "hours": "Hours CSV",
+    "tips": "Tips CSV"
   },
   "billing": {
     "title": "Plans & billing",
