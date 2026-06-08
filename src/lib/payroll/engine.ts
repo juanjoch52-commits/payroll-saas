@@ -16,6 +16,7 @@ import {
   type FilingStatus,
 } from './us/federal-2026'
 import { calcStateWithholding } from './us/states'
+import { calcLocalTax, localityName } from './us/local'
 import type { OvertimeRules, HoursSplit } from './overtime'
 
 // -----------------------------------------------------------------------------
@@ -51,6 +52,8 @@ export type PayrollInput = {
   periodsPerYear: number
   /** State jurisdiction code (e.g. 'CA', 'US-CA'). Empty → no state withholding. */
   stateCode?: string
+  /** Locality code para impuesto municipal (NYC, PHL, YON). */
+  localityCode?: string
 }
 
 export type PayrollComponent = {
@@ -67,6 +70,7 @@ export type PayrollCalculation = {
   socialSecurityCents: number
   medicareCents: number
   stateTaxCents: number
+  localTaxCents: number
   otherDeductionsCents: number
   employerSocialSecurityCents: number
   employerMedicareCents: number
@@ -283,6 +287,7 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
         stateCode: input.stateCode,
       })
     : 0
+  const localTaxCents = calcLocalTax(input.localityCode, taxableGross)
   const otherDeductionsCents = preTaxTotal + postTaxTotal
 
   // Costos del employer (no afectan el net del empleado)
@@ -291,7 +296,7 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
   const employerFUTACents = calcUSEmployerFUTA(grossCents, input.ytdGrossCents ?? 0)
 
   const netCents =
-    grossCents - federalTaxCents - socialSecurityCents - medicareCents - stateTaxCents - otherDeductionsCents
+    grossCents - federalTaxCents - socialSecurityCents - medicareCents - stateTaxCents - localTaxCents - otherDeductionsCents
 
   const taxComponents: PayrollComponent[] = [
     {
@@ -313,6 +318,15 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
       amountCents: medicareCents,
     },
   ]
+  if (localTaxCents > 0) {
+    const ln = localityName(input.localityCode)
+    taxComponents.push({
+      type: 'tax',
+      code: 'local_income',
+      label: ln ? `Local tax (${ln})` : 'Local tax',
+      amountCents: localTaxCents,
+    })
+  }
 
   const deductionComponents: PayrollComponent[] = deductionsList.map((d) => ({
     type: 'deduction',
@@ -349,6 +363,7 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
     socialSecurityCents,
     medicareCents,
     stateTaxCents,
+    localTaxCents,
     otherDeductionsCents,
     employerSocialSecurityCents,
     employerMedicareCents,
@@ -357,7 +372,7 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
     breakdown: {
       input,
       gross: grossCents,
-      taxes: { federalTaxCents, socialSecurityCents, medicareCents, stateTaxCents },
+      taxes: { federalTaxCents, socialSecurityCents, medicareCents, stateTaxCents, localTaxCents },
       net: netCents,
       employerTaxes: {
         employerSocialSecurityCents,
