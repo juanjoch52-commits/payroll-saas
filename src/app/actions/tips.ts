@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
+import { distributeTipPool as allocateTipPool, type TipParticipant } from '@/lib/payroll/tips'
 
 // =============================================================================
 // Server Actions — Propinas (tips)
@@ -94,8 +95,8 @@ export async function distributeTipPool(input: z.input<typeof distributeSchema>)
   const { workDate, totalCents, method, employeeIds } = parsed.data
   const supabase = createClient()
 
-  // Pesos: por horas trabajadas ese día, o iguales.
-  const weights = new Map<string, number>()
+  // Pesos por empleado: minutos trabajados ese día (método 'hours') o 1 (equal).
+  const minutesById = new Map<string, number>()
   if (method === 'hours') {
     const { data: entries } = await supabase
       .from('time_entries')
@@ -105,34 +106,23 @@ export async function distributeTipPool(input: z.input<typeof distributeSchema>)
       .gte('clock_in_at', `${workDate}T00:00:00Z`)
       .lte('clock_in_at', `${workDate}T23:59:59Z`)
     for (const e of (entries ?? []) as { employee_id: string; billable_minutes: number | null }[]) {
-      weights.set(e.employee_id, (weights.get(e.employee_id) ?? 0) + (e.billable_minutes ?? 0))
+      minutesById.set(e.employee_id, (minutesById.get(e.employee_id) ?? 0) + (e.billable_minutes ?? 0))
     }
   }
-  // Si no hay horas (o método equal), pesos iguales.
-  const totalWeight = [...weights.values()].reduce((a, b) => a + b, 0)
-  if (method === 'equal' || totalWeight === 0) {
-    weights.clear()
-    for (const id of employeeIds) weights.set(id, 1)
-  }
-  const sumW = [...weights.values()].reduce((a, b) => a + b, 0)
 
-  // Reparte con remainder al primero para que cuadre exacto.
-  const rows: { employee_id: string; amount_cents: number }[] = []
-  let allocated = 0
-  const ids = [...weights.keys()]
-  ids.forEach((id, i) => {
-    let share = i === ids.length - 1 ? totalCents - allocated : Math.round((totalCents * (weights.get(id) ?? 0)) / sumW)
-    if (share < 0) share = 0
-    allocated += share
-    rows.push({ employee_id: id, amount_cents: share })
-  })
+  // El reparto (proporcional + remanente + fallback equitativo) es puro y testeado.
+  const participants: TipParticipant[] = employeeIds.map((id) => ({
+    employeeId: id,
+    weightUnits: method === 'hours' ? minutesById.get(id) ?? 0 : 1,
+  }))
+  const rows = allocateTipPool(totalCents, participants)
 
   const { error } = await supabase.from('tip_entries').insert(
     rows.map((r) => ({
       organization_id: session.organizationId,
-      employee_id: r.employee_id,
+      employee_id: r.employeeId,
       work_date: workDate,
-      amount_cents: r.amount_cents,
+      amount_cents: r.amountCents,
       source: 'pool' as const,
       status: 'approved' as const,
       reviewed_by: session.userId,

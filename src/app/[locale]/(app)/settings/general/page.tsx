@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { IndustrySelector } from '@/components/settings/IndustrySelector'
+import { DataExportCard } from '@/components/settings/DataExportCard'
 import { type IndustryType } from '@/lib/industry/presets'
 
 export default async function GeneralSettingsPage({
@@ -33,6 +34,9 @@ export default async function GeneralSettingsPage({
       </div>
       <div className="rounded-lg border bg-card p-6">
         <IndustrySelector locale={locale} current={industry} />
+      </div>
+      <div className="rounded-lg border bg-card p-6">
+        <DataExportCard />
       </div>
     </div>
   )

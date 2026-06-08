@@ -96,7 +96,13 @@ export function WebhooksCard({ endpoints }: { endpoints: Endpoint[] }) {
             <p className="mb-2 font-medium">Signing secret — copy it now, it won&apos;t be shown again:</p>
             <div className="flex items-center gap-2">
               <code className="flex-1 break-all rounded bg-background px-2 py-1 text-xs">{newSecret}</code>
-              <Button type="button" variant="outline" size="sm" onClick={copySecret}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={copySecret}
+                aria-label="Copy signing secret"
+              >
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>

@@ -209,6 +209,7 @@ export function KioskApp() {
             value={pairCode}
             onChange={(e) => setPairCode(e.target.value.toUpperCase())}
             placeholder="ABCD2345"
+            aria-label={t('kiosk.pairTitle')}
             className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-4 text-center text-2xl font-mono tracking-widest uppercase outline-none focus:border-sky-500"
             maxLength={12}
           />
@@ -283,7 +284,7 @@ export function KioskApp() {
             ))}
             <div />
             <PadButton onClick={() => pressDigit('0')}>0</PadButton>
-            <PadButton onClick={() => setPin(pin.slice(0, -1))}>
+            <PadButton onClick={() => setPin(pin.slice(0, -1))} ariaLabel={t('kiosk.deleteDigit')}>
               <Delete className="h-7 w-7" />
             </PadButton>
           </div>
@@ -377,7 +378,11 @@ function Header({
     <header className="flex items-center justify-between border-b border-slate-800 px-6 py-4">
       <div className="flex items-center gap-3">
         {onBack && (
-          <button onClick={onBack} className="rounded-lg bg-slate-800 px-4 py-2 text-sm hover:bg-slate-700">
+          <button
+            onClick={onBack}
+            aria-label="Back"
+            className="rounded-lg bg-slate-800 px-4 py-2 text-sm hover:bg-slate-700"
+          >
             ←
           </button>
         )}
@@ -395,10 +400,19 @@ function Header({
   )
 }
 
-function PadButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+function PadButton({
+  children,
+  onClick,
+  ariaLabel,
+}: {
+  children: React.ReactNode
+  onClick: () => void
+  ariaLabel?: string
+}) {
   return (
     <button
       onClick={onClick}
+      aria-label={ariaLabel}
       className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-800 text-3xl font-semibold transition hover:bg-slate-700 active:scale-95"
     >
       {children}

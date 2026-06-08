@@ -662,7 +662,8 @@
     "clockedOut": "Salida registrada",
     "outsideGeofence": "Fuera del área del sitio",
     "tryAgain": "Intentar de nuevo",
-    "unpairConfirm": "¿Desemparejar esta tablet? Necesitarás un nuevo código para configurarla."
+    "unpairConfirm": "¿Desemparejar esta tablet? Necesitarás un nuevo código para configurarla.",
+    "deleteDigit": "Borrar"
   },
   "devices": {
     "title": "Dispositivos y kiosko",

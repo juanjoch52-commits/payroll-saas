@@ -662,7 +662,8 @@
     "clockedOut": "Sortie enregistrée",
     "outsideGeofence": "Hors de la zone du site",
     "tryAgain": "Réessayer",
-    "unpairConfirm": "Dissocier cette tablette ? Vous aurez besoin d’un nouveau code."
+    "unpairConfirm": "Dissocier cette tablette ? Vous aurez besoin d’un nouveau code.",
+    "deleteDigit": "Effacer"
   },
   "devices": {
     "title": "Appareils et kiosque",

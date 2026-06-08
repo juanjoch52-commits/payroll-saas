@@ -662,7 +662,8 @@
     "clockedOut": "Clocked out",
     "outsideGeofence": "Outside the worksite area",
     "tryAgain": "Try again",
-    "unpairConfirm": "Unpair this tablet? You will need a new code to set it up again."
+    "unpairConfirm": "Unpair this tablet? You will need a new code to set it up again.",
+    "deleteDigit": "Delete"
   },
   "devices": {
     "title": "Devices & kiosk",
