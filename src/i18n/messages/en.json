@@ -53,7 +53,8 @@
     "paystubs": "Pay stubs",
     "profile": "Profile",
     "production": "Production",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "timeOff": "Time off"
   },
   "auth": {
     "signIn": "Sign in",
@@ -717,5 +718,43 @@
     "noOpen": "No open shifts.",
     "claim": "Take it",
     "claimed": "Shift claimed"
+  },
+  "timeOff": {
+    "title": "Time off",
+    "subtitle": "Approve requests and manage policies.",
+    "myTitle": "My time off",
+    "pending": "Pending requests",
+    "noPending": "No pending requests.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "policies": "Policies",
+    "policyName": "Policy name",
+    "type": "Type",
+    "paid": "Paid",
+    "unpaidTag": "Unpaid",
+    "noPolicies": "No policies yet.",
+    "history": "History",
+    "request": "Request time off",
+    "policy": "Policy",
+    "from": "From",
+    "to": "To",
+    "hours": "Hours",
+    "reason": "Reason",
+    "submit": "Submit request",
+    "myRequests": "My requests",
+    "noRequests": "No requests yet.",
+    "types": {
+      "vacation": "Vacation",
+      "sick": "Sick",
+      "personal": "Personal",
+      "unpaid": "Unpaid",
+      "other": "Other"
+    },
+    "status": {
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled"
+    }
   }
 }

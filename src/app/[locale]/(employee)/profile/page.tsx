@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { Plane, ChevronRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
@@ -64,6 +66,16 @@ export default async function EmployeeProfilePage({
           </div>
         </CardContent>
       </Card>
+
+      <Link
+        href={`/${locale}/my-time-off`}
+        className="mt-4 flex items-center justify-between rounded-lg border bg-card p-4 text-sm font-medium hover:bg-accent"
+      >
+        <span className="flex items-center gap-2">
+          <Plane className="h-4 w-4" /> {t('timeOff.myTitle')}
+        </span>
+        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      </Link>
 
       <p className="mt-6 text-center text-xs text-muted-foreground">
         To update your information, contact your manager.

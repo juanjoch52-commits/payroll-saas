@@ -53,7 +53,8 @@
     "paystubs": "Recibos",
     "profile": "Perfil",
     "production": "Producción",
-    "schedule": "Horario"
+    "schedule": "Horario",
+    "timeOff": "Tiempo libre"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -717,5 +718,43 @@
     "noOpen": "No hay turnos abiertos.",
     "claim": "Tomar",
     "claimed": "Turno tomado"
+  },
+  "timeOff": {
+    "title": "Tiempo libre",
+    "subtitle": "Aprueba solicitudes y gestiona políticas.",
+    "myTitle": "Mi tiempo libre",
+    "pending": "Solicitudes pendientes",
+    "noPending": "Sin solicitudes pendientes.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "policies": "Políticas",
+    "policyName": "Nombre",
+    "type": "Tipo",
+    "paid": "Pagado",
+    "unpaidTag": "Sin pago",
+    "noPolicies": "Aún no hay políticas.",
+    "history": "Historial",
+    "request": "Solicitar tiempo libre",
+    "policy": "Política",
+    "from": "Desde",
+    "to": "Hasta",
+    "hours": "Horas",
+    "reason": "Motivo",
+    "submit": "Enviar solicitud",
+    "myRequests": "Mis solicitudes",
+    "noRequests": "Aún no hay solicitudes.",
+    "types": {
+      "vacation": "Vacaciones",
+      "sick": "Enfermedad",
+      "personal": "Personal",
+      "unpaid": "Sin pago",
+      "other": "Otro"
+    },
+    "status": {
+      "approved": "Aprobado",
+      "pending": "Pendiente",
+      "rejected": "Rechazado",
+      "cancelled": "Cancelado"
+    }
   }
 }

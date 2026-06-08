@@ -53,7 +53,8 @@
     "paystubs": "Bulletins de paie",
     "profile": "Profil",
     "production": "Production",
-    "schedule": "Horaire"
+    "schedule": "Horaire",
+    "timeOff": "Congés"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -717,5 +718,43 @@
     "noOpen": "Aucun quart ouvert.",
     "claim": "Prendre",
     "claimed": "Quart pris"
+  },
+  "timeOff": {
+    "title": "Congés",
+    "subtitle": "Approuvez les demandes et gérez les politiques.",
+    "myTitle": "Mes congés",
+    "pending": "Demandes en attente",
+    "noPending": "Aucune demande en attente.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "policies": "Politiques",
+    "policyName": "Nom",
+    "type": "Type",
+    "paid": "Payé",
+    "unpaidTag": "Non payé",
+    "noPolicies": "Aucune politique.",
+    "history": "Historique",
+    "request": "Demander un congé",
+    "policy": "Politique",
+    "from": "Du",
+    "to": "Au",
+    "hours": "Heures",
+    "reason": "Motif",
+    "submit": "Envoyer la demande",
+    "myRequests": "Mes demandes",
+    "noRequests": "Aucune demande.",
+    "types": {
+      "vacation": "Vacances",
+      "sick": "Maladie",
+      "personal": "Personnel",
+      "unpaid": "Non payé",
+      "other": "Autre"
+    },
+    "status": {
+      "approved": "Approuvé",
+      "pending": "En attente",
+      "rejected": "Rejeté",
+      "cancelled": "Annulé"
+    }
   }
 }
