@@ -65,7 +65,14 @@ export default async function SupportPage({
                         {orgName ?? t.organization_id.slice(0, 8)}
                       </Link>
                     </td>
-                    <td className="px-4 py-3">{t.subject}</td>
+                    <td className="px-4 py-3">
+                      <Link
+                        href={`/${locale}/admin/support/${t.id}`}
+                        className="font-medium hover:text-primary hover:underline"
+                      >
+                        {t.subject}
+                      </Link>
+                    </td>
                     <td className="px-4 py-3">
                       <Badge variant={t.status === 'open' ? 'warning' : t.status === 'resolved' ? 'success' : 'muted'}>
                         {t.status}

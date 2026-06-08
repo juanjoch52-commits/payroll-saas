@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
+import { FeatureOverridesManager } from '@/components/admin/FeatureOverridesManager'
 import { startImpersonation } from '@/lib/admin/impersonate'
 
 export const dynamic = 'force-dynamic'
@@ -255,38 +256,7 @@ export default async function TenantDetailPage({
               </p>
             </CardHeader>
             <CardContent>
-              {(overrides ?? []).length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  No overrides. Tenant gets exactly what their plan defines.
-                </p>
-              ) : (
-                <table className="w-full text-sm">
-                  <thead className="border-b text-xs uppercase text-muted-foreground">
-                    <tr>
-                      <th className="py-2 text-left">Flag</th>
-                      <th className="py-2 text-left">Enabled</th>
-                      <th className="py-2 text-left">Reason</th>
-                      <th className="py-2 text-left">Expires</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {(overrides ?? []).map((o, i) => (
-                      <tr key={i} className="border-b last:border-0">
-                        <td className="py-2 font-mono text-xs">{o.flag_key}</td>
-                        <td className="py-2">
-                          <Badge variant={o.enabled ? 'success' : 'destructive'}>
-                            {o.enabled ? 'on' : 'off'}
-                          </Badge>
-                        </td>
-                        <td className="py-2 text-muted-foreground">{o.reason ?? '—'}</td>
-                        <td className="py-2 text-muted-foreground">
-                          {o.expires_at ? new Date(o.expires_at).toLocaleDateString() : 'never'}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
+              <FeatureOverridesManager orgId={id} overrides={overrides ?? []} />
             </CardContent>
           </Card>
         </TabsContent>
