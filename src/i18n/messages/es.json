@@ -903,5 +903,20 @@
     "preTax": "Pre-impuestos",
     "current": "Deducciones actuales",
     "none": "Sin deducciones para este empleado."
+  },
+  "departments": {
+    "title": "Departamentos",
+    "subtitle": "Organiza empleados en equipos.",
+    "list": "Departamentos",
+    "none": "Aún no hay departamentos.",
+    "assign": "Asignar empleados"
+  },
+  "profileEdit": {
+    "edit": "Editar mis datos de contacto",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "region": "Estado",
+    "postal": "C.P."
   }
 }

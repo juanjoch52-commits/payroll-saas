@@ -11,6 +11,7 @@ export default async function SettingsPage({
 
   const sections = [
     { href: `/${locale}/settings/general`, title: t('settings.general.title'), description: t('settings.general.subtitle') },
+    { href: `/${locale}/departments`, title: t('departments.title'), description: t('departments.subtitle') },
     { href: `/${locale}/settings/integrations`, title: 'Integrations', description: 'Connect QuickBooks, MyRavex and other services.' },
     { href: `/${locale}/settings/devices`, title: t('devices.title'), description: t('devices.subtitle') },
     { href: `/${locale}/settings/payments`, title: t('bank.title'), description: t('bank.subtitle') },

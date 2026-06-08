@@ -903,5 +903,20 @@
     "preTax": "Pre-tax",
     "current": "Current deductions",
     "none": "No deductions for this employee."
+  },
+  "departments": {
+    "title": "Departments",
+    "subtitle": "Organize employees into teams.",
+    "list": "Departments",
+    "none": "No departments yet.",
+    "assign": "Assign employees"
+  },
+  "profileEdit": {
+    "edit": "Edit my contact info",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "region": "State",
+    "postal": "ZIP"
   }
 }

@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { MyProfileEdit } from '@/components/employee/MyProfileEdit'
 
 export default async function EmployeeProfilePage({
   params: { locale },
@@ -16,7 +17,7 @@ export default async function EmployeeProfilePage({
 
   const { data: employee } = await supabase
     .from('employees')
-    .select('first_name, last_name, email, phone, hire_date, job_title, primary_jurisdiction_code, tax_id_last_four')
+    .select('first_name, last_name, email, phone, hire_date, job_title, primary_jurisdiction_code, tax_id_last_four, address')
     .eq('user_id', session.userId)
     .eq('organization_id', session.organizationId)
     .maybeSingle()
@@ -107,9 +108,10 @@ export default async function EmployeeProfilePage({
         <ChevronRight className="h-4 w-4 text-muted-foreground" />
       </Link>
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
-        To update your information, contact your manager.
-      </p>
+      <MyProfileEdit
+        phone={(employee?.phone as string | null) ?? null}
+        address={(employee?.address as { line1?: string | null; city?: string | null; region?: string | null; postalCode?: string | null } | null) ?? null}
+      />
     </div>
   )
 }

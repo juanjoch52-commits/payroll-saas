@@ -903,5 +903,20 @@
     "preTax": "Avant impôt",
     "current": "Retenues actuelles",
     "none": "Aucune retenue pour cet employé."
+  },
+  "departments": {
+    "title": "Départements",
+    "subtitle": "Organisez les employés en équipes.",
+    "list": "Départements",
+    "none": "Aucun département.",
+    "assign": "Affecter les employés"
+  },
+  "profileEdit": {
+    "edit": "Modifier mes coordonnées",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "city": "Ville",
+    "region": "Province",
+    "postal": "Code postal"
   }
 }
