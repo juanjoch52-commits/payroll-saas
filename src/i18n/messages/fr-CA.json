@@ -59,7 +59,15 @@
     "tips": "Pourboires",
     "jobs": "Chantiers",
     "announcements": "Équipe",
-    "deductions": "Retenues"
+    "deductions": "Retenues",
+    "sections": {
+      "overview": "Aperçu",
+      "people": "Personnel",
+      "time": "Temps",
+      "payroll": "Paie",
+      "communication": "Communication",
+      "organization": "Organisation"
+    }
   },
   "auth": {
     "signIn": "Se connecter",

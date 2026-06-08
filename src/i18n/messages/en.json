@@ -59,7 +59,15 @@
     "tips": "Tips",
     "jobs": "Jobs",
     "announcements": "Team",
-    "deductions": "Deductions"
+    "deductions": "Deductions",
+    "sections": {
+      "overview": "Overview",
+      "people": "People",
+      "time": "Time",
+      "payroll": "Payroll",
+      "communication": "Communication",
+      "organization": "Organization"
+    }
   },
   "auth": {
     "signIn": "Sign in",

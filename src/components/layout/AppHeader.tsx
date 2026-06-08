@@ -4,6 +4,7 @@ import { LocaleSwitcher } from './LocaleSwitcher'
 import { ThemeToggle } from './ThemeToggle'
 import { UserMenu } from './UserMenu'
 import { OrgSwitcher } from './OrgSwitcher'
+import { MobileNav } from './MobileNav'
 import { NotificationBell } from '@/components/notifications/NotificationBell'
 import type { ActiveSession } from '@/lib/auth/session'
 
@@ -25,7 +26,8 @@ export async function AppHeader({
   return (
     <header className="flex h-16 items-center justify-between border-b bg-card px-6">
       <div className="flex items-center gap-3">
-        <span className="text-xs uppercase tracking-wide text-muted-foreground">
+        <MobileNav locale={locale} role={session.role} />
+        <span className="hidden text-xs uppercase tracking-wide text-muted-foreground sm:inline">
           {t('common.appName')}
         </span>
         <OrgSwitcher

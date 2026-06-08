@@ -59,7 +59,15 @@
     "tips": "Propinas",
     "jobs": "Obras",
     "announcements": "Equipo",
-    "deductions": "Deducciones"
+    "deductions": "Deducciones",
+    "sections": {
+      "overview": "Resumen",
+      "people": "Personas",
+      "time": "Tiempo",
+      "payroll": "Nómina",
+      "communication": "Comunicación",
+      "organization": "Organización"
+    }
   },
   "auth": {
     "signIn": "Iniciar sesión",
