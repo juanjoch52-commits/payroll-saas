@@ -10,6 +10,7 @@ import {
   Boxes,
   CalendarDays,
   Plane,
+  FileSignature,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { JovaWordmark } from '@/components/branding/JovaWordmark'
@@ -37,6 +38,7 @@ const navItems: {
   { href: '/time-tracking', labelKey: 'nav.timeTracking',  icon: Calculator,      minRole: 'manager' },
   { href: '/schedule',      labelKey: 'nav.schedule',      icon: CalendarDays,    minRole: 'manager' },
   { href: '/time-off',      labelKey: 'nav.timeOff',       icon: Plane,           minRole: 'manager' },
+  { href: '/documents',     labelKey: 'nav.documents',     icon: FileSignature,   minRole: 'manager' },
   { href: '/production',    labelKey: 'nav.production',     icon: Boxes,           minRole: 'manager' },
   { href: '/worksites',     labelKey: 'nav.worksites',     icon: Settings,        minRole: 'manager' },
   { href: '/reports',       labelKey: 'nav.reports',       icon: FileText,        minRole: 'admin' },

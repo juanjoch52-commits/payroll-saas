@@ -54,7 +54,8 @@
     "profile": "Profil",
     "production": "Production",
     "schedule": "Horaire",
-    "timeOff": "Congés"
+    "timeOff": "Congés",
+    "documents": "Documents"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -755,6 +756,37 @@
       "pending": "En attente",
       "rejected": "Rejeté",
       "cancelled": "Annulé"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "Téléversez des documents et recueillez des signatures.",
+    "myTitle": "Mes documents",
+    "name": "Nom",
+    "kind": "Type",
+    "assignTo": "Attribuer à",
+    "everyone": "Tout le monde",
+    "file": "Fichier (PDF)",
+    "requireSignature": "Signature requise",
+    "upload": "Téléverser",
+    "library": "Bibliothèque",
+    "empty": "Aucun document.",
+    "none": "Aucun document.",
+    "signed": "Signé",
+    "sign": "Signer",
+    "signTitle": "Signer le document",
+    "yourName": "Tapez votre nom complet",
+    "clear": "Effacer",
+    "confirmSign": "Signer",
+    "legalNote": "En signant, vous acceptez quil sagit de votre signature électronique.",
+    "kinds": {
+      "offer_letter": "Lettre doffre",
+      "handbook": "Manuel",
+      "policy": "Politique",
+      "tax_form": "Formulaire fiscal",
+      "id_doc": "Pièce didentité",
+      "contract": "Contrat",
+      "other": "Autre"
     }
   }
 }

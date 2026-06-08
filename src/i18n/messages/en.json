@@ -54,7 +54,8 @@
     "profile": "Profile",
     "production": "Production",
     "schedule": "Schedule",
-    "timeOff": "Time off"
+    "timeOff": "Time off",
+    "documents": "Documents"
   },
   "auth": {
     "signIn": "Sign in",
@@ -755,6 +756,37 @@
       "pending": "Pending",
       "rejected": "Rejected",
       "cancelled": "Cancelled"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "Upload documents and collect e-signatures.",
+    "myTitle": "My documents",
+    "name": "Name",
+    "kind": "Type",
+    "assignTo": "Assign to",
+    "everyone": "Everyone",
+    "file": "File (PDF)",
+    "requireSignature": "Require signature",
+    "upload": "Upload",
+    "library": "Document library",
+    "empty": "No documents yet.",
+    "none": "No documents.",
+    "signed": "Signed",
+    "sign": "Sign",
+    "signTitle": "Sign document",
+    "yourName": "Type your full name",
+    "clear": "Clear",
+    "confirmSign": "Sign",
+    "legalNote": "By signing you agree this is your electronic signature.",
+    "kinds": {
+      "offer_letter": "Offer letter",
+      "handbook": "Handbook",
+      "policy": "Policy",
+      "tax_form": "Tax form",
+      "id_doc": "ID",
+      "contract": "Contract",
+      "other": "Other"
     }
   }
 }

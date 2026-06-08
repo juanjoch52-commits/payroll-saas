@@ -54,7 +54,8 @@
     "profile": "Perfil",
     "production": "Producción",
     "schedule": "Horario",
-    "timeOff": "Tiempo libre"
+    "timeOff": "Tiempo libre",
+    "documents": "Documentos"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -755,6 +756,37 @@
       "pending": "Pendiente",
       "rejected": "Rechazado",
       "cancelled": "Cancelado"
+    }
+  },
+  "documents": {
+    "title": "Documentos",
+    "subtitle": "Sube documentos y recoge firmas electrónicas.",
+    "myTitle": "Mis documentos",
+    "name": "Nombre",
+    "kind": "Tipo",
+    "assignTo": "Asignar a",
+    "everyone": "Todos",
+    "file": "Archivo (PDF)",
+    "requireSignature": "Requiere firma",
+    "upload": "Subir",
+    "library": "Biblioteca de documentos",
+    "empty": "Aún no hay documentos.",
+    "none": "No hay documentos.",
+    "signed": "Firmado",
+    "sign": "Firmar",
+    "signTitle": "Firmar documento",
+    "yourName": "Escribe tu nombre completo",
+    "clear": "Borrar",
+    "confirmSign": "Firmar",
+    "legalNote": "Al firmar aceptas que esta es tu firma electrónica.",
+    "kinds": {
+      "offer_letter": "Carta de oferta",
+      "handbook": "Manual",
+      "policy": "Política",
+      "tax_form": "Formulario fiscal",
+      "id_doc": "Identificación",
+      "contract": "Contrato",
+      "other": "Otro"
     }
   }
 }
