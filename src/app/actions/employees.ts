@@ -105,6 +105,7 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
       employee_type: input.employeeType,
       job_title: input.jobTitle || null,
       primary_jurisdiction_code: input.primaryJurisdictionCode,
+      locality_code: input.localityCode || null,
       tax_id_encrypted: null, // pendiente Fase 5+
       tax_id_last_four: taxIdLastFour,
       w4_filing_status: input.w4FilingStatus,

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PAY_SCHEME_TYPES } from '@/lib/validators/employee'
+import { LOCALITY_CODES, localityName } from '@/lib/payroll/us/local'
 
 /**
  * Formulario único de empleado.
@@ -184,6 +185,22 @@ export function EmployeeForm({
           <div className="space-y-2">
             <Label htmlFor="w4Dependents">W-4 Dependents</Label>
             <Input id="w4Dependents" name="w4Dependents" type="number" min={0} defaultValue={0} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="localityCode">{t('employees.locality')}</Label>
+            <select
+              id="localityCode"
+              name="localityCode"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              defaultValue=""
+            >
+              <option value="">{t('employees.localityNone')}</option>
+              {LOCALITY_CODES.map((code) => (
+                <option key={code} value={code}>
+                  {code} — {localityName(code)}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </section>

@@ -105,7 +105,7 @@ export async function calculateRunItems(
   const employeeIds = items.map((i) => i.employeeId)
   const { data: employees, error: empErr } = await supabase
     .from('employees')
-    .select('id, w4_filing_status, w4_dependents, primary_jurisdiction_code, pay_schemes!inner(scheme_type, config)')
+    .select('id, w4_filing_status, w4_dependents, primary_jurisdiction_code, locality_code, pay_schemes!inner(scheme_type, config)')
     .in('id', employeeIds)
     .eq('organization_id', session.organizationId)
     .is('pay_schemes.effective_to', null)
@@ -245,6 +245,7 @@ export async function calculateRunItems(
     gross_cents: number
     federal_tax_cents: number
     state_tax_cents: number
+    local_tax_cents: number | null
     social_security_cents: number
     medicare_cents: number
     other_deductions_cents: number
@@ -341,6 +342,7 @@ export async function calculateRunItems(
       deductions: deductionsByEmployee.get(emp.id),
       filingStatus: emp.w4_filing_status,
       w4Dependents: emp.w4_dependents,
+      localityCode: (emp as { locality_code?: string | null }).locality_code ?? undefined,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,
       periodsPerYear,
     }
@@ -364,6 +366,7 @@ export async function calculateRunItems(
       gross_cents: calc.grossCents,
       federal_tax_cents: calc.federalTaxCents,
       state_tax_cents: calc.stateTaxCents,
+      local_tax_cents: calc.localTaxCents || null,
       social_security_cents: calc.socialSecurityCents,
       medicare_cents: calc.medicareCents,
       other_deductions_cents: calc.otherDeductionsCents,

@@ -110,7 +110,9 @@
       "ratePerUnit": "Taux par unité ($)",
       "unitLabel": "Libellé d’unité",
       "minFloor": "Salaire minimum ($/h, optionnel)"
-    }
+    },
+    "locality": "Taxe locale (ville)",
+    "localityNone": "Aucune"
   },
   "payroll": {
     "title": "Paie",

@@ -84,6 +84,8 @@ export const employeeSchema = z.object({
     .or(z.literal('')),
   w4FilingStatus: z.enum(FILING_STATUSES).default('single'),
   w4Dependents: z.coerce.number().int().nonnegative().default(0),
+  // Código de localidad para impuesto municipal (NYC/PHL/YON). Vacío → sin retención local.
+  localityCode: z.string().optional().or(z.literal('')),
   address: z
     .object({
       line1: z.string().optional(),

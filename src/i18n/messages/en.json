@@ -110,7 +110,9 @@
       "ratePerUnit": "Rate per unit ($)",
       "unitLabel": "Unit label",
       "minFloor": "Min wage floor ($/h, optional)"
-    }
+    },
+    "locality": "Local tax (city)",
+    "localityNone": "None"
   },
   "payroll": {
     "title": "Payroll",

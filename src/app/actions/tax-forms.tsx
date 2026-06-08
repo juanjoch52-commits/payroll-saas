@@ -7,6 +7,7 @@ import { requireSession } from '@/lib/auth/session'
 import { checkFeature } from '@/lib/auth/checkFeature'
 import { W2Pdf, type W2Data } from '@/lib/tax-forms/w2'
 import { Form1099NECPdf, type Form1099NECData } from '@/lib/tax-forms/form1099nec'
+import { localityName } from '@/lib/payroll/us/local'
 
 // =============================================================================
 // Server Actions — Tax Forms
@@ -48,7 +49,7 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
   const { data: items } = await supabase
     .from('payroll_items')
     .select(
-      'id, employee_id, gross_cents, federal_tax_cents, social_security_cents, medicare_cents, state_tax_cents, payroll_runs!inner(period_start, organization_id)',
+      'id, employee_id, gross_cents, federal_tax_cents, social_security_cents, medicare_cents, state_tax_cents, local_tax_cents, payroll_runs!inner(period_start, organization_id)',
     )
     .eq('organization_id', session.organizationId)
     .gte('payroll_runs.period_start', yearStart)
@@ -62,7 +63,7 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
   const employeeIds = Array.from(new Set(items.map((i) => i.employee_id)))
   const { data: employees } = await supabase
     .from('employees')
-    .select('id, first_name, last_name, employee_type, tax_id_last_four, address, primary_jurisdiction_code')
+    .select('id, first_name, last_name, employee_type, tax_id_last_four, address, primary_jurisdiction_code, locality_code')
     .in('id', employeeIds)
 
   if (!employees) return { success: false, error: 'No se pudieron cargar los empleados.' }
@@ -74,6 +75,7 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
     socialSecurityCents: number
     medicareCents: number
     stateTaxCents: number
+    localTaxCents: number
   }
   const totalsByEmployee = new Map<string, Totals>()
   for (const it of items) {
@@ -83,6 +85,7 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
       socialSecurityCents: 0,
       medicareCents: 0,
       stateTaxCents: 0,
+      localTaxCents: 0,
     }
     totalsByEmployee.set(it.employee_id, {
       grossCents: prev.grossCents + it.gross_cents,
@@ -90,6 +93,7 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
       socialSecurityCents: prev.socialSecurityCents + it.social_security_cents,
       medicareCents: prev.medicareCents + it.medicare_cents,
       stateTaxCents: prev.stateTaxCents + it.state_tax_cents,
+      localTaxCents: prev.localTaxCents + ((it as { local_tax_cents: number | null }).local_tax_cents ?? 0),
     })
   }
 
@@ -123,6 +127,16 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
         box16StateWagesCents: totals.grossCents,
         box17StateTaxCents: totals.stateTaxCents,
         box15StateCode: emp.primary_jurisdiction_code,
+        ...(totals.localTaxCents > 0
+          ? {
+              box18LocalWagesCents: totals.grossCents,
+              box19LocalTaxCents: totals.localTaxCents,
+              box20LocalityName:
+                localityName((emp as { locality_code?: string | null }).locality_code ?? undefined) ??
+                (emp as { locality_code?: string | null }).locality_code ??
+                undefined,
+            }
+          : {}),
       }
       const pdfBuffer = await renderToBuffer(<W2Pdf data={data} />)
       const path = `${session.organizationId}/${taxYear}/W-2-${emp.id}.pdf`

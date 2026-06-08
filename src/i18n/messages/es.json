@@ -110,7 +110,9 @@
       "ratePerUnit": "Tarifa por unidad ($)",
       "unitLabel": "Etiqueta de unidad",
       "minFloor": "Salario mínimo ($/h, opcional)"
-    }
+    },
+    "locality": "Impuesto local (ciudad)",
+    "localityNone": "Ninguno"
   },
   "payroll": {
     "title": "Nómina",

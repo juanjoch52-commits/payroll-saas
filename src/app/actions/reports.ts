@@ -32,16 +32,17 @@ export async function payrollRegisterCsv(runId: string): Promise<CsvResult> {
   const { data: items } = await supabase
     .from('payroll_items')
     .select(
-      'gross_cents, federal_tax_cents, state_tax_cents, social_security_cents, medicare_cents, net_cents, tips_cents, employees(first_name, last_name)',
+      'gross_cents, federal_tax_cents, state_tax_cents, local_tax_cents, social_security_cents, medicare_cents, net_cents, tips_cents, employees(first_name, last_name)',
     )
     .eq('payroll_run_id', runId)
     .eq('organization_id', session.organizationId)
 
-  const headers = ['Employee', 'Gross', 'Federal', 'State', 'SocialSecurity', 'Medicare', 'Tips', 'Net']
+  const headers = ['Employee', 'Gross', 'Federal', 'State', 'Local', 'SocialSecurity', 'Medicare', 'Tips', 'Net']
   const rows = (items ?? []).map((i: {
     gross_cents: number
     federal_tax_cents: number
     state_tax_cents: number
+    local_tax_cents: number | null
     social_security_cents: number
     medicare_cents: number
     net_cents: number
@@ -52,6 +53,7 @@ export async function payrollRegisterCsv(runId: string): Promise<CsvResult> {
     money(i.gross_cents),
     money(i.federal_tax_cents),
     money(i.state_tax_cents),
+    money(i.local_tax_cents ?? 0),
     money(i.social_security_cents),
     money(i.medicare_cents),
     money(i.tips_cents ?? 0),

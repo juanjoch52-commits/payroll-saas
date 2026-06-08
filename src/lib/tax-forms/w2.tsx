@@ -45,6 +45,10 @@ export type W2Data = {
   box16StateWagesCents: number
   box17StateTaxCents: number
   box15StateCode?: string
+  // Local (municipal) — solo se imprimen si hay localidad con retención.
+  box18LocalWagesCents?: number
+  box19LocalTaxCents?: number
+  box20LocalityName?: string
 }
 
 const styles = StyleSheet.create({
@@ -150,6 +154,22 @@ export function W2Pdf({ data }: { data: W2Data }) {
               <View style={styles.box}>
                 <Text style={styles.boxLabel}>Box 17 — State income tax</Text>
                 <Text style={styles.boxValue}>{fmt(data.box17StateTaxCents)}</Text>
+              </View>
+            </>
+          )}
+          {data.box20LocalityName && (
+            <>
+              <View style={styles.box}>
+                <Text style={styles.boxLabel}>Box 18 — Local wages</Text>
+                <Text style={styles.boxValue}>{fmt(data.box18LocalWagesCents ?? 0)}</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxLabel}>Box 19 — Local income tax</Text>
+                <Text style={styles.boxValue}>{fmt(data.box19LocalTaxCents ?? 0)}</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxLabel}>Box 20 — Locality name</Text>
+                <Text style={styles.boxValue}>{data.box20LocalityName}</Text>
               </View>
             </>
           )}
