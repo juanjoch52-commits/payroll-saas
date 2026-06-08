@@ -13,6 +13,7 @@ import {
   FileSignature,
   Coins,
   HardHat,
+  Megaphone,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { JovaWordmark } from '@/components/branding/JovaWordmark'
@@ -44,6 +45,7 @@ const navItems: {
   { href: '/production',    labelKey: 'nav.production',     icon: Boxes,           minRole: 'manager' },
   { href: '/tips',          labelKey: 'nav.tips',          icon: Coins,           minRole: 'manager' },
   { href: '/jobs',          labelKey: 'nav.jobs',          icon: HardHat,         minRole: 'manager' },
+  { href: '/announcements', labelKey: 'nav.announcements', icon: Megaphone,       minRole: 'manager' },
   { href: '/worksites',     labelKey: 'nav.worksites',     icon: Settings,        minRole: 'manager' },
   { href: '/reports',       labelKey: 'nav.reports',       icon: FileText,        minRole: 'admin' },
   { href: '/billing',       labelKey: 'nav.billing',       icon: CreditCard,      minRole: 'owner' },

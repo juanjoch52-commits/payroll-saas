@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Plane, ChevronRight, FileSignature, Landmark } from 'lucide-react'
+import { Plane, ChevronRight, FileSignature, Landmark, Megaphone } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
@@ -93,6 +93,16 @@ export default async function EmployeeProfilePage({
       >
         <span className="flex items-center gap-2">
           <Landmark className="h-4 w-4" /> {t('bank.myTitle')}
+        </span>
+        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      </Link>
+
+      <Link
+        href={`/${locale}/my-team`}
+        className="mt-3 flex items-center justify-between rounded-lg border bg-card p-4 text-sm font-medium hover:bg-accent"
+      >
+        <span className="flex items-center gap-2">
+          <Megaphone className="h-4 w-4" /> {t('team.myTitle')}
         </span>
         <ChevronRight className="h-4 w-4 text-muted-foreground" />
       </Link>

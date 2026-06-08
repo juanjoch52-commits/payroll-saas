@@ -57,7 +57,8 @@
     "timeOff": "Time off",
     "documents": "Documents",
     "tips": "Tips",
-    "jobs": "Jobs"
+    "jobs": "Jobs",
+    "announcements": "Team"
   },
   "auth": {
     "signIn": "Sign in",
@@ -876,5 +877,19 @@
     "list": "Jobs",
     "empty": "No jobs yet.",
     "noWorksite": "No worksite linked"
+  },
+  "team": {
+    "title": "Team & announcements",
+    "subtitle": "Post announcements and chat with your team.",
+    "myTitle": "Team",
+    "announcements": "Announcements",
+    "announceTitle": "Title",
+    "announceBody": "Message",
+    "post": "Post",
+    "noAnnouncements": "No announcements.",
+    "markRead": "Got it",
+    "board": "Message board",
+    "writeMessage": "Write a message…",
+    "noMessages": "No messages yet."
   }
 }

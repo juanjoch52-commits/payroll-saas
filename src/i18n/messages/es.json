@@ -57,7 +57,8 @@
     "timeOff": "Tiempo libre",
     "documents": "Documentos",
     "tips": "Propinas",
-    "jobs": "Obras"
+    "jobs": "Obras",
+    "announcements": "Equipo"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -876,5 +877,19 @@
     "list": "Obras",
     "empty": "Aún no hay obras.",
     "noWorksite": "Sin sitio ligado"
+  },
+  "team": {
+    "title": "Equipo y anuncios",
+    "subtitle": "Publica anuncios y chatea con tu equipo.",
+    "myTitle": "Equipo",
+    "announcements": "Anuncios",
+    "announceTitle": "Título",
+    "announceBody": "Mensaje",
+    "post": "Publicar",
+    "noAnnouncements": "No hay anuncios.",
+    "markRead": "Entendido",
+    "board": "Tablón de mensajes",
+    "writeMessage": "Escribe un mensaje…",
+    "noMessages": "Aún no hay mensajes."
   }
 }

@@ -57,7 +57,8 @@
     "timeOff": "Congés",
     "documents": "Documents",
     "tips": "Pourboires",
-    "jobs": "Chantiers"
+    "jobs": "Chantiers",
+    "announcements": "Équipe"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -876,5 +877,19 @@
     "list": "Chantiers",
     "empty": "Aucun chantier.",
     "noWorksite": "Aucun site lié"
+  },
+  "team": {
+    "title": "Équipe et annonces",
+    "subtitle": "Publiez des annonces et discutez avec votre équipe.",
+    "myTitle": "Équipe",
+    "announcements": "Annonces",
+    "announceTitle": "Titre",
+    "announceBody": "Message",
+    "post": "Publier",
+    "noAnnouncements": "Aucune annonce.",
+    "markRead": "Compris",
+    "board": "Babillard",
+    "writeMessage": "Écrivez un message…",
+    "noMessages": "Aucun message."
   }
 }
