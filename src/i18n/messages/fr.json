@@ -946,5 +946,47 @@
     "city": "Ville",
     "region": "Province",
     "postal": "Code postal"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Bienvenue sur MyJova 👋",
+      "body": "Configurons votre entreprise. Faites un tour rapide de 60 secondes ou commencez directement.",
+      "start": "Démarrer le tour",
+      "skip": "Plus tard"
+    },
+    "checklist": {
+      "title": "Premiers pas",
+      "subtitle": "Complétez ces étapes pour configurer votre entreprise.",
+      "dismiss": "Masquer la liste",
+      "takeTour": "Voir le tour",
+      "steps": {
+        "addEmployee": "Ajoutez votre premier employé",
+        "addWorksite": "Ajoutez un lieu de travail",
+        "runPayroll": "Lancez votre première paie",
+        "inviteTeam": "Invitez votre équipe"
+      }
+    },
+    "tour": {
+      "skip": "Passer",
+      "back": "Retour",
+      "next": "Suivant",
+      "done": "Terminé",
+      "actions": {
+        "title": "Actions rapides",
+        "body": "Ajoutez des employés, lancez la paie et révisez le temps ici."
+      },
+      "kpis": {
+        "title": "Vos indicateurs clés",
+        "body": "Un aperçu en direct de votre équipe : qui est actif, qui travaille et ce qui demande attention."
+      },
+      "activity": {
+        "title": "Activité en direct",
+        "body": "Voyez qui a pointé sur la carte, avec des alertes de géorepérage."
+      },
+      "nav": {
+        "title": "Naviguez partout",
+        "body": "Utilisez la barre latérale pour horaires, documents, rapports, paramètres et plus."
+      }
+    }
   }
 }

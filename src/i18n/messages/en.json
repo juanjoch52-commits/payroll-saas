@@ -946,5 +946,47 @@
     "city": "City",
     "region": "State",
     "postal": "ZIP"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to MyJova 👋",
+      "body": "Let’s get your company set up. Take a quick 60-second tour or jump right in.",
+      "start": "Start tour",
+      "skip": "Skip for now"
+    },
+    "checklist": {
+      "title": "Get started",
+      "subtitle": "Complete these steps to set up your company.",
+      "dismiss": "Dismiss checklist",
+      "takeTour": "Take the tour",
+      "steps": {
+        "addEmployee": "Add your first employee",
+        "addWorksite": "Add a worksite",
+        "runPayroll": "Run your first payroll",
+        "inviteTeam": "Invite your team"
+      }
+    },
+    "tour": {
+      "skip": "Skip",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "actions": {
+        "title": "Quick actions",
+        "body": "Add employees, run payroll, and review time right from here."
+      },
+      "kpis": {
+        "title": "Your key metrics",
+        "body": "A live snapshot of your team — who’s active, who’s working, and what needs attention."
+      },
+      "activity": {
+        "title": "Live activity",
+        "body": "See who’s clocked in on the map, with geofence flags for anything unusual."
+      },
+      "nav": {
+        "title": "Navigate everywhere",
+        "body": "Use the sidebar to reach scheduling, documents, reports, settings and more."
+      }
+    }
   }
 }

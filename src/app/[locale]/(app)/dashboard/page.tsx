@@ -7,6 +7,8 @@ import { PageHeader } from '@/components/ui/page-header'
 import { StatCard } from '@/components/ui/stat-card'
 import { LiveMap, type MapPoint, type MapGeofence } from '@/components/admin/LiveMap'
 import { canSee, type Role } from '@/components/layout/nav-config'
+import { Onboarding } from '@/components/onboarding/Onboarding'
+import { OnboardingChecklist, type ChecklistStep } from '@/components/onboarding/OnboardingChecklist'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 
@@ -83,6 +85,21 @@ export default async function DashboardPage({
     .limit(1)
     .maybeSingle()
 
+  // 7) Estado de onboarding + señales para el checklist de primeros pasos.
+  const { data: org } = await supabase
+    .from('organizations')
+    .select('onboarding_state')
+    .eq('id', session.organizationId)
+    .maybeSingle()
+  const onboarding =
+    ((org as { onboarding_state?: { tourDismissed?: boolean; checklistDismissed?: boolean } } | null)
+      ?.onboarding_state) ?? {}
+
+  const { count: invitesCount } = await supabase
+    .from('invitations')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', session.organizationId)
+
   // Preparar puntos del mapa
   const mapPoints: MapPoint[] = (openEntries ?? [])
     .filter((e: { clock_in_lat: number | null; clock_in_lng: number | null }) => e.clock_in_lat && e.clock_in_lng)
@@ -123,9 +140,26 @@ export default async function DashboardPage({
     quickActions.push({ href: `/${locale}/reports`, label: t('dashboard.actions.reports'), icon: FileText })
   }
 
+  // Onboarding: checklist de primeros pasos (progreso real) + tour guiado.
+  const showOnboarding = canSee('manager', role)
+  const checklistSteps: ChecklistStep[] = [
+    { key: 'addEmployee', href: `/${locale}/employees/new`, done: (activeEmployees ?? 0) > 0 },
+    { key: 'addWorksite', href: `/${locale}/worksites`, done: (worksites ?? []).length > 0 },
+    { key: 'runPayroll', href: `/${locale}/payroll/new`, done: !!lastRun },
+    {
+      key: 'inviteTeam',
+      href: `/${locale}/employees`,
+      done: (invitesCount ?? 0) > 0 || (activeEmployees ?? 0) > 1,
+    },
+  ]
+  const checklistComplete = checklistSteps.every((s) => s.done)
+  const showChecklist = showOnboarding && !onboarding.checklistDismissed && !checklistComplete
+
   return (
     <div className="space-y-6" data-tour="dashboard">
       <PageHeader title={t('dashboard.welcome')} description={t('dashboard.summary')} />
+
+      {showChecklist && <OnboardingChecklist steps={checklistSteps} />}
 
       {/* Acciones rápidas */}
       {quickActions.length > 0 && (
@@ -174,7 +208,7 @@ export default async function DashboardPage({
 
       {/* Actividad en vivo + última nómina */}
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2" data-tour="live-activity">
           <CardHeader>
             <CardTitle>{t('dashboard.liveActivity')}</CardTitle>
             <CardDescription>
@@ -212,6 +246,8 @@ export default async function DashboardPage({
           </CardContent>
         </Card>
       </div>
+
+      {showOnboarding && <Onboarding tourDismissed={!!onboarding.tourDismissed} />}
     </div>
   )
 }

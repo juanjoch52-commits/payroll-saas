@@ -10,7 +10,7 @@ import type { Role } from './nav-config'
  */
 export function AppSidebar({ locale, role }: { locale: string; role: Role }) {
   return (
-    <aside className="hidden w-64 shrink-0 border-r bg-card md:flex md:flex-col">
+    <aside className="hidden w-64 shrink-0 border-r bg-card md:flex md:flex-col" data-tour="sidebar">
       <div className="flex h-16 shrink-0 items-center border-b px-6">
         <Link href={`/${locale}/dashboard`}>
           <JovaWordmark size="md" />

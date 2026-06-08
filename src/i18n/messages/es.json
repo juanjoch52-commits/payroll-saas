@@ -946,5 +946,47 @@
     "city": "Ciudad",
     "region": "Estado",
     "postal": "C.P."
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Bienvenido a MyJova 👋",
+      "body": "Vamos a configurar tu empresa. Haz un tour rápido de 60 segundos o empieza directamente.",
+      "start": "Iniciar tour",
+      "skip": "Ahora no"
+    },
+    "checklist": {
+      "title": "Primeros pasos",
+      "subtitle": "Completa estos pasos para configurar tu empresa.",
+      "dismiss": "Descartar checklist",
+      "takeTour": "Ver el tour",
+      "steps": {
+        "addEmployee": "Agrega tu primer empleado",
+        "addWorksite": "Agrega un lugar de trabajo",
+        "runPayroll": "Procesa tu primera nómina",
+        "inviteTeam": "Invita a tu equipo"
+      }
+    },
+    "tour": {
+      "skip": "Omitir",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "done": "Listo",
+      "actions": {
+        "title": "Acciones rápidas",
+        "body": "Agrega empleados, procesa la nómina y revisa el tiempo desde aquí."
+      },
+      "kpis": {
+        "title": "Tus métricas clave",
+        "body": "Una vista en vivo de tu equipo: quién está activo, quién trabaja y qué requiere atención."
+      },
+      "activity": {
+        "title": "Actividad en vivo",
+        "body": "Mira quién fichó en el mapa, con alertas de geocerca para lo inusual."
+      },
+      "nav": {
+        "title": "Navega por todo",
+        "body": "Usa la barra lateral para horarios, documentos, reportes, ajustes y más."
+      }
+    }
   }
 }
