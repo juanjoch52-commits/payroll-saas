@@ -492,6 +492,9 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
     targetId: runId,
   })
 
+  const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
+  await dispatchWebhook(session.organizationId, 'payroll.approved', { runId })
+
   revalidatePath('/(app)/payroll', 'layout')
   return { success: true }
 }

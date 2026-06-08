@@ -77,7 +77,10 @@
     "weSentConfirmation": "Nous avons envoyé un lien de confirmation à {email}.",
     "invalidCredentials": "Courriel ou mot de passe invalide.",
     "signUpFailed": "Impossible de créer le compte. Réessayez.",
-    "industry": "Secteur"
+    "industry": "Secteur",
+    "orContinueWith": "Ou continuer avec",
+    "continueWithGoogle": "Continuer avec Google",
+    "continueWithMicrosoft": "Continuer avec Microsoft"
   },
   "dashboard": {
     "welcome": "Bienvenue sur MyJova",

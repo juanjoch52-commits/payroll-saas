@@ -295,6 +295,10 @@ export async function approveTimeEntry(
     .in('status', ['pending', 'edited'])
 
   if (error) return { success: false, error: error.message }
+
+  const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
+  await dispatchWebhook(session.organizationId, 'time_entry.approved', { entryId })
+
   revalidatePath('/(app)/time-tracking', 'page')
   return { success: true }
 }

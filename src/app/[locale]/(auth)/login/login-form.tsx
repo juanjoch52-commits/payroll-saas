@@ -7,6 +7,7 @@ import { signIn } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { SsoButtons } from '@/components/auth/SsoButtons'
 
 export function LoginForm({ locale }: { locale: string }) {
   const t = useTranslations()
@@ -53,6 +54,8 @@ export function LoginForm({ locale }: { locale: string }) {
       <Button type="submit" className="w-full" disabled={pending}>
         {pending ? t('common.loading') : t('auth.signIn')}
       </Button>
+
+      <SsoButtons locale={locale} />
 
       <p className="text-center text-sm text-muted-foreground">
         {t('auth.createAccount')}{' '}

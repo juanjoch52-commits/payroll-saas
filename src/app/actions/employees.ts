@@ -145,6 +145,13 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
     newData: { name: `${input.firstName} ${input.lastName}`, scheme: paySchemeConfig.type },
   })
 
+  const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
+  await dispatchWebhook(session.organizationId, 'employee.created', {
+    employeeId: employee.id,
+    name: `${input.firstName} ${input.lastName}`,
+    employeeType: input.employeeType,
+  })
+
   revalidatePath(`/(app)/employees`, 'page')
   return { success: true, employeeId: employee.id }
 }

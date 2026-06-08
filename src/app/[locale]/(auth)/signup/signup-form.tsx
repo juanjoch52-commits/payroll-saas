@@ -7,6 +7,7 @@ import { signUp, type SignUpResult } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { SsoButtons } from '@/components/auth/SsoButtons'
 import { INDUSTRY_TYPES } from '@/lib/industry/presets'
 
 /**
@@ -94,6 +95,8 @@ export function SignUpForm({ locale }: { locale: string }) {
       <Button type="submit" className="w-full" disabled={pending}>
         {pending ? t('common.loading') : t('auth.signUp')}
       </Button>
+
+      <SsoButtons locale={locale} />
 
       <p className="text-center text-sm text-muted-foreground">
         {t('auth.alreadyHaveAccount')}{' '}

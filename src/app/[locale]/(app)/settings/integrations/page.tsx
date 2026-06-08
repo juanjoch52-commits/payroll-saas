@@ -10,6 +10,7 @@ import { isQuickBooksConfigured } from '@/lib/integrations/quickbooks/client'
 import { isSquareConfigured } from '@/lib/integrations/square/client'
 import { QuickBooksCard } from '@/components/settings/QuickBooksCard'
 import { SquareCard } from '@/components/settings/SquareCard'
+import { WebhooksCard } from '@/components/settings/WebhooksCard'
 
 type QboConfig = { accountMapping?: Record<string, string> } | null
 
@@ -48,6 +49,12 @@ export default async function IntegrationsPage({
     .eq('provider', 'square')
     .maybeSingle()
   const sqStatus = (sq as { status: string } | null)?.status ?? null
+
+  const { data: webhookRows } = await supabase
+    .from('webhook_endpoints')
+    .select('id, url, description, events, is_active')
+    .eq('organization_id', session.organizationId)
+    .order('created_at', { ascending: false })
 
   return (
     <div className="space-y-6">
@@ -103,6 +110,8 @@ export default async function IntegrationsPage({
           <Button disabled>{hasMyRavex ? 'Coming soon' : 'Upgrade to connect'}</Button>
         </CardContent>
       </Card>
+
+      <WebhooksCard endpoints={(webhookRows ?? []) as never} />
     </div>
   )
 }

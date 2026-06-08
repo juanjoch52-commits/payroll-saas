@@ -77,7 +77,10 @@
     "weSentConfirmation": "We sent a confirmation link to {email}.",
     "invalidCredentials": "Invalid email or password.",
     "signUpFailed": "Could not create account. Try again.",
-    "industry": "Industry"
+    "industry": "Industry",
+    "orContinueWith": "Or continue with",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithMicrosoft": "Continue with Microsoft"
   },
   "dashboard": {
     "welcome": "Welcome to MyJova",
