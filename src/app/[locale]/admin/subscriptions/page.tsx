@@ -43,7 +43,7 @@ export default async function SubscriptionsPage() {
                   </td>
                   <td className="px-4 py-3">
                     {s.cancel_at_period_end ? (
-                      <span className="text-amber-700">Yes</span>
+                      <span className="font-medium text-warning-foreground">Yes</span>
                     ) : (
                       <span className="text-muted-foreground">—</span>
                     )}

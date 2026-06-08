@@ -48,7 +48,7 @@ export default async function HistoryPage({
                   {e.clock_out_at ? new Date(e.clock_out_at).toLocaleTimeString() : 'open'}
                 </p>
                 {e.clock_in_outside_geofence && (
-                  <p className="mt-1 text-xs text-amber-700">{t('timeTracking.flagged')}</p>
+                  <p className="mt-1 text-xs font-medium text-warning-foreground">{t('timeTracking.flagged')}</p>
                 )}
               </div>
               <div className="text-right">
@@ -58,7 +58,7 @@ export default async function HistoryPage({
                 <p
                   className={
                     e.status === 'approved'
-                      ? 'text-xs text-green-700'
+                      ? 'text-xs font-medium text-success-foreground'
                       : e.status === 'rejected'
                         ? 'text-xs text-destructive'
                         : 'text-xs text-muted-foreground'

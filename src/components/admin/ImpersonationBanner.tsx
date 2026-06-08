@@ -24,7 +24,7 @@ export async function ImpersonationBanner() {
   const mins = Math.floor(durationSec / 60)
 
   return (
-    <div className="sticky top-0 z-[1000] flex items-center justify-center gap-3 border-b-2 border-red-700 bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-md">
+    <div className="sticky top-0 z-[1000] flex items-center justify-center gap-3 border-b-2 border-destructive bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground shadow-md">
       <AlertTriangle className="h-4 w-4 shrink-0" />
       <span>
         You&apos;re impersonating{' '}
@@ -34,7 +34,7 @@ export async function ImpersonationBanner() {
       <form action={exit} className="ml-2">
         <button
           type="submit"
-          className="inline-flex items-center gap-1 rounded-md bg-white px-3 py-1 text-xs font-semibold text-red-700 transition-colors hover:bg-red-50"
+          className="inline-flex items-center gap-1 rounded-md bg-background px-3 py-1 text-xs font-semibold text-destructive transition-colors hover:bg-background/90"
         >
           <LogOut className="h-3 w-3" />
           Exit

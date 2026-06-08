@@ -71,7 +71,7 @@ export function PaymentsSettings({
   return (
     <div className="space-y-6">
       {!encryptionReady && (
-        <p className="rounded-md border border-amber-500/30 bg-amber-500/5 p-3 text-sm text-muted-foreground">
+        <p className="rounded-md border border-warning/30 bg-warning/5 p-3 text-sm text-muted-foreground">
           {t('bank.encNote')}
         </p>
       )}

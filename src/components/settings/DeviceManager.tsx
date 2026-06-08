@@ -123,7 +123,7 @@ export function DeviceManager({
           )}
 
           {generatedCode && (
-            <div className="mt-4 rounded-lg border border-sky-500/40 bg-sky-500/5 p-4">
+            <div className="mt-4 rounded-lg border border-info/40 bg-info/5 p-4">
               <p className="text-sm text-muted-foreground">{t('devices.codeReady')}</p>
               <p className="my-2 font-mono text-3xl font-bold tracking-widest">{generatedCode}</p>
               <p className="text-xs text-muted-foreground">{t('devices.codeExpires')}</p>
