@@ -4,13 +4,13 @@ Documento para retomar el trabajo sin perder contexto. Rama:
 **`feature/myjova-full-rebuild`**. Commit por fase. Termina los mensajes de commit con
 `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`.
 
-## Estado actual (2026-06-07)
+## Estado actual (2026-06-07) — H-SPRINT COMPLETO ✅
 
 Dos sprints construidos sobre la base original:
 - **G-sprint (G0–G12)** — COMPLETO: piece-rate, industria, kiosko, paystub PDF, QuickBooks,
   REST móvil, app Expo. Ver `OVERNIGHT_BUILD.md`.
 - **H-sprint (gaps competitivos, usuario pidió "todas")** — análisis en `ANALISIS_COMPETITIVO.md`.
-  Plan H1–H15. **Hechas: H1–H9, H11, H13.** **H14 parcial.** **Faltan: H14 (terminar), H10, H12, H15.**
+  Plan H1–H15. **TODAS COMPLETAS (H1–H15).**
 
 | Fase | Estado | Commit |
 |---|---|---|
@@ -25,14 +25,14 @@ Dos sprints construidos sobre la base original:
 | H9 Team comms | ✅ | a86da0e |
 | H11 Departments + self-service | ✅ | cd753b8 |
 | H13 Benefits/deducciones | ✅ | 868939d |
-| **H14 Local taxes** | 🟡 PARCIAL | 4368107 |
-| **H10 Tax e-file deepening** | ⬜ TODO | — |
-| **H12 SSO + webhooks salientes** | ⬜ TODO | — |
-| **H15 Quality (export, tests, a11y)** | ⬜ TODO | — |
+| **H14 Local taxes** | ✅ | 9577258 |
+| **H15 Quality (export, tests, a11y)** | ✅ | c955242 |
+| **H12 SSO + webhooks salientes** | ✅ | 3f06563 |
+| **H10 Tax e-file deepening** | ✅ | 0cacbc2 |
 
-Estado de gates al hacer handoff: **typecheck ✅, vitest 26/26 ✅, build ✅, lint ✅.**
-Migraciones del H-sprint: `supabase/migrations/20260501000001..011` + (parcial 14 no añadió migración aún).
-**Próximo timestamp libre: `20260501000012`.**
+Estado de gates al cerrar el sprint: **typecheck ✅, vitest 70/70 ✅, build ✅, lint ✅.**
+Migraciones del H-sprint: `supabase/migrations/20260501000001..014`.
+**Próximo timestamp libre: `20260501000015`.**
 
 ## Cómo trabajar (convenciones aprendidas — IMPORTANTE)
 
@@ -76,58 +76,62 @@ por OT + mealMissed), production_entries, tip_entries, employee_deductions. Marc
 
 ---
 
-## TRABAJO RESTANTE
+## LO ENTREGADO EN ESTA SESIÓN (H14, H15, H12, H10)
 
-### H14 — terminar local taxes (lo más rápido, empieza por aquí)
-Ya está: `src/lib/payroll/us/local.ts` + engine cableado (localityCode → localTaxCents en
-PayrollCalculation/net/components/breakdown). **Falta:**
-1. **Migración** `20260501000012_local_tax.sql`:
-   `alter table public.payroll_items add column local_tax_cents bigint;`
-   `alter table public.employees add column locality_code text;`
-2. **`src/app/actions/payroll.ts`** `calculateRunItems`:
-   - añade `local_tax_cents: number | null` al tipo `itemRows`.
-   - en el select de employees añade `locality_code`.
-   - en `calcInput` añade `localityCode: (emp as { locality_code?: string }).locality_code`.
-   - en `itemRows.push` añade `local_tax_cents: calc.localTaxCents || null` (junto a `state_tax_cents: calc.stateTaxCents`).
-3. **Form de empleado** (`src/components/employees/EmployeeForm.tsx` + validator
-   `src/lib/validators/employee.ts` + `src/app/actions/employees.ts`): `<select>` opcional de
-   `LOCALITY_CODES` (de `local.ts`) → `localityCode` en `employeeSchema` → insert `locality_code`.
-4. **Test** (`src/lib/payroll/us/local.test.ts`): `calcLocalTax('NYC', 100000)` ≈ 3078; locality
-   desconocida → 0. (Opcional: test del engine con localityCode.)
-5. i18n para el label del select (`employees.locality` ×4) si añades el campo.
-- Opcional (estaba en H14): export de "new-hire reporting" y modelo ACA 1095-C — bajar de alcance
-  o nota como futuro.
+### H14 — local taxes (commit 9577258)
+- Migración `20260501000012_local_tax.sql` (`payroll_items.local_tax_cents` + `employees.locality_code`).
+- `calculateRunItems` carga `locality_code`, pasa `localityCode` al engine y persiste `local_tax_cents`.
+- `EmployeeForm` con `<select>` de localidad (NYC/PHL/YON) + validator + insert en `createEmployee`.
+- Columna **Local** en el CSV de payroll register; **W-2 boxes 18/19/20** (local wages/tax/locality).
+- `src/lib/payroll/us/local.test.ts` (10 tests). i18n `employees.locality` + `localityNone` ×4.
 
-### H10 — tax e-file deepening
-Los stubs existen en `src/lib/efile/{track1099,irs-fire,cra-xml}.ts`. Profundizar hacia formatos
-reales, manteniendo la transmisión gateada/stub:
-- Builder **SSA EFW2** (W-2 electrónico, registros de ancho fijo) — puro + test de longitudes.
-- **IRS 941** (worksheet trimestral): suma de wages + federal + FICA del trimestre.
-- Reusar el patrón NACHA (`src/lib/payroll/nacha.ts`) de "builder puro + test + valida con tu agencia".
-- Valor marginal medio (ya está stubbed). Considera hacerlo después de H12/H15.
+### H15 — quality (commit c955242)
+- **Export de datos del tenant** (GDPR/CCPA): `src/app/actions/data-export.ts` (`exportTenantData`,
+  JSON, RLS-scoped, allowlist de tablas, excluye credenciales cifradas) + `DataExportCard` en
+  Settings → General. Solo owner/admin.
+- Extraído `distributeTipPool` puro (`src/lib/payroll/tips.ts`) del action de tips + 6 tests.
+- Casos límite NACHA (archivo vacío, blocking/padding, truncado, tx code) + tests.
+- a11y: aria-labels en kiosko (input pairing, tecla borrar PIN, atrás) y botón copiar de WebhooksCard.
 
-### H12 — SSO + webhooks salientes
-- **SSO**: botones Google/Microsoft en `signup-form`/login con `supabase.auth.signInWithOAuth({provider})`.
-  Requiere habilitar los providers en el dashboard de Supabase (paso manual de Juan). Poco código.
-- **Webhooks salientes**: tabla `webhook_endpoints` (org, url, secret, events[]) + un dispatcher que
-  POSTea payloads firmados con HMAC ante eventos (payroll.approved, time_entry.approved, employee.created).
-  UI en Settings → Integrations (CRUD de endpoints). Migración `20260501000013_outbound_webhooks.sql`.
+### H12 — SSO + webhooks salientes (commit 3f06563)
+- **SSO**: `SsoButtons` (`signInWithOAuth` google/azure) en login + signup. Migración
+  `20260501000013_oauth_default_org.sql`: `handle_new_user` crea org por defecto para altas OAuth
+  (provider != 'email') para que no queden sin tenant. i18n auth ×4.
+- **Webhooks salientes**: migración `20260501000014_outbound_webhooks.sql` (`webhook_endpoints` +
+  `webhook_deliveries` + RLS). `src/lib/webhooks/`: `dispatch.ts` (POST firmado HMAC-SHA256, paralelo
+  con timeout 8s, log de entregas, NUNCA lanza), `events.ts` (client-safe), `sign.ts` (puro, 7 tests).
+  CRUD en `src/app/actions/webhooks.ts` + `WebhooksCard` en Settings → Integrations (secret se muestra
+  1 vez). Disparado en `payroll.approved`, `time_entry.approved`, `employee.created`.
 
-### H15 — quality
-- **Export de datos del tenant** (GDPR/CCPA): action que vuelca empleados/nóminas/tiempos a CSV/JSON
-  (zip o varios CSV vía la utilidad `toCsv` de `src/lib/reports/csv.ts`). Settings → General o Privacy.
-- **Más tests**: cubre tips pool distribution, PTO balance deduction, NACHA edge cases.
-- **a11y**: pasada de labels/aria en formularios nuevos; foco en kiosko (pantalla táctil).
-- **Lint**: ya verde con `next/core-web-vitals` (no toques `eslint.ignoreDuringBuilds` del build).
+### H10 — tax e-file deepening (commit 0cacbc2)
+- `src/lib/efile/efw2.ts`: builder SSA EFW2 puro (registros 512 bytes RA/RE/RW/RT/RF) + 8 tests.
+- `src/lib/efile/form941.ts`: worksheet 941 trimestral puro (12.4% SS / 2.9% Medicare, líneas
+  2/3/5/6/12) + `quarterDateRange` + 8 tests.
+- Transmisión sigue stub (validar con SSA AccuWage antes de producción). Patrón = `nacha.ts`.
+
+### Notas / futuro (fuera de alcance)
+- Gap latente conocido: `stateCode` NO se pasa en `calculateRunItems` (state tax = 0). Ojo con la
+  ambigüedad 'CA' (California vs Canadá) si lo cableas.
+- H14 opcional no hecho: new-hire reporting export + ACA 1095-C.
+- H10: wiring de UI/acciones para EFW2/941 (los builders son foundations, como los otros stubs efile).
+- SSO: enlazar identidades por email (Supabase no lo hace por defecto → un login Google de un usuario
+  que se registró por password crea un usuario+org nuevos). Habilitar en el dashboard si se desea.
 
 ---
 
 ## Lista para Juan (config nueva del H-sprint — añadir a OVERNIGHT_BUILD.md)
-- **12 migraciones nuevas** `20260501000001..011` (+ las de H14 cuando estén) → `npm run db:push`.
+- **14 migraciones nuevas** `20260501000001..014` → `npm run db:push`.
+- **SSO** (H12, opcional): habilitar los providers **Google** y **Microsoft (azure)** en Supabase
+  dashboard → Authentication → Providers. Redirect URL: `<APP_URL>/auth/callback`. Sin habilitarlos,
+  los botones SSO devuelven error inline (degradación elegante).
+- **Webhooks salientes** (H12): no requiere env. El owner/admin crea endpoints en Settings →
+  Integrations; el secret de firma se muestra una sola vez. Firma en header `X-MyJova-Signature`.
 - **Square POS** (opcional): `SQUARE_APP_ID` / `SQUARE_APP_SECRET` / `SQUARE_ENVIRONMENT`, redirect
   `<APP_URL>/api/integrations/square/callback`. Sin esto, las propinas funcionan manual.
 - **Realtime** (opcional): habilitar en `team_messages` para chat en vivo.
 - `ENCRYPTION_KEY` (ya requerido por QBO) ahora también cifra datos bancarios de empleados (NACHA).
+- **E-file** (H10, opcional, para producción): `TRACK1099_API_KEY` / `IRS_FIRE_TCC` para transmisión
+  real; EFW2 (SSA) valida con AccuWage. Sin esto, los builders generan archivos para subida manual.
 - Sigue todo lo de `OVERNIGHT_BUILD.md` y `MANUAL_STEPS.md` (Supabase/Stripe/Mapbox/Resend/Expo).
 
 ## Memoria
