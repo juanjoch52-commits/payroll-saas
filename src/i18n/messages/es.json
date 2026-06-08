@@ -52,7 +52,8 @@
     "history": "Historial",
     "paystubs": "Recibos",
     "profile": "Perfil",
-    "production": "Producción"
+    "production": "Producción",
+    "schedule": "Horario"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -689,5 +690,32 @@
     "recentRuns": "Nóminas recientes",
     "noRuns": "Aún no hay nóminas.",
     "sync": "Sincronizar"
+  },
+  "schedule": {
+    "title": "Horario",
+    "subtitle": "Planea turnos, publícalos y cubre turnos abiertos.",
+    "myTitle": "Mi horario",
+    "addShift": "Añadir turno",
+    "publish": "Publicar",
+    "totalHours": "Horas",
+    "shifts": "Turnos",
+    "open": "Abiertos",
+    "projectedCost": "Costo est.",
+    "employee": "Empleado",
+    "worksite": "Sitio",
+    "date": "Fecha",
+    "start": "Inicio",
+    "end": "Fin",
+    "role": "Rol",
+    "openShift": "Turno abierto",
+    "draft": "Borrador",
+    "upcoming": "Próximos turnos",
+    "noShifts": "No tienes turnos próximos.",
+    "swap": "Cambiar",
+    "swapRequested": "Cambio solicitado",
+    "openShifts": "Turnos abiertos",
+    "noOpen": "No hay turnos abiertos.",
+    "claim": "Tomar",
+    "claimed": "Turno tomado"
   }
 }

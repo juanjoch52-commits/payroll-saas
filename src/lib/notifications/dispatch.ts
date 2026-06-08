@@ -35,6 +35,10 @@ export type NotifType =
   | 'payment_failed'
   | 'plan_changed'
   | 'trial_ending'
+  | 'schedule_published'
+  | 'shift_swap'
+  | 'time_off_request'
+  | 'time_off_decision'
 
 export type Channel = 'inapp' | 'email' | 'sms' | 'push'
 
@@ -73,6 +77,10 @@ const DEFAULT_PREFS: Record<NotifType, Record<Channel, boolean>> = {
   payment_failed: { inapp: true, email: true, sms: true, push: true },
   plan_changed: { inapp: true, email: true, sms: false, push: false },
   trial_ending: { inapp: true, email: true, sms: false, push: true },
+  schedule_published: { inapp: true, email: false, sms: false, push: true },
+  shift_swap: { inapp: true, email: false, sms: false, push: true },
+  time_off_request: { inapp: true, email: true, sms: false, push: true },
+  time_off_decision: { inapp: true, email: true, sms: false, push: true },
 }
 
 export type DispatchResult = {

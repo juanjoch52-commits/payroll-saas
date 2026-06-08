@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MyJova — Cómo funciona la plataforma</title>
+<style>
+  :root{
+    --blue:#2563eb; --blue-d:#1d4ed8; --amber:#f59e0b;
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+    --bg:#f6f8fc; --card:#ffffff;
+    --green:#16a34a; --violet:#7c3aed; --rose:#e11d48;
+    --shadow:0 10px 30px -12px rgba(15,23,42,.18);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html.js .reveal{opacity:0;transform:translateY(18px)}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .reveal{transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- Header ---------- */
+  header.hero{
+    background:radial-gradient(1200px 500px at 20% -10%,rgba(37,99,235,.25),transparent),
+               radial-gradient(900px 500px at 100% 0,rgba(245,158,11,.18),transparent),
+               linear-gradient(180deg,#0b1220,#111a2e);
+    color:#fff;padding:54px 0 90px;position:relative;overflow:hidden;
+  }
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;letter-spacing:.2px}
+  .mark{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--blue),var(--amber));box-shadow:0 8px 20px -6px rgba(37,99,235,.6)}
+  .mark svg{width:22px;height:22px;color:#fff}
+  .hero h1{font-size:clamp(30px,5vw,52px);line-height:1.05;margin:26px 0 10px;font-weight:850;letter-spacing:-.5px}
+  .hero h1 .g{background:linear-gradient(90deg,#93c5fd,#fcd34d);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.sub{font-size:clamp(16px,2.4vw,20px);color:#c7d2e5;max-width:760px;margin:0}
+  .pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+  .pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#e6edf7;
+    padding:7px 13px;border-radius:999px;font-size:13px;font-weight:600;backdrop-filter:blur(4px)}
+  .pill b{color:#fcd34d}
+
+  /* ---------- Section ---------- */
+  section{padding:64px 0}
+  .eyebrow{color:var(--blue);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:12.5px;margin:0 0 8px}
+  h2.title{font-size:clamp(24px,3.4vw,34px);font-weight:820;margin:0 0 8px;letter-spacing:-.4px}
+  .lead{color:var(--muted);max-width:720px;margin:0 0 34px;font-size:16.5px}
+
+  /* ---------- Actors ---------- */
+  .actors{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .actor{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .actor:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--accent,var(--blue))}
+  .actor .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent,var(--blue)) 14%,white);margin-bottom:14px}
+  .actor .ic svg{width:24px;height:24px;color:var(--accent,var(--blue))}
+  .actor h3{margin:0 0 4px;font-size:18px}
+  .actor .role{font-size:12.5px;color:var(--accent,var(--blue));font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .actor p{color:var(--muted);font-size:14.5px;margin:10px 0 0}
+  .actor ul{margin:12px 0 0;padding-left:18px;color:#334155;font-size:14px}
+  .actor ul li{margin:3px 0}
+
+  /* ---------- Pipeline ---------- */
+  .pipe{position:relative;margin-top:8px}
+  .stage{display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:stretch;position:relative;padding-bottom:14px}
+  .rail{display:flex;flex-direction:column;align-items:center}
+  .node{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;color:#fff;font-weight:800;
+    box-shadow:0 10px 22px -10px rgba(2,6,23,.5);z-index:2;flex:0 0 auto}
+  .node svg{width:26px;height:26px}
+  .connector{width:3px;flex:1 1 auto;background:linear-gradient(var(--c1,#cbd5e1),var(--c2,#cbd5e1));margin:4px 0;border-radius:3px;min-height:26px;position:relative}
+  .connector:after{content:"▾";position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);color:var(--c2,#cbd5e1);font-size:15px}
+  .scard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:8px}
+  .scard h4{margin:0;font-size:17.5px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .scard .tag{font-size:11px;font-weight:700;color:var(--muted);background:#f1f5f9;border:1px solid var(--line);padding:2px 8px;border-radius:999px}
+  .scard p{margin:7px 0 0;color:var(--muted);font-size:14.5px}
+  .scard .ways{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .way{display:flex;align-items:center;gap:7px;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:7px 11px;font-size:13px;font-weight:600;color:#1e293b}
+  .way svg{width:16px;height:16px;color:var(--blue)}
+  .sidebranch{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:8px;border:1px dashed}
+  code{background:#0f172a;color:#e2e8f0;padding:2px 7px;border-radius:6px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  /* ---------- Mini grids ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .panel h3{margin:0 0 6px;font-size:18px;display:flex;align-items:center;gap:9px}
+  .panel h3 svg{width:20px;height:20px;color:var(--blue)}
+  .panel p{color:var(--muted);font-size:14.5px;margin:0}
+
+  /* pay schemes */
+  .schemes{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .scheme{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+  .scheme .emoji{font-size:24px}
+  .scheme b{display:block;margin:8px 0 4px;font-size:15px}
+  .scheme small{color:var(--muted);font-size:12px;display:block;min-height:30px}
+  .scheme .new{display:inline-block;margin-top:6px;font-size:10px;font-weight:800;color:#fff;background:var(--amber);padding:2px 7px;border-radius:999px;letter-spacing:.04em}
+
+  /* kiosk flow horizontal */
+  .kflow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .kstep{flex:1 1 130px;min-width:120px;background:linear-gradient(180deg,#0b1220,#16223c);color:#fff;border-radius:14px;padding:14px;text-align:center}
+  .kstep svg{width:26px;height:26px;color:#93c5fd;margin-bottom:6px}
+  .kstep b{display:block;font-size:14px}
+  .kstep small{color:#9fb3d1;font-size:11.5px}
+  .karrow{color:var(--blue);font-weight:900;font-size:20px}
+
+  /* tenancy diagram */
+  .tenancy{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .tenant{border:2px solid var(--line);border-radius:14px;padding:14px;background:#fff;text-align:center}
+  .tenant .badge{font-weight:800;color:#fff;border-radius:10px;padding:8px;margin-bottom:10px;display:block}
+  .tenant ul{list-style:none;margin:0;padding:0;font-size:12.5px;color:#334155}
+  .tenant li{padding:5px;border:1px dashed var(--line);border-radius:8px;margin:5px 0;background:#f8fafc}
+  .rls{margin-top:16px;background:#0f172a;color:#e2e8f0;border-radius:14px;padding:16px 18px;font-size:13.5px}
+  .rls b{color:#fcd34d}
+
+  /* security cards */
+  .sec{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .seci{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+  .seci .dot{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--green) 14%,white);flex:0 0 auto}
+  .seci .dot svg{width:21px;height:21px;color:var(--green)}
+  .seci h4{margin:0 0 3px;font-size:15px}
+  .seci p{margin:0;color:var(--muted);font-size:13.5px}
+
+  /* stack */
+  .stack{display:flex;flex-wrap:wrap;gap:9px}
+  .tech{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13.5px;font-weight:650;color:#1e293b;box-shadow:0 2px 6px -4px rgba(2,6,23,.2)}
+  .tech .d{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:7px;vertical-align:middle}
+
+  footer{background:#0b1220;color:#9fb3d1;padding:40px 0;margin-top:30px}
+  footer .brand{color:#fff}
+  footer p{font-size:13.5px;margin:14px 0 0;max-width:760px}
+
+  @media(max-width:860px){
+    .actors,.grid3,.schemes,.tenancy,.sec{grid-template-columns:1fr 1fr}
+    .grid2{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){
+    .actors,.grid3,.schemes,.tenancy,.sec{grid-template-columns:1fr}
+    .stage{grid-template-columns:52px 1fr;gap:13px}
+    .node{width:46px;height:46px}
+  }
+  @media print{header.hero{background:#0b1220}.reveal{opacity:1!important;transform:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<!-- ===== ICON SPRITE ===== -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 21v-1a6 6 0 0 1 12 0v1"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-tablet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5"/><path d="m21 2-9.7 9.7"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+</svg>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><span class="mark"><svg><use href="#i-clock"/></svg></span> MyJova</div>
+    <h1>Cómo funciona <span class="g">la plataforma</span></h1>
+    <p class="sub">Control de empleados y nómina multi-empresa para construcción, restaurantes y cualquier giro. Del fichaje a la nómina, contabilidad y app móvil — un solo flujo.</p>
+    <div class="pills">
+      <span class="pill">🏗️ Multi-industria</span>
+      <span class="pill">⏱️ Hora · día · <b>producción</b> · comisión</span>
+      <span class="pill">📟 Kiosko de tablet</span>
+      <span class="pill">📱 App móvil</span>
+      <span class="pill">📊 QuickBooks</span>
+      <span class="pill">🌎 ES · EN · FR</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== ACTORES ===== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Los 3 actores</p>
+    <h2 class="title reveal">¿Quién usa MyJova?</h2>
+    <p class="lead reveal">Una misma plataforma sirve a tres tipos de usuario, cada uno con su propia vista.</p>
+    <div class="actors">
+      <div class="actor reveal" style="--accent:var(--violet)">
+        <div class="ic"><svg><use href="#i-globe"/></svg></div>
+        <span class="role">Visitante</span>
+        <h3>Conoce y se registra</h3>
+        <p>Llega al sitio, compara planes y crea su empresa eligiendo su industria.</p>
+        <ul><li>Landing + precios (geo-moneda)</li><li>Registro → crea la organización</li><li>Prueba gratis (trial)</li></ul>
+      </div>
+      <div class="actor reveal" style="--accent:var(--blue)">
+        <div class="ic"><svg><use href="#i-building"/></svg></div>
+        <span class="role">Dueño / Admin</span>
+        <h3>Controla su negocio</h3>
+        <p>Gestiona todo desde su panel: empleados, fichajes, nómina e integraciones.</p>
+        <ul><li>Empleados + esquemas de pago</li><li>Aprueba horas y producción</li><li>Calcula nómina · conecta QuickBooks</li><li>Empareja tablets · pone PINs</li></ul>
+      </div>
+      <div class="actor reveal" style="--accent:var(--green)">
+        <div class="ic"><svg><use href="#i-user"/></svg></div>
+        <span class="role">Empleado</span>
+        <h3>Ficha y consulta</h3>
+        <p>Marca su entrada/salida y revisa sus horas y recibos — desde web, tablet o su teléfono.</p>
+        <ul><li>Fichar con foto + GPS</li><li>Ver horas e historial</li><li>Recibos (paystubs) + PDF</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PIPELINE PRINCIPAL ===== -->
+<section style="background:linear-gradient(180deg,#eef2fb,#f6f8fc)">
+  <div class="wrap">
+    <p class="eyebrow reveal">El flujo principal</p>
+    <h2 class="title reveal">Del fichaje a la nómina y la contabilidad</h2>
+    <p class="lead reveal">Este es el corazón de MyJova. Cada paso alimenta automáticamente al siguiente.</p>
+
+    <div class="pipe">
+
+      <!-- 1 -->
+      <div class="stage reveal">
+        <div class="rail">
+          <div class="node" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><svg><use href="#i-clock"/></svg></div>
+          <div class="connector" style="--c1:#22c55e;--c2:#3b82f6"></div>
+        </div>
+        <div>
+          <div class="scard">
+            <h4>1 · Fichaje <span class="tag">3 vías</span></h4>
+            <p>El empleado marca entrada/salida. Siempre con <b>foto (selfie)</b> y <b>ubicación GPS</b> verificada contra el geocerco del sitio.</p>
+            <div class="ways">
+              <span class="way"><svg><use href="#i-globe"/></svg> Web (su cuenta)</span>
+              <span class="way"><svg><use href="#i-tablet"/></svg> Kiosko en tablet</span>
+              <span class="way"><svg><use href="#i-phone"/></svg> App móvil</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="stage reveal">
+        <div class="rail">
+          <div class="node" style="background:linear-gradient(135deg,#3b82f6,#2563eb)"><svg><use href="#i-file"/></svg></div>
+          <div class="connector" style="--c1:#2563eb;--c2:#f59e0b"></div>
+        </div>
+        <div>
+          <div class="scard">
+            <h4>2 · Registro <span class="tag">time_entries</span></h4>
+            <p>Se crea un registro con duración, foto y bandera si quedó <i>fuera del geocerco</i>. Estado inicial: <code>pendiente</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="stage reveal">
+        <div class="rail">
+          <div class="node" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><svg><use href="#i-check"/></svg></div>
+          <div class="connector" style="--c1:#d97706;--c2:#7c3aed"></div>
+        </div>
+        <div>
+          <div class="scard">
+            <h4>3 · Aprobación del manager</h4>
+            <p>El manager revisa horas y producción y las <b>aprueba</b> (o ajusta/rechaza, con trazabilidad). Solo lo aprobado entra a la nómina.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="stage reveal">
+        <div class="rail">
+          <div class="node" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)"><svg><use href="#i-calc"/></svg></div>
+          <div class="connector" style="--c1:#6d28d9;--c2:#0ea5e9"></div>
+        </div>
+        <div>
+          <div class="scard">
+            <h4>4 · Motor de nómina <span class="tag">puro · testeado</span></h4>
+            <p>Toma lo aprobado y calcula bruto, impuestos y neto. Es una función pura (sin BD), con tests unitarios.</p>
+            <div class="sidebranch">
+              <span class="chip" style="color:#2563eb;border-color:#bfdbfe;background:#eff6ff">↳ esquemas: hora · salario · día · comisión · producción</span>
+              <span class="chip" style="color:#b45309;border-color:#fde68a;background:#fffbeb">↳ impuestos US (6 estados) + Canadá (4 provincias)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="stage reveal">
+        <div class="rail">
+          <div class="node" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)"><svg><use href="#i-file"/></svg></div>
+          <div class="connector" style="--c1:#0284c7;--c2:#16a34a"></div>
+        </div>
+        <div>
+          <div class="scard">
+            <h4>5 · Recibos de pago (paystubs)</h4>
+            <p>Cada empleado ve el <b>desglose línea por línea</b> y descarga su <b>PDF</b> en su idioma — desde el portal web o la app.</p>
+            <div class="ways">
+              <span class="way"><svg><use href="#i-user"/></svg> Portal del empleado</span>
+              <span class="way"><svg><use href="#i-phone"/></svg> App móvil (PDF)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="stage reveal">
+        <div class="rail">
+          <div class="node" style="background:linear-gradient(135deg,#16a34a,#15803d)"><svg><use href="#i-link"/></svg></div>
+        </div>
+        <div>
+          <div class="scard" style="border-color:#bbf7d0">
+            <h4>6 · QuickBooks &amp; contabilidad</h4>
+            <p>La nómina se envía a QuickBooks Online como <b>asientos de diario</b> (débito gasto de sueldos / crédito neto + pasivos de impuestos, ya <i>cuadrados</i>). Sin conexión, exporta <b>IIF / CSV</b>.</p>
+            <div class="ways">
+              <span class="way"><svg><use href="#i-link"/></svg> OAuth2 (sync en vivo)</span>
+              <span class="way"><svg><use href="#i-file"/></svg> Export IIF / CSV</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ESQUEMAS DE PAGO ===== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Cualquier forma de pago</p>
+    <h2 class="title reveal">Esquemas de pago</h2>
+    <p class="lead reveal">El mismo motor calcula cinco modelos. Cada empleado tiene su esquema activo (con historial).</p>
+    <div class="schemes">
+      <div class="scheme reveal"><div class="emoji">⏰</div><b>Por hora</b><small>tarifa × horas + extra (overtime)</small></div>
+      <div class="scheme reveal"><div class="emoji">🗓️</div><b>Salario</b><small>anual ÷ períodos del año</small></div>
+      <div class="scheme reveal"><div class="emoji">📅</div><b>Por día</b><small>tarifa diaria × días</small></div>
+      <div class="scheme reveal"><div class="emoji">💸</div><b>Comisión</b><small>base + % de ventas (por tramos)</small></div>
+      <div class="scheme reveal"><div class="emoji">📦</div><b>Producción</b><small>tarifa × unidades + suelo mínimo</small><span class="new">NUEVO</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KIOSKO ===== -->
+<section style="background:linear-gradient(180deg,#0b1220,#111a2e);color:#fff">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:#93c5fd">Para restaurantes y obra</p>
+    <h2 class="title reveal" style="color:#fff">El kiosko: una sola tablet, todo el equipo</h2>
+    <p class="lead reveal" style="color:#c7d2e5">Una tablet fija en un puesto deja fichar a varios empleados — sin que cada uno inicie sesión. Seguro por diseño.</p>
+    <div class="kflow reveal">
+      <div class="kstep"><svg><use href="#i-tablet"/></svg><b>Emparejar</b><small>código de 1 solo uso → token del dispositivo</small></div>
+      <span class="karrow">→</span>
+      <div class="kstep"><svg><use href="#i-users"/></svg><b>Elegir nombre</b><small>rejilla con los empleados</small></div>
+      <span class="karrow">→</span>
+      <div class="kstep"><svg><use href="#i-key"/></svg><b>PIN 4 dígitos</b><small>bloqueo tras 5 intentos</small></div>
+      <span class="karrow">→</span>
+      <div class="kstep"><svg><use href="#i-cam"/></svg><b>Selfie</b><small>anti-fraude de fichaje</small></div>
+      <span class="karrow">→</span>
+      <div class="kstep"><svg><use href="#i-check"/></svg><b>Fichado</b><small>entrada / salida + geocerco</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MULTI-TENANT + SEGURIDAD ===== -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Arquitectura</p>
+    <h2 class="title reveal">Multi-empresa y seguridad</h2>
+    <p class="lead reveal">Cada empresa (tenant) está completamente aislada. La separación se aplica en la base de datos, no solo en la app.</p>
+    <div class="grid2">
+      <div class="panel reveal">
+        <h3><svg><use href="#i-layers"/></svg> Aislamiento por empresa (multi-tenant)</h3>
+        <p>Cada tabla lleva <code>organization_id</code> y políticas RLS de Postgres. Un usuario solo ve los datos de SU empresa.</p>
+        <div class="tenancy">
+          <div class="tenant"><span class="badge" style="background:var(--blue)">Constructora A</span><ul><li>Empleados</li><li>Nóminas</li><li>Obras + geocerco</li></ul></div>
+          <div class="tenant"><span class="badge" style="background:var(--amber)">Restaurante B</span><ul><li>Empleados</li><li>Kiosko + PINs</li><li>Propinas</li></ul></div>
+          <div class="tenant"><span class="badge" style="background:var(--violet)">Fábrica C</span><ul><li>Empleados</li><li>Producción</li><li>Nóminas</li></ul></div>
+        </div>
+        <div class="rls">🔒 <b>RLS:</b> <code>organization_id IN (user_org_ids())</code> — y el empleado ve <b>solo sus propios</b> recibos, nunca los de un colega.</div>
+      </div>
+      <div class="panel reveal">
+        <h3><svg><use href="#i-shield"/></svg> Decisiones de seguridad clave</h3>
+        <div class="sec" style="margin-top:12px">
+          <div class="seci"><div class="dot"><svg><use href="#i-key"/></svg></div><div><h4>PINs aislados</h4><p>En su propia tabla sin RLS pública (un PIN de 4 dígitos se crackearía si se expusiera).</p></div></div>
+          <div class="seci"><div class="dot"><svg><use href="#i-tablet"/></svg></div><div><h4>Kiosko sin sesión</h4><p>Token de dispositivo (bcrypt) + service role. El tenant se deriva del dispositivo.</p></div></div>
+          <div class="seci"><div class="dot"><svg><use href="#i-link"/></svg></div><div><h4>Tokens cifrados</h4><p>Las llaves de QuickBooks se guardan con AES-256-GCM.</p></div></div>
+          <div class="seci"><div class="dot"><svg><use href="#i-check"/></svg></div><div><h4>Asientos que cuadran</h4><p>Débitos = créditos, verificado con tests.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STACK ===== -->
+<section style="background:linear-gradient(180deg,#eef2fb,#f6f8fc)">
+  <div class="wrap">
+    <p class="eyebrow reveal">Bajo el capó</p>
+    <h2 class="title reveal">Stack tecnológico</h2>
+    <p class="lead reveal">Web y backend en un solo proyecto; la app móvil comparte el mismo Supabase y la API REST.</p>
+    <div class="grid3">
+      <div class="panel reveal">
+        <h3><svg><use href="#i-globe"/></svg> Web + Backend</h3>
+        <div class="stack" style="margin-top:12px">
+          <span class="tech"><span class="d" style="background:#000"></span>Next.js 14</span>
+          <span class="tech"><span class="d" style="background:#3178c6"></span>TypeScript</span>
+          <span class="tech"><span class="d" style="background:#3ecf8e"></span>Supabase</span>
+          <span class="tech"><span class="d" style="background:#336791"></span>Postgres + RLS</span>
+          <span class="tech"><span class="d" style="background:#06b6d4"></span>Tailwind</span>
+          <span class="tech"><span class="d" style="background:#635bff"></span>Stripe</span>
+          <span class="tech"><span class="d" style="background:#000"></span>Mapbox</span>
+        </div>
+      </div>
+      <div class="panel reveal">
+        <h3><svg><use href="#i-phone"/></svg> App móvil</h3>
+        <div class="stack" style="margin-top:12px">
+          <span class="tech"><span class="d" style="background:#000"></span>Expo</span>
+          <span class="tech"><span class="d" style="background:#61dafb"></span>React Native</span>
+          <span class="tech"><span class="d" style="background:#000"></span>expo-router</span>
+          <span class="tech"><span class="d" style="background:#16a34a"></span>Cámara + GPS</span>
+          <span class="tech"><span class="d" style="background:#f59e0b"></span>Push</span>
+        </div>
+      </div>
+      <div class="panel reveal">
+        <h3><svg><use href="#i-link"/></svg> Integraciones</h3>
+        <div class="stack" style="margin-top:12px">
+          <span class="tech"><span class="d" style="background:#2ca01c"></span>QuickBooks</span>
+          <span class="tech"><span class="d" style="background:#0ea5e9"></span>Resend (email)</span>
+          <span class="tech"><span class="d" style="background:#f22f46"></span>Twilio (SMS)</span>
+          <span class="tech"><span class="d" style="background:#7c3aed"></span>Web Push</span>
+          <span class="tech"><span class="d" style="background:#dc2626"></span>PDF (W-2/T4/recibos)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="mark"><svg><use href="#i-clock"/></svg></span> MyJova</div>
+    <p>Plataforma multi-empresa de control de empleados y nómina · construcción, restaurantes y más · ES / EN / FR. Este diagrama resume el flujo end-to-end de la plataforma.</p>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(Math.min(i%6,5)*55)+'ms'; io.observe(el); });
+</script>
+</body>
+</html>

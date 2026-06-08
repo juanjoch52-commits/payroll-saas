@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { Clock, History, Receipt, User } from 'lucide-react'
+import { Clock, History, Receipt, User, CalendarDays } from 'lucide-react'
 import { requireSession } from '@/lib/auth/session'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
 import { ThemeToggle } from '@/components/layout/ThemeToggle'
@@ -34,6 +34,7 @@ export default async function EmployeeLayout({
 
   const navItems = [
     { href: '/clock',     labelKey: 'nav.clock',     icon: Clock },
+    { href: '/my-schedule', labelKey: 'nav.schedule', icon: CalendarDays },
     { href: '/history',   labelKey: 'nav.history',   icon: History },
     { href: '/paystubs',  labelKey: 'nav.paystubs',  icon: Receipt },
     { href: '/profile',   labelKey: 'nav.profile',   icon: User },
@@ -67,7 +68,7 @@ export default async function EmployeeLayout({
       <main className="flex-1 overflow-y-auto pb-20">{children}</main>
 
       {/* Bottom nav (mobile-first) */}
-      <nav className="fixed bottom-0 left-0 right-0 grid grid-cols-4 border-t bg-card">
+      <nav className="fixed bottom-0 left-0 right-0 grid grid-cols-5 border-t bg-card">
         {navItems.map(({ href, labelKey, icon: Icon }) => (
           <Link
             key={href}

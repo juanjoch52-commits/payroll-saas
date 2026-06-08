@@ -52,7 +52,8 @@
     "history": "Historique",
     "paystubs": "Bulletins de paie",
     "profile": "Profil",
-    "production": "Production"
+    "production": "Production",
+    "schedule": "Horaire"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -689,5 +690,32 @@
     "recentRuns": "Paies récentes",
     "noRuns": "Aucune paie.",
     "sync": "Synchroniser"
+  },
+  "schedule": {
+    "title": "Horaire",
+    "subtitle": "Planifiez les quarts, publiez et comblez les quarts ouverts.",
+    "myTitle": "Mon horaire",
+    "addShift": "Ajouter un quart",
+    "publish": "Publier",
+    "totalHours": "Heures",
+    "shifts": "Quarts",
+    "open": "Ouverts",
+    "projectedCost": "Coût est.",
+    "employee": "Employé",
+    "worksite": "Site",
+    "date": "Date",
+    "start": "Début",
+    "end": "Fin",
+    "role": "Rôle",
+    "openShift": "Quart ouvert",
+    "draft": "Brouillon",
+    "upcoming": "Prochains quarts",
+    "noShifts": "Aucun quart à venir.",
+    "swap": "Échanger",
+    "swapRequested": "Échange demandé",
+    "openShifts": "Quarts ouverts",
+    "noOpen": "Aucun quart ouvert.",
+    "claim": "Prendre",
+    "claimed": "Quart pris"
   }
 }

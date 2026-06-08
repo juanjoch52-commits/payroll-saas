@@ -52,7 +52,8 @@
     "history": "History",
     "paystubs": "Pay stubs",
     "profile": "Profile",
-    "production": "Production"
+    "production": "Production",
+    "schedule": "Schedule"
   },
   "auth": {
     "signIn": "Sign in",
@@ -689,5 +690,32 @@
     "recentRuns": "Recent payroll runs",
     "noRuns": "No payroll runs yet.",
     "sync": "Sync"
+  },
+  "schedule": {
+    "title": "Schedule",
+    "subtitle": "Plan shifts, publish them, and fill open shifts.",
+    "myTitle": "My schedule",
+    "addShift": "Add shift",
+    "publish": "Publish",
+    "totalHours": "Hours",
+    "shifts": "Shifts",
+    "open": "Open",
+    "projectedCost": "Est. cost",
+    "employee": "Employee",
+    "worksite": "Worksite",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "role": "Role",
+    "openShift": "Open shift",
+    "draft": "Draft",
+    "upcoming": "Upcoming shifts",
+    "noShifts": "No upcoming shifts.",
+    "swap": "Swap",
+    "swapRequested": "Swap requested",
+    "openShifts": "Open shifts",
+    "noOpen": "No open shifts.",
+    "claim": "Take it",
+    "claimed": "Shift claimed"
   }
 }
