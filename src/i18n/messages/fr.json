@@ -56,7 +56,8 @@
     "schedule": "Horaire",
     "timeOff": "Congés",
     "documents": "Documents",
-    "tips": "Pourboires"
+    "tips": "Pourboires",
+    "jobs": "Chantiers"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -857,5 +858,16 @@
       "checking": "Chèques",
       "savings": "Épargne"
     }
+  },
+  "jobs": {
+    "title": "Chantiers et paie certifiée",
+    "subtitle": "Suivez les projets, les coûts et générez le WH-347.",
+    "name": "Nom du chantier",
+    "worksite": "Site",
+    "contract": "N° de contrat",
+    "prevailing": "Salaire en vigueur",
+    "list": "Chantiers",
+    "empty": "Aucun chantier.",
+    "noWorksite": "Aucun site lié"
   }
 }

@@ -56,7 +56,8 @@
     "schedule": "Horario",
     "timeOff": "Tiempo libre",
     "documents": "Documentos",
-    "tips": "Propinas"
+    "tips": "Propinas",
+    "jobs": "Obras"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -857,5 +858,16 @@
       "checking": "Corriente",
       "savings": "Ahorros"
     }
+  },
+  "jobs": {
+    "title": "Obras y nómina certificada",
+    "subtitle": "Controla proyectos, costos por obra y genera WH-347.",
+    "name": "Nombre de la obra",
+    "worksite": "Sitio",
+    "contract": "N.º de contrato",
+    "prevailing": "Salario prevaleciente",
+    "list": "Obras",
+    "empty": "Aún no hay obras.",
+    "noWorksite": "Sin sitio ligado"
   }
 }

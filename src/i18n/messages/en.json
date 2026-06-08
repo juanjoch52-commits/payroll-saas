@@ -56,7 +56,8 @@
     "schedule": "Schedule",
     "timeOff": "Time off",
     "documents": "Documents",
-    "tips": "Tips"
+    "tips": "Tips",
+    "jobs": "Jobs"
   },
   "auth": {
     "signIn": "Sign in",
@@ -857,5 +858,16 @@
       "checking": "Checking",
       "savings": "Savings"
     }
+  },
+  "jobs": {
+    "title": "Jobs & certified payroll",
+    "subtitle": "Track projects, job costs, and generate WH-347.",
+    "name": "Job name",
+    "worksite": "Worksite",
+    "contract": "Contract #",
+    "prevailing": "Prevailing wage",
+    "list": "Jobs",
+    "empty": "No jobs yet.",
+    "noWorksite": "No worksite linked"
   }
 }
