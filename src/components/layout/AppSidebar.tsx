@@ -14,6 +14,7 @@ import {
   Coins,
   HardHat,
   Megaphone,
+  Wallet,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { JovaWordmark } from '@/components/branding/JovaWordmark'
@@ -38,6 +39,7 @@ const navItems: {
   { href: '/dashboard',     labelKey: 'nav.dashboard',     icon: LayoutDashboard, minRole: 'viewer' },
   { href: '/employees',     labelKey: 'nav.employees',     icon: Users,           minRole: 'viewer' },
   { href: '/payroll',       labelKey: 'nav.payroll',       icon: Calculator,      minRole: 'viewer' },
+  { href: '/deductions',    labelKey: 'nav.deductions',    icon: Wallet,          minRole: 'manager' },
   { href: '/time-tracking', labelKey: 'nav.timeTracking',  icon: Calculator,      minRole: 'manager' },
   { href: '/schedule',      labelKey: 'nav.schedule',      icon: CalendarDays,    minRole: 'manager' },
   { href: '/time-off',      labelKey: 'nav.timeOff',       icon: Plane,           minRole: 'manager' },

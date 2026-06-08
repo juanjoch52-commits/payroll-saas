@@ -58,7 +58,8 @@
     "documents": "Documents",
     "tips": "Pourboires",
     "jobs": "Chantiers",
-    "announcements": "Équipe"
+    "announcements": "Équipe",
+    "deductions": "Retenues"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -891,5 +892,16 @@
     "board": "Babillard",
     "writeMessage": "Écrivez un message…",
     "noMessages": "Aucun message."
+  },
+  "deductions": {
+    "title": "Avantages et retenues",
+    "subtitle": "Les retenues récurrentes (santé, REER…) alimentent chaque paie.",
+    "employee": "Employé",
+    "label": "Libellé",
+    "code": "Code",
+    "amount": "Montant",
+    "preTax": "Avant impôt",
+    "current": "Retenues actuelles",
+    "none": "Aucune retenue pour cet employé."
   }
 }

@@ -191,6 +191,29 @@ export async function calculateRunItems(
     tipsByEmployee.set(tp.employee_id, existing)
   }
 
+  // 2b4) Deducciones recurrentes activas por empleado (beneficios).
+  const { data: deductionRows } = await supabase
+    .from('employee_deductions')
+    .select('employee_id, label, code, amount_cents, pre_tax')
+    .in('employee_id', employeeIds)
+    .eq('organization_id', session.organizationId)
+    .eq('is_active', true)
+  const deductionsByEmployee = new Map<
+    string,
+    { code: string; label: string; amountCents: number; preTax: boolean }[]
+  >()
+  for (const d of (deductionRows ?? []) as {
+    employee_id: string
+    label: string
+    code: string
+    amount_cents: number
+    pre_tax: boolean
+  }[]) {
+    const arr = deductionsByEmployee.get(d.employee_id) ?? []
+    arr.push({ code: d.code, label: d.label, amountCents: d.amount_cents, preTax: d.pre_tax })
+    deductionsByEmployee.set(d.employee_id, arr)
+  }
+
   // 2c) Calcular YTD gross por empleado (suma de payroll_items del año en curso
   //     antes del period_start). Necesario para Social Security cap y Medicare additional.
   const yearStart = `${run.period_start.slice(0, 4)}-01-01`
@@ -315,6 +338,7 @@ export async function calculateRunItems(
       hoursSplit,
       overtimeRules,
       extraEarnings,
+      deductions: deductionsByEmployee.get(emp.id),
       filingStatus: emp.w4_filing_status,
       w4Dependents: emp.w4_dependents,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,

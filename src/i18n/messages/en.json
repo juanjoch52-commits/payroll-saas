@@ -58,7 +58,8 @@
     "documents": "Documents",
     "tips": "Tips",
     "jobs": "Jobs",
-    "announcements": "Team"
+    "announcements": "Team",
+    "deductions": "Deductions"
   },
   "auth": {
     "signIn": "Sign in",
@@ -891,5 +892,16 @@
     "board": "Message board",
     "writeMessage": "Write a message…",
     "noMessages": "No messages yet."
+  },
+  "deductions": {
+    "title": "Benefits & deductions",
+    "subtitle": "Recurring deductions (health, 401k…) feed each payroll run.",
+    "employee": "Employee",
+    "label": "Label",
+    "code": "Code",
+    "amount": "Amount",
+    "preTax": "Pre-tax",
+    "current": "Current deductions",
+    "none": "No deductions for this employee."
   }
 }

@@ -58,7 +58,8 @@
     "documents": "Documentos",
     "tips": "Propinas",
     "jobs": "Obras",
-    "announcements": "Equipo"
+    "announcements": "Equipo",
+    "deductions": "Deducciones"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -891,5 +892,16 @@
     "board": "Tablón de mensajes",
     "writeMessage": "Escribe un mensaje…",
     "noMessages": "Aún no hay mensajes."
+  },
+  "deductions": {
+    "title": "Beneficios y deducciones",
+    "subtitle": "Las deducciones recurrentes (salud, 401k…) entran a cada nómina.",
+    "employee": "Empleado",
+    "label": "Etiqueta",
+    "code": "Código",
+    "amount": "Monto",
+    "preTax": "Pre-impuestos",
+    "current": "Deducciones actuales",
+    "none": "Sin deducciones para este empleado."
   }
 }

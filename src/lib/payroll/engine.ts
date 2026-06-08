@@ -40,6 +40,8 @@ export type PayrollInput = {
   overtimeRules?: OvertimeRules
   /** Ingresos extra gravables (p.ej. prima por descanso perdido). */
   extraEarnings?: { code: string; label: string; amountCents: number }[]
+  /** Deducciones recurrentes (beneficios). preTax reduce el ingreso gravable. */
+  deductions?: { code: string; label: string; amountCents: number; preTax: boolean }[]
   // Datos del empleado necesarios para impuestos
   filingStatus: FilingStatus
   w4Dependents: number
@@ -253,27 +255,35 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
   const extraTotal = extra.reduce((s, x) => s + x.amountCents, 0)
   const grossCents = base.grossCents + tipsCents + extraTotal
 
+  // Deducciones recurrentes (beneficios). preTax reduce el ingreso gravable
+  // para federal/estatal (no FICA — simplificación; ej. 401k). postTax solo neto.
+  const deductionsList = input.deductions ?? []
+  const preTaxTotal = deductionsList.filter((d) => d.preTax).reduce((s, d) => s + d.amountCents, 0)
+  const postTaxTotal = deductionsList.filter((d) => !d.preTax).reduce((s, d) => s + d.amountCents, 0)
+  const taxableGross = Math.max(0, grossCents - preTaxTotal)
+
   // Impuestos del empleado (US, MVP)
   const federalTaxCents = calcUSFederalWithholding({
-    grossCents,
+    grossCents: taxableGross,
     periodsPerYear: input.periodsPerYear,
     filingStatus: input.filingStatus,
     dependents: input.w4Dependents,
   })
 
+  // FICA sobre el bruto (no se reduce por 401k).
   const socialSecurityCents = calcUSSocialSecurity(grossCents, input.ytdGrossCents ?? 0)
   const medicareCents = calcUSMedicare(grossCents, input.ytdGrossCents ?? 0)
 
   const stateTaxCents = input.stateCode
     ? calcStateWithholding({
-        grossCents,
+        grossCents: taxableGross,
         periodsPerYear: input.periodsPerYear,
         filingStatus: input.filingStatus,
         dependents: input.w4Dependents,
         stateCode: input.stateCode,
       })
     : 0
-  const otherDeductionsCents = 0
+  const otherDeductionsCents = preTaxTotal + postTaxTotal
 
   // Costos del employer (no afectan el net del empleado)
   const employerSocialSecurityCents = socialSecurityCents  // employer paga igual al empleado
@@ -303,6 +313,13 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
       amountCents: medicareCents,
     },
   ]
+
+  const deductionComponents: PayrollComponent[] = deductionsList.map((d) => ({
+    type: 'deduction',
+    code: d.code,
+    label: d.preTax ? `${d.label} (pre-tax)` : d.label,
+    amountCents: d.amountCents,
+  }))
 
   const employerTaxComponents: PayrollComponent[] = [
     {
@@ -336,7 +353,7 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
     employerSocialSecurityCents,
     employerMedicareCents,
     employerFUTACents,
-    components: [...earnings, ...taxComponents, ...employerTaxComponents],
+    components: [...earnings, ...taxComponents, ...deductionComponents, ...employerTaxComponents],
     breakdown: {
       input,
       gross: grossCents,

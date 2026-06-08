@@ -116,6 +116,23 @@ describe('calcGross — regresión de esquemas existentes', () => {
     expect(out.components.find((c) => c.code === 'tips')?.amountCents).toBe(10000)
   })
 
+  it('deducciones: pre-tax baja el gravable, ambas bajan el neto', () => {
+    const salary = { type: 'salary' as const, annualCents: 5200000, periodsPerYear: 26 }
+    const noDed = calculatePayroll({ ...base, scheme: salary })
+    const withDed = calculatePayroll({
+      ...base,
+      scheme: salary,
+      deductions: [
+        { code: '401k', label: '401k', amountCents: 10000, preTax: true },
+        { code: 'parking', label: 'Parking', amountCents: 5000, preTax: false },
+      ],
+    })
+    expect(withDed.federalTaxCents).toBeLessThanOrEqual(noDed.federalTaxCents)
+    expect(withDed.otherDeductionsCents).toBe(15000)
+    expect(withDed.netCents).toBeLessThan(noDed.netCents)
+    expect(withDed.components.filter((c) => c.type === 'deduction').length).toBe(2)
+  })
+
   it('net = gross − impuestos del empleado', () => {
     const out = calculatePayroll({
       ...base,
