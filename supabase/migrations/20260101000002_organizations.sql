@@ -24,7 +24,7 @@ create table public.organizations (
   slug            text not null unique,
   owner_user_id   uuid not null references auth.users(id) on delete restrict,
   country         text not null default 'US' check (country in ('US', 'CA')),
-  default_locale  text not null default 'en' check (default_locale in ('en', 'es')),
+  default_locale  text not null default 'en' check (default_locale in ('en', 'es', 'fr', 'fr-CA')),
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now()
 );
