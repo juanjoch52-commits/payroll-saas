@@ -214,18 +214,9 @@ create policy "tax_forms_insert" on public.tax_forms for insert
   );
 
 -- =============================================================================
--- tax_filings
+-- tax_filings — definición y RLS movidas a 20260301000006_tax_filings.sql
+-- (se eliminó la tabla duplicada de 20260101000007 para que db:push aplique).
 -- =============================================================================
-alter table public.tax_filings enable row level security;
-
-create policy "tax_filings_select" on public.tax_filings for select
-  using (organization_id in (select public.user_org_ids()));
-
-create policy "tax_filings_insert" on public.tax_filings for insert
-  with check (
-    organization_id in (select public.user_org_ids())
-    and public.user_role_in(organization_id) in ('owner', 'admin')
-  );
 
 -- =============================================================================
 -- integrations

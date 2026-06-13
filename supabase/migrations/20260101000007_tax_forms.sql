@@ -37,25 +37,6 @@ create table public.tax_forms (
 create index idx_tax_forms_org on public.tax_forms(organization_id, tax_year);
 create index idx_tax_forms_employee on public.tax_forms(employee_id);
 
--- -----------------------------------------------------------------------------
--- Tabla: tax_filings
--- -----------------------------------------------------------------------------
--- Registro de cuándo se mandó el formulario a la autoridad fiscal.
--- En MVP solo se llena manualmente (admin marca como "filed"). En el futuro,
--- integración con e-filing servicios (Track1099, IRS FIRE, etc.).
-create table public.tax_filings (
-  id                  uuid primary key default gen_random_uuid(),
-  organization_id     uuid not null references public.organizations(id) on delete cascade,
-  tax_form_id         uuid references public.tax_forms(id),
-  jurisdiction_code   text not null references public.jurisdictions(code),
-  form_type           public.tax_form_type not null,
-  tax_year            int not null,
-  tax_period          text,
-  filed_at            timestamptz,
-  filed_by            uuid references auth.users(id),
-  confirmation_number text,
-  notes               text,
-  created_at          timestamptz not null default now()
-);
-
-create index idx_tax_filings_org on public.tax_filings(organization_id, tax_year);
+-- NOTA: la tabla `tax_filings` se define en 20260301000006_tax_filings.sql
+-- (esquema de tracking de e-filing). Antes se creaba también aquí, lo que
+-- duplicaba la tabla y hacía fallar `db:push`. Se dejó una sola definición.
