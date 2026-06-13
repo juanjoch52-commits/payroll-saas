@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { employeeSchema, parsePaySchemeJson } from '@/lib/validators/employee'
+import { encryptSecret, isEncryptionConfigured } from '@/lib/crypto/secretbox'
 
 // =============================================================================
 // Server Actions — Employees
@@ -87,10 +88,14 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
     }
   }
 
-  // 6) Insertar employee + pay_scheme en transacción lógica
-  // TODO: Encriptar input.taxId antes de guardar. Por ahora se guarda solo el last_four.
+  // 6) Insertar employee + pay_scheme en transacción lógica.
+  // El SSN/Tax ID completo se cifra con AES-256-GCM (ENCRYPTION_KEY) y se guarda
+  // en tax_id_encrypted; en plano solo se conservan los últimos 4. Si no hay
+  // ENCRYPTION_KEY configurada, degradamos a solo-last4 (no se guarda el SSN).
   const taxIdDigits = (input.taxId ?? '').replace(/\D/g, '')
   const taxIdLastFour = taxIdDigits.length >= 4 ? taxIdDigits.slice(-4) : null
+  const taxIdEncrypted =
+    taxIdDigits.length >= 9 && isEncryptionConfigured() ? encryptSecret(taxIdDigits) : null
 
   const { data: employee, error: empErr } = await supabase
     .from('employees')
@@ -106,7 +111,7 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
       job_title: input.jobTitle || null,
       primary_jurisdiction_code: input.primaryJurisdictionCode,
       locality_code: input.localityCode || null,
-      tax_id_encrypted: null, // pendiente Fase 5+
+      tax_id_encrypted: taxIdEncrypted,
       tax_id_last_four: taxIdLastFour,
       w4_filing_status: input.w4FilingStatus,
       w4_dependents: input.w4Dependents,
