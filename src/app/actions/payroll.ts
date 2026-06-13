@@ -326,6 +326,7 @@ export async function calculateRunItems(
     }
 
     const tipsCents = tipsByEmployee.get(emp.id)?.totalCents ?? 0
+    const empJur = (emp as { primary_jurisdiction_code?: string }).primary_jurisdiction_code
 
     const calcInput: PayrollInput = {
       scheme,
@@ -342,6 +343,11 @@ export async function calculateRunItems(
       deductions: deductionsByEmployee.get(emp.id),
       filingStatus: emp.w4_filing_status,
       w4Dependents: emp.w4_dependents,
+      // State withholding: solo jurisdicciones US ('US-CA' → California). Canadá
+      // ('CA', 'CA-ON') NO usa retención estatal US — se excluye para evitar la
+      // ambigüedad 'CA' (California vs Canada Federal) en el normalizador del engine.
+      stateCode:
+        empJur && empJur.toUpperCase().startsWith('US') ? empJur : undefined,
       localityCode: (emp as { locality_code?: string | null }).locality_code ?? undefined,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,
       periodsPerYear,

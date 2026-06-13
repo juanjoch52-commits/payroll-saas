@@ -149,3 +149,29 @@ describe('calcGross — regresión de esquemas existentes', () => {
     )
   })
 })
+
+describe('retención estatal (wiring AUD-2)', () => {
+  const salary: PayrollInput = {
+    ...base,
+    scheme: { type: 'salary', annualCents: 12000000, periodsPerYear: 26 },
+  }
+
+  it('retiene impuesto estatal cuando stateCode es US-CA (California)', () => {
+    const out = calculatePayroll({ ...salary, stateCode: 'US-CA' })
+    expect(out.stateTaxCents).toBeGreaterThan(0)
+  })
+
+  it('normaliza el prefijo US- → US-CA equivale a CA', () => {
+    const a = calculatePayroll({ ...salary, stateCode: 'US-CA' })
+    const b = calculatePayroll({ ...salary, stateCode: 'CA' })
+    expect(a.stateTaxCents).toBe(b.stateTaxCents)
+  })
+
+  it('sin stateCode NO retiene estatal (el gap que arregla AUD-2 = $0 para todos)', () => {
+    expect(calculatePayroll(salary).stateTaxCents).toBe(0)
+  })
+
+  it('un estado sin impuesto sobre la renta (TX) retiene 0', () => {
+    expect(calculatePayroll({ ...salary, stateCode: 'US-TX' }).stateTaxCents).toBe(0)
+  })
+})
