@@ -21,6 +21,10 @@ export async function POST(req: Request) {
     if (signature !== expected) {
       return NextResponse.json({ error: 'invalid signature' }, { status: 401 })
     }
+  } else if (process.env.NODE_ENV === 'production') {
+    // Fail-closed en producción: sin verifier no se aceptan notificaciones
+    // (evita aceptar payloads sin verificar si la env var falta en prod).
+    return NextResponse.json({ error: 'webhook not configured' }, { status: 503 })
   }
 
   let payload: Record<string, unknown> = {}
