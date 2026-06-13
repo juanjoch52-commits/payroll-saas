@@ -55,7 +55,59 @@ Sobre la base anterior, 5 fases (commit por fase, gates verdes):
   broadcasts (fan-out inapp + `broadcast_deliveries`).
 
 Gates al cerrar: **typecheck ✅, vitest 70/70 ✅, build ✅, lint ✅.**
-**Próximo timestamp de migración libre: `20260501000016`.**
+
+## Auditoría de lanzamiento (2026-06-13) — fixes aplicados + runbook
+
+Auditoría de producción (seguridad/RLS, DB, completitud). Veredicto: la capa de
+app es de calidad de lanzamiento; los bloqueadores eran acotados. **Fixes hechos
+(commits AUD-1..5, gates verdes, vitest 74/74):**
+- **AUD-1**: `tax_filings` se creaba 2× (007 y 030) → `db:push` fallaba. Eliminada
+  la definición vieja de 007 + su RLS de 010; 030 es la única. **Desbloquea db:push.**
+- **AUD-2**: impuesto **estatal era $0 para todos** — `calculateRunItems` no pasaba
+  `stateCode` al motor. Cableado (guardado a jurisdicciones US: `US-CA`→CA, Canadá
+  excluido). +4 tests.
+- **AUD-3**: el **SSN no se cifraba ni guardaba** (solo last-4). Ahora se cifra
+  (AES-256-GCM → `tax_id_encrypted`, gated por `ENCRYPTION_KEY`).
+- **AUD-4**: CHECK `default_locale` ampliado a `('en','es','fr','fr-CA')` (signup fr
+  rompía el trigger).
+- **AUD-5**: webhooks **fail-closed** (myravex exige firma + sin org_id del cliente;
+  QBO 503 en prod sin verifier) + políticas RLS del bucket `documents`.
+
+**Próximo timestamp de migración libre: `20260501000017`.** Migraciones a aplicar
+ahora: `20260501000001..016` (`npm run db:push`).
+
+### 🚦 GO-LIVE checklist para Juan (lo que falta — NO es código)
+1. **Env vars en `.env.local` Y Vercel** (hoy solo está `NEXT_PUBLIC_APP_URL`):
+   - Supabase: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+   - Stripe: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`,
+     `STRIPE_PRICE_ESSENTIAL/_ADVANCED/_PREMIUM`.
+   - `ENCRYPTION_KEY` (`openssl rand -base64 32`) — **requerido** para SSN (AUD-3), banco/NACHA y QBO.
+   - `RESEND_API_KEY` (+ `RESEND_FROM_EMAIL` con dominio verificado) para invitaciones/avisos por email.
+2. **Supabase**: `npm run db:push` (16 migraciones), habilitar el Custom Access Token Hook,
+   habilitar Realtime en `notifications`, e `insert into platform_admins` tu user_id (ver `MANUAL_STEPS.md`).
+3. **Stripe**: crear los 3 productos/precios, registrar el webhook de producción →
+   `<APP_URL>/api/webhooks/stripe`, pegar el signing secret.
+4. **SSO (opcional)**: habilitar Google/Microsoft en Supabase → Auth → Providers.
+5. **Mapbox (opcional)**: `NEXT_PUBLIC_MAPBOX_TOKEN` si vendes GPS/worksites (si no, placeholder).
+
+### 🟡 Decisiones tuyas (NO las toqué — cambian comportamiento)
+- **Trial sin enforcement**: al terminar los 14 días no se bloquea nada (un tenant podría usar
+  nómina gratis para siempre). Hay que decidir: gate por `subscriptions.status`/`trial_ends_at`
+  (middleware o por-acción) vs. gestión manual de los primeros clientes. *Los límites de
+  asientos/plan SÍ se aplican (max_employees + features gated).*
+- **Páginas Privacidad/Términos**: no existen (el link `legal` del footer está muerto). Casi
+  obligatorias para un producto con SSN+banco y para revisión de Stripe. Falta el texto legal.
+
+### 🔵 Follow-ups técnicos (no bloqueantes)
+- **Kiosk PIN TOCTOU** (kiosk.ts): el conteo de intentos no es atómico → ráfagas concurrentes
+  con un device token válido pueden saltarse el tope de 5 contra un PIN de 4 dígitos. Mitigar con
+  una función `security definer` que cuente-e-inserte atómico. Friction actual: bcrypt + lockout 15min.
+- **Emails de welcome/payroll-ready**: las plantillas existen y `dispatch()` sabe enviarlas, pero
+  nada las dispara en signup/aprobación de nómina. Cablear `dispatch()` en `signUp`/`approvePayrollRun`.
+- **App móvil (`apps/mobile`)**: excluida del build y **stale** (solo G12; sin features H/diseño).
+  Fuera de alcance de este lanzamiento — track aparte.
+- **e-file (W-2/941/1099)**: los builders generan archivos correctos para **subida manual**;
+  la transmisión automática (FIRE/BSO/Track1099) sigue stub — postura aceptable para lanzar.
 
 ## Cómo trabajar (convenciones aprendidas — IMPORTANTE)
 
