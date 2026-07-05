@@ -98,6 +98,43 @@ ahora: `20260501000001..016` (`npm run db:push`).
 - **Páginas Privacidad/Términos**: no existen (el link `legal` del footer está muerto). Casi
   obligatorias para un producto con SSN+banco y para revisión de Stripe. Falta el texto legal.
 
+## FIN sprint (2026-07-05) — estudio + cierre de pendientes ✅
+
+Estudio con 2 agentes (gaps de producto + mejoras técnicas) y cierre en 4 commits
+(FIN-1..4, gates verdes, vitest 74/74):
+- **FIN-1** (0a79539): **trial enforcement** — `src/lib/auth/subscription.ts`
+  (gate suave: bloquea createEmployee/createPayrollRun/calculateRunItems/
+  approvePayrollRun al expirar; lectura/billing/export nunca) + `SubscriptionBanner`
+  en AppShell (expirado→CTA billing; ≤7 días→aviso). + action `updateEmployee`.
+- **FIN-2** (d43d759): **páginas legales** `/privacy` + `/terms` (plantillas
+  estándar SaaS, revisar con abogado) + links reales en footer y signup.
+- **FIN-3** (c0cbfbf): **kiosk PIN atómico** (migración `...017`
+  `kiosk_reserve_pin_attempt` con advisory lock — cierra el TOCTOU) + fix
+  **open redirect** en `/auth/callback` (`next` solo rutas internas).
+- **FIN-4** (ee4f0d9): notif **payroll_ready** a empleados al aprobar run +
+  webhook **payroll.paid** al marcar pagado + batch de los 3 loops N+1 de
+  calculateRunItems + **UI de edición de empleado** (`/employees/[id]/edit`,
+  gap #1 de producto) + ownership check en adjustPtoBalance + validación de
+  integridad en editTimeEntry.
+
+**Próximo timestamp de migración libre: `20260501000018`.** db:push aplica `..017`.
+
+### 📋 Backlog priorizado (del estudio — NO hecho, post-lanzamiento)
+1. **Team management** (M): cambiar rol / quitar miembro / reenviar-revocar
+   invitaciones — página Settings → Members. Hoy un rol mal asignado no se puede corregir.
+2. **Borrar draft de nómina / excluir empleado de un run** (M): `deletePayrollRun`
+   (draft: liberar entries + borrar items+run) + exclusión por empleado en PayrollRunDetail.
+3. **PTO accrual engine** (L): `accrual_method/rate` se guardan pero nada los computa —
+   aplicar acumulación al aprobar nómina o con cron.
+4. **Timezones** (M/L): fronteras de día en UTC (`T00:00:00Z`) desalinean "hoy"/fechas
+   para US (dashboard hours-today, workDate de tips, splits de OT). Cross-módulo — hacer con calma.
+5. **Offboarding** (M): terminar empleado no revoca membership/acceso al portal.
+6. **Paginación** (M): worksites/schedule/deductions/settings cargan sin límite.
+7. **Rate limit por IP** en kiosk redeemPairingCode (M) — el PIN ya está protegido.
+8. **Email de welcome** (S): plantilla existe, nada la dispara (payroll_ready ya cableado).
+9. UI para adjustPtoBalance en TimeOffManager (S); cancelar time-off aprobado (S);
+   resend/revoke invitación (S); select(*) en payroll/[id] (S).
+
 ### 🔵 Follow-ups técnicos (no bloqueantes)
 - **Kiosk PIN TOCTOU** (kiosk.ts): el conteo de intentos no es atómico → ráfagas concurrentes
   con un device token válido pueden saltarse el tope de 5 contra un PIN de 4 dígitos. Mitigar con
