@@ -142,6 +142,19 @@ Commits `41bd90b` (BL-A/B/C) + `dc31089` (BL-D/E), vitest **90/90**, gates verde
 Backlog restante menor: UI para adjustPtoBalance en TimeOffManager; paginación
 UI real (las listas hoy solo truncan); mover el rate-limit a DB si multi-región.
 
+### ✅ SUB (2026-07-05): subcontratistas jerárquicos (pedido de Juan)
+Commit `bee555f`, vitest 98/98. Contratista → sub mayor → subs menores: todos
+fichan horas con el tenant; el pago se consolida en **UN cheque al sub RAÍZ**
+con desglose por trabajador. Migración `...019` (`subcontractors` con
+`parent_id` + `employees.subcontractor_id`). Motor: `suppressWithholding`
+(sub-workers cobran en BRUTO, sin retenciones ni FICA/FUTA del employer).
+Página `/subcontractors` (árbol, alta con padre, activar/desactivar, anti-ciclo),
+select en alta/edición de empleado, **settlement card** en la página del run
+(total del cheque por raíz + líneas de horas por trabajador, incluye subs
+anidados), y exclusión de W-2/1099 para sub-workers. **Próximo ts de migración:
+`20260501000020`.** Futuro: 1099-NEC a la EMPRESA sub (EIN), cuenta bancaria del
+sub para ACH del cheque consolidado, export PDF/CSV del settlement.
+
 ### 📋 Backlog priorizado (del estudio — histórico; TODO EJECUTADO arriba)
 1. **Team management** (M): cambiar rol / quitar miembro / reenviar-revocar
    invitaciones — página Settings → Members. Hoy un rol mal asignado no se puede corregir.
