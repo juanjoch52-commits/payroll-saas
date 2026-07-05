@@ -347,6 +347,21 @@ export async function editTimeEntry(
     return { success: false, error: 'No tienes permiso para editar.' }
   }
 
+  // Validación de integridad: sin minutos negativos y clock_out > clock_in.
+  if (patch.billableMinutes != null && (!Number.isFinite(patch.billableMinutes) || patch.billableMinutes < 0)) {
+    return { success: false, error: 'Los minutos no pueden ser negativos.' }
+  }
+  if (patch.breakMinutes != null && (!Number.isFinite(patch.breakMinutes) || patch.breakMinutes < 0)) {
+    return { success: false, error: 'El descanso no puede ser negativo.' }
+  }
+  if (
+    patch.clockInAt &&
+    patch.clockOutAt &&
+    new Date(patch.clockOutAt).getTime() <= new Date(patch.clockInAt).getTime()
+  ) {
+    return { success: false, error: 'La salida debe ser posterior a la entrada.' }
+  }
+
   const supabase = createClient()
 
   // Guardar los valores originales si es la primera edición

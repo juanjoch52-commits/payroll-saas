@@ -8,6 +8,7 @@
 
 export const WEBHOOK_EVENTS = [
   'payroll.approved',
+  'payroll.paid',
   'time_entry.approved',
   'employee.created',
 ] as const
@@ -16,6 +17,7 @@ export type WebhookEvent = (typeof WEBHOOK_EVENTS)[number]
 
 export const WEBHOOK_EVENT_LABELS: Record<WebhookEvent, string> = {
   'payroll.approved': 'Payroll approved',
+  'payroll.paid': 'Payroll paid',
   'time_entry.approved': 'Time entry approved',
   'employee.created': 'Employee created',
 }

@@ -70,7 +70,21 @@ export async function adjustPtoBalance(
 ): Promise<PtoResult> {
   const session = await requireSession('/en/login')
   if (!isManager(session.role)) return { success: false, error: 'No autorizado.' }
+  if (!Number.isFinite(balanceHours) || balanceHours < 0 || balanceHours > 9999) {
+    return { success: false, error: 'Horas inválidas.' }
+  }
   const supabase = createClient()
+
+  // Verificar que el empleado pertenece a la org del caller (defensa explícita
+  // además de RLS — evita upsert cross-tenant con un employeeId ajeno).
+  const { data: empRow } = await supabase
+    .from('employees')
+    .select('id')
+    .eq('id', employeeId)
+    .eq('organization_id', session.organizationId)
+    .maybeSingle()
+  if (!empRow) return { success: false, error: 'Empleado no encontrado.' }
+
   const { error } = await supabase.from('pto_balances').upsert(
     {
       organization_id: session.organizationId,

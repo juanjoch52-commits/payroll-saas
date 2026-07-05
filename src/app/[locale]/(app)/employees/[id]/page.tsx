@@ -58,18 +58,26 @@ export default async function EmployeeDetailPage({
             <p className="text-muted-foreground">{employee.job_title}</p>
           )}
         </div>
-        {!employee.user_id && employee.email && (
-          <InviteEmployeeButton
-            employeeId={employee.id}
-            email={employee.email}
-            locale={locale}
-          />
-        )}
-        {employee.user_id && (
-          <Badge variant="success" className="px-3 py-1">
-            Portal account active
-          </Badge>
-        )}
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/${locale}/employees/${employee.id}/edit`}
+            className="inline-flex h-9 items-center rounded-md border border-input bg-background px-3 text-sm font-medium hover:bg-accent"
+          >
+            {t('common.edit')}
+          </Link>
+          {!employee.user_id && employee.email && (
+            <InviteEmployeeButton
+              employeeId={employee.id}
+              email={employee.email}
+              locale={locale}
+            />
+          )}
+          {employee.user_id && (
+            <Badge variant="success" className="px-3 py-1">
+              Portal account active
+            </Badge>
+          )}
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
