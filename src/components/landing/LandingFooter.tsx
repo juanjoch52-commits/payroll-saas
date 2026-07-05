@@ -131,6 +131,15 @@ export function LandingFooter({ locale }: { locale: string }) {
                     <a href="mailto:hello@myjova.com" className="hover:text-foreground">
                       {t(k)}
                     </a>
+                  ) : k === 'legal' ? (
+                    <span className="flex gap-3">
+                      <a href={`/${locale}/privacy`} className="hover:text-foreground">
+                        Privacy
+                      </a>
+                      <a href={`/${locale}/terms`} className="hover:text-foreground">
+                        Terms
+                      </a>
+                    </span>
                   ) : (
                     <span className="cursor-not-allowed opacity-50">{t(k)}</span>
                   )}

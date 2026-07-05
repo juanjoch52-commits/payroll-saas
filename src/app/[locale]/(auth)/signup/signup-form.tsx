@@ -98,6 +98,17 @@ export function SignUpForm({ locale }: { locale: string }) {
 
       <SsoButtons locale={locale} />
 
+      <p className="text-center text-xs text-muted-foreground">
+        {t('auth.agreePrefix')}{' '}
+        <Link href={`/${locale}/terms`} className="underline underline-offset-4 hover:text-foreground">
+          Terms
+        </Link>{' '}
+        ·{' '}
+        <Link href={`/${locale}/privacy`} className="underline underline-offset-4 hover:text-foreground">
+          Privacy
+        </Link>
+      </p>
+
       <p className="text-center text-sm text-muted-foreground">
         {t('auth.alreadyHaveAccount')}{' '}
         <Link href={`/${locale}/login`} className="text-primary underline-offset-4 hover:underline">
