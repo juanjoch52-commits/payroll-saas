@@ -164,15 +164,20 @@ export async function kioskCheckIn(input: {
     return { success: false, error: 'Demasiados intentos. Espera unos minutos.', locked: true }
   }
 
-  // Demasiados fallos recientes → bloquear
-  const windowStart = new Date(now.getTime() - LOCK_MINUTES * 60_000).toISOString()
-  const { count: recentFails } = await admin
-    .from('kiosk_pin_attempts')
-    .select('id', { count: 'exact', head: true })
-    .eq('employee_id', employee.id)
-    .eq('succeeded', false)
-    .gte('created_at', windowStart)
-  if ((recentFails ?? 0) >= MAX_FAILS) {
+  // Reservar el intento ATÓMICAMENTE (función SQL con advisory lock): cuenta los
+  // fallos de la ventana y CONSUME el slot antes de verificar el bcrypt. Cierra
+  // el race TOCTOU de ráfagas concurrentes contra un PIN de 4 dígitos.
+  const { data: attemptId, error: reserveErr } = await admin.rpc('kiosk_reserve_pin_attempt', {
+    p_organization_id: organizationId,
+    p_device_id: deviceId,
+    p_employee_id: employee.id,
+    p_max_fails: MAX_FAILS,
+    p_window_minutes: LOCK_MINUTES,
+  })
+  if (reserveErr) {
+    return { success: false, error: 'No se pudo verificar el PIN. Intenta de nuevo.' }
+  }
+  if (!attemptId) {
     await admin
       .from('employee_pins')
       .update({ pin_locked_until: new Date(now.getTime() + LOCK_MINUTES * 60_000).toISOString() })
@@ -183,28 +188,15 @@ export async function kioskCheckIn(input: {
   // Verificar PIN (mismo salt-prefijo que setEmployeePin)
   const ok = await bcrypt.compare(`${employee.id}:${input.pin}`, pin.pin_hash)
   if (!ok) {
-    await admin.from('kiosk_pin_attempts').insert({
-      organization_id: organizationId,
-      kiosk_device_id: deviceId,
-      employee_id: employee.id,
-      succeeded: false,
-    })
-    if ((recentFails ?? 0) + 1 >= MAX_FAILS) {
-      await admin
-        .from('employee_pins')
-        .update({ pin_locked_until: new Date(now.getTime() + LOCK_MINUTES * 60_000).toISOString() })
-        .eq('employee_id', employee.id)
-    }
+    // El intento ya quedó registrado como fallido al reservar el slot.
     return { success: false, error: 'PIN incorrecto.' }
   }
 
-  // Éxito: registrar + limpiar lockout
-  await admin.from('kiosk_pin_attempts').insert({
-    organization_id: organizationId,
-    kiosk_device_id: deviceId,
-    employee_id: employee.id,
-    succeeded: true,
-  })
+  // Éxito: convertir el intento reservado en succeeded + limpiar lockout
+  await admin
+    .from('kiosk_pin_attempts')
+    .update({ succeeded: true })
+    .eq('id', attemptId as string)
   if (pin.pin_locked_until) {
     await admin.from('employee_pins').update({ pin_locked_until: null }).eq('employee_id', employee.id)
   }
