@@ -88,7 +88,8 @@
     "industry": "Industria",
     "orContinueWith": "O continúa con",
     "continueWithGoogle": "Continuar con Google",
-    "continueWithMicrosoft": "Continuar con Microsoft"
+    "continueWithMicrosoft": "Continuar con Microsoft",
+    "agreePrefix": "Al registrarte aceptas nuestros"
   },
   "dashboard": {
     "welcome": "Bienvenido a MyJova",
@@ -988,5 +989,11 @@
         "body": "Usa la barra lateral para horarios, documentos, reportes, ajustes y más."
       }
     }
+  },
+  "subscription": {
+    "trialExpired": "Tu período de prueba terminó. Las acciones principales están pausadas hasta que elijas un plan.",
+    "inactive": "Tu suscripción no está activa. Las acciones principales están pausadas.",
+    "choosePlan": "Elegir un plan",
+    "trialEndingSoon": "Tu prueba termina en {days, plural, one {# día} other {# días}}."
   }
 }

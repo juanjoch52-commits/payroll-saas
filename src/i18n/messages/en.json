@@ -88,7 +88,8 @@
     "industry": "Industry",
     "orContinueWith": "Or continue with",
     "continueWithGoogle": "Continue with Google",
-    "continueWithMicrosoft": "Continue with Microsoft"
+    "continueWithMicrosoft": "Continue with Microsoft",
+    "agreePrefix": "By signing up you agree to our"
   },
   "dashboard": {
     "welcome": "Welcome to MyJova",
@@ -988,5 +989,11 @@
         "body": "Use the sidebar to reach scheduling, documents, reports, settings and more."
       }
     }
+  },
+  "subscription": {
+    "trialExpired": "Your free trial has ended. Core actions are paused until you pick a plan.",
+    "inactive": "Your subscription is not active. Core actions are paused.",
+    "choosePlan": "Choose a plan",
+    "trialEndingSoon": "Your trial ends in {days, plural, one {# day} other {# days}}."
   }
 }

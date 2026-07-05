@@ -35,8 +35,11 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
     return { success: false, error: 'Pay scheme inválido.' }
   }
 
-  // 3) Sesión activa
+  // 3) Sesión activa + suscripción vigente (trial enforcement)
   const session = await requireSession('/en/login')
+  const { requireActiveSubscription } = await import('@/lib/auth/subscription')
+  const gateErr = await requireActiveSubscription(session.organizationId)
+  if (gateErr) return gateErr
   const supabase = createClient()
 
   // 4) Enforcement de límite del tier
@@ -159,6 +162,76 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
 
   revalidatePath(`/(app)/employees`, 'page')
   return { success: true, employeeId: employee.id }
+}
+
+// -----------------------------------------------------------------------------
+
+const editSchema = employeeSchema.omit({ paySchemeJson: true })
+
+/**
+ * Edita los datos de un empleado existente (personales, fiscales, W-4,
+ * jurisdicción, localidad). El pay scheme NO se edita aquí — cambiarlo requiere
+ * versionado en pay_schemes (effective_from/to) y se hará como flujo aparte.
+ * Si llega un taxId nuevo se re-cifra; vacío = no tocar el almacenado.
+ */
+export async function updateEmployee(
+  employeeId: string,
+  formData: FormData,
+): Promise<EmployeeActionResult> {
+  const parsed = editSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.issues[0].message }
+  }
+  const input = parsed.data
+
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin', 'manager'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  const supabase = createClient()
+
+  const patch: Record<string, unknown> = {
+    first_name: input.firstName,
+    last_name: input.lastName,
+    email: input.email || null,
+    phone: input.phone || null,
+    hire_date: input.hireDate,
+    employee_type: input.employeeType,
+    job_title: input.jobTitle || null,
+    primary_jurisdiction_code: input.primaryJurisdictionCode,
+    locality_code: input.localityCode || null,
+    w4_filing_status: input.w4FilingStatus,
+    w4_dependents: input.w4Dependents,
+    address: input.address,
+  }
+
+  // SSN nuevo (opcional): re-cifrar + actualizar last4. Vacío → conservar.
+  const taxIdDigits = (input.taxId ?? '').replace(/\D/g, '')
+  if (taxIdDigits.length >= 9) {
+    patch.tax_id_last_four = taxIdDigits.slice(-4)
+    patch.tax_id_encrypted = isEncryptionConfigured() ? encryptSecret(taxIdDigits) : null
+  }
+
+  const { error } = await supabase
+    .from('employees')
+    .update(patch)
+    .eq('id', employeeId)
+    .eq('organization_id', session.organizationId)
+
+  if (error) return { success: false, error: error.message }
+
+  const { audit } = await import('@/lib/audit')
+  await audit({
+    organizationId: session.organizationId,
+    actorUserId: session.userId,
+    action: 'employee.update',
+    targetTable: 'employees',
+    targetId: employeeId,
+    newData: { name: `${input.firstName} ${input.lastName}` },
+  })
+
+  revalidatePath(`/(app)/employees`, 'page')
+  return { success: true, employeeId }
 }
 
 // -----------------------------------------------------------------------------

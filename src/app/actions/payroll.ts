@@ -36,6 +36,9 @@ export async function createPayrollRun(formData: FormData): Promise<CreateRunRes
   }
 
   const session = await requireSession('/en/login')
+  const { requireActiveSubscription } = await import('@/lib/auth/subscription')
+  const gateErr = await requireActiveSubscription(session.organizationId)
+  if (gateErr) return gateErr
   const supabase = createClient()
 
   const { data, error } = await supabase
@@ -88,6 +91,9 @@ export async function calculateRunItems(
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
 
   const session = await requireSession('/en/login')
+  const { requireActiveSubscription } = await import('@/lib/auth/subscription')
+  const gateErr = await requireActiveSubscription(session.organizationId)
+  if (gateErr) return gateErr
   const supabase = createClient()
 
   // 1) Trae el run para validar org + status
@@ -421,33 +427,33 @@ export async function calculateRunItems(
 
   if (insErr) return { success: false, error: insErr.message }
 
-  // 4b) Marcar las time_entries consumidas en este run.
+  // 4b-4d) Marcar entries consumidas (time/production/tips) en PARALELO.
+  // Antes eran 3 loops secuenciales con un await por empleado (3N round-trips);
+  // con 100 empleados eso serializaba ~300 updates.
   const itemIdByEmpForTimeEntries = new Map((insertedItems ?? []).map((i: { id: string; employee_id: string }) => [i.employee_id, i.id]))
+  const markUpdates: PromiseLike<unknown>[] = []
   for (const [empId, billable] of billableByEmployee) {
     const pItemId = itemIdByEmpForTimeEntries.get(empId)
     if (!pItemId || billable.entryIds.length === 0) continue
-    await supabase
-      .from('time_entries')
-      .update({ payroll_item_id: pItemId })
-      .in('id', billable.entryIds)
+    markUpdates.push(
+      supabase.from('time_entries').update({ payroll_item_id: pItemId }).in('id', billable.entryIds),
+    )
   }
-
-  // 4c) Marcar las production_entries consumidas en este run.
   for (const [empId, prod] of productionByEmployee) {
     const pItemId = itemIdByEmpForTimeEntries.get(empId)
     if (!pItemId || prod.entryIds.length === 0) continue
-    await supabase
-      .from('production_entries')
-      .update({ payroll_item_id: pItemId })
-      .in('id', prod.entryIds)
+    markUpdates.push(
+      supabase.from('production_entries').update({ payroll_item_id: pItemId }).in('id', prod.entryIds),
+    )
   }
-
-  // 4d) Marcar las tip_entries consumidas en este run.
   for (const [empId, tips] of tipsByEmployee) {
     const pItemId = itemIdByEmpForTimeEntries.get(empId)
     if (!pItemId || tips.entryIds.length === 0) continue
-    await supabase.from('tip_entries').update({ payroll_item_id: pItemId }).in('id', tips.entryIds)
+    markUpdates.push(
+      supabase.from('tip_entries').update({ payroll_item_id: pItemId }).in('id', tips.entryIds),
+    )
   }
+  await Promise.all(markUpdates)
 
   // 5) Inserta los components con los IDs reales
   const itemIdByEmp = new Map((insertedItems ?? []).map((i) => [i.employee_id, i.id]))
@@ -474,6 +480,9 @@ export async function calculateRunItems(
 
 export async function approvePayrollRun(runId: string): Promise<{ success: boolean; error?: string }> {
   const session = await requireSession('/en/login')
+  const { requireActiveSubscription } = await import('@/lib/auth/subscription')
+  const gateErr = await requireActiveSubscription(session.organizationId)
+  if (gateErr) return gateErr
   const supabase = createClient()
 
   const { error } = await supabase
@@ -501,6 +510,37 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
   const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
   await dispatchWebhook(session.organizationId, 'payroll.approved', { runId })
 
+  // Notificar a los empleados del run que su pago está en camino (payroll_ready:
+  // inapp + email + push según sus preferencias). Best-effort con dedupe por run.
+  try {
+    const { data: runItems } = await supabase
+      .from('payroll_items')
+      .select('employee_id, net_cents, employees!inner(user_id, first_name)')
+      .eq('payroll_run_id', runId)
+    const { dispatch } = await import('@/lib/notifications/dispatch')
+    await Promise.allSettled(
+      (runItems ?? [])
+        .map((it) => {
+          const emp = Array.isArray(it.employees) ? it.employees[0] : it.employees
+          return { userId: (emp as { user_id: string | null } | null)?.user_id, net: it.net_cents }
+        })
+        .filter((x): x is { userId: string; net: number } => !!x.userId)
+        .map(({ userId }) =>
+          dispatch({
+            userId,
+            organizationId: session.organizationId,
+            type: 'payroll_ready',
+            title: 'Your pay is on the way',
+            body: 'A new payroll run that includes you was approved. Your paystub is available.',
+            dedupeKey: `payroll_ready:${runId}`,
+            data: { runId },
+          }),
+        ),
+    )
+  } catch {
+    // Las notificaciones nunca bloquean la aprobación.
+  }
+
   revalidatePath('/(app)/payroll', 'layout')
   return { success: true }
 }
@@ -520,6 +560,10 @@ export async function markPayrollRunPaid(runId: string): Promise<{ success: bool
     .eq('status', 'approved')
 
   if (error) return { success: false, error: error.message }
+
+  const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
+  await dispatchWebhook(session.organizationId, 'payroll.paid', { runId })
+
   revalidatePath('/(app)/payroll', 'layout')
   return { success: true }
 }
