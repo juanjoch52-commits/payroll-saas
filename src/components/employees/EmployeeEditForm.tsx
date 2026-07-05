@@ -20,6 +20,7 @@ export type EmployeeEditDefaults = {
   job_title: string | null
   primary_jurisdiction_code: string
   locality_code: string | null
+  subcontractor_id: string | null
   w4_filing_status: string
   w4_dependents: number
   tax_id_last_four: string | null
@@ -32,10 +33,12 @@ export type EmployeeEditDefaults = {
 export function EmployeeEditForm({
   employee,
   jurisdictions,
+  subcontractors = [],
   locale,
 }: {
   employee: EmployeeEditDefaults
   jurisdictions: { code: string; name: string }[]
+  subcontractors?: { id: string; name: string }[]
   locale: string
 }) {
   const t = useTranslations()
@@ -132,6 +135,24 @@ export function EmployeeEditForm({
             ))}
           </select>
         </div>
+        {subcontractors.length > 0 && (
+          <div className="space-y-2">
+            <Label htmlFor="subcontractorId">{t('employees.subcontractor')}</Label>
+            <select
+              id="subcontractorId"
+              name="subcontractorId"
+              defaultValue={employee.subcontractor_id ?? ''}
+              className={inputCls}
+            >
+              <option value="">{t('employees.subcontractorNone')}</option>
+              {subcontractors.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div className="space-y-2">
           <Label htmlFor="taxId">SSN / Tax ID</Label>
           <Input

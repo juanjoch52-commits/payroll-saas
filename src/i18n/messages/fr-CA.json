@@ -67,7 +67,8 @@
       "payroll": "Paie",
       "communication": "Communication",
       "organization": "Organisation"
-    }
+    },
+    "subcontractors": "Sous-traitants"
   },
   "auth": {
     "signIn": "Se connecter",
@@ -138,7 +139,10 @@
       "minFloor": "Salaire minimum ($/h, optionnel)"
     },
     "locality": "Taxe locale (ville)",
-    "localityNone": "Aucune"
+    "localityNone": "Aucune",
+    "subcontractor": "Sous-traitant",
+    "subcontractorNone": "Aucun (travailleur interne)",
+    "subcontractorHint": "Les travailleurs d’un sous-traitant sont payés en BRUT (sans retenues) — leur paie entre dans le chèque du sous-traitant."
   },
   "payroll": {
     "title": "Paie",
@@ -995,5 +999,10 @@
     "inactive": "Votre abonnement n’est pas actif. Les actions principales sont en pause.",
     "choosePlan": "Choisir un forfait",
     "trialEndingSoon": "Votre essai se termine dans {days, plural, one {# jour} other {# jours}}."
+  },
+  "subcontractors": {
+    "subtitle": "Hiérarchie de sous-traitants. Les heures sont suivies par travailleur; le paiement est consolidé en un seul chèque au sous-traitant principal.",
+    "settlementTitle": "Règlement des sous-traitants — un chèque par sous-traitant principal",
+    "settlementHint": "Chaque total inclut les travailleurs de ce sous-traitant ET de ses sous-traitants imbriqués. Payez le total; le détail montre la répartition."
   }
 }

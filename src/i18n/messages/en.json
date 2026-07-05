@@ -67,7 +67,8 @@
       "payroll": "Payroll",
       "communication": "Communication",
       "organization": "Organization"
-    }
+    },
+    "subcontractors": "Subcontractors"
   },
   "auth": {
     "signIn": "Sign in",
@@ -138,7 +139,10 @@
       "minFloor": "Min wage floor ($/h, optional)"
     },
     "locality": "Local tax (city)",
-    "localityNone": "None"
+    "localityNone": "None",
+    "subcontractor": "Subcontractor",
+    "subcontractorNone": "None (own worker)",
+    "subcontractorHint": "Workers of a subcontractor are paid GROSS (no withholding) — their pay rolls into the subcontractor’s check."
   },
   "payroll": {
     "title": "Payroll",
@@ -995,5 +999,10 @@
     "inactive": "Your subscription is not active. Core actions are paused.",
     "choosePlan": "Choose a plan",
     "trialEndingSoon": "Your trial ends in {days, plural, one {# day} other {# days}}."
+  },
+  "subcontractors": {
+    "subtitle": "Hierarchy of subcontractors. Hours are tracked per worker; payment rolls up into one check to the top-level subcontractor.",
+    "settlementTitle": "Subcontractor settlement — one check per top-level sub",
+    "settlementHint": "Each total includes the workers of that subcontractor AND of its nested subs. Pay the total; the breakdown shows how to distribute."
   }
 }

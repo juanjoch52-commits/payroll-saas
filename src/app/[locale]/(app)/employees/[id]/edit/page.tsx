@@ -16,16 +16,17 @@ export default async function EmployeeEditPage({
   const session = await requireSession(`/${locale}/login`)
   const supabase = createClient()
 
-  const [{ data: employee }, { data: jurisdictions }] = await Promise.all([
+  const [{ data: employee }, { data: jurisdictions }, { data: subcontractors }] = await Promise.all([
     supabase
       .from('employees')
       .select(
-        'id, first_name, last_name, email, phone, hire_date, employee_type, job_title, primary_jurisdiction_code, locality_code, w4_filing_status, w4_dependents, tax_id_last_four',
+        'id, first_name, last_name, email, phone, hire_date, employee_type, job_title, primary_jurisdiction_code, locality_code, subcontractor_id, w4_filing_status, w4_dependents, tax_id_last_four',
       )
       .eq('id', id)
       .eq('organization_id', session.organizationId)
       .maybeSingle(),
     supabase.from('jurisdictions').select('code, name').order('code'),
+    supabase.from('subcontractors').select('id, name').eq('is_active', true).order('name').limit(500),
   ])
 
   if (!employee) notFound()
@@ -51,6 +52,7 @@ export default async function EmployeeEditPage({
           <EmployeeEditForm
             employee={employee as EmployeeEditDefaults}
             jurisdictions={(jurisdictions ?? []) as { code: string; name: string }[]}
+            subcontractors={(subcontractors ?? []) as { id: string; name: string }[]}
             locale={locale}
           />
         </CardContent>

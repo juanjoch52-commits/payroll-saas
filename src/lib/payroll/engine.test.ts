@@ -175,3 +175,25 @@ describe('retención estatal (wiring AUD-2)', () => {
     expect(calculatePayroll({ ...salary, stateCode: 'US-TX' }).stateTaxCents).toBe(0)
   })
 })
+
+describe('suppressWithholding (trabajadores de subcontratistas)', () => {
+  it('paga BRUTO: cero retenciones y cero impuestos de employer', () => {
+    const out = calculatePayroll({
+      ...base,
+      scheme: { type: 'hourly', rateCents: 2500, overtimeMultiplier: 1.5, overtimeThresholdHours: 40 },
+      hoursWorked: 40,
+      stateCode: 'US-CA',
+      localityCode: 'NYC',
+      suppressWithholding: true,
+    })
+    expect(out.grossCents).toBe(100000)
+    expect(out.federalTaxCents).toBe(0)
+    expect(out.socialSecurityCents).toBe(0)
+    expect(out.medicareCents).toBe(0)
+    expect(out.stateTaxCents).toBe(0)
+    expect(out.localTaxCents).toBe(0)
+    expect(out.employerFUTACents).toBe(0)
+    expect(out.employerMedicareCents).toBe(0)
+    expect(out.netCents).toBe(100000)
+  })
+})

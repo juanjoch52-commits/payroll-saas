@@ -63,7 +63,7 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
   const employeeIds = Array.from(new Set(items.map((i) => i.employee_id)))
   const { data: employees } = await supabase
     .from('employees')
-    .select('id, first_name, last_name, employee_type, tax_id_last_four, address, primary_jurisdiction_code, locality_code')
+    .select('id, first_name, last_name, employee_type, tax_id_last_four, address, primary_jurisdiction_code, locality_code, subcontractor_id')
     .in('id', employeeIds)
 
   if (!employees) return { success: false, error: 'No se pudieron cargar los empleados.' }
@@ -104,6 +104,10 @@ export async function generateYearEndForms(taxYear: number): Promise<GenerateRes
   for (const emp of employees) {
     const totals = totalsByEmployee.get(emp.id)
     if (!totals) continue
+
+    // Trabajadores de subcontratistas: el tenant NO les emite W-2/1099 — el
+    // 1099 (si aplica) iría a la EMPRESA subcontratista raíz, no al trabajador.
+    if ((emp as { subcontractor_id?: string | null }).subcontractor_id) continue
 
     if (emp.employee_type === 'employee') {
       // W-2: siempre, sin umbral mínimo

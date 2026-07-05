@@ -121,7 +121,7 @@ export async function calculateRunItems(
   const employeeIds = items.map((i) => i.employeeId)
   const { data: employees, error: empErr } = await supabase
     .from('employees')
-    .select('id, w4_filing_status, w4_dependents, primary_jurisdiction_code, locality_code, pay_schemes!inner(scheme_type, config)')
+    .select('id, w4_filing_status, w4_dependents, primary_jurisdiction_code, locality_code, subcontractor_id, pay_schemes!inner(scheme_type, config)')
     .in('id', employeeIds)
     .eq('organization_id', session.organizationId)
     .is('pay_schemes.effective_to', null)
@@ -365,6 +365,9 @@ export async function calculateRunItems(
       stateCode:
         empJur && empJur.toUpperCase().startsWith('US') ? empJur : undefined,
       localityCode: (emp as { locality_code?: string | null }).locality_code ?? undefined,
+      // Trabajador de un subcontratista → pago BRUTO (el cheque consolidado va
+      // al sub raíz; el tenant no le retiene impuestos).
+      suppressWithholding: !!(emp as { subcontractor_id?: string | null }).subcontractor_id,
       ytdGrossCents: ytdByEmployee.get(emp.id) ?? 0,
       periodsPerYear,
     }

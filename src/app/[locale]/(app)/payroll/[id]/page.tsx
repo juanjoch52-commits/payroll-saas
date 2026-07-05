@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { PayrollRunDetail } from '@/components/payroll/PayrollRunDetail'
+import { formatMoney } from '@/lib/utils'
 
 export default async function PayrollRunPage({
   params: { locale, id },
@@ -42,6 +43,49 @@ export default async function PayrollRunPage({
     )
     .eq('payroll_run_id', id)
 
+  // Settlement de subcontratistas: un cheque por sub RAÍZ, con desglose de
+  // horas por trabajador (incluye los trabajadores de sus subs menores).
+  const empIds = (items ?? []).map((i: { employee_id: string }) => i.employee_id)
+  let settlements: import('@/lib/subcontractors/tree').Settlement[] = []
+  if (empIds.length > 0) {
+    const [{ data: subEmps }, { data: allSubs }] = await Promise.all([
+      supabase
+        .from('employees')
+        .select('id, first_name, last_name, subcontractor_id')
+        .in('id', empIds)
+        .not('subcontractor_id', 'is', null),
+      supabase
+        .from('subcontractors')
+        .select('id, parent_id, name')
+        .eq('organization_id', session.organizationId),
+    ])
+    if (subEmps && subEmps.length > 0) {
+      const { buildSettlements } = await import('@/lib/subcontractors/tree')
+      const itemByEmp = new Map(
+        (items ?? []).map((i: { employee_id: string; hours_worked: number | null; gross_cents: number }) => [
+          i.employee_id,
+          i,
+        ]),
+      )
+      settlements = buildSettlements(
+        (subEmps as { id: string; first_name: string; last_name: string; subcontractor_id: string }[])
+          .map((e) => {
+            const it = itemByEmp.get(e.id)
+            if (!it) return null
+            return {
+              employeeId: e.id,
+              workerName: `${e.first_name} ${e.last_name}`,
+              subcontractorId: e.subcontractor_id,
+              hours: it.hours_worked != null ? Number(it.hours_worked) : null,
+              grossCents: it.gross_cents,
+            }
+          })
+          .filter((x): x is NonNullable<typeof x> => x !== null),
+        (allSubs ?? []) as { id: string; parent_id: string | null; name: string }[],
+      )
+    }
+  }
+
   return (
     <div className="space-y-6">
       <Link
@@ -53,6 +97,40 @@ export default async function PayrollRunPage({
       </Link>
 
       <PayrollRunDetail run={run} employees={employees ?? []} items={items ?? []} locale={locale} />
+
+      {/* Settlement: un cheque por subcontratista RAÍZ, con desglose de horas */}
+      {settlements.length > 0 && (
+        <div className="rounded-md border bg-card">
+          <div className="border-b px-4 py-3">
+            <h2 className="font-semibold">{t('subcontractors.settlementTitle')}</h2>
+            <p className="text-sm text-muted-foreground">{t('subcontractors.settlementHint')}</p>
+          </div>
+          <div className="divide-y">
+            {settlements.map((s) => (
+              <div key={s.rootId} className="px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium">{s.rootName}</p>
+                  <p className="text-lg font-bold tabular-nums">{formatMoney(s.totalCents, locale)}</p>
+                </div>
+                <table className="mt-2 w-full text-sm">
+                  <tbody>
+                    {s.lines.map((l) => (
+                      <tr key={l.employeeId} className="text-muted-foreground">
+                        <td className="py-1">{l.workerName}</td>
+                        <td className="py-1">{l.subName}</td>
+                        <td className="py-1 text-right tabular-nums">
+                          {l.hours != null ? `${l.hours.toFixed(2)} h` : '—'}
+                        </td>
+                        <td className="py-1 text-right tabular-nums">{formatMoney(l.grossCents, locale)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

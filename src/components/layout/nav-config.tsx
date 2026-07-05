@@ -15,6 +15,7 @@ import {
   Wallet,
   Clock,
   MapPin,
+  Building2,
 } from 'lucide-react'
 
 // =============================================================================
@@ -42,6 +43,7 @@ export const NAV_SECTIONS: NavSection[] = [
     titleKey: 'nav.sections.people',
     items: [
       { href: '/employees', labelKey: 'nav.employees', icon: Users, minRole: 'viewer' },
+      { href: '/subcontractors', labelKey: 'nav.subcontractors', icon: Building2, minRole: 'manager' },
       { href: '/schedule', labelKey: 'nav.schedule', icon: CalendarDays, minRole: 'manager' },
       { href: '/time-off', labelKey: 'nav.timeOff', icon: Plane, minRole: 'manager' },
       { href: '/documents', labelKey: 'nav.documents', icon: FileSignature, minRole: 'manager' },

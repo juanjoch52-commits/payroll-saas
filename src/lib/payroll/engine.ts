@@ -54,6 +54,12 @@ export type PayrollInput = {
   stateCode?: string
   /** Locality code para impuesto municipal (NYC, PHL, YON). */
   localityCode?: string
+  /**
+   * true → SIN retenciones ni impuestos de employer: pago en BRUTO. Para
+   * trabajadores de subcontratistas (el tenant no es su employer — el cheque
+   * va al subcontratista raíz, que hace su propia nómina aguas abajo).
+   */
+  suppressWithholding?: boolean
 }
 
 export type PayrollComponent = {
@@ -266,34 +272,40 @@ export function calculatePayroll(input: PayrollInput): PayrollCalculation {
   const postTaxTotal = deductionsList.filter((d) => !d.preTax).reduce((s, d) => s + d.amountCents, 0)
   const taxableGross = Math.max(0, grossCents - preTaxTotal)
 
-  // Impuestos del empleado (US, MVP)
-  const federalTaxCents = calcUSFederalWithholding({
-    grossCents: taxableGross,
-    periodsPerYear: input.periodsPerYear,
-    filingStatus: input.filingStatus,
-    dependents: input.w4Dependents,
-  })
+  // Impuestos del empleado (US, MVP). suppressWithholding → todo 0 (pago bruto
+  // a trabajadores de subcontratistas; el tenant no es su employer).
+  const suppress = input.suppressWithholding === true
 
-  // FICA sobre el bruto (no se reduce por 401k).
-  const socialSecurityCents = calcUSSocialSecurity(grossCents, input.ytdGrossCents ?? 0)
-  const medicareCents = calcUSMedicare(grossCents, input.ytdGrossCents ?? 0)
-
-  const stateTaxCents = input.stateCode
-    ? calcStateWithholding({
+  const federalTaxCents = suppress
+    ? 0
+    : calcUSFederalWithholding({
         grossCents: taxableGross,
         periodsPerYear: input.periodsPerYear,
         filingStatus: input.filingStatus,
         dependents: input.w4Dependents,
-        stateCode: input.stateCode,
       })
-    : 0
-  const localTaxCents = calcLocalTax(input.localityCode, taxableGross)
+
+  // FICA sobre el bruto (no se reduce por 401k).
+  const socialSecurityCents = suppress ? 0 : calcUSSocialSecurity(grossCents, input.ytdGrossCents ?? 0)
+  const medicareCents = suppress ? 0 : calcUSMedicare(grossCents, input.ytdGrossCents ?? 0)
+
+  const stateTaxCents =
+    !suppress && input.stateCode
+      ? calcStateWithholding({
+          grossCents: taxableGross,
+          periodsPerYear: input.periodsPerYear,
+          filingStatus: input.filingStatus,
+          dependents: input.w4Dependents,
+          stateCode: input.stateCode,
+        })
+      : 0
+  const localTaxCents = suppress ? 0 : calcLocalTax(input.localityCode, taxableGross)
   const otherDeductionsCents = preTaxTotal + postTaxTotal
 
   // Costos del employer (no afectan el net del empleado)
   const employerSocialSecurityCents = socialSecurityCents  // employer paga igual al empleado
-  const employerMedicareCents = Math.round(grossCents * 0.0145)  // sin additional 0.9%
-  const employerFUTACents = calcUSEmployerFUTA(grossCents, input.ytdGrossCents ?? 0)
+  const employerMedicareCents = suppress ? 0 : Math.round(grossCents * 0.0145)  // sin additional 0.9%
+  const employerFUTACents = suppress ? 0 : calcUSEmployerFUTA(grossCents, input.ytdGrossCents ?? 0)
 
   const netCents =
     grossCents - federalTaxCents - socialSecurityCents - medicareCents - stateTaxCents - localTaxCents - otherDeductionsCents

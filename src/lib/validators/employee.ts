@@ -86,6 +86,8 @@ export const employeeSchema = z.object({
   w4Dependents: z.coerce.number().int().nonnegative().default(0),
   // Código de localidad para impuesto municipal (NYC/PHL/YON). Vacío → sin retención local.
   localityCode: z.string().optional().or(z.literal('')),
+  // Subcontratista al que pertenece (vacío = trabajador propio del tenant).
+  subcontractorId: z.string().uuid().optional().or(z.literal('')),
   address: z
     .object({
       line1: z.string().optional(),

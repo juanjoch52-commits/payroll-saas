@@ -67,7 +67,8 @@
       "payroll": "Nómina",
       "communication": "Comunicación",
       "organization": "Organización"
-    }
+    },
+    "subcontractors": "Subcontratistas"
   },
   "auth": {
     "signIn": "Iniciar sesión",
@@ -138,7 +139,10 @@
       "minFloor": "Salario mínimo ($/h, opcional)"
     },
     "locality": "Impuesto local (ciudad)",
-    "localityNone": "Ninguno"
+    "localityNone": "Ninguno",
+    "subcontractor": "Subcontratista",
+    "subcontractorNone": "Ninguno (trabajador propio)",
+    "subcontractorHint": "Los trabajadores de un subcontratista cobran en BRUTO (sin retenciones) — su pago entra en el cheque del subcontratista."
   },
   "payroll": {
     "title": "Nómina",
@@ -995,5 +999,10 @@
     "inactive": "Tu suscripción no está activa. Las acciones principales están pausadas.",
     "choosePlan": "Elegir un plan",
     "trialEndingSoon": "Tu prueba termina en {days, plural, one {# día} other {# días}}."
+  },
+  "subcontractors": {
+    "subtitle": "Jerarquía de subcontratistas. Las horas se controlan por trabajador; el pago se consolida en un solo cheque al subcontratista mayor.",
+    "settlementTitle": "Liquidación de subcontratistas — un cheque por sub mayor",
+    "settlementHint": "Cada total incluye a los trabajadores de ese subcontratista Y de sus subs menores. Paga el total; el desglose muestra cómo repartir."
   }
 }

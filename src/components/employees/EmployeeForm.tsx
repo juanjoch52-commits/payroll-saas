@@ -21,9 +21,11 @@ import { LOCALITY_CODES, localityName } from '@/lib/payroll/us/local'
  */
 export function EmployeeForm({
   jurisdictions,
+  subcontractors = [],
   locale,
 }: {
   jurisdictions: { code: string; name: string; country: string }[]
+  subcontractors?: { id: string; name: string }[]
   locale: string
 }) {
   const t = useTranslations()
@@ -202,6 +204,25 @@ export function EmployeeForm({
               ))}
             </select>
           </div>
+          {subcontractors.length > 0 && (
+            <div className="space-y-2">
+              <Label htmlFor="subcontractorId">{t('employees.subcontractor')}</Label>
+              <select
+                id="subcontractorId"
+                name="subcontractorId"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                defaultValue=""
+              >
+                <option value="">{t('employees.subcontractorNone')}</option>
+                {subcontractors.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-muted-foreground">{t('employees.subcontractorHint')}</p>
+            </div>
+          )}
         </div>
       </section>
 
