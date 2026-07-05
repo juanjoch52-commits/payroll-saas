@@ -119,7 +119,30 @@ Estudio con 2 agentes (gaps de producto + mejoras técnicas) y cierre en 4 commi
 
 **Próximo timestamp de migración libre: `20260501000018`.** db:push aplica `..017`.
 
-### 📋 Backlog priorizado (del estudio — NO hecho, post-lanzamiento)
+### ✅ BL sprint (2026-07-05, mismo día): TODO el backlog ejecutado
+Commits `41bd90b` (BL-A/B/C) + `dc31089` (BL-D/E), vitest **90/90**, gates verdes:
+- **BL-A**: `deletePayrollRun` (draft, libera entries) + `removePayrollItem`
+  (excluir empleado) + botones en PayrollRunDetail; **offboarding** (terminar
+  revoca membership 'employee' + PIN kiosko, auditado); **welcome email** en el
+  auth callback (cuentas <10 min, dedupe); columnas proyectadas en payroll/[id].
+- **BL-B**: **Settings → Team members** — cambiar rol / quitar miembro /
+  reenviar-revocar invitaciones (`actions/members.ts` + `MembersManager`;
+  owner intocable, sin auto-eliminación, auditado).
+- **BL-C**: **PTO accrual engine** — `lib/pto/accrual.ts` puro (+tests); acumula
+  al aprobar cada run (hours_per_period / days_per_year→h/período, cap
+  max_balance_hours). `revokeTimeOff`: cancela aprobados y restaura saldo.
+- **BL-D**: **timezone por org** — migración `...018` `organizations.timezone`
+  + `lib/time/tz.ts` (DST-safe, +tests) cableado en dashboard "hoy", límites de
+  período y splits diarios de OT en calculateRunItems, y pesos de tip pool.
+  Selector en Settings → General.
+- **BL-E**: `.limit()` en listas sin tope + rate limit 5/min por IP en
+  `redeemPairingCode`.
+
+**Próximo timestamp de migración libre: `20260501000019`.** db:push aplica `..018`.
+Backlog restante menor: UI para adjustPtoBalance en TimeOffManager; paginación
+UI real (las listas hoy solo truncan); mover el rate-limit a DB si multi-región.
+
+### 📋 Backlog priorizado (del estudio — histórico; TODO EJECUTADO arriba)
 1. **Team management** (M): cambiar rol / quitar miembro / reenviar-revocar
    invitaciones — página Settings → Members. Hoy un rol mal asignado no se puede corregir.
 2. **Borrar draft de nómina / excluir empleado de un run** (M): `deletePayrollRun`
