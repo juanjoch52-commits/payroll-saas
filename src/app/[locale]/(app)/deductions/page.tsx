@@ -17,6 +17,7 @@ export default async function DeductionsPage({ params: { locale } }: { params: {
     .eq('organization_id', session.organizationId)
     .eq('status', 'active')
     .order('first_name')
+    .limit(1000)
 
   const { data: deductions } = await supabase
     .from('employee_deductions')

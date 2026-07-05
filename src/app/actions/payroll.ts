@@ -107,6 +107,16 @@ export async function calculateRunItems(
   if (runErr || !run) return { success: false, error: 'Payroll run no encontrado.' }
   if (run.status !== 'draft') return { success: false, error: 'Solo runs en draft pueden recalcularse.' }
 
+  // Timezone de la org: las fronteras del período y los cortes de día (OT
+  // diario, meal premium) se evalúan en hora LOCAL, no UTC.
+  const { data: orgRow } = await supabase
+    .from('organizations')
+    .select('timezone')
+    .eq('id', session.organizationId)
+    .maybeSingle()
+  const orgTz = (orgRow as { timezone?: string } | null)?.timezone ?? 'America/New_York'
+  const { dayStartUtc, dayEndUtc, dayKeyInTz } = await import('@/lib/time/tz')
+
   // 2) Trae todos los empleados involucrados con su pay scheme activo
   const employeeIds = items.map((i) => i.employeeId)
   const { data: employees, error: empErr } = await supabase
@@ -127,8 +137,8 @@ export async function calculateRunItems(
     .eq('organization_id', session.organizationId)
     .eq('status', 'approved')
     .is('payroll_item_id', null)
-    .gte('clock_in_at', `${run.period_start}T00:00:00Z`)
-    .lte('clock_in_at', `${run.period_end}T23:59:59Z`)
+    .gte('clock_in_at', dayStartUtc(run.period_start, orgTz))
+    .lt('clock_in_at', dayEndUtc(run.period_end, orgTz))
 
   type BillableAcc = {
     totalMinutes: number
@@ -151,7 +161,7 @@ export async function calculateRunItems(
     const min = e.billable_minutes ?? 0
     existing.totalMinutes += min
     existing.entryIds.push(e.id)
-    const day = e.clock_in_at.slice(0, 10)
+    const day = dayKeyInTz(e.clock_in_at, orgTz)
     existing.dayMinutes.set(day, (existing.dayMinutes.get(day) ?? 0) + min)
     // Prima por descanso/comida perdido: turno > 5h (300 min) con descanso < 30 min.
     if ((e.duration_minutes ?? 0) > 300 && (e.break_minutes ?? 0) < 30) existing.mealMissed += 1

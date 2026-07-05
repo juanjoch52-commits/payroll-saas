@@ -96,15 +96,23 @@ export async function distributeTipPool(input: z.input<typeof distributeSchema>)
   const supabase = createClient()
 
   // Pesos por empleado: minutos trabajados ese día (método 'hours') o 1 (equal).
+  // El "día" corta en el timezone de la org, no en UTC.
   const minutesById = new Map<string, number>()
   if (method === 'hours') {
+    const { data: orgRow } = await supabase
+      .from('organizations')
+      .select('timezone')
+      .eq('id', session.organizationId)
+      .maybeSingle()
+    const orgTz = (orgRow as { timezone?: string } | null)?.timezone ?? 'America/New_York'
+    const { dayStartUtc, dayEndUtc } = await import('@/lib/time/tz')
     const { data: entries } = await supabase
       .from('time_entries')
       .select('employee_id, billable_minutes')
       .in('employee_id', employeeIds)
       .eq('organization_id', session.organizationId)
-      .gte('clock_in_at', `${workDate}T00:00:00Z`)
-      .lte('clock_in_at', `${workDate}T23:59:59Z`)
+      .gte('clock_in_at', dayStartUtc(workDate, orgTz))
+      .lt('clock_in_at', dayEndUtc(workDate, orgTz))
     for (const e of (entries ?? []) as { employee_id: string; billable_minutes: number | null }[]) {
       minutesById.set(e.employee_id, (minutesById.get(e.employee_id) ?? 0) + (e.billable_minutes ?? 0))
     }

@@ -21,9 +21,18 @@ export default async function DashboardPage({
   const session = await requireSession(`/${locale}/login`)
   const supabase = createClient()
 
-  // KPIs del día
-  const today = new Date().toISOString().slice(0, 10)
-  const todayStart = `${today}T00:00:00Z`
+  // Timezone + estado de onboarding de la org (el "hoy" de los KPIs corta en
+  // el día LOCAL de la org, no en UTC).
+  const { data: org } = await supabase
+    .from('organizations')
+    .select('onboarding_state, timezone')
+    .eq('id', session.organizationId)
+    .maybeSingle()
+  const orgTz = (org as { timezone?: string } | null)?.timezone ?? 'America/New_York'
+
+  const { todayInTz, dayStartUtc } = await import('@/lib/time/tz')
+  const today = todayInTz(orgTz)
+  const todayStart = dayStartUtc(today, orgTz)
 
   // 1) Active employees count
   const { count: activeEmployees } = await supabase
@@ -85,12 +94,7 @@ export default async function DashboardPage({
     .limit(1)
     .maybeSingle()
 
-  // 7) Estado de onboarding + señales para el checklist de primeros pasos.
-  const { data: org } = await supabase
-    .from('organizations')
-    .select('onboarding_state')
-    .eq('id', session.organizationId)
-    .maybeSingle()
+  // 7) Estado de onboarding (org ya cargada arriba junto al timezone).
   const onboarding =
     ((org as { onboarding_state?: { tourDismissed?: boolean; checklistDismissed?: boolean } } | null)
       ?.onboarding_state) ?? {}

@@ -17,6 +17,26 @@ import { isWithinGeofence } from '@/lib/geo'
 const MAX_FAILS = 5
 const LOCK_MINUTES = 15
 
+// Rate limit por IP para el canje de códigos de emparejamiento (anti-spray).
+// In-memory por instancia serverless: fricción razonable sin infra extra; los
+// códigos además expiran y son de un solo uso.
+const REDEEM_MAX_PER_MIN = 5
+const redeemHits = new Map<string, number[]>()
+
+function redeemRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const hits = (redeemHits.get(ip) ?? []).filter((t) => now - t < 60_000)
+  if (hits.length >= REDEEM_MAX_PER_MIN) {
+    redeemHits.set(ip, hits)
+    return true
+  }
+  hits.push(now)
+  redeemHits.set(ip, hits)
+  // Evitar crecimiento sin límite del Map.
+  if (redeemHits.size > 5000) redeemHits.clear()
+  return false
+}
+
 function randomToken(len: number): string {
   return randomBytes(len * 2)
     .toString('base64')
@@ -33,6 +53,12 @@ export type RedeemResult =
 
 export async function redeemPairingCode(code: string): Promise<RedeemResult> {
   if (!/^[A-Z0-9]{6,12}$/.test(code)) return { success: false, error: 'Código inválido.' }
+
+  const { headers } = await import('next/headers')
+  const ip = headers().get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  if (redeemRateLimited(ip)) {
+    return { success: false, error: 'Demasiados intentos. Espera un minuto.' }
+  }
 
   let admin
   try {

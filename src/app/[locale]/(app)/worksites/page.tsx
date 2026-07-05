@@ -21,6 +21,7 @@ export default async function WorksitesPage({
     .select('id, name, address, latitude, longitude, radius_m, is_active, created_at')
     .eq('organization_id', session.organizationId)
     .order('created_at', { ascending: false })
+    .limit(500)
 
   const geofences: MapGeofence[] = (worksites ?? [])
     .filter((w: { is_active: boolean }) => w.is_active)

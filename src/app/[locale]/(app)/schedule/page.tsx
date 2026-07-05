@@ -45,6 +45,7 @@ export default async function SchedulePage({
     .eq('organization_id', session.organizationId)
     .eq('status', 'active')
     .order('first_name')
+    .limit(1000)
 
   const { data: worksites } = await supabase
     .from('worksites')
@@ -52,6 +53,7 @@ export default async function SchedulePage({
     .eq('organization_id', session.organizationId)
     .eq('is_active', true)
     .order('name')
+    .limit(500)
 
   // Mapa de tarifa por hora (centavos) para proyección de costo laboral.
   const { data: schemes } = await supabase

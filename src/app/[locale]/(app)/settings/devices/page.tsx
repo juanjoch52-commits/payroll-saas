@@ -29,6 +29,7 @@ export default async function DevicesPage({
     .select('id, name, is_active, last_seen_at, worksite_id, worksites(name)')
     .eq('organization_id', session.organizationId)
     .order('created_at', { ascending: false })
+    .limit(200)
 
   const { data: employees } = await supabase
     .from('employees')
@@ -36,6 +37,7 @@ export default async function DevicesPage({
     .eq('organization_id', session.organizationId)
     .eq('status', 'active')
     .order('first_name')
+    .limit(1000)
 
   // PIN status: employee_pins no tiene policies de RLS (solo service role).
   const pinIds = new Set<string>()
