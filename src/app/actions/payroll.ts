@@ -478,6 +478,110 @@ export async function calculateRunItems(
 
 // -----------------------------------------------------------------------------
 
+/** Libera las entries (time/production/tips) vinculadas a estos payroll_items. */
+async function releaseEntriesForItems(
+  supabase: ReturnType<typeof createClient>,
+  itemIds: string[],
+): Promise<void> {
+  if (itemIds.length === 0) return
+  await Promise.all([
+    supabase.from('time_entries').update({ payroll_item_id: null }).in('payroll_item_id', itemIds),
+    supabase.from('production_entries').update({ payroll_item_id: null }).in('payroll_item_id', itemIds),
+    supabase.from('tip_entries').update({ payroll_item_id: null }).in('payroll_item_id', itemIds),
+  ])
+}
+
+/**
+ * Borra un payroll run en DRAFT: libera las entries consumidas y elimina
+ * items (cascade → components) + el run. Los runs aprobados/pagados NO se
+ * borran (integridad contable).
+ */
+export async function deletePayrollRun(runId: string): Promise<{ success: boolean; error?: string }> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin', 'manager'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  const supabase = createClient()
+
+  const { data: run } = await supabase
+    .from('payroll_runs')
+    .select('id, status')
+    .eq('id', runId)
+    .eq('organization_id', session.organizationId)
+    .maybeSingle()
+  if (!run) return { success: false, error: 'Payroll run no encontrado.' }
+  if ((run as { status: string }).status !== 'draft') {
+    return { success: false, error: 'Solo los runs en draft pueden borrarse.' }
+  }
+
+  const { data: items } = await supabase
+    .from('payroll_items')
+    .select('id')
+    .eq('payroll_run_id', runId)
+  await releaseEntriesForItems(supabase, (items ?? []).map((i: { id: string }) => i.id))
+
+  await supabase.from('payroll_items').delete().eq('payroll_run_id', runId)
+  const { error } = await supabase
+    .from('payroll_runs')
+    .delete()
+    .eq('id', runId)
+    .eq('organization_id', session.organizationId)
+    .eq('status', 'draft')
+  if (error) return { success: false, error: error.message }
+
+  const { audit } = await import('@/lib/audit')
+  await audit({
+    organizationId: session.organizationId,
+    actorUserId: session.userId,
+    action: 'payroll_run.delete',
+    targetTable: 'payroll_runs',
+    targetId: runId,
+  })
+
+  revalidatePath('/(app)/payroll', 'layout')
+  return { success: true }
+}
+
+/**
+ * Excluye a UN empleado de un run en draft: libera sus entries y borra su
+ * payroll_item (cascade → components). El resto del run queda intacto.
+ */
+export async function removePayrollItem(
+  runId: string,
+  itemId: string,
+): Promise<{ success: boolean; error?: string }> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin', 'manager'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  const supabase = createClient()
+
+  const { data: run } = await supabase
+    .from('payroll_runs')
+    .select('id, status')
+    .eq('id', runId)
+    .eq('organization_id', session.organizationId)
+    .maybeSingle()
+  if (!run) return { success: false, error: 'Payroll run no encontrado.' }
+  if ((run as { status: string }).status !== 'draft') {
+    return { success: false, error: 'Solo en runs en draft.' }
+  }
+
+  await releaseEntriesForItems(supabase, [itemId])
+  const { error } = await supabase
+    .from('payroll_items')
+    .delete()
+    .eq('id', itemId)
+    .eq('payroll_run_id', runId)
+    .eq('organization_id', session.organizationId)
+  if (error) return { success: false, error: error.message }
+
+  revalidatePath(`/(app)/payroll/${runId}`, 'page')
+  return { success: true }
+}
+
+// -----------------------------------------------------------------------------
+
 export async function approvePayrollRun(runId: string): Promise<{ success: boolean; error?: string }> {
   const session = await requireSession('/en/login')
   const { requireActiveSubscription } = await import('@/lib/auth/subscription')
@@ -515,8 +619,59 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
   try {
     const { data: runItems } = await supabase
       .from('payroll_items')
-      .select('employee_id, net_cents, employees!inner(user_id, first_name)')
+      .select('employee_id, net_cents, scheme_snapshot, employees!inner(user_id, first_name)')
       .eq('payroll_run_id', runId)
+
+    // Acumulación de PTO: cada run aprobado acumula un período para los
+    // empleados incluidos, según las políticas con accrual configurado.
+    try {
+      const { accrualForPeriod, applyAccrual } = await import('@/lib/pto/accrual')
+      const { data: policies } = await supabase
+        .from('pto_policies')
+        .select('id, accrual_method, accrual_rate, max_balance_hours')
+        .eq('organization_id', session.organizationId)
+        .neq('accrual_method', 'none')
+      if (policies && policies.length > 0 && runItems && runItems.length > 0) {
+        const empIds = runItems.map((it) => it.employee_id)
+        const { data: balances } = await supabase
+          .from('pto_balances')
+          .select('employee_id, policy_id, balance_hours')
+          .in('employee_id', empIds)
+        const balMap = new Map(
+          (balances ?? []).map((b: { employee_id: string; policy_id: string; balance_hours: number }) => [
+            `${b.employee_id}:${b.policy_id}`,
+            Number(b.balance_hours) || 0,
+          ]),
+        )
+        const upserts: Record<string, unknown>[] = []
+        for (const it of runItems) {
+          const snap = it.scheme_snapshot as { type?: string; periodsPerYear?: number } | null
+          const periodsPerYear = snap?.type === 'salary' ? snap.periodsPerYear ?? 26 : 26
+          for (const pol of policies as {
+            id: string
+            accrual_method: 'hours_per_period' | 'days_per_year'
+            accrual_rate: number
+            max_balance_hours: number | null
+          }[]) {
+            const accrued = accrualForPeriod(pol.accrual_method, Number(pol.accrual_rate), periodsPerYear)
+            if (accrued <= 0) continue
+            const current = balMap.get(`${it.employee_id}:${pol.id}`) ?? 0
+            upserts.push({
+              organization_id: session.organizationId,
+              employee_id: it.employee_id,
+              policy_id: pol.id,
+              balance_hours: applyAccrual(current, accrued, pol.max_balance_hours),
+              updated_at: new Date().toISOString(),
+            })
+          }
+        }
+        if (upserts.length > 0) {
+          await supabase.from('pto_balances').upsert(upserts, { onConflict: 'employee_id,policy_id' })
+        }
+      }
+    } catch {
+      // El accrual nunca bloquea la aprobación.
+    }
     const { dispatch } = await import('@/lib/notifications/dispatch')
     await Promise.allSettled(
       (runItems ?? [])

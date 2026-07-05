@@ -17,7 +17,7 @@ export default async function PayrollRunPage({
 
   const { data: run } = await supabase
     .from('payroll_runs')
-    .select('*')
+    .select('id, name, status, period_start, period_end, pay_date, jurisdiction_code')
     .eq('id', id)
     .eq('organization_id', session.organizationId)
     .maybeSingle()
@@ -37,7 +37,9 @@ export default async function PayrollRunPage({
 
   const { data: items } = await supabase
     .from('payroll_items')
-    .select('*')
+    .select(
+      'id, employee_id, hours_worked, days_worked, sales_amount_cents, units_produced, tips_cents, gross_cents, federal_tax_cents, state_tax_cents, local_tax_cents, social_security_cents, medicare_cents, other_deductions_cents, net_cents',
+    )
     .eq('payroll_run_id', id)
 
   return (

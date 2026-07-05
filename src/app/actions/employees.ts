@@ -254,6 +254,43 @@ export async function updateEmployeeStatus(
 
   if (error) return { success: false, error: error.message }
 
+  // Offboarding: al terminar, revocar acceso al portal y al kiosko.
+  // Solo se elimina la membership con rol 'employee' (no toca a un owner/admin
+  // que además figure como empleado). Best-effort — no bloquea la terminación.
+  if (status === 'terminated') {
+    try {
+      const { data: emp } = await supabase
+        .from('employees')
+        .select('user_id')
+        .eq('id', employeeId)
+        .eq('organization_id', session.organizationId)
+        .maybeSingle()
+      const userId = (emp as { user_id: string | null } | null)?.user_id
+      const { createAdminClient } = await import('@/lib/supabase/server')
+      const admin = createAdminClient()
+      if (userId) {
+        await admin
+          .from('memberships')
+          .delete()
+          .eq('organization_id', session.organizationId)
+          .eq('user_id', userId)
+          .eq('role', 'employee')
+      }
+      await admin.from('employee_pins').delete().eq('employee_id', employeeId)
+
+      const { audit } = await import('@/lib/audit')
+      await audit({
+        organizationId: session.organizationId,
+        actorUserId: session.userId,
+        action: 'employee.offboard',
+        targetTable: 'employees',
+        targetId: employeeId,
+      })
+    } catch {
+      // La revocación es best-effort; el estado ya quedó como terminated.
+    }
+  }
+
   revalidatePath(`/(app)/employees`, 'page')
   return { success: true, employeeId }
 }

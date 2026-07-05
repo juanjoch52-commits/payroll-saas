@@ -23,6 +23,43 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error) {
+      // Welcome email para cuentas recién confirmadas (best-effort). Solo si el
+      // usuario se creó hace <10 min (confirmación de signup / primer OAuth) —
+      // los callbacks de reset/magic-link de cuentas viejas no disparan nada.
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        const isNew =
+          user?.created_at && Date.now() - new Date(user.created_at).getTime() < 10 * 60_000
+        if (user && isNew) {
+          const { data: m } = await supabase
+            .from('memberships')
+            .select('organization_id, organizations:organization_id(name)')
+            .eq('user_id', user.id)
+            .limit(1)
+            .maybeSingle()
+          const org = m as { organization_id: string; organizations: { name: string } | { name: string }[] } | null
+          const orgName = Array.isArray(org?.organizations)
+            ? org?.organizations[0]?.name
+            : org?.organizations?.name
+          const { dispatch } = await import('@/lib/notifications/dispatch')
+          await dispatch({
+            userId: user.id,
+            organizationId: org?.organization_id,
+            type: 'welcome',
+            title: 'Welcome to MyJova 👋',
+            body: 'Your account is ready. Let’s set up your company.',
+            dedupeKey: `welcome:${user.id}`,
+            emailTemplateData: {
+              firstName: (user.user_metadata?.full_name as string)?.split(' ')[0] ?? user.email?.split('@')[0] ?? 'there',
+              orgName: orgName ?? 'your company',
+            },
+          })
+        }
+      } catch {
+        // Nunca bloquear el login por el welcome.
+      }
       return NextResponse.redirect(`${origin}${next}`)
     }
   }

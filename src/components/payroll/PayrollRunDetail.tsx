@@ -3,7 +3,13 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { calculateRunItems, approvePayrollRun, markPayrollRunPaid } from '@/app/actions/payroll'
+import {
+  calculateRunItems,
+  approvePayrollRun,
+  markPayrollRunPaid,
+  deletePayrollRun,
+  removePayrollItem,
+} from '@/app/actions/payroll'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -110,6 +116,23 @@ export function PayrollRunDetail({
     })
   }
 
+  function handleDeleteRun() {
+    if (!confirm('Delete this draft run? Consumed time/production/tips will be released.')) return
+    startTransition(async () => {
+      const res = await deletePayrollRun(run.id)
+      if (!res.success) setError(res.error ?? 'Error')
+      else router.push(`/${locale}/payroll`)
+    })
+  }
+
+  function handleRemoveItem(itemId: string) {
+    startTransition(async () => {
+      const res = await removePayrollItem(run.id, itemId)
+      if (!res.success) setError(res.error ?? 'Error')
+      else router.refresh()
+    })
+  }
+
   const totalGross = items.reduce((sum, i) => sum + i.gross_cents, 0)
   const totalNet = items.reduce((sum, i) => sum + i.net_cents, 0)
 
@@ -138,6 +161,11 @@ export function PayrollRunDetail({
           {isApproved && (
             <Button onClick={handleMarkPaid} disabled={pending}>
               {t('payroll.markPaid')}
+            </Button>
+          )}
+          {isDraft && (
+            <Button variant="outline" onClick={handleDeleteRun} disabled={pending} className="text-destructive">
+              {t('common.delete')}
             </Button>
           )}
         </div>
@@ -176,6 +204,7 @@ export function PayrollRunDetail({
               <th className="px-4 py-3 font-medium text-right">Gross</th>
               <th className="px-4 py-3 font-medium text-right">Taxes</th>
               <th className="px-4 py-3 font-medium text-right">Net</th>
+              <th className="px-2 py-3" />
             </tr>
           </thead>
           <tbody>
@@ -246,12 +275,25 @@ export function PayrollRunDetail({
                   <td className="px-4 py-3 text-right font-medium">
                     {item ? formatMoney(item.net_cents, locale) : '—'}
                   </td>
+                  <td className="px-2 py-3 text-right">
+                    {isDraft && item && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem((item as unknown as { id: string }).id)}
+                        disabled={pending}
+                        aria-label={`Remove ${e.first_name} from this run`}
+                        className="text-xs text-muted-foreground hover:text-destructive"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </td>
                 </tr>
               )
             })}
             {employees.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">
+                <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
                   No active employees. Add some first.
                 </td>
               </tr>
