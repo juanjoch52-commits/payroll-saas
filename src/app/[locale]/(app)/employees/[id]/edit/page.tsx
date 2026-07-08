@@ -20,7 +20,7 @@ export default async function EmployeeEditPage({
     supabase
       .from('employees')
       .select(
-        'id, first_name, last_name, email, phone, hire_date, employee_type, job_title, primary_jurisdiction_code, locality_code, subcontractor_id, w4_filing_status, w4_dependents, tax_id_last_four',
+        'id, first_name, last_name, email, phone, hire_date, employee_type, job_title, primary_jurisdiction_code, locality_code, subcontractor_id, bill_rate_cents, w4_filing_status, w4_dependents, tax_id_last_four',
       )
       .eq('id', id)
       .eq('organization_id', session.organizationId)

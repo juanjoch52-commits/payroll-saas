@@ -3,10 +3,10 @@ import { rootOf, buildSettlements, type SubNode } from './tree'
 
 // Árbol: Alpha (raíz) ← Beta ← Gamma ; Delta (raíz independiente)
 const subs: SubNode[] = [
-  { id: 'A', parent_id: null, name: 'Alpha Construction' },
+  { id: 'A', parent_id: null, name: 'Alpha Construction', sales_tax_pct: 0 },
   { id: 'B', parent_id: 'A', name: 'Beta Plumbing' },
   { id: 'C', parent_id: 'B', name: 'Gamma Crew' },
-  { id: 'D', parent_id: null, name: 'Delta Electric' },
+  { id: 'D', parent_id: null, name: 'Delta Electric', sales_tax_pct: 0 },
 ]
 const byId = new Map(subs.map((s) => [s.id, s]))
 
@@ -30,30 +30,48 @@ describe('rootOf', () => {
 })
 
 describe('buildSettlements', () => {
-  const items = [
-    { employeeId: 'e1', workerName: 'Ana', subcontractorId: 'B', hours: 40, grossCents: 100000 },
-    { employeeId: 'e2', workerName: 'Luis', subcontractorId: 'C', hours: 35, grossCents: 87500 },
-    { employeeId: 'e3', workerName: 'Mia', subcontractorId: 'D', hours: 10, grossCents: 30000 },
-  ]
-
-  it('consolida el árbol completo en UN cheque a la raíz', () => {
-    const s = buildSettlements(items, subs)
+  it('consolida el árbol en UN cheque, con bill=pay cuando no hay bill rate', () => {
+    const s = buildSettlements(
+      [
+        { employeeId: 'e1', workerName: 'Ana', subcontractorId: 'B', hours: 40, payCents: 100000, billCents: 100000 },
+        { employeeId: 'e2', workerName: 'Luis', subcontractorId: 'C', hours: 35, payCents: 87500, billCents: 87500 },
+        { employeeId: 'e3', workerName: 'Mia', subcontractorId: 'D', hours: 10, payCents: 30000, billCents: 30000 },
+      ],
+      subs,
+    )
     const alpha = s.find((x) => x.rootId === 'A')!
-    // Ana (Beta) + Luis (Gamma, sub de Beta) → mismo cheque a Alpha
     expect(alpha.totalCents).toBe(187500)
+    expect(alpha.marginCents).toBe(0)
     expect(alpha.lines).toHaveLength(2)
-    expect(alpha.lines.map((l) => l.subName).sort()).toEqual(['Beta Plumbing', 'Gamma Crew'])
+    expect(s.map((x) => x.rootId)).toEqual(['A', 'D'])
   })
 
-  it('raíces independientes generan cheques separados, ordenados por monto', () => {
-    const s = buildSettlements(items, subs)
-    expect(s.map((x) => x.rootId)).toEqual(['A', 'D'])
-    expect(s[1].totalCents).toBe(30000)
+  it('caso real: $37 propio, amigo bill $33 / pay $30 → margen $3/h + HST 13%', () => {
+    // Juan es el sub raíz (HST 13% Ontario). 40h cada uno.
+    const juanTree: SubNode[] = [{ id: 'J', parent_id: null, name: 'Juan Co', sales_tax_pct: 13 }]
+    const s = buildSettlements(
+      [
+        // Juan: bill $37/h, se paga a sí mismo lo mismo → margen 0 en sus horas.
+        { employeeId: 'j', workerName: 'Juan', subcontractorId: 'J', hours: 40, payCents: 148000, billCents: 148000 },
+        // Amigo: bill $33/h = $1320; pay $30/h = $1200 → margen $120.
+        { employeeId: 'f', workerName: 'Amigo', subcontractorId: 'J', hours: 40, payCents: 120000, billCents: 132000 },
+      ],
+      juanTree,
+    )
+    const g = s[0]
+    expect(g.subtotalCents).toBe(280000) // 1480 + 1320
+    expect(g.taxPct).toBe(13)
+    expect(g.taxCents).toBe(36400) // 13% de 2800
+    expect(g.totalCents).toBe(316400) // cheque con HST
+    expect(g.payTotalCents).toBe(268000) // 1480 + 1200
+    expect(g.marginCents).toBe(12000) // $120 (los $3/h × 40h del amigo)
+    const amigo = g.lines.find((l) => l.employeeId === 'f')!
+    expect(amigo.marginCents).toBe(12000)
   })
 
   it('items con sub desconocido se ignoran sin romper', () => {
     const s = buildSettlements(
-      [{ employeeId: 'e9', workerName: 'X', subcontractorId: 'NOPE', hours: 1, grossCents: 100 }],
+      [{ employeeId: 'e9', workerName: 'X', subcontractorId: 'NOPE', hours: 1, payCents: 100, billCents: 100 }],
       subs,
     )
     expect(s).toHaveLength(0)

@@ -37,12 +37,12 @@ export async function downloadSettlementPdf(
   const [{ data: subEmps }, { data: allSubs }] = await Promise.all([
     supabase
       .from('employees')
-      .select('id, first_name, last_name, subcontractor_id')
+      .select('id, first_name, last_name, subcontractor_id, bill_rate_cents')
       .in('id', items.map((i: { employee_id: string }) => i.employee_id))
       .not('subcontractor_id', 'is', null),
     supabase
       .from('subcontractors')
-      .select('id, parent_id, name')
+      .select('id, parent_id, name, sales_tax_pct')
       .eq('organization_id', session.organizationId),
   ])
 
@@ -53,20 +53,32 @@ export async function downloadSettlementPdf(
     ]),
   )
   const settlements = buildSettlements(
-    ((subEmps ?? []) as { id: string; first_name: string; last_name: string; subcontractor_id: string }[])
+    ((subEmps ?? []) as {
+      id: string
+      first_name: string
+      last_name: string
+      subcontractor_id: string
+      bill_rate_cents: number | null
+    }[])
       .map((e) => {
         const it = itemByEmp.get(e.id)
         if (!it) return null
+        const hours = it.hours_worked != null ? Number(it.hours_worked) : null
+        const billCents =
+          e.bill_rate_cents && hours != null
+            ? Math.round(hours * Number(e.bill_rate_cents))
+            : it.gross_cents
         return {
           employeeId: e.id,
           workerName: `${e.first_name} ${e.last_name}`,
           subcontractorId: e.subcontractor_id,
-          hours: it.hours_worked != null ? Number(it.hours_worked) : null,
-          grossCents: it.gross_cents,
+          hours,
+          payCents: it.gross_cents,
+          billCents,
         }
       })
       .filter((x): x is NonNullable<typeof x> => x !== null),
-    (allSubs ?? []) as { id: string; parent_id: string | null; name: string }[],
+    (allSubs ?? []) as import('@/lib/subcontractors/tree').SubNode[],
   )
 
   const target = settlements.find((s) => s.rootId === rootSubId)
@@ -84,9 +96,16 @@ export async function downloadSettlementPdf(
       workerName: l.workerName,
       subName: l.subName,
       hours: l.hours,
-      grossCents: l.grossCents,
+      payCents: l.payCents,
+      billCents: l.billCents,
+      marginCents: l.marginCents,
     })),
+    subtotalCents: target.subtotalCents,
+    taxPct: target.taxPct,
+    taxCents: target.taxCents,
     totalCents: target.totalCents,
+    payTotalCents: target.payTotalCents,
+    marginCents: target.marginCents,
   }
 
   const buffer = await renderToBuffer(<SettlementPdf data={data} />)

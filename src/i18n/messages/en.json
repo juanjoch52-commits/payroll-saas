@@ -142,7 +142,9 @@
     "localityNone": "None",
     "subcontractor": "Subcontractor",
     "subcontractorNone": "None (own worker)",
-    "subcontractorHint": "Workers of a subcontractor are paid GROSS (no withholding) — their pay rolls into the subcontractor’s check."
+    "subcontractorHint": "Workers of a subcontractor are paid GROSS (no withholding) — their pay rolls into the subcontractor’s check.",
+    "billRate": "Bill rate to contractor ($/h)",
+    "billRateHint": "What the contractor pays for this worker’s hour (e.g. 33). The worker’s pay scheme is what YOU pay them (e.g. 30) — the difference is the subcontractor’s margin."
   },
   "payroll": {
     "title": "Payroll",
@@ -1003,6 +1005,13 @@
   "subcontractors": {
     "subtitle": "Hierarchy of subcontractors. Hours are tracked per worker; payment rolls up into one check to the top-level subcontractor.",
     "settlementTitle": "Subcontractor settlement — one check per top-level sub",
-    "settlementHint": "Each total includes the workers of that subcontractor AND of its nested subs. Pay the total; the breakdown shows how to distribute."
+    "settlementHint": "Each total includes the workers of that subcontractor AND of its nested subs. Pay the total; the breakdown shows how to distribute.",
+    "worker": "Worker",
+    "hours": "Hours",
+    "payWorker": "Pay worker",
+    "billed": "Billed",
+    "margin": "Margin",
+    "subtotal": "Subtotal (billed)",
+    "marginTotal": "Your margin"
   }
 }

@@ -223,6 +223,20 @@ export function EmployeeForm({
               <p className="text-xs text-muted-foreground">{t('employees.subcontractorHint')}</p>
             </div>
           )}
+          {subcontractors.length > 0 && (
+            <div className="space-y-2">
+              <Label htmlFor="billRateHourly">{t('employees.billRate')}</Label>
+              <Input
+                id="billRateHourly"
+                name="billRateHourly"
+                type="number"
+                step="0.01"
+                min={0}
+                placeholder="33.00"
+              />
+              <p className="text-xs text-muted-foreground">{t('employees.billRateHint')}</p>
+            </div>
+          )}
         </div>
       </section>
 

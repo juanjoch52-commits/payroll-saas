@@ -142,7 +142,9 @@
     "localityNone": "Aucune",
     "subcontractor": "Sous-traitant",
     "subcontractorNone": "Aucun (travailleur interne)",
-    "subcontractorHint": "Les travailleurs d’un sous-traitant sont payés en BRUT (sans retenues) — leur paie entre dans le chèque du sous-traitant."
+    "subcontractorHint": "Les travailleurs d’un sous-traitant sont payés en BRUT (sans retenues) — leur paie entre dans le chèque du sous-traitant.",
+    "billRate": "Taux facturé à l’entrepreneur ($/h)",
+    "billRateHint": "Ce que l’entrepreneur paie pour l’heure de ce travailleur (ex. 33). Le taux de paie du travailleur est ce que VOUS lui payez (ex. 30) — la différence est la marge du sous-traitant."
   },
   "payroll": {
     "title": "Paie",
@@ -1003,6 +1005,13 @@
   "subcontractors": {
     "subtitle": "Hiérarchie de sous-traitants. Les heures sont suivies par travailleur; le paiement est consolidé en un seul chèque au sous-traitant principal.",
     "settlementTitle": "Règlement des sous-traitants — un chèque par sous-traitant principal",
-    "settlementHint": "Chaque total inclut les travailleurs de ce sous-traitant ET de ses sous-traitants imbriqués. Payez le total; le détail montre la répartition."
+    "settlementHint": "Chaque total inclut les travailleurs de ce sous-traitant ET de ses sous-traitants imbriqués. Payez le total; le détail montre la répartition.",
+    "worker": "Travailleur",
+    "hours": "Heures",
+    "payWorker": "Payer le travailleur",
+    "billed": "Facturé",
+    "margin": "Marge",
+    "subtotal": "Sous-total (facturé)",
+    "marginTotal": "Votre marge"
   }
 }

@@ -16,6 +16,7 @@ export type SubRow = {
   name: string
   contact_name: string | null
   email: string | null
+  sales_tax_pct: number | null
   is_active: boolean
   workerCount: number
 }
@@ -48,16 +49,18 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
   const [parentId, setParentId] = useState('')
   const [contactName, setContactName] = useState('')
   const [email, setEmail] = useState('')
+  const [salesTaxPct, setSalesTaxPct] = useState('')
 
   function add() {
     setError(null)
     startTransition(async () => {
-      const res = await createSubcontractor({ name, parentId, contactName, email })
+      const res = await createSubcontractor({ name, parentId, contactName, email, salesTaxPct })
       if (res.success) {
         setName('')
         setParentId('')
         setContactName('')
         setEmail('')
+        setSalesTaxPct('')
         router.refresh()
       } else {
         setError(res.error ?? 'Error')
@@ -105,6 +108,9 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
                 <td className="px-4 py-3 text-muted-foreground">
                   {row.contact_name ?? '—'}
                   {row.email && <span className="ml-1 text-xs">({row.email})</span>}
+                  {depth === 0 && Number(row.sales_tax_pct) > 0 && (
+                    <span className="ml-2 text-xs">· HST {Number(row.sales_tax_pct)}%</span>
+                  )}
                 </td>
                 <td className="px-4 py-3">{row.workerCount}</td>
                 <td className="px-4 py-3">
@@ -168,6 +174,21 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
               Email (optional)
             </Label>
             <Input id="sub-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="sub-tax" className="text-xs">
+              HST/GST % on the check (e.g. 13 for Ontario — top-level subs only)
+            </Label>
+            <Input
+              id="sub-tax"
+              type="number"
+              step="0.01"
+              min={0}
+              max={30}
+              value={salesTaxPct}
+              onChange={(e) => setSalesTaxPct(e.target.value)}
+              placeholder="0"
+            />
           </div>
         </div>
         <Button onClick={add} disabled={pending || name.trim().length < 2} size="sm" className="gap-2">

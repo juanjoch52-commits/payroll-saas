@@ -52,12 +52,12 @@ export default async function PayrollRunPage({
     const [{ data: subEmps }, { data: allSubs }] = await Promise.all([
       supabase
         .from('employees')
-        .select('id, first_name, last_name, subcontractor_id')
+        .select('id, first_name, last_name, subcontractor_id, bill_rate_cents')
         .in('id', empIds)
         .not('subcontractor_id', 'is', null),
       supabase
         .from('subcontractors')
-        .select('id, parent_id, name')
+        .select('id, parent_id, name, sales_tax_pct')
         .eq('organization_id', session.organizationId),
     ])
     if (subEmps && subEmps.length > 0) {
@@ -69,20 +69,34 @@ export default async function PayrollRunPage({
         ]),
       )
       settlements = buildSettlements(
-        (subEmps as { id: string; first_name: string; last_name: string; subcontractor_id: string }[])
+        (subEmps as {
+          id: string
+          first_name: string
+          last_name: string
+          subcontractor_id: string
+          bill_rate_cents: number | null
+        }[])
           .map((e) => {
             const it = itemByEmp.get(e.id)
             if (!it) return null
+            const hours = it.hours_worked != null ? Number(it.hours_worked) : null
+            // Facturado al contratista: horas × bill rate; sin bill rate (o sin
+            // horas) se factura igual al pay → margen 0.
+            const billCents =
+              e.bill_rate_cents && hours != null
+                ? Math.round(hours * Number(e.bill_rate_cents))
+                : it.gross_cents
             return {
               employeeId: e.id,
               workerName: `${e.first_name} ${e.last_name}`,
               subcontractorId: e.subcontractor_id,
-              hours: it.hours_worked != null ? Number(it.hours_worked) : null,
-              grossCents: it.gross_cents,
+              hours,
+              payCents: it.gross_cents,
+              billCents,
             }
           })
           .filter((x): x is NonNullable<typeof x> => x !== null),
-        (allSubs ?? []) as { id: string; parent_id: string | null; name: string }[],
+        (allSubs ?? []) as import('@/lib/subcontractors/tree').SubNode[],
       )
     }
   }
@@ -117,6 +131,16 @@ export default async function PayrollRunPage({
                   </span>
                 </div>
                 <table className="mt-2 w-full text-sm">
+                  <thead className="text-xs uppercase text-muted-foreground/70">
+                    <tr>
+                      <th className="py-1 text-left font-medium">{t('subcontractors.worker')}</th>
+                      <th className="py-1 text-left font-medium">Sub</th>
+                      <th className="py-1 text-right font-medium">{t('subcontractors.hours')}</th>
+                      <th className="py-1 text-right font-medium">{t('subcontractors.payWorker')}</th>
+                      <th className="py-1 text-right font-medium">{t('subcontractors.billed')}</th>
+                      <th className="py-1 text-right font-medium">{t('subcontractors.margin')}</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {s.lines.map((l) => (
                       <tr key={l.employeeId} className="text-muted-foreground">
@@ -125,11 +149,33 @@ export default async function PayrollRunPage({
                         <td className="py-1 text-right tabular-nums">
                           {l.hours != null ? `${l.hours.toFixed(2)} h` : '—'}
                         </td>
-                        <td className="py-1 text-right tabular-nums">{formatMoney(l.grossCents, locale)}</td>
+                        <td className="py-1 text-right tabular-nums">{formatMoney(l.payCents, locale)}</td>
+                        <td className="py-1 text-right tabular-nums">{formatMoney(l.billCents, locale)}</td>
+                        <td className="py-1 text-right tabular-nums">
+                          {l.marginCents !== 0 ? formatMoney(l.marginCents, locale) : '—'}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <div className="mt-2 flex flex-wrap justify-end gap-x-6 gap-y-1 text-sm">
+                  <span className="text-muted-foreground">
+                    {t('subcontractors.subtotal')}:{' '}
+                    <span className="tabular-nums">{formatMoney(s.subtotalCents, locale)}</span>
+                  </span>
+                  {s.taxPct > 0 && (
+                    <span className="text-muted-foreground">
+                      HST/GST ({s.taxPct}%):{' '}
+                      <span className="tabular-nums">{formatMoney(s.taxCents, locale)}</span>
+                    </span>
+                  )}
+                  {s.marginCents !== 0 && (
+                    <span className="font-medium text-success-foreground">
+                      {t('subcontractors.marginTotal')}:{' '}
+                      <span className="tabular-nums">{formatMoney(s.marginCents, locale)}</span>
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
           </div>

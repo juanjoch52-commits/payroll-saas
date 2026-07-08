@@ -88,6 +88,13 @@ export const employeeSchema = z.object({
   localityCode: z.string().optional().or(z.literal('')),
   // Subcontratista al que pertenece (vacío = trabajador propio del tenant).
   subcontractorId: z.string().uuid().optional().or(z.literal('')),
+  // Tarifa FACTURADA al contratista por hora de este trabajador ($/h). Distinta
+  // del pay rate: bill − pay = margen del subcontratista. Vacío → se factura
+  // igual que el pay (margen 0).
+  billRateHourly: z.preprocess(
+    (v) => (v === '' || v == null ? undefined : v),
+    z.coerce.number().min(0).max(10000).optional(),
+  ),
   address: z
     .object({
       line1: z.string().optional(),

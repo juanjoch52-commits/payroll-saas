@@ -142,7 +142,9 @@
     "localityNone": "Ninguno",
     "subcontractor": "Subcontratista",
     "subcontractorNone": "Ninguno (trabajador propio)",
-    "subcontractorHint": "Los trabajadores de un subcontratista cobran en BRUTO (sin retenciones) — su pago entra en el cheque del subcontratista."
+    "subcontractorHint": "Los trabajadores de un subcontratista cobran en BRUTO (sin retenciones) — su pago entra en el cheque del subcontratista.",
+    "billRate": "Tarifa facturada al contratista ($/h)",
+    "billRateHint": "Lo que el contratista paga por la hora de este trabajador (ej. 33). El esquema de pago del trabajador es lo que TÚ le pagas (ej. 30) — la diferencia es el margen del subcontratista."
   },
   "payroll": {
     "title": "Nómina",
@@ -1003,6 +1005,13 @@
   "subcontractors": {
     "subtitle": "Jerarquía de subcontratistas. Las horas se controlan por trabajador; el pago se consolida en un solo cheque al subcontratista mayor.",
     "settlementTitle": "Liquidación de subcontratistas — un cheque por sub mayor",
-    "settlementHint": "Cada total incluye a los trabajadores de ese subcontratista Y de sus subs menores. Paga el total; el desglose muestra cómo repartir."
+    "settlementHint": "Cada total incluye a los trabajadores de ese subcontratista Y de sus subs menores. Paga el total; el desglose muestra cómo repartir.",
+    "worker": "Trabajador",
+    "hours": "Horas",
+    "payWorker": "Pagar al trabajador",
+    "billed": "Facturado",
+    "margin": "Margen",
+    "subtotal": "Subtotal (facturado)",
+    "marginTotal": "Tu margen"
   }
 }

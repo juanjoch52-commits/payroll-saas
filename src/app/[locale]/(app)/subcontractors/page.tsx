@@ -21,7 +21,7 @@ export default async function SubcontractorsPage({
   const [{ data: subs }, { data: workers }] = await Promise.all([
     supabase
       .from('subcontractors')
-      .select('id, parent_id, name, contact_name, email, is_active')
+      .select('id, parent_id, name, contact_name, email, sales_tax_pct, is_active')
       .eq('organization_id', session.organizationId)
       .order('created_at')
       .limit(500),

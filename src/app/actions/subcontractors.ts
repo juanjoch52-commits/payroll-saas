@@ -17,6 +17,11 @@ const subSchema = z.object({
   contactName: z.string().max(120).optional().or(z.literal('')),
   email: z.string().email().optional().or(z.literal('')),
   phone: z.string().max(40).optional().or(z.literal('')),
+  // % de HST/GST que se agrega al subtotal del cheque (p.ej. 13 en Ontario).
+  salesTaxPct: z.preprocess(
+    (v) => (v === '' || v == null ? 0 : v),
+    z.coerce.number().min(0).max(30),
+  ),
 })
 
 function isManager(role: string) {
@@ -61,6 +66,7 @@ export async function createSubcontractor(input: z.input<typeof subSchema>): Pro
     contact_name: d.contactName || null,
     email: d.email || null,
     phone: d.phone || null,
+    sales_tax_pct: d.salesTaxPct,
   })
   if (error) return { success: false, error: error.message }
   revalidatePath('/(app)/subcontractors', 'page')
@@ -90,6 +96,7 @@ export async function updateSubcontractor(
       contact_name: d.contactName || null,
       email: d.email || null,
       phone: d.phone || null,
+      sales_tax_pct: d.salesTaxPct,
     })
     .eq('id', id)
     .eq('organization_id', session.organizationId)
