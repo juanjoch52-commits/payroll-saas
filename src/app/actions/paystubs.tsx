@@ -27,7 +27,7 @@ export async function downloadPaystubPdf(
   const { data: item, error } = await supabase
     .from('payroll_items')
     .select(
-      'id, gross_cents, net_cents, employees!inner(first_name, last_name, tax_id_last_four), payroll_runs!inner(period_start, period_end, pay_date), payroll_components(component_type, code, label, amount_cents)',
+      'id, gross_cents, net_cents, employees!inner(first_name, last_name, tax_id_last_four, subcontractor_id), payroll_runs!inner(period_start, period_end, pay_date), payroll_components(component_type, code, label, amount_cents)',
     )
     .eq('id', itemId)
     .eq('organization_id', session.organizationId)
@@ -44,6 +44,19 @@ export async function downloadPaystubPdf(
   const taxes = comps.filter((c) => c.component_type === 'tax').map(toLine)
   const deductions = comps.filter((c) => c.component_type === 'deduction').map(toLine)
 
+  // Trabajador de subcontratista → el PDF se marca como estado de horas/bruto
+  // pagado vía su subcontratista (sin retenciones del tenant).
+  let paidViaSubcontractor: string | undefined
+  const subId = (emp as { subcontractor_id?: string | null }).subcontractor_id
+  if (subId) {
+    const { data: sub } = await supabase
+      .from('subcontractors')
+      .select('name')
+      .eq('id', subId)
+      .maybeSingle()
+    paidViaSubcontractor = (sub as { name: string } | null)?.name ?? 'Subcontractor'
+  }
+
   const data: PaystubData = {
     locale,
     employer: { name: session.organizationName },
@@ -51,6 +64,7 @@ export async function downloadPaystubPdf(
       fullName: `${emp.first_name} ${emp.last_name}`,
       taxIdLastFour: emp.tax_id_last_four,
     },
+    paidViaSubcontractor,
     period: { start: run.period_start, end: run.period_end, payDate: run.pay_date },
     earnings,
     taxes,

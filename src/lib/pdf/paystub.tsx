@@ -22,6 +22,12 @@ export type PaystubData = {
   netCents: number
   ytdGrossCents?: number
   ytdNetCents?: number
+  /**
+   * Nombre del subcontratista vía el cual se paga. Si está presente, el
+   * documento es un estado de HORAS/BRUTO (sin retenciones del tenant): el
+   * pago real le llega al trabajador a través de su subcontratista.
+   */
+  paidViaSubcontractor?: string
 }
 
 function fmt(cents: number): string {
@@ -90,6 +96,28 @@ export function PaystubPdf({ data }: { data: PaystubData }) {
       <Page size="LETTER" style={styles.page}>
         <Text style={styles.header}>{s.title}</Text>
         <Text style={styles.subheader}>{data.employer.name} · MyJova</Text>
+
+        {data.paidViaSubcontractor ? (
+          <View
+            style={{
+              marginBottom: 12,
+              padding: 8,
+              borderWidth: 1,
+              borderColor: '#f0c36d',
+              borderStyle: 'solid',
+              borderRadius: 4,
+              backgroundColor: '#fdf6e3',
+            }}
+          >
+            <Text style={{ fontSize: 9, fontWeight: 'bold' }}>
+              Paid via subcontractor: {data.paidViaSubcontractor}
+            </Text>
+            <Text style={{ fontSize: 8, color: '#666', marginTop: 2 }}>
+              Gross hours/earnings statement. No taxes are withheld by {data.employer.name};
+              payment and payroll taxes are handled by the subcontractor.
+            </Text>
+          </View>
+        ) : null}
 
         <View style={styles.metaRow}>
           <View style={styles.metaCol}>

@@ -5,6 +5,7 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { PayrollRunDetail } from '@/components/payroll/PayrollRunDetail'
+import { SettlementDownloadButton } from '@/components/payroll/SettlementDownloadButton'
 import { formatMoney } from '@/lib/utils'
 
 export default async function PayrollRunPage({
@@ -108,9 +109,12 @@ export default async function PayrollRunPage({
           <div className="divide-y">
             {settlements.map((s) => (
               <div key={s.rootId} className="px-4 py-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                   <p className="font-medium">{s.rootName}</p>
-                  <p className="text-lg font-bold tabular-nums">{formatMoney(s.totalCents, locale)}</p>
+                  <span className="flex items-center gap-3">
+                    <SettlementDownloadButton runId={id} rootSubId={s.rootId} />
+                    <p className="text-lg font-bold tabular-nums">{formatMoney(s.totalCents, locale)}</p>
+                  </span>
                 </div>
                 <table className="mt-2 w-full text-sm">
                   <tbody>
