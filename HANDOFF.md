@@ -21,6 +21,7 @@ Sprints completados (todos en esta rama, ver git log):
 | SUB/PS/BR | **Subcontratistas jerárquicos** (abajo, sección clave) | `bee555f`, `854b8f7`, `5c4c0d3` |
 | TS | **Timesheets semanales del empleado**: /history → vista semanal (tz org, lunes-domingo), **cerrar semana y pedir pago** (timesheet_submissions, re-envío si devuelta), bandeja del manager en /time-tracking (aprobar semana = aprueba entries en bloque → payroll), resumen hoy/semana en /clock, notifs+webhooks nuevos | `e6f6849` |
 | BRK | **Almuerzo no pagado automático** (política org: N min al alcanzar umbral; medio día no descuenta; "no tomé almuerzo" waiver flageado) en los 3 clock-outs (web/kiosko/API) + **fichadas olvidadas**: addManualEntry (turno a mano, 30d, sin solapes, no en semana cerrada) y fixForgottenClockOut (turno abierto >10h), pending con manual_kind+motivo + badges al manager. **FIX RLS** time_entries_update (empleado no podía cerrar turno) + tor_update PTO (sesión paralela) | `c355fcd`, `41ed218` |
+| MOB | **App móvil al día** (ya NO está stale): core único `lib/timesheets/core.ts` (web actions + API v1 comparten lógica), endpoints `GET /api/v1/time/week` + `submit-week` + `manual-entry` + `fix-clock-out` + skipBreak en clock-out; Expo: tab Hours semanal con cierre de semana, form olvidé-fichar, switch no-tomé-almuerzo, fix de salida >10h, resumen hoy/semana. `apps/mobile` con `npm run typecheck` limpio (deps instaladas, lockfile commiteado) | `7e15d91` |
 
 ## Subcontratistas (feature clave — caso real de Juan)
 
@@ -65,8 +66,8 @@ margen**, + **HST 13%** sobre lo facturado.
 1099-NEC a empresa sub (capturar EIN) · ACH del cheque consolidado (cuenta bancaria del
 sub) · HST entrante amigo→Juan (facturas de compra / ITC) · CPP/EI Canadá · UI de
 adjustPtoBalance · paginación con controles UI (hoy trunca) · rate limit en DB si
-multi-región · edición de pay scheme versionada (effective_from/to) · app móvil
-`apps/mobile` está STALE (solo G12, excluida del build) — track aparte.
+multi-región · edición de pay scheme versionada (effective_from/to) · app móvil:
+tiempo/horas AL DÍA (MOB); faltan schedule/PTO/documentos/banco — por demanda.
 
 ## Cómo trabajar (convenciones — IMPORTANTE)
 - **Gates por fase**: `npm run typecheck` · `npm test` · `npm run lint` · `npm run build`.
