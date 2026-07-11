@@ -6,8 +6,8 @@ Termina los mensajes de commit con `Co-Authored-By: Claude Opus 4.8 <noreply@ant
 ## Estado global (2026-07-11) — CÓDIGO COMPLETO, INFRA PENDIENTE
 
 **Todo el trabajo de producto está hecho y commiteado.** Gates: typecheck ✅ · lint ✅ ·
-build ✅ · **vitest 121/121 ✅**. Git limpio. **58 migraciones** (`db:push` aplica hasta
-`20260501000024`). **Próximo timestamp libre: `20260501000025`.**
+build ✅ · **vitest 121/121 ✅**. Git limpio. **61 migraciones** (`db:push` aplica hasta
+`20260501000027`). **Próximo timestamp libre: `20260501000028`.**
 
 Sprints completados (todos en esta rama, ver git log):
 | Sprint | Qué | Commits clave |
@@ -21,6 +21,7 @@ Sprints completados (todos en esta rama, ver git log):
 | SUB/PS/BR | **Subcontratistas jerárquicos** (abajo, sección clave) | `bee555f`, `854b8f7`, `5c4c0d3` |
 | TS | **Timesheets semanales del empleado**: /history → vista semanal (tz org, lunes-domingo), **cerrar semana y pedir pago** (timesheet_submissions, re-envío si devuelta), bandeja del manager en /time-tracking (aprobar semana = aprueba entries en bloque → payroll), resumen hoy/semana en /clock, notifs+webhooks nuevos | `e6f6849` |
 | BRK | **Almuerzo no pagado automático** (política org: N min al alcanzar umbral; medio día no descuenta; "no tomé almuerzo" waiver flageado) en los 3 clock-outs (web/kiosko/API) + **fichadas olvidadas**: addManualEntry (turno a mano, 30d, sin solapes, no en semana cerrada) y fixForgottenClockOut (turno abierto >10h), pending con manual_kind+motivo + badges al manager. **FIX RLS** time_entries_update (empleado no podía cerrar turno) + tor_update PTO (sesión paralela) | `c355fcd`, `41ed218` |
+| CTR | **3 perfiles**: empresa / contratista / trabajador. Rol `contractor` + portal /(contractor) (/my-crew tarifas+horas+margen de SU subtree, /my-settlements con PDF), invitación desde el manager de subs, vinculación por trigger+action. **PRIVACIDAD: bill rate movido a `employee_billing`** (RLS manager+; el trabajador ya no puede leer lo facturado). Multitenant: `organizations.uses_subcontractors` esconde el módulo (auto-on, toggle en Settings) | `7a31056` |
 | MOB | **App móvil al día** (ya NO está stale): core único `lib/timesheets/core.ts` (web actions + API v1 comparten lógica), endpoints `GET /api/v1/time/week` + `submit-week` + `manual-entry` + `fix-clock-out` + skipBreak en clock-out; Expo: tab Hours semanal con cierre de semana, form olvidé-fichar, switch no-tomé-almuerzo, fix de salida >10h, resumen hoy/semana. `apps/mobile` con `npm run typecheck` limpio (deps instaladas, lockfile commiteado) | `7e15d91` |
 
 ## Subcontratistas (feature clave — caso real de Juan)
@@ -29,8 +30,9 @@ Contratista → sub mayor → subs menores. Todos fichan horas con el tenant; el
 consolida en **UN cheque al sub RAÍZ** con desglose. Caso de Juan (Canadá): a él le pagan
 $37/h por sus horas y $33/h por las de su amigo; él le paga $30/h al amigo → **$3/h de
 margen**, + **HST 13%** sobre lo facturado.
-- Tablas: `subcontractors` (parent_id jerárquico, `sales_tax_pct` 0-30) +
-  `employees.subcontractor_id` + `employees.bill_rate_cents` (facturado ≠ pagado).
+- Tablas: `subcontractors` (parent_id jerárquico, `sales_tax_pct` 0-30, `user_id` = login
+  del portal) + `employees.subcontractor_id` + **`employee_billing.bill_rate_cents`**
+  (facturado ≠ pagado; tabla PRIVADA manager+ desde CTR — el trabajador no puede leerla).
 - `src/lib/subcontractors/tree.ts` (puro, testeado con el caso 37/33/30+13%): rootOf
   anti-ciclo; buildSettlements → líneas pay/bill/margen, subtotal+HST=cheque, payTotal, margen.
 - Motor: `suppressWithholding` → sub-workers cobran BRUTO (sin retenciones ni FICA/FUTA
