@@ -258,7 +258,10 @@
     "outTime": "Heure de sortie",
     "fixReason": "Que s’est-il passé ? (obligatoire)",
     "sendFix": "Envoyer la correction",
-    "helpLink": "Comment ça marche ? Lisez le guide rapide"
+    "helpLink": "Comment ça marche ? Lisez le guide rapide",
+    "shiftRemaining": "Il vous reste {time} pour compléter votre quart",
+    "estOut": "sortie est. {time}",
+    "shiftDone": "Quart complété — vous pouvez pointer la sortie ✓"
   },
   "timeTracking": {
     "title": "Suivi du temps",

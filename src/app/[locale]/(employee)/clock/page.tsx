@@ -35,7 +35,9 @@ export default async function EmployeeClockPage({
       .maybeSingle(),
     supabase
       .from('organizations')
-      .select('timezone, break_auto_deduct_minutes, break_auto_deduct_threshold_minutes')
+      .select(
+        'timezone, break_auto_deduct_minutes, break_auto_deduct_threshold_minutes, standard_shift_minutes',
+      )
       .eq('id', session.organizationId)
       .maybeSingle(),
   ])
@@ -43,9 +45,19 @@ export default async function EmployeeClockPage({
   const orgRow = org as {
     timezone?: string
     break_auto_deduct_minutes?: number
+    break_auto_deduct_threshold_minutes?: number
+    standard_shift_minutes?: number
   } | null
   const tz = orgRow?.timezone || 'America/New_York'
   const breakMinutes = orgRow?.break_auto_deduct_minutes ?? 0
+  const breakThreshold = orgRow?.break_auto_deduct_threshold_minutes ?? 0
+  const shiftMinutes = orgRow?.standard_shift_minutes ?? 0
+  // Meta EN SITIO: jornada pagada + almuerzo no pagado (si la política aplica a
+  // un turno de ese largo). 8h pagadas + 30m almuerzo = salir a las 8h30m.
+  const shiftTargetMinutes =
+    shiftMinutes > 0
+      ? shiftMinutes + (breakMinutes > 0 && shiftMinutes >= breakThreshold ? breakMinutes : 0)
+      : 0
   const todayKey = todayInTz(tz)
   const weekStart = mondayOfKey(todayKey)
 
@@ -106,6 +118,7 @@ export default async function EmployeeClockPage({
         openEntry={open}
         breakPolicyActive={breakMinutes > 0}
         breakMinutes={breakMinutes}
+        shiftTargetMinutes={shiftTargetMinutes}
       />
 
       {/* Resumen: hoy + semana en curso, con acceso a la vista semanal */}

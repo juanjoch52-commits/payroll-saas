@@ -258,7 +258,10 @@
     "outTime": "Hora de salida",
     "fixReason": "¿Qué pasó? (obligatorio)",
     "sendFix": "Enviar corrección",
-    "helpLink": "¿Cómo funciona? Lee la guía rápida"
+    "helpLink": "¿Cómo funciona? Lee la guía rápida",
+    "shiftRemaining": "Te faltan {time} para completar tu jornada",
+    "estOut": "salida est. {time}",
+    "shiftDone": "Jornada completa — ya puedes fichar tu salida ✓"
   },
   "timeTracking": {
     "title": "Asistencia",

@@ -192,6 +192,8 @@ export type WeekViewPayload = {
   canSubmit: boolean
   blockReason: SubmitBlockReason | null
   breakPolicy: BreakPolicy | null
+  /** Jornada estándar PAGADA en minutos (0 = contador apagado). */
+  standardShiftMinutes: number
 }
 
 export async function getWeekView(
@@ -204,10 +206,15 @@ export async function getWeekView(
   const currentMonday = mondayOfKey(today)
   const weekStart = weekParam && isMondayKey(weekParam) ? weekParam : currentMonday
 
-  const [rows, submission, breakPolicy] = await Promise.all([
+  const [rows, submission, breakPolicy, { data: shiftRow }] = await Promise.all([
     fetchWeekEntriesRaw(db, ctx, weekStart, tz),
     fetchSubmission(db, ctx.employeeId, weekStart),
     fetchBreakPolicy(db, ctx.organizationId),
+    db
+      .from('organizations')
+      .select('standard_shift_minutes')
+      .eq('id', ctx.organizationId)
+      .maybeSingle(),
   ])
 
   const summary = summarizeWeek(toWeekEntries(rows), weekStart, tz)
@@ -240,6 +247,8 @@ export async function getWeekView(
     canSubmit: gate.ok,
     blockReason: gate.ok ? null : (gate.reason ?? null),
     breakPolicy,
+    standardShiftMinutes:
+      (shiftRow as { standard_shift_minutes?: number } | null)?.standard_shift_minutes ?? 0,
   }
 }
 

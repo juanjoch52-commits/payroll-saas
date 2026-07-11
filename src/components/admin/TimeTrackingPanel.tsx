@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Map, List, Check, X, AlertTriangle, Pencil } from 'lucide-react'
+import { Map, List, Check, X, AlertTriangle, Pencil, MapPin } from 'lucide-react'
 import { approveTimeEntry, rejectTimeEntry } from '@/app/actions/time-tracking'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -23,10 +23,29 @@ type Entry = {
   manual_reason: string | null
   status: 'open' | 'pending' | 'approved' | 'rejected' | 'edited'
   clock_in_outside_geofence: boolean
+  clock_out_outside_geofence: boolean
   clock_in_lat: number | null
   clock_in_lng: number | null
+  clock_out_lat: number | null
+  clock_out_lng: number | null
   employees: { id: string; first_name: string; last_name: string } | { id: string; first_name: string; last_name: string }[]
   worksites: { name: string } | { name: string }[] | null
+}
+
+/** Link externo a Google Maps con la coordenada exacta de la fichada. */
+function MapsLink({ lat, lng, title }: { lat: number | null; lng: number | null; title: string }) {
+  if (lat == null || lng == null) return null
+  return (
+    <a
+      href={`https://www.google.com/maps?q=${lat},${lng}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={title}
+      className="ml-1 inline-flex align-middle text-muted-foreground hover:text-primary"
+    >
+      <MapPin className="h-3.5 w-3.5" />
+    </a>
+  )
 }
 
 type Worksite = {
@@ -84,19 +103,34 @@ export function TimeTrackingPanel({
     })
   }
 
-  const mapPoints: MapPoint[] = entries
-    .filter((e) => e.clock_in_lat && e.clock_in_lng)
-    .map((e) => {
-      const emp = Array.isArray(e.employees) ? e.employees[0] : e.employees
-      return {
-        id: e.id,
+  // Mapa: ENTRADAS (azul; ámbar si fuera del geofence) + SALIDAS (gris) — el
+  // jefe ve exactamente dónde se fichó cada in y cada out.
+  const mapPoints: MapPoint[] = entries.flatMap((e) => {
+    const emp = Array.isArray(e.employees) ? e.employees[0] : e.employees
+    const name = `${emp.first_name} ${emp.last_name}`
+    const points: MapPoint[] = []
+    if (e.clock_in_lat && e.clock_in_lng) {
+      points.push({
+        id: `${e.id}-in`,
         lat: Number(e.clock_in_lat),
         lng: Number(e.clock_in_lng),
-        label: `${emp.first_name} ${emp.last_name}`,
-        subtitle: new Date(e.clock_in_at).toLocaleString(),
+        label: name,
+        subtitle: `IN · ${new Date(e.clock_in_at).toLocaleString()}`,
         variant: e.clock_in_outside_geofence ? 'flagged' : 'normal',
-      }
-    })
+      })
+    }
+    if (e.clock_out_at && e.clock_out_lat && e.clock_out_lng) {
+      points.push({
+        id: `${e.id}-out`,
+        lat: Number(e.clock_out_lat),
+        lng: Number(e.clock_out_lng),
+        label: name,
+        subtitle: `OUT · ${new Date(e.clock_out_at).toLocaleString()}`,
+        variant: e.clock_out_outside_geofence ? 'flagged' : 'out',
+      })
+    }
+    return points
+  })
 
   const mapGeofences: MapGeofence[] = worksites.map((w) => ({
     id: w.id,
@@ -215,6 +249,7 @@ export function TimeTrackingPanel({
                       <div>{formatDate(e.clock_in_at, locale)}</div>
                       <div className="text-xs text-muted-foreground">
                         {new Date(e.clock_in_at).toLocaleTimeString()}
+                        <MapsLink lat={e.clock_in_lat} lng={e.clock_in_lng} title="Clock-in location" />
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -223,6 +258,7 @@ export function TimeTrackingPanel({
                           <div>{formatDate(e.clock_out_at, locale)}</div>
                           <div className="text-xs text-muted-foreground">
                             {new Date(e.clock_out_at).toLocaleTimeString()}
+                            <MapsLink lat={e.clock_out_lat} lng={e.clock_out_lng} title="Clock-out location" />
                           </div>
                         </>
                       ) : (

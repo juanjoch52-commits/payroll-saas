@@ -106,6 +106,7 @@ export type WeekView = {
   canSubmit: boolean
   blockReason: 'future_week' | 'open_entry' | 'no_hours' | 'already_submitted' | 'already_approved' | null
   breakPolicy: { autoDeductMinutes: number; thresholdMinutes: number } | null
+  standardShiftMinutes: number
 }
 
 export async function getWeek(week?: string): Promise<WeekView | null> {

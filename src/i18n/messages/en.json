@@ -258,7 +258,10 @@
     "outTime": "End time",
     "fixReason": "What happened? (required)",
     "sendFix": "Send correction",
-    "helpLink": "How does this work? Read the quick guide"
+    "helpLink": "How does this work? Read the quick guide",
+    "shiftRemaining": "{time} left to complete your shift",
+    "estOut": "est. leave {time}",
+    "shiftDone": "Shift complete — you can clock out ✓"
   },
   "timeTracking": {
     "title": "Time tracking",

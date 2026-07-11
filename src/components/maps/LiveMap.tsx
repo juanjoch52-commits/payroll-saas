@@ -12,7 +12,8 @@ export type MapPoint = {
   lng: number
   label: string
   subtitle?: string
-  variant?: 'normal' | 'flagged'
+  /** 'out' = ubicación de un clock OUT (gris; entradas en azul, flags en ámbar). */
+  variant?: 'normal' | 'flagged' | 'out'
 }
 
 export type MapGeofence = {
@@ -121,6 +122,8 @@ export function LiveMap({
             ['get', 'variant'],
             'flagged',
             MAP_PALETTE.workerFlagged,
+            'out',
+            MAP_PALETTE.workerOffline,
             MAP_PALETTE.workerNormal,
           ],
           'circle-stroke-color': '#fff',

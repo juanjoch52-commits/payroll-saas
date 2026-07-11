@@ -24,7 +24,7 @@ export default async function GeneralSettingsPage({
   const { data: org } = await supabase
     .from('organizations')
     .select(
-      'industry_type, timezone, break_auto_deduct_minutes, break_auto_deduct_threshold_minutes, uses_subcontractors',
+      'industry_type, timezone, break_auto_deduct_minutes, break_auto_deduct_threshold_minutes, standard_shift_minutes, uses_subcontractors',
     )
     .eq('id', session.organizationId)
     .single()
@@ -34,11 +34,13 @@ export default async function GeneralSettingsPage({
     timezone?: string
     break_auto_deduct_minutes?: number
     break_auto_deduct_threshold_minutes?: number
+    standard_shift_minutes?: number
     uses_subcontractors?: boolean
   } | null
   const timezone = (orgRow?.timezone ?? 'America/New_York') as string
   const breakMinutes = orgRow?.break_auto_deduct_minutes ?? 0
   const breakThreshold = orgRow?.break_auto_deduct_threshold_minutes ?? 360
+  const shiftMinutes = orgRow?.standard_shift_minutes ?? 480
   const usesSubcontractors = orgRow?.uses_subcontractors ?? false
 
   return (
@@ -54,7 +56,11 @@ export default async function GeneralSettingsPage({
         <TimezoneSelector current={timezone} />
       </div>
       <div className="rounded-lg border bg-card p-6">
-        <BreakPolicyCard currentMinutes={breakMinutes} currentThresholdMinutes={breakThreshold} />
+        <BreakPolicyCard
+          currentMinutes={breakMinutes}
+          currentThresholdMinutes={breakThreshold}
+          currentShiftMinutes={shiftMinutes}
+        />
       </div>
       <div className="rounded-lg border bg-card p-6">
         <SubcontractorsToggleCard current={usesSubcontractors} />

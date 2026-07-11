@@ -24,7 +24,7 @@ export default async function TimeTrackingPage({
   let query = supabase
     .from('time_entries')
     .select(
-      'id, clock_in_at, clock_out_at, billable_minutes, break_minutes, break_waived, manual_kind, manual_reason, status, clock_in_outside_geofence, clock_in_lat, clock_in_lng, employees!inner(id, first_name, last_name), worksites(name)',
+      'id, clock_in_at, clock_out_at, billable_minutes, break_minutes, break_waived, manual_kind, manual_reason, status, clock_in_outside_geofence, clock_out_outside_geofence, clock_in_lat, clock_in_lng, clock_out_lat, clock_out_lng, employees!inner(id, first_name, last_name), worksites(name)',
     )
     .eq('organization_id', session.organizationId)
     .order('clock_in_at', { ascending: false })

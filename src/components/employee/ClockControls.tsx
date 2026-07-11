@@ -34,6 +34,7 @@ export function ClockControls({
   openEntry,
   breakPolicyActive = false,
   breakMinutes = 0,
+  shiftTargetMinutes = 0,
 }: {
   locale: string
   employeeName: string | null
@@ -41,6 +42,8 @@ export function ClockControls({
   /** La org descuenta almuerzo automático → mostrar "no tomé almuerzo" al salir. */
   breakPolicyActive?: boolean
   breakMinutes?: number
+  /** Meta de minutos EN SITIO (jornada + almuerzo). 0 = contador apagado. */
+  shiftTargetMinutes?: number
 }) {
   const t = useTranslations()
   const router = useRouter()
@@ -233,6 +236,42 @@ export function ClockControls({
                   {t('clock.openTurnDuration', { hours: elapsed.h, minutes: elapsed.m })}
                 </p>
               )}
+
+              {/* Contador contra la jornada estándar (informativo) */}
+              {elapsed && shiftTargetMinutes > 0 && (() => {
+                const elapsedMin = elapsed.h * 60 + elapsed.m
+                const remaining = shiftTargetMinutes - elapsedMin
+                const pct = Math.min(100, Math.round((elapsedMin / shiftTargetMinutes) * 100))
+                const estOut = new Date(
+                  new Date(openEntry.clock_in_at).getTime() + shiftTargetMinutes * 60_000,
+                )
+                return (
+                  <div className="mx-auto mt-3 max-w-xs space-y-1.5">
+                    <div className="h-2 overflow-hidden rounded-full bg-muted">
+                      <div
+                        className={`h-full rounded-full transition-all ${remaining > 0 ? 'bg-primary' : 'bg-success'}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    {remaining > 0 ? (
+                      <p className="text-xs text-muted-foreground">
+                        {t('clock.shiftRemaining', {
+                          time: `${Math.floor(remaining / 60)}h ${String(remaining % 60).padStart(2, '0')}m`,
+                        })}{' '}
+                        ·{' '}
+                        {t('clock.estOut', {
+                          time: estOut.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' }),
+                        })}
+                      </p>
+                    ) : (
+                      <p className="text-xs font-medium text-success dark:text-success-foreground">
+                        {t('clock.shiftDone')}
+                      </p>
+                    )}
+                  </div>
+                )
+              })()}
+
               {openEntry.clock_in_outside_geofence && (
                 <div className="mt-3 flex items-center justify-center gap-1 text-xs text-warning dark:text-warning-foreground">
                   <AlertTriangle className="h-3 w-3" />

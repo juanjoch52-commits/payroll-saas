@@ -62,11 +62,13 @@ export async function setUsesSubcontractors(
 /**
  * Política de descanso no pagado: descontar `minutes` de almuerzo cuando el
  * turno alcanza `thresholdMinutes`. minutes=0 desactiva el descuento.
+ * `shiftMinutes` = jornada estándar (contador del reloj; 0 = apagado).
  * Aplica a clock-outs FUTUROS (no recalcula entries existentes).
  */
 export async function setBreakPolicy(
   minutes: number,
   thresholdMinutes: number,
+  shiftMinutes?: number,
 ): Promise<{ success: boolean; error?: string }> {
   const session = await requireSession('/en/login')
   if (!['owner', 'admin'].includes(session.role)) {
@@ -78,6 +80,12 @@ export async function setBreakPolicy(
   if (!Number.isInteger(thresholdMinutes) || thresholdMinutes < 0 || thresholdMinutes > 720) {
     return { success: false, error: 'El umbral debe estar entre 0 y 12 horas.' }
   }
+  if (
+    shiftMinutes !== undefined &&
+    (!Number.isInteger(shiftMinutes) || shiftMinutes < 0 || shiftMinutes > 960)
+  ) {
+    return { success: false, error: 'La jornada estándar debe estar entre 0 y 16 horas.' }
+  }
 
   const supabase = createClient()
   const { error } = await supabase
@@ -85,6 +93,7 @@ export async function setBreakPolicy(
     .update({
       break_auto_deduct_minutes: minutes,
       break_auto_deduct_threshold_minutes: thresholdMinutes,
+      ...(shiftMinutes !== undefined ? { standard_shift_minutes: shiftMinutes } : {}),
     })
     .eq('id', session.organizationId)
   if (error) return { success: false, error: error.message }

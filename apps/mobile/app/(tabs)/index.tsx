@@ -43,8 +43,16 @@ export default function ClockScreen() {
   const [busy, setBusy] = useState(false)
   const [camVisible, setCamVisible] = useState(false)
   const [noBreak, setNoBreak] = useState(false)
+  const [nowTick, setNowTick] = useState(Date.now())
   const [permission, requestPermission] = useCameraPermissions()
   const camRef = useRef<CameraView>(null)
+
+  // Tick por minuto mientras hay turno abierto (contador de jornada).
+  useEffect(() => {
+    if (!open) return
+    const id = setInterval(() => setNowTick(Date.now()), 60_000)
+    return () => clearInterval(id)
+  }, [open])
 
   // Form de "olvidé la salida"
   const [fixDate, setFixDate] = useState('')
@@ -156,6 +164,18 @@ export default function ClockScreen() {
   const stale = open ? Date.now() - Date.parse(open.clock_in_at) > STALE_MS : false
   const todayMinutes = week?.days.find((d) => d.day === week.today)?.minutes ?? 0
 
+  // Contador de jornada: meta EN SITIO = jornada pagada + almuerzo no pagado.
+  const standardShift = week?.standardShiftMinutes ?? 0
+  const shiftTarget =
+    standardShift > 0
+      ? standardShift +
+        (breakOn && standardShift >= (week?.breakPolicy?.thresholdMinutes ?? 0) ? breakMinutes : 0)
+      : 0
+  const elapsedMin = open ? Math.max(0, Math.floor((nowTick - Date.parse(open.clock_in_at)) / 60_000)) : 0
+  const remainingMin = shiftTarget - elapsedMin
+  const shiftPct = shiftTarget > 0 ? Math.min(100, Math.round((elapsedMin / shiftTarget) * 100)) : 0
+  const estOut = open && shiftTarget > 0 ? new Date(Date.parse(open.clock_in_at) + shiftTarget * 60_000) : null
+
   return (
     <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={styles.container}>
       {/* Turno abierto "olvidado" → corregir la salida */}
@@ -208,6 +228,36 @@ export default function ClockScreen() {
       <View style={styles.statusCard}>
         <Text style={styles.statusLabel}>{open ? t('clock.onShift') : t('clock.offShift')}</Text>
         {open && <Text style={styles.statusTime}>{new Date(open.clock_in_at).toLocaleTimeString()}</Text>}
+        {open && <Text style={styles.elapsed}>{fmtMin(elapsedMin)}</Text>}
+
+        {/* Contador contra la jornada estándar (informativo) */}
+        {open && shiftTarget > 0 && (
+          <View style={styles.shiftBox}>
+            <View style={styles.shiftBarBg}>
+              <View
+                style={[
+                  styles.shiftBarFill,
+                  { width: `${shiftPct}%` as `${number}%` },
+                  remainingMin <= 0 && { backgroundColor: colors.success },
+                ]}
+              />
+            </View>
+            {remainingMin > 0 ? (
+              <Text style={styles.shiftText}>
+                {t('clock.shiftRemaining', { time: fmtMin(remainingMin) })}
+                {estOut
+                  ? ` · ${t('clock.estOut', {
+                      time: estOut.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }),
+                    })}`
+                  : ''}
+              </Text>
+            ) : (
+              <Text style={[styles.shiftText, { color: colors.success, fontWeight: '700' }]}>
+                {t('clock.shiftDone')}
+              </Text>
+            )}
+          </View>
+        )}
       </View>
 
       {/* Al salir: no tomé almuerzo (si la org descuenta automático) */}
@@ -271,6 +321,11 @@ const styles = StyleSheet.create({
   },
   statusLabel: { fontSize: 16, color: colors.muted },
   statusTime: { fontSize: 28, fontWeight: '800', color: colors.text, marginTop: 6 },
+  elapsed: { fontSize: 14, fontWeight: '600', color: colors.muted, marginTop: 2 },
+  shiftBox: { alignSelf: 'stretch', marginTop: 12, gap: 6 },
+  shiftBarBg: { height: 8, borderRadius: 4, backgroundColor: colors.border, overflow: 'hidden' },
+  shiftBarFill: { height: '100%', borderRadius: 4, backgroundColor: colors.primary },
+  shiftText: { fontSize: 12, color: colors.muted, textAlign: 'center' },
   bigBtn: { borderRadius: 100, paddingVertical: 28, alignItems: 'center' },
   bigBtnText: { color: '#fff', fontSize: 22, fontWeight: '800' },
   summary: {

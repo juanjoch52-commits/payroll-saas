@@ -35,6 +35,9 @@ const translations = {
       reason: 'What happened? (required)',
       sendFix: 'Send correction',
       fixSent: 'Correction sent for approval.',
+      shiftRemaining: '%{time} left to complete your shift',
+      estOut: 'est. leave %{time}',
+      shiftDone: 'Shift complete — you can clock out ✓',
     },
     history: {
       title: 'My hours',
@@ -110,6 +113,9 @@ const translations = {
       reason: '¿Qué pasó? (obligatorio)',
       sendFix: 'Enviar corrección',
       fixSent: 'Corrección enviada para aprobación.',
+      shiftRemaining: 'Te faltan %{time} para completar tu jornada',
+      estOut: 'salida est. %{time}',
+      shiftDone: 'Jornada completa — ya puedes fichar tu salida ✓',
     },
     history: {
       title: 'Mis horas',
@@ -185,6 +191,9 @@ const translations = {
       reason: "Que s'est-il passé ? (obligatoire)",
       sendFix: 'Envoyer la correction',
       fixSent: 'Correction envoyée pour approbation.',
+      shiftRemaining: 'Il vous reste %{time} pour compléter votre quart',
+      estOut: 'sortie est. %{time}',
+      shiftDone: 'Quart complété — vous pouvez pointer la sortie ✓',
     },
     history: {
       title: 'Mes heures',
