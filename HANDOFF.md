@@ -6,8 +6,8 @@ Termina los mensajes de commit con `Co-Authored-By: Claude Opus 4.8 <noreply@ant
 ## Estado global (2026-07-11) — CÓDIGO COMPLETO, INFRA PENDIENTE
 
 **Todo el trabajo de producto está hecho y commiteado.** Gates: typecheck ✅ · lint ✅ ·
-build ✅ · **vitest 98/98 ✅**. Git limpio. **54 migraciones** (`db:push` aplica hasta
-`20260501000020`). **Próximo timestamp libre: `20260501000021`.**
+build ✅ · **vitest 111/111 ✅**. Git limpio. **56 migraciones** (`db:push` aplica hasta
+`20260501000022`). **Próximo timestamp libre: `20260501000023`.**
 
 Sprints completados (todos en esta rama, ver git log):
 | Sprint | Qué | Commits clave |
@@ -19,6 +19,7 @@ Sprints completados (todos en esta rama, ver git log):
 | FIN 1–4 | **Trial enforcement** (gate suave + banner), páginas legales, kiosk PIN atómico + open-redirect fix, payroll_ready/paid notifs, N+1 batch, **edición de empleado** | `0a79539..ee4f0d9` |
 | BL A–E | deletePayrollRun/excluir empleado, offboarding, welcome email, **Team members** (roles/quitar/reenviar-revocar invites), **PTO accrual engine**, revokeTimeOff, **timezone por org** (DST-safe), paginación, rate limit kiosko | `41bd90b`, `dc31089` |
 | SUB/PS/BR | **Subcontratistas jerárquicos** (abajo, sección clave) | `bee555f`, `854b8f7`, `5c4c0d3` |
+| TS | **Timesheets semanales del empleado**: /history → vista semanal (tz org, lunes-domingo), **cerrar semana y pedir pago** (timesheet_submissions, re-envío si devuelta), bandeja del manager en /time-tracking (aprobar semana = aprueba entries en bloque → payroll), resumen hoy/semana en /clock, notifs+webhooks nuevos | `e6f6849` |
 
 ## Subcontratistas (feature clave — caso real de Juan)
 
@@ -93,8 +94,8 @@ multi-región · edición de pay scheme versionada (effective_from/to) · app m�
 - **`suppressWithholding: true`** (trabajador con `subcontractor_id`) → TODO en 0, neto=bruto.
 - Al aprobar run: fan-out `payroll_ready` + **PTO accrual** por política + webhook; al
   marcar pagado: webhook `payroll.paid`. Trial gate en las 4 acciones core de escritura.
-Tests: `src/lib/**/*.test.ts` = **98** (engine 15, nacha 10, local 10, tz 9, efw2 8,
-form941 8, tips 6, tree 7, accrual 7, sign 7, overtime 5, qbo 6).
+Tests: `src/lib/**/*.test.ts` = **111** (engine 15, timesheets 13, nacha 10, local 10,
+tz 9, efw2 8, form941 8, tips 6, tree 7, accrual 7, sign 7, overtime 5, qbo 6).
 
 ## Memoria
 `~/.claude/projects/-Users-juanjo-Documents-Payroll-SaaS/memory/myjova-g-sprint.md` tiene
