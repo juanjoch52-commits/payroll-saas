@@ -91,7 +91,7 @@ export async function acceptInvitation(
 
   const { data: invite } = await supabase
     .from('invitations')
-    .select('id, organization_id, role, email, accepted_at, expires_at')
+    .select('id, organization_id, role, email, accepted_at, expires_at, subcontractor_id')
     .eq('token', token)
     .maybeSingle()
 
@@ -118,6 +118,28 @@ export async function acceptInvitation(
     })
   if (memErr && !memErr.message.includes('duplicate')) {
     return { success: false, error: memErr.message }
+  }
+
+  // Portal del contratista (usuario EXISTENTE; el path de signup lo cubre el
+  // trigger handle_new_user): vincular su login al subcontractor raíz.
+  const inviteRow = invite as { role: string; subcontractor_id: string | null }
+  if (inviteRow.role === 'contractor' && inviteRow.subcontractor_id) {
+    const { data: sub } = await admin
+      .from('subcontractors')
+      .select('user_id')
+      .eq('id', inviteRow.subcontractor_id)
+      .maybeSingle()
+    const currentUserId = (sub as { user_id: string | null } | null)?.user_id
+    if (currentUserId && currentUserId !== session.userId) {
+      return { success: false, error: 'Ese contratista ya está vinculado a otra cuenta.' }
+    }
+    if (!currentUserId) {
+      await admin
+        .from('subcontractors')
+        .update({ user_id: session.userId })
+        .eq('id', inviteRow.subcontractor_id)
+        .is('user_id', null)
+    }
   }
 
   await admin.from('invitations').update({ accepted_at: new Date().toISOString() }).eq('id', invite.id)

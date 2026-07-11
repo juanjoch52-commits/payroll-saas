@@ -11,7 +11,15 @@ import type { Role } from './nav-config'
  * manager NO tenía navegación en pantallas < md (el sidebar es hidden md:flex).
  * Solo se muestra en móvil (md:hidden).
  */
-export function MobileNav({ locale, role }: { locale: string; role: Role }) {
+export function MobileNav({
+  locale,
+  role,
+  hiddenHrefs,
+}: {
+  locale: string
+  role: Role
+  hiddenHrefs?: string[]
+}) {
   const [open, setOpen] = useState(false)
 
   // Bloquea el scroll del body mientras el drawer está abierto.
@@ -53,7 +61,7 @@ export function MobileNav({ locale, role }: { locale: string; role: Role }) {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <SidebarNav locale={locale} role={role} onNavigate={() => setOpen(false)} />
+            <SidebarNav locale={locale} role={role} hiddenHrefs={hiddenHrefs} onNavigate={() => setOpen(false)} />
           </div>
         </div>
       )}

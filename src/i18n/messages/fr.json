@@ -1068,5 +1068,30 @@
     "returnPrompt": "Pourquoi renvoyez-vous cette semaine ?",
     "returned": "Renvoyée",
     "approveHint": "Approuver une semaine approuve toutes ses entrées en attente pour la paie."
+  },
+  "contractor": {
+    "navCrew": "Mon équipe",
+    "navSettlements": "Règlements",
+    "notLinked": "Compte non lié",
+    "notLinkedHint": "Votre compte n’est pas encore lié à un entrepreneur. Demandez à l’entreprise de renvoyer l’invitation.",
+    "crewTitle": "Mon équipe",
+    "weekHours": "Heures cette semaine",
+    "weekBilled": "Facturé (est.)",
+    "weekMargin": "Marge (est.)",
+    "estimateHint": "Estimation de la semaine en cours — les montants finaux arrivent avec chaque règlement de paie.",
+    "youPay": "Vous payez",
+    "youBill": "Vous facturez",
+    "margin": "Marge",
+    "noCrew": "Aucun travailleur assigné pour le moment.",
+    "settlementsTitle": "Mes règlements",
+    "payDate": "Date de paie",
+    "paid": "Payé",
+    "approved": "Approuvé",
+    "subtotal": "Sous-total facturé",
+    "checkTotal": "Total du chèque",
+    "youPayCrew": "Vous payez votre équipe",
+    "yourMargin": "Votre marge",
+    "noSettlements": "Aucun règlement pour le moment. Ils apparaissent quand l’entreprise approuve une paie incluant votre équipe.",
+    "pdf": "PDF"
   }
 }

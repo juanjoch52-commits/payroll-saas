@@ -19,6 +19,31 @@ export type EmployeeActionResult =
   | { success: true; employeeId: string }
   | { success: false; error: string }
 
+/**
+ * Bill rate (lo que el contratista factura a la empresa por este trabajador).
+ * Vive en employee_billing (RLS manager+ only) para que el trabajador nunca
+ * pueda leerlo. Valor vacío → se borra la fila.
+ */
+async function upsertBillRate(
+  supabase: ReturnType<typeof createClient>,
+  organizationId: string,
+  employeeId: string,
+  billRateHourly: number | null | undefined,
+) {
+  if (billRateHourly != null) {
+    await supabase.from('employee_billing').upsert(
+      {
+        employee_id: employeeId,
+        organization_id: organizationId,
+        bill_rate_cents: Math.round(billRateHourly * 100),
+      },
+      { onConflict: 'employee_id' },
+    )
+  } else {
+    await supabase.from('employee_billing').delete().eq('employee_id', employeeId)
+  }
+}
+
 export async function createEmployee(formData: FormData): Promise<EmployeeActionResult> {
   // 1) Validar input
   const parsed = employeeSchema.safeParse(Object.fromEntries(formData))
@@ -115,7 +140,6 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
       primary_jurisdiction_code: input.primaryJurisdictionCode,
       locality_code: input.localityCode || null,
       subcontractor_id: input.subcontractorId || null,
-      bill_rate_cents: input.billRateHourly != null ? Math.round(input.billRateHourly * 100) : null,
       tax_id_encrypted: taxIdEncrypted,
       tax_id_last_four: taxIdLastFour,
       w4_filing_status: input.w4FilingStatus,
@@ -128,6 +152,9 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
   if (empErr || !employee) {
     return { success: false, error: empErr?.message ?? 'No se pudo crear el empleado.' }
   }
+
+  // Bill rate (facturado a la empresa): tabla PRIVADA — el trabajador no la ve.
+  await upsertBillRate(supabase, session.organizationId, employee.id, input.billRateHourly)
 
   // 7) Insertar pay scheme
   const { error: psErr } = await supabase.from('pay_schemes').insert({
@@ -203,7 +230,6 @@ export async function updateEmployee(
     primary_jurisdiction_code: input.primaryJurisdictionCode,
     locality_code: input.localityCode || null,
     subcontractor_id: input.subcontractorId || null,
-    bill_rate_cents: input.billRateHourly != null ? Math.round(input.billRateHourly * 100) : null,
     w4_filing_status: input.w4FilingStatus,
     w4_dependents: input.w4Dependents,
     address: input.address,
@@ -223,6 +249,8 @@ export async function updateEmployee(
     .eq('organization_id', session.organizationId)
 
   if (error) return { success: false, error: error.message }
+
+  await upsertBillRate(supabase, session.organizationId, employeeId, input.billRateHourly)
 
   const { audit } = await import('@/lib/audit')
   await audit({

@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
-import { createSubcontractor, toggleSubcontractor } from '@/app/actions/subcontractors'
+import { createSubcontractor, toggleSubcontractor, inviteContractor } from '@/app/actions/subcontractors'
 
 export type SubRow = {
   id: string
@@ -18,6 +18,7 @@ export type SubRow = {
   email: string | null
   sales_tax_pct: number | null
   is_active: boolean
+  user_id: string | null
   workerCount: number
 }
 
@@ -75,6 +76,24 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
     })
   }
 
+  function invite(row: SubRow) {
+    const inviteEmail = prompt(
+      `Portal access for "${row.name}" — they will see ONLY their crew, their rates and their settlements.\n\nContractor email:`,
+      row.email ?? '',
+    )
+    if (!inviteEmail) return
+    setError(null)
+    startTransition(async () => {
+      const res = await inviteContractor({ subcontractorId: row.id, email: inviteEmail })
+      if (res.success) {
+        alert('Invitation sent.')
+        router.refresh()
+      } else {
+        setError(res.error ?? 'Error')
+      }
+    })
+  }
+
   const tree = flattenTree(subs)
 
   return (
@@ -88,6 +107,7 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
               <th className="px-4 py-3 font-medium">Subcontractor</th>
               <th className="px-4 py-3 font-medium">Contact</th>
               <th className="px-4 py-3 font-medium">Workers</th>
+              <th className="px-4 py-3 font-medium">Portal</th>
               <th className="px-4 py-3 font-medium">Active</th>
             </tr>
           </thead>
@@ -114,6 +134,25 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
                 </td>
                 <td className="px-4 py-3">{row.workerCount}</td>
                 <td className="px-4 py-3">
+                  {depth > 0 ? (
+                    <span className="text-xs text-muted-foreground">—</span>
+                  ) : row.user_id ? (
+                    <Badge variant="success" className="text-[10px]">
+                      linked
+                    </Badge>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-xs"
+                      onClick={() => invite(row)}
+                      disabled={pending}
+                    >
+                      Invite
+                    </Button>
+                  )}
+                </td>
+                <td className="px-4 py-3">
                   <Switch
                     checked={row.is_active}
                     onCheckedChange={(v) => toggle(row.id, v)}
@@ -125,7 +164,7 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
             ))}
             {tree.length === 0 && (
               <tr>
-                <td colSpan={4} className="px-4 py-12 text-center text-muted-foreground">
+                <td colSpan={5} className="px-4 py-12 text-center text-muted-foreground">
                   No subcontractors yet. Add your first one below.
                 </td>
               </tr>

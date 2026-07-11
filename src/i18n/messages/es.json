@@ -1068,5 +1068,30 @@
     "returnPrompt": "¿Por qué devuelves esta semana?",
     "returned": "Devuelta",
     "approveHint": "Aprobar una semana aprueba todas sus entradas pendientes para la nómina."
+  },
+  "contractor": {
+    "navCrew": "Mi equipo",
+    "navSettlements": "Liquidaciones",
+    "notLinked": "Cuenta sin vincular",
+    "notLinkedHint": "Tu login aún no está vinculado a un contratista. Pide a la empresa que te reenvíe la invitación.",
+    "crewTitle": "Mi equipo",
+    "weekHours": "Horas esta semana",
+    "weekBilled": "Facturado (est.)",
+    "weekMargin": "Margen (est.)",
+    "estimateHint": "Estimado de la semana en curso — los números finales llegan con cada liquidación de nómina.",
+    "youPay": "Le pagas",
+    "youBill": "Facturas",
+    "margin": "Margen",
+    "noCrew": "Aún no tienes trabajadores asignados.",
+    "settlementsTitle": "Mis liquidaciones",
+    "payDate": "Fecha de pago",
+    "paid": "Pagada",
+    "approved": "Aprobada",
+    "subtotal": "Subtotal facturado",
+    "checkTotal": "Total del cheque",
+    "youPayCrew": "Pagas a tu equipo",
+    "yourMargin": "Tu margen",
+    "noSettlements": "Aún no hay liquidaciones. Aparecen cuando la empresa aprueba una nómina que incluye a tu equipo.",
+    "pdf": "PDF"
   }
 }

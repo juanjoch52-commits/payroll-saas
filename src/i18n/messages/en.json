@@ -1068,5 +1068,30 @@
     "returnPrompt": "Why are you returning this week?",
     "returned": "Returned",
     "approveHint": "Approving a week approves all its pending entries for payroll."
+  },
+  "contractor": {
+    "navCrew": "My crew",
+    "navSettlements": "Settlements",
+    "notLinked": "Account not linked",
+    "notLinkedHint": "Your login is not linked to a contractor yet. Ask the company to re-invite you.",
+    "crewTitle": "My crew",
+    "weekHours": "Hours this week",
+    "weekBilled": "Billed (est.)",
+    "weekMargin": "Margin (est.)",
+    "estimateHint": "Estimates from this week so far — final numbers come with each payroll settlement.",
+    "youPay": "You pay",
+    "youBill": "You bill",
+    "margin": "Margin",
+    "noCrew": "No workers assigned to you yet.",
+    "settlementsTitle": "My settlements",
+    "payDate": "Pay date",
+    "paid": "Paid",
+    "approved": "Approved",
+    "subtotal": "Billed subtotal",
+    "checkTotal": "Check total",
+    "youPayCrew": "You pay your crew",
+    "yourMargin": "Your margin",
+    "noSettlements": "No settlements yet. They appear when the company approves a payroll that includes your crew.",
+    "pdf": "PDF"
   }
 }

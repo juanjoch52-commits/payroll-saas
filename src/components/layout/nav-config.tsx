@@ -23,7 +23,7 @@ import {
 // Client-safe (sin imports de servidor): la usan SidebarNav y MobileNav.
 // =============================================================================
 
-export type Role = 'owner' | 'admin' | 'manager' | 'employee' | 'viewer'
+export type Role = 'owner' | 'admin' | 'manager' | 'contractor' | 'employee' | 'viewer'
 
 export type NavItem = {
   href: string
@@ -82,7 +82,9 @@ export const NAV_SECTIONS: NavSection[] = [
   },
 ]
 
-const roleRank: Record<Role, number> = { employee: 0, viewer: 1, manager: 2, admin: 3, owner: 4 }
+// contractor rankea como employee: no ve nada del shell de manager (tiene su
+// propio portal en /(contractor)).
+const roleRank: Record<Role, number> = { employee: 0, contractor: 0, viewer: 1, manager: 2, admin: 3, owner: 4 }
 
 export function canSee(itemMinRole: Role, userRole: Role): boolean {
   return roleRank[userRole] >= roleRank[itemMinRole]

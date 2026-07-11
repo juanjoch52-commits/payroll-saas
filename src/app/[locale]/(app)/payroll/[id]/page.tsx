@@ -46,60 +46,14 @@ export default async function PayrollRunPage({
 
   // Settlement de subcontratistas: un cheque por sub RAÍZ, con desglose de
   // horas por trabajador (incluye los trabajadores de sus subs menores).
-  const empIds = (items ?? []).map((i: { employee_id: string }) => i.employee_id)
-  let settlements: import('@/lib/subcontractors/tree').Settlement[] = []
-  if (empIds.length > 0) {
-    const [{ data: subEmps }, { data: allSubs }] = await Promise.all([
-      supabase
-        .from('employees')
-        .select('id, first_name, last_name, subcontractor_id, bill_rate_cents')
-        .in('id', empIds)
-        .not('subcontractor_id', 'is', null),
-      supabase
-        .from('subcontractors')
-        .select('id, parent_id, name, sales_tax_pct')
-        .eq('organization_id', session.organizationId),
-    ])
-    if (subEmps && subEmps.length > 0) {
-      const { buildSettlements } = await import('@/lib/subcontractors/tree')
-      const itemByEmp = new Map(
-        (items ?? []).map((i: { employee_id: string; hours_worked: number | null; gross_cents: number }) => [
-          i.employee_id,
-          i,
-        ]),
-      )
-      settlements = buildSettlements(
-        (subEmps as {
-          id: string
-          first_name: string
-          last_name: string
-          subcontractor_id: string
-          bill_rate_cents: number | null
-        }[])
-          .map((e) => {
-            const it = itemByEmp.get(e.id)
-            if (!it) return null
-            const hours = it.hours_worked != null ? Number(it.hours_worked) : null
-            // Facturado al contratista: horas × bill rate; sin bill rate (o sin
-            // horas) se factura igual al pay → margen 0.
-            const billCents =
-              e.bill_rate_cents && hours != null
-                ? Math.round(hours * Number(e.bill_rate_cents))
-                : it.gross_cents
-            return {
-              employeeId: e.id,
-              workerName: `${e.first_name} ${e.last_name}`,
-              subcontractorId: e.subcontractor_id,
-              hours,
-              payCents: it.gross_cents,
-              billCents,
-            }
-          })
-          .filter((x): x is NonNullable<typeof x> => x !== null),
-        (allSubs ?? []) as import('@/lib/subcontractors/tree').SubNode[],
-      )
-    }
-  }
+  // Bill rates vienen de employee_billing (tabla privada) vía el helper.
+  const { buildRunSettlements } = await import('@/lib/subcontractors/settlement-data')
+  const settlements = await buildRunSettlements(
+    supabase,
+    session.organizationId,
+    id,
+    (items ?? []) as { employee_id: string; hours_worked: number | null; gross_cents: number }[],
+  )
 
   return (
     <div className="space-y-6">

@@ -14,10 +14,13 @@ import { NAV_SECTIONS, canSee, type Role } from './nav-config'
 export function SidebarNav({
   locale,
   role,
+  hiddenHrefs = [],
   onNavigate,
 }: {
   locale: string
   role: Role
+  /** Módulos apagados por config de la org (ej. /subcontractors si no los usa). */
+  hiddenHrefs?: string[]
   onNavigate?: () => void
 }) {
   const t = useTranslations()
@@ -26,7 +29,9 @@ export function SidebarNav({
   return (
     <nav className="flex-1 space-y-5 overflow-y-auto p-3">
       {NAV_SECTIONS.map((section) => {
-        const items = section.items.filter((i) => canSee(i.minRole, role))
+        const items = section.items.filter(
+          (i) => canSee(i.minRole, role) && !hiddenHrefs.includes(i.href),
+        )
         if (items.length === 0) return null
         return (
           <div key={section.titleKey} className="space-y-1">

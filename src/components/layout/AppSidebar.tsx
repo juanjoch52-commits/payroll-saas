@@ -8,7 +8,15 @@ import type { Role } from './nav-config'
  * rol viven en SidebarNav (client, con estado activo) + nav-config. En móvil
  * el sidebar se oculta y la navegación llega vía MobileNav (en el header).
  */
-export function AppSidebar({ locale, role }: { locale: string; role: Role }) {
+export function AppSidebar({
+  locale,
+  role,
+  hiddenHrefs,
+}: {
+  locale: string
+  role: Role
+  hiddenHrefs?: string[]
+}) {
   return (
     <aside className="hidden w-64 shrink-0 border-r bg-card md:flex md:flex-col" data-tour="sidebar">
       <div className="flex h-16 shrink-0 items-center border-b px-6">
@@ -16,7 +24,7 @@ export function AppSidebar({ locale, role }: { locale: string; role: Role }) {
           <JovaWordmark size="md" />
         </Link>
       </div>
-      <SidebarNav locale={locale} role={role} />
+      <SidebarNav locale={locale} role={role} hiddenHrefs={hiddenHrefs} />
     </aside>
   )
 }

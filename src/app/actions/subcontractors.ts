@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 
 // =============================================================================
@@ -69,6 +69,94 @@ export async function createSubcontractor(input: z.input<typeof subSchema>): Pro
     sales_tax_pct: d.salesTaxPct,
   })
   if (error) return { success: false, error: error.message }
+
+  // Multitenant: al crear el primer contratista, la org "usa subcontratistas"
+  // y el módulo aparece en la navegación (las orgs normales nunca lo ven).
+  await supabase
+    .from('organizations')
+    .update({ uses_subcontractors: true })
+    .eq('id', session.organizationId)
+    .eq('uses_subcontractors', false)
+
+  revalidatePath('/(app)/subcontractors', 'page')
+  revalidatePath('/(app)', 'layout')
+  return { success: true }
+}
+
+// -----------------------------------------------------------------------------
+// Portal del contratista: invitación de acceso
+// -----------------------------------------------------------------------------
+
+const inviteContractorSchema = z.object({
+  subcontractorId: z.string().uuid(),
+  email: z.string().email('Email inválido.'),
+})
+
+/**
+ * Invita al dueño de un contratista RAÍZ a su portal (rol 'contractor').
+ * Al aceptar, subcontractors.user_id queda vinculado y entra a /my-crew:
+ * ve SOLO su equipo, sus tarifas y sus liquidaciones — nunca las del resto.
+ */
+export async function inviteContractor(
+  input: z.input<typeof inviteContractorSchema>,
+): Promise<SubResult> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin'].includes(session.role)) {
+    return { success: false, error: 'Solo owner/admin pueden invitar contratistas.' }
+  }
+  const parsed = inviteContractorSchema.safeParse(input)
+  if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
+  const d = parsed.data
+
+  const supabase = createClient()
+  const { data: sub } = await supabase
+    .from('subcontractors')
+    .select('id, name, parent_id, user_id')
+    .eq('id', d.subcontractorId)
+    .eq('organization_id', session.organizationId)
+    .maybeSingle()
+
+  if (!sub) return { success: false, error: 'Contratista no encontrado.' }
+  const subRow = sub as { id: string; name: string; parent_id: string | null; user_id: string | null }
+  if (subRow.parent_id) {
+    return { success: false, error: 'Solo los contratistas raíz (que cobran el cheque) tienen portal.' }
+  }
+  if (subRow.user_id) {
+    return { success: false, error: 'Este contratista ya tiene una cuenta vinculada.' }
+  }
+
+  // Insertar invitación con rol contractor + vínculo al sub.
+  const { data: invite, error: invErr } = await supabase
+    .from('invitations')
+    .insert({
+      organization_id: session.organizationId,
+      email: d.email,
+      role: 'contractor',
+      subcontractor_id: subRow.id,
+      invited_by: session.userId,
+    })
+    .select('token')
+    .single()
+  if (invErr || !invite) {
+    return { success: false, error: invErr?.message ?? 'No se pudo crear la invitación.' }
+  }
+
+  const admin = createAdminClient()
+  const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/en/accept-invite?token=${(invite as { token: string }).token}`
+  const { error: emailErr } = await admin.auth.admin.inviteUserByEmail(d.email, {
+    redirectTo,
+    data: {
+      invitation_token: (invite as { token: string }).token,
+      organization_id: session.organizationId,
+      role: 'contractor',
+      subcontractor_id: subRow.id,
+    },
+  })
+  if (emailErr) {
+    await supabase.from('invitations').delete().eq('token', (invite as { token: string }).token)
+    return { success: false, error: `Error enviando email: ${emailErr.message}` }
+  }
+
   revalidatePath('/(app)/subcontractors', 'page')
   return { success: true }
 }

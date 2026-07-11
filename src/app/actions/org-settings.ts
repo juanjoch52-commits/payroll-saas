@@ -36,6 +36,30 @@ export async function setOrganizationTimezone(
 }
 
 /**
+ * Módulo de contratistas/subcontratistas ON/OFF para esta org (multitenant:
+ * las empresas "normales" con empleados por hora/día/salario lo dejan en OFF
+ * y nunca ven la sección; se auto-activa al crear el primer contratista).
+ */
+export async function setUsesSubcontractors(
+  enabled: boolean,
+): Promise<{ success: boolean; error?: string }> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('organizations')
+    .update({ uses_subcontractors: enabled })
+    .eq('id', session.organizationId)
+  if (error) return { success: false, error: error.message }
+
+  revalidatePath('/(app)/settings/general', 'page')
+  revalidatePath('/(app)', 'layout')
+  return { success: true }
+}
+
+/**
  * Política de descanso no pagado: descontar `minutes` de almuerzo cuando el
  * turno alcanza `thresholdMinutes`. minutes=0 desactiva el descuento.
  * Aplica a clock-outs FUTUROS (no recalcula entries existentes).

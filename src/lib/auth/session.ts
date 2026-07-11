@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/server'
  * llamadas durante el mismo render reusen el resultado.
  */
 
-export type Role = 'owner' | 'admin' | 'manager' | 'employee' | 'viewer'
+export type Role = 'owner' | 'admin' | 'manager' | 'contractor' | 'employee' | 'viewer'
 
 export type ActiveSession = {
   userId: string

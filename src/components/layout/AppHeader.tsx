@@ -11,9 +11,11 @@ import type { ActiveSession } from '@/lib/auth/session'
 export async function AppHeader({
   session,
   locale,
+  hiddenHrefs,
 }: {
   session: ActiveSession
   locale: string
+  hiddenHrefs?: string[]
 }) {
   const t = await getTranslations()
   const supabase = createClient()
@@ -26,7 +28,7 @@ export async function AppHeader({
   return (
     <header className="flex h-16 items-center justify-between border-b bg-card px-6">
       <div className="flex items-center gap-3">
-        <MobileNav locale={locale} role={session.role} />
+        <MobileNav locale={locale} role={session.role} hiddenHrefs={hiddenHrefs} />
         <span className="hidden text-xs uppercase tracking-wide text-muted-foreground sm:inline">
           {t('common.appName')}
         </span>

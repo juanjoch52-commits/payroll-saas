@@ -24,6 +24,10 @@ export default async function AppLayout({
   if (session.role === 'employee') {
     redirect(`/${locale}/clock`)
   }
+  // Los contratistas tienen su propio portal (/(contractor)/*).
+  if (session.role === 'contractor') {
+    redirect(`/${locale}/my-crew`)
+  }
 
   return (
     <AppShell session={session} locale={locale}>

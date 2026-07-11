@@ -21,7 +21,6 @@ export type EmployeeEditDefaults = {
   primary_jurisdiction_code: string
   locality_code: string | null
   subcontractor_id: string | null
-  bill_rate_cents: number | null
   w4_filing_status: string
   w4_dependents: number
   tax_id_last_four: string | null
@@ -33,11 +32,14 @@ export type EmployeeEditDefaults = {
  */
 export function EmployeeEditForm({
   employee,
+  billRateCents = null,
   jurisdictions,
   subcontractors = [],
   locale,
 }: {
   employee: EmployeeEditDefaults
+  /** Facturado a la empresa ($/h) — viene de employee_billing (privada). */
+  billRateCents?: number | null
   jurisdictions: { code: string; name: string }[]
   subcontractors?: { id: string; name: string }[]
   locale: string
@@ -163,7 +165,7 @@ export function EmployeeEditForm({
               type="number"
               step="0.01"
               min={0}
-              defaultValue={employee.bill_rate_cents != null ? employee.bill_rate_cents / 100 : ''}
+              defaultValue={billRateCents != null ? billRateCents / 100 : ''}
             />
             <p className="text-xs text-muted-foreground">{t('employees.billRateHint')}</p>
           </div>
