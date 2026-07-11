@@ -23,6 +23,7 @@ const signUpSchema = z.object({
   industryType: z
     .enum(INDUSTRY_TYPES as unknown as [IndustryType, ...IndustryType[]])
     .default('general'),
+  paysSubcontractors: z.enum(['0', '1']).default('0'),
 })
 
 export type SignUpResult =
@@ -46,6 +47,7 @@ export async function signUp(formData: FormData): Promise<SignUpResult> {
     locale: formData.get('locale') ?? 'en',
     country: formData.get('country') ?? 'US',
     industryType: formData.get('industryType') ?? 'general',
+    paysSubcontractors: formData.get('paysSubcontractors') ?? '0',
   })
 
   if (!parsed.success) {
@@ -53,7 +55,8 @@ export async function signUp(formData: FormData): Promise<SignUpResult> {
     return { success: false, error: issue.message, field: issue.path[0]?.toString() }
   }
 
-  const { email, password, organizationName, locale, country, industryType } = parsed.data
+  const { email, password, organizationName, locale, country, industryType, paysSubcontractors } =
+    parsed.data
   const supabase = createClient()
 
   const { error } = await supabase.auth.signUp({
@@ -66,6 +69,7 @@ export async function signUp(formData: FormData): Promise<SignUpResult> {
         locale,
         country,
         industry_type: industryType,
+        uses_subcontractors: paysSubcontractors === '1' ? 'true' : 'false',
       },
     },
   })

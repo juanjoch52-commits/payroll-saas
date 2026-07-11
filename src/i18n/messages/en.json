@@ -90,7 +90,9 @@
     "orContinueWith": "Or continue with",
     "continueWithGoogle": "Continue with Google",
     "continueWithMicrosoft": "Continue with Microsoft",
-    "agreePrefix": "By signing up you agree to our"
+    "agreePrefix": "By signing up you agree to our",
+    "paysSubs": "I pay contractors or subcontractors",
+    "paysSubsHint": "Turns on consolidated checks, bill rates, HST and the contractor portal. You can change this later in Settings."
   },
   "dashboard": {
     "welcome": "Welcome to MyJova",
@@ -111,8 +113,11 @@
     "actions": {
       "runPayroll": "Run payroll",
       "reviewTime": "Review time",
-      "reports": "Reports"
-    }
+      "reports": "Reports",
+      "guide": "Getting-started guide"
+    },
+    "submittedWeeks": "{count} closed week(s) waiting for your approval",
+    "reviewWeeks": "Review and approve"
   },
   "employees": {
     "title": "Employees",
@@ -252,7 +257,8 @@
     "outDate": "End date",
     "outTime": "End time",
     "fixReason": "What happened? (required)",
-    "sendFix": "Send correction"
+    "sendFix": "Send correction",
+    "helpLink": "How does this work? Read the quick guide"
   },
   "timeTracking": {
     "title": "Time tracking",
@@ -302,9 +308,9 @@
       "changelog": "Changelog"
     },
     "hero": {
-      "badge": "New · Clock in with photo + GPS",
+      "badge": "New · Contractor settlements with margins & HST",
       "headline": "Payroll and time tracking, simplified for field teams",
-      "sub": "Workers clock in from the job site with a photo and GPS. Hours flow into payroll automatically. W-2s and 1099-NECs generate at year end. All in one mobile app.",
+      "sub": "Workers clock in with photo + GPS and close their week to request pay. Hours flow into payroll with taxes done. Paying subcontractors? One consolidated check per contractor, margins and HST included.",
       "primaryCta": "Start free trial",
       "secondaryCta": "See how it works",
       "microcopy": "14-day free trial · No credit card required",
@@ -355,6 +361,18 @@
         "secure": {
           "title": "Secure by design",
           "desc": "Row-level security at the database. Each company's data is fully isolated."
+        },
+        "weeklyClose": {
+          "title": "Close the week, request pay",
+          "desc": "Workers review their week and submit it. You approve everything in one tap and it flows straight into payroll."
+        },
+        "contractors": {
+          "title": "Hierarchical contractors",
+          "desc": "Per-worker bill rates, one consolidated check per top contractor, HST and margins tracked — plus a private contractor portal."
+        },
+        "breaks": {
+          "title": "Smart lunch rules",
+          "desc": "Auto-deduct unpaid lunch only on full shifts. Half days keep their hours, and workers can flag 'no lunch today'."
         }
       }
     },
@@ -1092,6 +1110,102 @@
     "youPayCrew": "You pay your crew",
     "yourMargin": "Your margin",
     "noSettlements": "No settlements yet. They appear when the company approves a payroll that includes your crew.",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "helpLink": "How does my portal work? Read the quick guide"
+  },
+  "guide": {
+    "title": "Getting-started guide",
+    "sub": "How MyJova works for each profile — share it with anyone joining your team.",
+    "askManager": "Questions? Ask your manager or the company admin.",
+    "sections": {
+      "company": "For the company",
+      "worker": "For workers",
+      "contractor": "For contractors"
+    },
+    "company": {
+      "intro": "From zero to your first payroll in seven steps.",
+      "s1": {
+        "t": "Set up your organization",
+        "d": "Settings → General: timezone, unpaid lunch policy (e.g. 30 min once a shift reaches 6 h) and whether you pay contractors."
+      },
+      "s2": {
+        "t": "Create your worksites",
+        "d": "Address + geofence radius. Clock-ins outside the area get flagged for your review."
+      },
+      "s3": {
+        "t": "Add your team",
+        "d": "Employees with their pay scheme (hourly, daily, salary, commission or piece-rate) and invite them by email — or pair a tablet as a PIN kiosk."
+      },
+      "s4": {
+        "t": "They clock, you approve",
+        "d": "Every shift comes with photo + GPS. Review hours in Time tracking and approve entries — or whole weeks when workers close them."
+      },
+      "s5": {
+        "t": "Run payroll",
+        "d": "Pick the period and employees. The engine computes overtime, taxes and net pay; approve and mark it paid."
+      },
+      "s6": {
+        "t": "Pay stubs & tax forms",
+        "d": "Everyone downloads their own stub; W-2 and 1099-NEC generate at year end."
+      },
+      "s7": {
+        "t": "Paying contractors?",
+        "d": "Turn the module on, set per-worker bill rates, and each payroll produces one consolidated check per top contractor with HST and a full breakdown. Invite them to their portal."
+      }
+    },
+    "worker": {
+      "intro": "Everything you do fits in your phone.",
+      "s1": {
+        "t": "Accept your invitation",
+        "d": "You get an email — create your password and sign in from your phone."
+      },
+      "s2": {
+        "t": "Clock in",
+        "d": "One big button: selfie + location. On sites with a tablet, type your PIN at the kiosk."
+      },
+      "s3": {
+        "t": "Clock out when you leave",
+        "d": "If you skipped your lunch break, check 'I did not take my lunch' so your full time is paid."
+      },
+      "s4": {
+        "t": "Forgot to clock?",
+        "d": "Fix a forgotten clock-out right from the clock screen, or report the full shift under 'Hours'. Your manager approves it."
+      },
+      "s5": {
+        "t": "Check your hours",
+        "d": "The 'Hours' tab shows your week day by day with each entry's status."
+      },
+      "s6": {
+        "t": "Close your week & request pay",
+        "d": "When your week is done, tap 'Close week & request pay'. Your manager approves it and it goes into payroll."
+      },
+      "s7": {
+        "t": "Get your pay stub",
+        "d": "Under 'Pay' you'll find every stub with the full detail, ready to download as PDF."
+      }
+    },
+    "contractor": {
+      "intro": "Your portal shows only your crew and your money.",
+      "s1": {
+        "t": "Accept the company invitation",
+        "d": "Your login gets linked to your contractor company."
+      },
+      "s2": {
+        "t": "My crew",
+        "d": "Your workers, what you pay them, what you bill the company and your margin per hour — plus this week’s hours."
+      },
+      "s3": {
+        "t": "Your crew clocks with the company",
+        "d": "You don’t run payroll: the company approves hours and pays. You watch it all from your portal."
+      },
+      "s4": {
+        "t": "My settlements",
+        "d": "For each payroll: billed subtotal, HST, your check total, what you pay your crew and your margin — with a PDF for your books."
+      },
+      "s5": {
+        "t": "Privacy built in",
+        "d": "Your workers only ever see THEIR rate. What you bill the company stays between you and the company."
+      }
+    }
   }
 }

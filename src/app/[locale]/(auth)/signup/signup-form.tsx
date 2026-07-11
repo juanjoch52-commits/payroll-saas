@@ -71,6 +71,16 @@ export function SignUpForm({ locale }: { locale: string }) {
         </select>
       </div>
 
+      {/* Multitenant: activa el módulo de contratistas desde el día uno; las
+          empresas normales (hora/día/salario) lo dejan apagado y no lo ven. */}
+      <label className="flex items-start gap-2 rounded-md border bg-muted/20 p-3 text-sm">
+        <input type="checkbox" name="paysSubcontractors" value="1" className="mt-0.5 h-4 w-4" />
+        <span>
+          {t('auth.paysSubs')}
+          <span className="block text-xs text-muted-foreground">{t('auth.paysSubsHint')}</span>
+        </span>
+      </label>
+
       <div className="space-y-2">
         <Label htmlFor="email">{t('auth.email')}</Label>
         <Input id="email" name="email" type="email" required autoComplete="email" />

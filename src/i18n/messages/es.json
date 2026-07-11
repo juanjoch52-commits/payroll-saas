@@ -90,7 +90,9 @@
     "orContinueWith": "O continúa con",
     "continueWithGoogle": "Continuar con Google",
     "continueWithMicrosoft": "Continuar con Microsoft",
-    "agreePrefix": "Al registrarte aceptas nuestros"
+    "agreePrefix": "Al registrarte aceptas nuestros",
+    "paysSubs": "Pago a contratistas o subcontratistas",
+    "paysSubsHint": "Activa cheques consolidados, tarifas facturadas, HST y el portal del contratista. Puedes cambiarlo después en Configuración."
   },
   "dashboard": {
     "welcome": "Bienvenido a MyJova",
@@ -111,8 +113,11 @@
     "actions": {
       "runPayroll": "Procesar nómina",
       "reviewTime": "Revisar tiempo",
-      "reports": "Reportes"
-    }
+      "reports": "Reportes",
+      "guide": "Guía de inicio"
+    },
+    "submittedWeeks": "{count} semana(s) cerrada(s) esperando tu aprobación",
+    "reviewWeeks": "Revisar y aprobar"
   },
   "employees": {
     "title": "Empleados",
@@ -252,7 +257,8 @@
     "outDate": "Fecha de salida",
     "outTime": "Hora de salida",
     "fixReason": "¿Qué pasó? (obligatorio)",
-    "sendFix": "Enviar corrección"
+    "sendFix": "Enviar corrección",
+    "helpLink": "¿Cómo funciona? Lee la guía rápida"
   },
   "timeTracking": {
     "title": "Asistencia",
@@ -302,9 +308,9 @@
       "changelog": "Cambios"
     },
     "hero": {
-      "badge": "Nuevo · Marcado con foto + GPS",
+      "badge": "Nuevo · Liquidaciones de contratistas con margen y HST",
       "headline": "Nómina y asistencia, simplificadas para tu equipo en campo",
-      "sub": "Tus trabajadores marcan entrada desde el sitio con foto y GPS. Las horas fluyen automáticamente a la nómina. Los W-2 y 1099-NEC se generan al cierre del año. Todo en una sola app móvil.",
+      "sub": "Tu equipo ficha con foto + GPS y cierra su semana para pedir su pago. Las horas entran solas a la nómina con impuestos calculados. ¿Pagas a subcontratistas? Un cheque consolidado por contratista, con margen y HST incluidos.",
       "primaryCta": "Probar gratis",
       "secondaryCta": "Ver cómo funciona",
       "microcopy": "14 días gratis · No necesitas tarjeta",
@@ -355,6 +361,18 @@
         "secure": {
           "title": "Seguro por diseño",
           "desc": "Row-level security a nivel de base de datos. Los datos de cada empresa están totalmente aislados."
+        },
+        "weeklyClose": {
+          "title": "Cierra la semana y pide el pago",
+          "desc": "El trabajador revisa su semana y la envía. Tú apruebas todo de un toque y entra directo a la nómina."
+        },
+        "contractors": {
+          "title": "Contratistas jerárquicos",
+          "desc": "Tarifa facturada por trabajador, un cheque consolidado por contratista raíz, HST y márgenes controlados — con portal privado del contratista."
+        },
+        "breaks": {
+          "title": "Reglas de almuerzo inteligentes",
+          "desc": "Descuenta el almuerzo no pagado solo en turnos completos. El medio día conserva sus horas y el trabajador puede marcar \"hoy no tomé almuerzo\"."
         }
       }
     },
@@ -1092,6 +1110,102 @@
     "youPayCrew": "Pagas a tu equipo",
     "yourMargin": "Tu margen",
     "noSettlements": "Aún no hay liquidaciones. Aparecen cuando la empresa aprueba una nómina que incluye a tu equipo.",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "helpLink": "¿Cómo funciona mi portal? Lee la guía rápida"
+  },
+  "guide": {
+    "title": "Guía de inicio",
+    "sub": "Cómo funciona MyJova para cada perfil — compártela con quien llegue nuevo a tu equipo.",
+    "askManager": "¿Dudas? Pregunta a tu manager o al administrador de la empresa.",
+    "sections": {
+      "company": "Para la empresa",
+      "worker": "Para trabajadores",
+      "contractor": "Para contratistas"
+    },
+    "company": {
+      "intro": "De cero a tu primera nómina en siete pasos.",
+      "s1": {
+        "t": "Configura tu organización",
+        "d": "Configuración → General: timezone, política de almuerzo no pagado (ej. 30 min cuando el turno llega a 6 h) y si pagas a contratistas."
+      },
+      "s2": {
+        "t": "Crea tus sitios de trabajo",
+        "d": "Dirección + radio del geofence. Las fichadas fuera del área quedan marcadas para tu revisión."
+      },
+      "s3": {
+        "t": "Agrega a tu equipo",
+        "d": "Empleados con su esquema de pago (hora, día, salario, comisión o por pieza) e invítalos por email — o empareja una tablet como kiosko con PIN."
+      },
+      "s4": {
+        "t": "Ellos fichan, tú apruebas",
+        "d": "Cada turno llega con foto + GPS. Revisa horas en Control de tiempo y aprueba entradas — o semanas completas cuando el equipo las cierre."
+      },
+      "s5": {
+        "t": "Corre la nómina",
+        "d": "Elige período y empleados. El motor calcula horas extra, impuestos y neto; aprueba y márcala pagada."
+      },
+      "s6": {
+        "t": "Recibos y formularios",
+        "d": "Cada quien descarga su recibo; W-2 y 1099-NEC se generan al cierre del año."
+      },
+      "s7": {
+        "t": "¿Pagas a contratistas?",
+        "d": "Activa el módulo, define tarifas facturadas por trabajador y cada nómina produce un cheque consolidado por contratista raíz con HST y desglose completo. Invítalo a su portal."
+      }
+    },
+    "worker": {
+      "intro": "Todo lo que haces cabe en tu teléfono.",
+      "s1": {
+        "t": "Acepta tu invitación",
+        "d": "Te llega un email — crea tu contraseña y entra desde tu teléfono."
+      },
+      "s2": {
+        "t": "Ficha tu entrada",
+        "d": "Un botón grande: selfie + ubicación. En sitios con tablet, marca tu PIN en el kiosko."
+      },
+      "s3": {
+        "t": "Ficha tu salida al terminar",
+        "d": "Si no tomaste tu almuerzo, marca \"No tomé mi almuerzo\" para que se te pague el tiempo completo."
+      },
+      "s4": {
+        "t": "¿Se te olvidó fichar?",
+        "d": "Corrige una salida olvidada desde la pantalla de fichar, o reporta el turno completo en \"Horas\". Tu manager lo aprueba."
+      },
+      "s5": {
+        "t": "Revisa tus horas",
+        "d": "La pestaña \"Horas\" muestra tu semana día por día con el estado de cada registro."
+      },
+      "s6": {
+        "t": "Cierra tu semana y pide tu pago",
+        "d": "Al terminar tu semana, toca \"Cerrar semana y pedir mi pago\". Tu manager la aprueba y entra a la nómina."
+      },
+      "s7": {
+        "t": "Recibe tu recibo de pago",
+        "d": "En \"Pagos\" encuentras cada recibo con el detalle completo, listo para descargar en PDF."
+      }
+    },
+    "contractor": {
+      "intro": "Tu portal muestra solo tu equipo y tu dinero.",
+      "s1": {
+        "t": "Acepta la invitación de la empresa",
+        "d": "Tu cuenta queda vinculada a tu compañía contratista."
+      },
+      "s2": {
+        "t": "Mi equipo",
+        "d": "Tus trabajadores, lo que les pagas, lo que facturas a la empresa y tu margen por hora — más las horas de la semana en curso."
+      },
+      "s3": {
+        "t": "Tu equipo ficha con la empresa",
+        "d": "Tú no corres la nómina: la empresa aprueba horas y paga. Tú lo ves todo desde tu portal."
+      },
+      "s4": {
+        "t": "Mis liquidaciones",
+        "d": "Por cada nómina: subtotal facturado, HST, el total de tu cheque, lo que pagas a tu gente y tu margen — con PDF para tu contabilidad."
+      },
+      "s5": {
+        "t": "Privacidad de fábrica",
+        "d": "Tus trabajadores solo ven SU tarifa. Lo que tú facturas a la empresa queda entre tú y la empresa."
+      }
+    }
   }
 }

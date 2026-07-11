@@ -189,6 +189,16 @@ export default async function MyCrewPage({
       {crew.length === 0 && (
         <p className="py-12 text-center text-muted-foreground">{t('contractor.noCrew')}</p>
       )}
+
+      {/* Guía de inducción del contratista */}
+      <p className="text-center">
+        <a
+          href={`/${locale}/my-guide`}
+          className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          {t('contractor.helpLink')}
+        </a>
+      </p>
     </div>
   )
 }

@@ -90,7 +90,9 @@
     "orContinueWith": "Ou continuer avec",
     "continueWithGoogle": "Continuer avec Google",
     "continueWithMicrosoft": "Continuer avec Microsoft",
-    "agreePrefix": "En vous inscrivant, vous acceptez nos"
+    "agreePrefix": "En vous inscrivant, vous acceptez nos",
+    "paysSubs": "Je paie des entrepreneurs ou sous-traitants",
+    "paysSubsHint": "Active les chèques consolidés, les taux facturés, la HST et le portail entrepreneur. Modifiable plus tard dans les réglages."
   },
   "dashboard": {
     "welcome": "Bienvenue sur MyJova",
@@ -111,8 +113,11 @@
     "actions": {
       "runPayroll": "Lancer la paie",
       "reviewTime": "Réviser le temps",
-      "reports": "Rapports"
-    }
+      "reports": "Rapports",
+      "guide": "Guide de démarrage"
+    },
+    "submittedWeeks": "{count} semaine(s) clôturée(s) en attente de votre approbation",
+    "reviewWeeks": "Vérifier et approuver"
   },
   "employees": {
     "title": "Employés",
@@ -252,7 +257,8 @@
     "outDate": "Date de sortie",
     "outTime": "Heure de sortie",
     "fixReason": "Que s’est-il passé ? (obligatoire)",
-    "sendFix": "Envoyer la correction"
+    "sendFix": "Envoyer la correction",
+    "helpLink": "Comment ça marche ? Lisez le guide rapide"
   },
   "timeTracking": {
     "title": "Suivi du temps",
@@ -302,9 +308,9 @@
       "changelog": "Changements"
     },
     "hero": {
-      "badge": "Nouveau · Pointage avec photo + GPS",
+      "badge": "Nouveau · Règlements des entrepreneurs avec marge et HST",
       "headline": "Paie et suivi du temps, simplifiés pour les équipes sur le terrain",
-      "sub": "Les employés pointent depuis le chantier avec photo et GPS. Les heures alimentent automatiquement la paie. W-2 et 1099-NEC générés en fin d'année. Tout dans une seule application mobile.",
+      "sub": "Votre équipe pointe avec photo + GPS et clôture sa semaine pour demander sa paie. Les heures entrent seules dans la paie, impôts calculés. Vous payez des sous-traitants ? Un chèque consolidé par entrepreneur, marge et HST incluses.",
       "primaryCta": "Essai gratuit",
       "secondaryCta": "Voir comment ça marche",
       "microcopy": "Essai gratuit de 14 jours · Sans carte de crédit",
@@ -355,6 +361,18 @@
         "secure": {
           "title": "Sécurisé par conception",
           "desc": "Sécurité au niveau des lignes dans la base de données. Les données de chaque entreprise sont totalement isolées."
+        },
+        "weeklyClose": {
+          "title": "Clôturer la semaine, demander la paie",
+          "desc": "Le travailleur vérifie sa semaine et l’envoie. Vous approuvez tout en un geste et ça entre directement dans la paie."
+        },
+        "contractors": {
+          "title": "Entrepreneurs hiérarchiques",
+          "desc": "Taux facturé par travailleur, un chèque consolidé par entrepreneur racine, HST et marges suivies — avec un portail privé pour l’entrepreneur."
+        },
+        "breaks": {
+          "title": "Règles de pause repas intelligentes",
+          "desc": "Déduit la pause non payée seulement sur les quarts complets. La demi-journée garde ses heures et le travailleur peut signaler « pas de pause aujourd’hui »."
         }
       }
     },
@@ -1092,6 +1110,102 @@
     "youPayCrew": "Vous payez votre équipe",
     "yourMargin": "Votre marge",
     "noSettlements": "Aucun règlement pour le moment. Ils apparaissent quand l’entreprise approuve une paie incluant votre équipe.",
-    "pdf": "PDF"
+    "pdf": "PDF",
+    "helpLink": "Comment fonctionne mon portail ? Lisez le guide rapide"
+  },
+  "guide": {
+    "title": "Guide de démarrage",
+    "sub": "Comment MyJova fonctionne pour chaque profil — partagez-le avec chaque nouvel arrivant.",
+    "askManager": "Des questions ? Demandez à votre gestionnaire ou à l’administrateur.",
+    "sections": {
+      "company": "Pour l’entreprise",
+      "worker": "Pour les travailleurs",
+      "contractor": "Pour les entrepreneurs"
+    },
+    "company": {
+      "intro": "De zéro à votre première paie en sept étapes.",
+      "s1": {
+        "t": "Configurez votre organisation",
+        "d": "Réglages → Général : fuseau horaire, pause repas non payée (ex. 30 min dès 6 h de quart) et si vous payez des entrepreneurs."
+      },
+      "s2": {
+        "t": "Créez vos sites de travail",
+        "d": "Adresse + rayon du géorepérage. Les pointages hors zone sont signalés pour vérification."
+      },
+      "s3": {
+        "t": "Ajoutez votre équipe",
+        "d": "Employés avec leur mode de paie (heure, jour, salaire, commission ou à la pièce), invités par courriel — ou associez une tablette comme kiosque à NIP."
+      },
+      "s4": {
+        "t": "Ils pointent, vous approuvez",
+        "d": "Chaque quart arrive avec photo + GPS. Vérifiez les heures et approuvez les entrées — ou des semaines entières quand l’équipe les clôture."
+      },
+      "s5": {
+        "t": "Lancez la paie",
+        "d": "Choisissez la période et les employés. Le moteur calcule heures supplémentaires, impôts et net ; approuvez et marquez payé."
+      },
+      "s6": {
+        "t": "Bulletins et formulaires",
+        "d": "Chacun télécharge son bulletin ; W-2 et 1099-NEC générés en fin d’année."
+      },
+      "s7": {
+        "t": "Vous payez des entrepreneurs ?",
+        "d": "Activez le module, définissez les taux facturés par travailleur : chaque paie produit un chèque consolidé par entrepreneur racine avec HST et détail complet. Invitez-le à son portail."
+      }
+    },
+    "worker": {
+      "intro": "Tout ce que vous faites tient dans votre téléphone.",
+      "s1": {
+        "t": "Acceptez votre invitation",
+        "d": "Vous recevez un courriel — créez votre mot de passe et connectez-vous depuis votre téléphone."
+      },
+      "s2": {
+        "t": "Pointez votre entrée",
+        "d": "Un grand bouton : selfie + position. Sur les sites avec tablette, tapez votre NIP au kiosque."
+      },
+      "s3": {
+        "t": "Pointez votre sortie",
+        "d": "Si vous n’avez pas pris votre pause repas, cochez la case pour être payé au complet."
+      },
+      "s4": {
+        "t": "Oubli de pointage ?",
+        "d": "Corrigez une sortie oubliée depuis l’écran de pointage, ou déclarez le quart complet dans « Heures ». Votre gestionnaire approuve."
+      },
+      "s5": {
+        "t": "Vérifiez vos heures",
+        "d": "L’onglet « Heures » montre votre semaine jour par jour avec le statut de chaque entrée."
+      },
+      "s6": {
+        "t": "Clôturez votre semaine et demandez votre paie",
+        "d": "Semaine terminée ? Touchez « Clôturer la semaine ». Votre gestionnaire l’approuve et elle entre dans la paie."
+      },
+      "s7": {
+        "t": "Recevez votre bulletin",
+        "d": "Dans « Paie », chaque bulletin avec le détail complet, téléchargeable en PDF."
+      }
+    },
+    "contractor": {
+      "intro": "Votre portail montre seulement votre équipe et votre argent.",
+      "s1": {
+        "t": "Acceptez l’invitation de l’entreprise",
+        "d": "Votre compte est lié à votre entreprise d’entrepreneur."
+      },
+      "s2": {
+        "t": "Mon équipe",
+        "d": "Vos travailleurs, ce que vous les payez, ce que vous facturez à l’entreprise et votre marge horaire — plus les heures de la semaine."
+      },
+      "s3": {
+        "t": "Votre équipe pointe avec l’entreprise",
+        "d": "Vous ne gérez pas la paie : l’entreprise approuve les heures et paie. Vous suivez tout depuis votre portail."
+      },
+      "s4": {
+        "t": "Mes règlements",
+        "d": "Pour chaque paie : sous-total facturé, HST, le total de votre chèque, ce que vous payez à votre équipe et votre marge — avec PDF pour votre comptabilité."
+      },
+      "s5": {
+        "t": "Confidentialité intégrée",
+        "d": "Vos travailleurs ne voient que LEUR taux. Ce que vous facturez à l’entreprise reste entre vous et l’entreprise."
+      }
+    }
   }
 }

@@ -131,6 +131,13 @@ export default async function EmployeeClockPage({
           </Card>
         </Link>
       )}
+
+      {/* Guía de inducción del trabajador */}
+      <p className="text-center">
+        <Link href={`/${locale}/help`} className="text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+          {t('clock.helpLink')}
+        </Link>
+      </p>
     </div>
   )
 }

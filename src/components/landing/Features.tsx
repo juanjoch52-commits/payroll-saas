@@ -8,6 +8,9 @@ import {
   LayoutDashboard,
   Smartphone,
   Shield,
+  Network,
+  CalendarCheck2,
+  Utensils,
   type LucideIcon,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -17,7 +20,10 @@ import { SectionReveal } from './SectionReveal'
 
 const FEATURES: { key: string; icon: LucideIcon; accent: string }[] = [
   { key: 'clockIn', icon: Camera, accent: 'from-blue-500/20 to-blue-500/5 text-blue-600 dark:text-blue-400' },
+  { key: 'weeklyClose', icon: CalendarCheck2, accent: 'from-sky-500/20 to-sky-500/5 text-sky-600 dark:text-sky-400' },
+  { key: 'contractors', icon: Network, accent: 'from-orange-500/20 to-orange-500/5 text-orange-600 dark:text-orange-400' },
   { key: 'paySchemes', icon: Calculator, accent: 'from-emerald-500/20 to-emerald-500/5 text-emerald-600 dark:text-emerald-400' },
+  { key: 'breaks', icon: Utensils, accent: 'from-lime-500/20 to-lime-500/5 text-lime-600 dark:text-lime-400' },
   { key: 'taxForms', icon: FileText, accent: 'from-purple-500/20 to-purple-500/5 text-purple-600 dark:text-purple-400' },
   { key: 'dashboard', icon: LayoutDashboard, accent: 'from-amber-500/20 to-amber-500/5 text-amber-600 dark:text-amber-400' },
   { key: 'mobile', icon: Smartphone, accent: 'from-rose-500/20 to-rose-500/5 text-rose-600 dark:text-rose-400' },

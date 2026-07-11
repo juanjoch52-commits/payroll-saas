@@ -1,10 +1,22 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { AlertTriangle, Clock, Users, Timer, Plus, Calculator, ClipboardCheck, FileText } from 'lucide-react'
+import {
+  AlertTriangle,
+  Clock,
+  Users,
+  Timer,
+  Plus,
+  Calculator,
+  ClipboardCheck,
+  FileText,
+  CalendarCheck2,
+  BookOpen,
+} from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { PageHeader } from '@/components/ui/page-header'
 import { StatCard } from '@/components/ui/stat-card'
+import { Callout } from '@/components/ui/callout'
 import { LiveMap, type MapPoint, type MapGeofence } from '@/components/admin/LiveMap'
 import { canSee, type Role } from '@/components/layout/nav-config'
 import { Onboarding } from '@/components/onboarding/Onboarding'
@@ -56,6 +68,13 @@ export default async function DashboardPage({
     .select('id', { count: 'exact', head: true })
     .eq('organization_id', session.organizationId)
     .eq('status', 'pending')
+
+  // 3b) Semanas cerradas por los empleados esperando aprobación (pedidos de pago)
+  const { count: submittedWeeks } = await supabase
+    .from('timesheet_submissions')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', session.organizationId)
+    .eq('status', 'submitted')
 
   // 4) Hours today (entries con clock_in_at de hoy, sumando billable_minutes
   //    si están cerradas, o tiempo abierto en curso)
@@ -143,6 +162,7 @@ export default async function DashboardPage({
   if (canSee('admin', role)) {
     quickActions.push({ href: `/${locale}/reports`, label: t('dashboard.actions.reports'), icon: FileText })
   }
+  quickActions.push({ href: `/${locale}/guide`, label: t('dashboard.actions.guide'), icon: BookOpen })
 
   // Onboarding: checklist de primeros pasos (progreso real) + tour guiado.
   const showOnboarding = canSee('manager', role)
@@ -164,6 +184,15 @@ export default async function DashboardPage({
       <PageHeader title={t('dashboard.welcome')} description={t('dashboard.summary')} />
 
       {showChecklist && <OnboardingChecklist steps={checklistSteps} />}
+
+      {/* Semanas cerradas por el equipo: pedidos de pago esperando revisión */}
+      {(submittedWeeks ?? 0) > 0 && canSee('manager', role) && (
+        <Callout variant="info" icon={CalendarCheck2} title={t('dashboard.submittedWeeks', { count: submittedWeeks ?? 0 })}>
+          <Link href={`/${locale}/time-tracking`} className="font-medium text-primary hover:underline">
+            {t('dashboard.reviewWeeks')} →
+          </Link>
+        </Callout>
+      )}
 
       {/* Acciones rápidas */}
       {quickActions.length > 0 && (
