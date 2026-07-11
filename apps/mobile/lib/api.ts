@@ -25,6 +25,8 @@ export type ClockBody = {
   accuracy?: number
   worksiteId?: string
   photoBase64?: string
+  /** Clock out: "no tomé mi almuerzo" — no se descuenta el break automático. */
+  skipBreak?: boolean
 }
 
 export async function clockIn(body: ClockBody) {
@@ -68,4 +70,73 @@ export async function paystubPdfRequest(id: string, locale: string) {
     url: `${API}/api/v1/paystubs/${id}/pdf?locale=${locale}`,
     token: await getToken(),
   }
+}
+
+// -----------------------------------------------------------------------------
+// Timesheets semanales (cerrar semana / pedir pago) + correcciones
+// -----------------------------------------------------------------------------
+
+export type WeekEntryApi = {
+  id: string
+  clock_in_at: string
+  clock_out_at: string | null
+  billable_minutes: number | null
+  break_minutes: number | null
+  break_waived: boolean
+  manual_kind: 'full' | 'clock_out' | null
+  status: 'open' | 'pending' | 'approved' | 'rejected' | 'edited'
+  clock_in_outside_geofence: boolean
+}
+
+export type WeekView = {
+  weekStart: string
+  weekEnd: string
+  timezone: string
+  today: string
+  prevWeek: string
+  nextWeek: string | null
+  totals: { total: number; approved: number; pending: number; rejected: number }
+  hasOpenEntry: boolean
+  days: { day: string; minutes: number; entries: WeekEntryApi[] }[]
+  submission: {
+    status: 'submitted' | 'approved' | 'rejected'
+    submitted_at: string
+    review_note: string | null
+  } | null
+  canSubmit: boolean
+  blockReason: 'future_week' | 'open_entry' | 'no_hours' | 'already_submitted' | 'already_approved' | null
+  breakPolicy: { autoDeductMinutes: number; thresholdMinutes: number } | null
+}
+
+export async function getWeek(week?: string): Promise<WeekView | null> {
+  const res = await authedFetch(`/time/week${week ? `?week=${week}` : ''}`)
+  const json = await res.json().catch(() => ({}))
+  return json.data ?? null
+}
+
+export async function submitWeek(body: { weekStart: string; note?: string }) {
+  const res = await authedFetch('/time/submit-week', { method: 'POST', body: JSON.stringify(body) })
+  return res.json()
+}
+
+export async function addManualEntry(body: {
+  date: string
+  timeIn: string
+  timeOut: string
+  noBreak?: boolean
+  reason: string
+}) {
+  const res = await authedFetch('/time/manual-entry', { method: 'POST', body: JSON.stringify(body) })
+  return res.json()
+}
+
+export async function fixClockOut(body: {
+  entryId: string
+  date: string
+  time: string
+  noBreak?: boolean
+  reason: string
+}) {
+  const res = await authedFetch('/time/fix-clock-out', { method: 'POST', body: JSON.stringify(body) })
+  return res.json()
 }

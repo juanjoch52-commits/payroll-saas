@@ -2,15 +2,12 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createAdminClient } from '@/lib/supabase/server'
 import { authenticateUserRequest } from '@/lib/api/user-auth'
-import { performClockOut } from '@/lib/time/clock'
+import { submitWeekCore } from '@/lib/timesheets/core'
 
-// POST /api/v1/time/clock-out  (app móvil — Bearer JWT del empleado)
+// POST /api/v1/time/submit-week  (app móvil — cerrar semana y pedir pago)
 const schema = z.object({
-  lat: z.number().optional(),
-  lng: z.number().optional(),
-  accuracy: z.number().optional(),
-  photoBase64: z.string().optional(),
-  skipBreak: z.boolean().optional(),
+  weekStart: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  note: z.string().max(500).optional(),
 })
 
 export async function POST(req: Request) {
@@ -22,16 +19,12 @@ export async function POST(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 })
 
   const admin = createAdminClient()
-  const res = await performClockOut(admin, {
-    organizationId: auth.organizationId,
-    employeeId: auth.employeeId,
-    userId: auth.userId,
-    lat: parsed.data.lat,
-    lng: parsed.data.lng,
-    accuracy: parsed.data.accuracy,
-    photoBuffer: parsed.data.photoBase64 ? Buffer.from(parsed.data.photoBase64, 'base64') : null,
-    skipBreak: parsed.data.skipBreak,
-  })
+  const res = await submitWeekCore(
+    admin,
+    { employeeId: auth.employeeId, organizationId: auth.organizationId, userId: auth.userId },
+    parsed.data.weekStart,
+    parsed.data.note,
+  )
   if (!res.ok) return NextResponse.json({ error: res.error }, { status: 400 })
-  return NextResponse.json({ data: res })
+  return NextResponse.json({ data: { ok: true } })
 }

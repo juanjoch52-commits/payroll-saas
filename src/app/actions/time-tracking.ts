@@ -2,12 +2,16 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { isWithinGeofence } from '@/lib/geo'
-import { applyAutoBreak, breakPolicyActive, type BreakPolicy } from '@/lib/time/breaks'
-import { localTimeToUtc, todayInTz } from '@/lib/time/tz'
-import { addDays, mondayOfKey, formatMinutes } from '@/lib/timesheets/week'
+import { applyAutoBreak, breakPolicyActive } from '@/lib/time/breaks'
+import {
+  fetchBreakPolicy,
+  addManualEntryCore,
+  fixClockOutCore,
+  type EmployeeCtx,
+} from '@/lib/timesheets/core'
 
 // =============================================================================
 // Server Actions — Time tracking (clock in/out)
@@ -174,27 +178,6 @@ const clockOutSchema = z.object({
   notes: z.string().max(500).optional().or(z.literal('')),
   skipBreak: z.enum(['0', '1']).optional(),
 })
-
-/** Política de descanso de la org (null si la fila no existe). */
-async function fetchBreakPolicy(
-  db: ReturnType<typeof createClient> | ReturnType<typeof createAdminClient>,
-  orgId: string,
-): Promise<BreakPolicy | null> {
-  const { data } = await db
-    .from('organizations')
-    .select('break_auto_deduct_minutes, break_auto_deduct_threshold_minutes')
-    .eq('id', orgId)
-    .maybeSingle()
-  const row = data as {
-    break_auto_deduct_minutes?: number
-    break_auto_deduct_threshold_minutes?: number
-  } | null
-  if (!row) return null
-  return {
-    autoDeductMinutes: row.break_auto_deduct_minutes ?? 0,
-    thresholdMinutes: row.break_auto_deduct_threshold_minutes ?? 0,
-  }
-}
 
 export type ClockOutResult =
   | { success: true; entryId: string; durationMinutes: number }
@@ -447,54 +430,33 @@ export async function getTimePhotoUrl(path: string): Promise<string | null> {
 // =============================================================================
 // Ambas quedan 'pending' con manual_kind + motivo → el manager las ve
 // flageadas "Manual" en el panel y las aprueba/rechaza como cualquier entry.
+// La lógica vive en lib/timesheets/core.ts (compartida con /api/v1 móvil).
 // =============================================================================
 
-/** Managers/admins/owner de la org (para avisos best-effort). */
-async function notifyManagers(
-  organizationId: string,
-  excludeUserId: string,
-  title: string,
-  body: string,
-  dedupePrefix: string,
-) {
-  try {
-    const admin = createAdminClient()
-    const { data: managers } = await admin
-      .from('memberships')
-      .select('user_id')
-      .eq('organization_id', organizationId)
-      .in('role', ['owner', 'admin', 'manager'])
-    const { dispatch } = await import('@/lib/notifications/dispatch')
-    for (const m of (managers ?? []) as { user_id: string }[]) {
-      if (m.user_id === excludeUserId) continue
-      await dispatch({
-        userId: m.user_id,
-        organizationId,
-        type: 'time_entry_pending',
-        title,
-        body,
-        dedupeKey: `${dedupePrefix}-${m.user_id}`,
-      }).catch(() => {})
-    }
-  } catch {
-    /* no crítico */
-  }
-}
-
-/** La semana local de `dayKey` ¿ya fue cerrada (submitted/approved)? */
-async function weekIsClosed(
-  supabase: ReturnType<typeof createClient>,
-  employeeId: string,
-  dayKey: string,
-): Promise<boolean> {
-  const { data } = await supabase
-    .from('timesheet_submissions')
-    .select('status')
-    .eq('employee_id', employeeId)
-    .eq('week_start', mondayOfKey(dayKey))
+/** Resuelve el employee activo de la sesión web para pasarlo al core. */
+async function currentEmployeeCtx(): Promise<
+  { ok: true; ctx: EmployeeCtx } | { ok: false; error: string }
+> {
+  const session = await requireSession('/en/login')
+  const supabase = createClient()
+  const { data: employee } = await supabase
+    .from('employees')
+    .select('id, status')
+    .eq('user_id', session.userId)
+    .eq('organization_id', session.organizationId)
     .maybeSingle()
-  const status = (data as { status?: string } | null)?.status
-  return status === 'submitted' || status === 'approved'
+  if (!employee) return { ok: false, error: 'No estás registrado como empleado.' }
+  if ((employee as { status: string }).status !== 'active') {
+    return { ok: false, error: 'Tu cuenta no está activa.' }
+  }
+  return {
+    ok: true,
+    ctx: {
+      employeeId: (employee as { id: string }).id,
+      organizationId: session.organizationId,
+      userId: session.userId,
+    },
+  }
 }
 
 const manualEntrySchema = z.object({
@@ -517,87 +479,12 @@ export async function addManualEntry(
 ): Promise<ManualEntryResult> {
   const parsed = manualEntrySchema.safeParse(input)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
-  const d = parsed.data
 
-  const session = await requireSession('/en/login')
-  const supabase = createClient()
+  const emp = await currentEmployeeCtx()
+  if (!emp.ok) return { success: false, error: emp.error }
 
-  const { data: employee } = await supabase
-    .from('employees')
-    .select('id, first_name, last_name, organization_id, status')
-    .eq('user_id', session.userId)
-    .eq('organization_id', session.organizationId)
-    .maybeSingle()
-  if (!employee) return { success: false, error: 'No estás registrado como empleado.' }
-  if (employee.status !== 'active') return { success: false, error: 'Tu cuenta no está activa.' }
-
-  const { data: org } = await supabase
-    .from('organizations')
-    .select('timezone')
-    .eq('id', session.organizationId)
-    .maybeSingle()
-  const tz = (org as { timezone?: string } | null)?.timezone || 'America/New_York'
-
-  const todayKey = todayInTz(tz)
-  if (d.date > todayKey) return { success: false, error: 'No puedes reportar horas futuras.' }
-  if (d.date < addDays(todayKey, -30)) {
-    return { success: false, error: 'Solo puedes reportar hasta 30 días atrás. Habla con tu manager.' }
-  }
-  if (await weekIsClosed(supabase, employee.id, d.date)) {
-    return { success: false, error: 'Esa semana ya fue cerrada. Pide a tu manager que la ajuste.' }
-  }
-
-  const clockInAt = localTimeToUtc(d.date, d.timeIn, tz)
-  const clockOutAt = localTimeToUtc(d.date, d.timeOut, tz)
-  const durationMinutes = Math.round((Date.parse(clockOutAt) - Date.parse(clockInAt)) / 60_000)
-  if (durationMinutes <= 0) return { success: false, error: 'La salida debe ser posterior a la entrada.' }
-  if (durationMinutes > 16 * 60) {
-    return { success: false, error: 'Un turno no puede durar más de 16 horas. Habla con tu manager.' }
-  }
-
-  // Sin solaparse con entries existentes (incluye turnos abiertos).
-  const { data: overlap } = await supabase
-    .from('time_entries')
-    .select('id')
-    .eq('employee_id', employee.id)
-    .lt('clock_in_at', clockOutAt)
-    .or(`clock_out_at.gt.${clockInAt},clock_out_at.is.null`)
-    .limit(1)
-  if (overlap && overlap.length > 0) {
-    return { success: false, error: 'Ese horario se solapa con otro registro tuyo.' }
-  }
-
-  const policy = await fetchBreakPolicy(supabase, session.organizationId)
-  const waived = !!d.noBreak && breakPolicyActive(policy)
-  const { breakMinutes, billableMinutes } = applyAutoBreak(durationMinutes, policy, waived)
-
-  const { data: entry, error } = await supabase
-    .from('time_entries')
-    .insert({
-      organization_id: session.organizationId,
-      employee_id: employee.id,
-      user_id: session.userId,
-      clock_in_at: clockInAt,
-      clock_out_at: clockOutAt,
-      duration_minutes: durationMinutes,
-      break_minutes: breakMinutes,
-      billable_minutes: billableMinutes,
-      break_waived: waived,
-      status: 'pending',
-      manual_kind: 'full',
-      manual_reason: d.reason,
-    })
-    .select('id')
-    .single()
-  if (error || !entry) return { success: false, error: error?.message ?? 'No se pudo crear el registro.' }
-
-  await notifyManagers(
-    session.organizationId,
-    session.userId,
-    'Horas manuales por aprobar',
-    `${employee.first_name} ${employee.last_name} reportó ${d.date} ${d.timeIn}–${d.timeOut} (${formatMinutes(billableMinutes)}): ${d.reason}`,
-    `manual-${(entry as { id: string }).id}`,
-  )
+  const res = await addManualEntryCore(createClient(), emp.ctx, parsed.data)
+  if (!res.ok) return { success: false, error: res.error }
 
   revalidatePath('/(employee)', 'layout')
   revalidatePath('/(app)/time-tracking', 'page')
@@ -621,72 +508,12 @@ export async function fixForgottenClockOut(
 ): Promise<ManualEntryResult> {
   const parsed = fixClockOutSchema.safeParse(input)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
-  const d = parsed.data
 
-  const session = await requireSession('/en/login')
-  const supabase = createClient()
+  const emp = await currentEmployeeCtx()
+  if (!emp.ok) return { success: false, error: emp.error }
 
-  const { data: employee } = await supabase
-    .from('employees')
-    .select('id, first_name, last_name, organization_id')
-    .eq('user_id', session.userId)
-    .eq('organization_id', session.organizationId)
-    .maybeSingle()
-  if (!employee) return { success: false, error: 'No estás registrado como empleado.' }
-
-  const { data: open } = await supabase
-    .from('time_entries')
-    .select('id, clock_in_at')
-    .eq('id', d.entryId)
-    .eq('employee_id', employee.id)
-    .is('clock_out_at', null)
-    .maybeSingle()
-  if (!open) return { success: false, error: 'No se encontró tu turno abierto.' }
-
-  const { data: org } = await supabase
-    .from('organizations')
-    .select('timezone')
-    .eq('id', session.organizationId)
-    .maybeSingle()
-  const tz = (org as { timezone?: string } | null)?.timezone || 'America/New_York'
-
-  const clockOutAt = localTimeToUtc(d.date, d.time, tz)
-  const clockInMs = Date.parse((open as { clock_in_at: string }).clock_in_at)
-  const durationMinutes = Math.round((Date.parse(clockOutAt) - clockInMs) / 60_000)
-  if (durationMinutes <= 0) return { success: false, error: 'La salida debe ser posterior a la entrada.' }
-  if (Date.parse(clockOutAt) > Date.now()) {
-    return { success: false, error: 'La salida no puede estar en el futuro.' }
-  }
-  if (durationMinutes > 16 * 60) {
-    return { success: false, error: 'Un turno no puede durar más de 16 horas. Habla con tu manager.' }
-  }
-
-  const policy = await fetchBreakPolicy(supabase, session.organizationId)
-  const waived = !!d.noBreak && breakPolicyActive(policy)
-  const { breakMinutes, billableMinutes } = applyAutoBreak(durationMinutes, policy, waived)
-
-  const { error } = await supabase
-    .from('time_entries')
-    .update({
-      clock_out_at: clockOutAt,
-      duration_minutes: durationMinutes,
-      break_minutes: breakMinutes,
-      billable_minutes: billableMinutes,
-      break_waived: waived,
-      status: 'pending',
-      manual_kind: 'clock_out',
-      manual_reason: d.reason,
-    })
-    .eq('id', d.entryId)
-  if (error) return { success: false, error: error.message }
-
-  await notifyManagers(
-    session.organizationId,
-    session.userId,
-    'Salida corregida por aprobar',
-    `${employee.first_name} ${employee.last_name} corrigió su salida olvidada: ${d.date} ${d.time} (${formatMinutes(billableMinutes)}): ${d.reason}`,
-    `fixout-${d.entryId}-${clockOutAt}`,
-  )
+  const res = await fixClockOutCore(createClient(), emp.ctx, parsed.data)
+  if (!res.ok) return { success: false, error: res.error }
 
   revalidatePath('/(employee)', 'layout')
   revalidatePath('/(app)/time-tracking', 'page')

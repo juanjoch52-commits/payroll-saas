@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import {
   View,
   Text,
@@ -7,32 +7,68 @@ import {
   Modal,
   ActivityIndicator,
   Alert,
+  Switch,
+  TextInput,
+  ScrollView,
 } from 'react-native'
 import { CameraView, useCameraPermissions } from 'expo-camera'
 import * as Location from 'expo-location'
-import { getEntries, clockIn, clockOut, type ClockBody } from '../../lib/api'
+import {
+  getEntries,
+  clockIn,
+  clockOut,
+  getWeek,
+  fixClockOut,
+  type ClockBody,
+  type WeekView,
+} from '../../lib/api'
 import { t } from '../../lib/i18n'
 import { colors } from '../../lib/theme'
 
 type Entry = { id: string; clock_in_at: string; clock_out_at: string | null }
 
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
+const TIME_RE = /^\d{2}:\d{2}$/
+const STALE_MS = 10 * 3_600_000 // turno abierto >10h → probablemente olvidó salir
+
+function fmtMin(min: number): string {
+  const safe = Math.max(0, Math.round(min))
+  return `${Math.floor(safe / 60)}h ${String(safe % 60).padStart(2, '0')}m`
+}
+
 export default function ClockScreen() {
   const [open, setOpen] = useState<Entry | null>(null)
+  const [week, setWeek] = useState<WeekView | null>(null)
   const [loading, setLoading] = useState(true)
   const [busy, setBusy] = useState(false)
   const [camVisible, setCamVisible] = useState(false)
+  const [noBreak, setNoBreak] = useState(false)
   const [permission, requestPermission] = useCameraPermissions()
   const camRef = useRef<CameraView>(null)
 
-  async function load() {
+  // Form de "olvidé la salida"
+  const [fixDate, setFixDate] = useState('')
+  const [fixTime, setFixTime] = useState('17:00')
+  const [fixReason, setFixReason] = useState('')
+
+  const load = useCallback(async () => {
     setLoading(true)
-    const entries: Entry[] = await getEntries()
-    setOpen(entries.find((e) => !e.clock_out_at) ?? null)
+    const [entries, view] = await Promise.all([getEntries() as Promise<Entry[]>, getWeek()])
+    const openEntry = entries.find((e) => !e.clock_out_at) ?? null
+    setOpen(openEntry)
+    setWeek(view)
+    if (openEntry && view) {
+      // Default razonable para la corrección: el día local del clock-in.
+      setFixDate(
+        new Date(openEntry.clock_in_at).toLocaleDateString('en-CA', { timeZone: view.timezone }),
+      )
+    }
     setLoading(false)
-  }
+  }, [])
+
   useEffect(() => {
     load()
-  }, [])
+  }, [load])
 
   async function startCapture() {
     if (!permission?.granted) {
@@ -58,6 +94,7 @@ export default function ClockScreen() {
     setCamVisible(false)
 
     const body: ClockBody = { photoBase64 }
+    if (open && noBreak) body.skipBreak = true
     try {
       const { status } = await Location.requestForegroundPermissionsAsync()
       if (status === 'granted') {
@@ -77,8 +114,33 @@ export default function ClockScreen() {
     } else {
       Alert.alert(open ? t('clock.clockedOut') : t('clock.clockedIn'))
       if (res?.data?.outsideGeofence) Alert.alert(t('clock.outside'))
+      setNoBreak(false)
     }
     load()
+  }
+
+  async function handleFix() {
+    if (!open) return
+    if (!DATE_RE.test(fixDate) || !TIME_RE.test(fixTime)) {
+      Alert.alert(t('history.badFormat'))
+      return
+    }
+    setBusy(true)
+    const res = await fixClockOut({
+      entryId: open.id,
+      date: fixDate,
+      time: fixTime,
+      noBreak,
+      reason: fixReason,
+    })
+    setBusy(false)
+    if (res?.error) Alert.alert(res.error)
+    else {
+      Alert.alert(t('clock.fixSent'))
+      setFixReason('')
+      setNoBreak(false)
+      load()
+    }
   }
 
   if (loading) {
@@ -89,18 +151,72 @@ export default function ClockScreen() {
     )
   }
 
+  const breakMinutes = week?.breakPolicy?.autoDeductMinutes ?? 0
+  const breakOn = breakMinutes > 0
+  const stale = open ? Date.now() - Date.parse(open.clock_in_at) > STALE_MS : false
+  const todayMinutes = week?.days.find((d) => d.day === week.today)?.minutes ?? 0
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={styles.container}>
+      {/* Turno abierto "olvidado" → corregir la salida */}
+      {open && stale && (
+        <View style={styles.fixCard}>
+          <Text style={styles.fixTitle}>{t('clock.forgotTitle')}</Text>
+          <Text style={styles.fixHint}>{t('clock.forgotHint')}</Text>
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <TextInput
+              style={[styles.input, { flex: 1 }]}
+              placeholder={t('clock.outDate')}
+              placeholderTextColor={colors.muted}
+              value={fixDate}
+              onChangeText={setFixDate}
+              autoCapitalize="none"
+            />
+            <TextInput
+              style={[styles.input, { flex: 1 }]}
+              placeholder={t('clock.outTime')}
+              placeholderTextColor={colors.muted}
+              value={fixTime}
+              onChangeText={setFixTime}
+              autoCapitalize="none"
+            />
+          </View>
+          {breakOn && (
+            <View style={styles.switchRow}>
+              <Switch value={noBreak} onValueChange={setNoBreak} />
+              <Text style={styles.switchLabel}>{t('clock.noLunch', { minutes: breakMinutes })}</Text>
+            </View>
+          )}
+          <TextInput
+            style={styles.input}
+            placeholder={t('clock.reason')}
+            placeholderTextColor={colors.muted}
+            value={fixReason}
+            onChangeText={setFixReason}
+            maxLength={500}
+          />
+          <TouchableOpacity
+            style={[styles.fixBtn, (busy || fixReason.trim().length < 3) && { opacity: 0.5 }]}
+            onPress={handleFix}
+            disabled={busy || fixReason.trim().length < 3}
+          >
+            <Text style={styles.fixBtnText}>{t('clock.sendFix')}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <View style={styles.statusCard}>
-        <Text style={styles.statusLabel}>
-          {open ? t('clock.onShift') : t('clock.offShift')}
-        </Text>
-        {open && (
-          <Text style={styles.statusTime}>
-            {new Date(open.clock_in_at).toLocaleTimeString()}
-          </Text>
-        )}
+        <Text style={styles.statusLabel}>{open ? t('clock.onShift') : t('clock.offShift')}</Text>
+        {open && <Text style={styles.statusTime}>{new Date(open.clock_in_at).toLocaleTimeString()}</Text>}
       </View>
+
+      {/* Al salir: no tomé almuerzo (si la org descuenta automático) */}
+      {open && !stale && breakOn && (
+        <View style={[styles.switchRow, styles.lunchRow]}>
+          <Switch value={noBreak} onValueChange={setNoBreak} />
+          <Text style={styles.switchLabel}>{t('clock.noLunch', { minutes: breakMinutes })}</Text>
+        </View>
+      )}
 
       <TouchableOpacity
         style={[styles.bigBtn, { backgroundColor: open ? colors.danger : colors.primary }]}
@@ -111,6 +227,20 @@ export default function ClockScreen() {
           {busy ? '…' : open ? t('clock.clockOut') : t('clock.clockIn')}
         </Text>
       </TouchableOpacity>
+
+      {/* Resumen hoy / semana */}
+      {week && (
+        <View style={styles.summary}>
+          <View style={styles.summaryCol}>
+            <Text style={styles.summaryVal}>{fmtMin(todayMinutes)}</Text>
+            <Text style={styles.summaryLabel}>{t('clock.today')}</Text>
+          </View>
+          <View style={styles.summaryCol}>
+            <Text style={styles.summaryVal}>{fmtMin(week.totals.total)}</Text>
+            <Text style={styles.summaryLabel}>{t('clock.thisWeek')}</Text>
+          </View>
+        </View>
+      )}
 
       <Modal visible={camVisible} animationType="slide">
         <View style={styles.camWrap}>
@@ -125,24 +255,69 @@ export default function ClockScreen() {
           <Text style={styles.camHint}>{t('clock.take')}</Text>
         </View>
       </Modal>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, justifyContent: 'center', backgroundColor: colors.bg },
+  container: { padding: 24, paddingBottom: 48, flexGrow: 1, justifyContent: 'center' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.bg },
   statusCard: {
     backgroundColor: colors.card,
     borderRadius: 16,
     padding: 24,
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 20,
   },
   statusLabel: { fontSize: 16, color: colors.muted },
   statusTime: { fontSize: 28, fontWeight: '800', color: colors.text, marginTop: 6 },
   bigBtn: { borderRadius: 100, paddingVertical: 28, alignItems: 'center' },
   bigBtnText: { color: '#fff', fontSize: 22, fontWeight: '800' },
+  summary: {
+    flexDirection: 'row',
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    paddingVertical: 12,
+    marginTop: 20,
+  },
+  summaryCol: { flex: 1, alignItems: 'center' },
+  summaryVal: { fontWeight: '800', fontSize: 16, color: colors.text },
+  summaryLabel: { fontSize: 11, color: colors.muted, marginTop: 2 },
+  switchRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  lunchRow: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 20,
+  },
+  switchLabel: { color: colors.text, flexShrink: 1, fontSize: 13 },
+  fixCard: {
+    borderWidth: 1,
+    borderColor: colors.warning,
+    backgroundColor: '#fffbeb',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 20,
+  },
+  fixTitle: { fontWeight: '800', color: colors.text },
+  fixHint: { color: colors.muted, fontSize: 12, marginTop: 2, marginBottom: 10 },
+  fixBtn: {
+    backgroundColor: colors.warning,
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  fixBtnText: { color: '#fff', fontWeight: '800' },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: colors.text,
+    backgroundColor: colors.bg,
+    marginBottom: 8,
+  },
   camWrap: { flex: 1, backgroundColor: '#000' },
   camControls: {
     position: 'absolute',
