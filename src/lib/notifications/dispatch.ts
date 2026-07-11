@@ -39,6 +39,8 @@ export type NotifType =
   | 'shift_swap'
   | 'time_off_request'
   | 'time_off_decision'
+  | 'timesheet_submitted'
+  | 'timesheet_decision'
 
 export type Channel = 'inapp' | 'email' | 'sms' | 'push'
 
@@ -81,6 +83,8 @@ const DEFAULT_PREFS: Record<NotifType, Record<Channel, boolean>> = {
   shift_swap: { inapp: true, email: false, sms: false, push: true },
   time_off_request: { inapp: true, email: true, sms: false, push: true },
   time_off_decision: { inapp: true, email: true, sms: false, push: true },
+  timesheet_submitted: { inapp: true, email: true, sms: false, push: true },
+  timesheet_decision: { inapp: true, email: true, sms: false, push: true },
 }
 
 export type DispatchResult = {

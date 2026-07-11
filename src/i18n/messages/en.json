@@ -49,7 +49,7 @@
     "settings": "Settings",
     "signOut": "Sign out",
     "clock": "Clock",
-    "history": "History",
+    "history": "Hours",
     "paystubs": "Pay stubs",
     "profile": "Profile",
     "production": "Production",
@@ -240,7 +240,10 @@
     "submitting": "Submitting...",
     "clockedInSuccess": "Clocked in successfully.",
     "clockedOutSuccess": "Clocked out. Total: {duration}",
-    "outsideGeofence": "You're outside the worksite area. Your manager will be notified."
+    "outsideGeofence": "You're outside the worksite area. Your manager will be notified.",
+    "todaySoFar": "Today",
+    "weekSoFar": "This week",
+    "viewHours": "My hours"
   },
   "timeTracking": {
     "title": "Time tracking",
@@ -257,7 +260,9 @@
     "clockInAt": "Clock in",
     "clockOutAt": "Clock out",
     "worksite": "Worksite",
-    "flagged": "Outside worksite"
+    "flagged": "Outside worksite",
+    "open": "Open",
+    "edited": "Adjusted"
   },
   "worksites": {
     "title": "Worksites",
@@ -1013,5 +1018,37 @@
     "margin": "Margin",
     "subtotal": "Subtotal (billed)",
     "marginTotal": "Your margin"
+  },
+  "myHours": {
+    "title": "My hours",
+    "weekOf": "Week of {start} – {end}",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "total": "Total",
+    "openShift": "in progress",
+    "submit": "Close week & request pay",
+    "submitting": "Sending...",
+    "resubmit": "Resubmit week",
+    "submitNote": "Note for your manager (optional)",
+    "submitHint": "You are closing this week with {total}. Your manager will review it and approve it for payroll.",
+    "submittedBanner": "Week submitted — pending review",
+    "submittedOn": "Submitted {date}",
+    "approvedBanner": "Week approved",
+    "approvedHint": "It will be included in the next payroll.",
+    "rejectedBanner": "Week returned",
+    "rejectedNoNote": "Review it and resubmit.",
+    "blockedOpenEntry": "Close your current shift before closing the week.",
+    "blockedNoHours": "No hours this week yet.",
+    "rejectedNotCounted": "{total} rejected (not counted)"
+  },
+  "timesheets": {
+    "title": "Pay requests (closed weeks)",
+    "weekOf": "Week {range}",
+    "entriesCount": "{count} entries",
+    "approveWeek": "Approve week",
+    "returnWeek": "Return",
+    "returnPrompt": "Why are you returning this week?",
+    "returned": "Returned",
+    "approveHint": "Approving a week approves all its pending entries for payroll."
   }
 }

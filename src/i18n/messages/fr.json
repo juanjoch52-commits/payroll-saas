@@ -49,7 +49,7 @@
     "settings": "Paramètres",
     "signOut": "Déconnexion",
     "clock": "Pointage",
-    "history": "Historique",
+    "history": "Heures",
     "paystubs": "Bulletins de paie",
     "profile": "Profil",
     "production": "Production",
@@ -240,7 +240,10 @@
     "submitting": "Envoi en cours...",
     "clockedInSuccess": "Pointage d'entrée enregistré.",
     "clockedOutSuccess": "Pointage de sortie enregistré. Total : {duration}",
-    "outsideGeofence": "Vous êtes hors de la zone du chantier. Votre responsable sera notifié."
+    "outsideGeofence": "Vous êtes hors de la zone du chantier. Votre responsable sera notifié.",
+    "todaySoFar": "Aujourd'hui",
+    "weekSoFar": "Cette semaine",
+    "viewHours": "Mes heures"
   },
   "timeTracking": {
     "title": "Suivi du temps",
@@ -257,7 +260,9 @@
     "clockInAt": "Entrée",
     "clockOutAt": "Sortie",
     "worksite": "Chantier",
-    "flagged": "Hors du chantier"
+    "flagged": "Hors du chantier",
+    "open": "Ouvert",
+    "edited": "Ajusté"
   },
   "worksites": {
     "title": "Chantiers",
@@ -1013,5 +1018,37 @@
     "margin": "Marge",
     "subtotal": "Sous-total (facturé)",
     "marginTotal": "Votre marge"
+  },
+  "myHours": {
+    "title": "Mes heures",
+    "weekOf": "Semaine du {start} au {end}",
+    "prevWeek": "Semaine précédente",
+    "nextWeek": "Semaine suivante",
+    "total": "Total",
+    "openShift": "en cours",
+    "submit": "Clôturer la semaine et demander ma paie",
+    "submitting": "Envoi...",
+    "resubmit": "Renvoyer la semaine",
+    "submitNote": "Note pour votre gestionnaire (facultatif)",
+    "submitHint": "Vous clôturez cette semaine avec {total}. Votre gestionnaire la validera pour la paie.",
+    "submittedBanner": "Semaine envoyée — en attente de validation",
+    "submittedOn": "Envoyée le {date}",
+    "approvedBanner": "Semaine approuvée",
+    "approvedHint": "Elle sera incluse dans la prochaine paie.",
+    "rejectedBanner": "Semaine renvoyée",
+    "rejectedNoNote": "Vérifiez-la et renvoyez-la.",
+    "blockedOpenEntry": "Terminez votre quart en cours avant de clôturer la semaine.",
+    "blockedNoHours": "Pas encore d'heures cette semaine.",
+    "rejectedNotCounted": "{total} rejetées (non comptées)"
+  },
+  "timesheets": {
+    "title": "Demandes de paie (semaines clôturées)",
+    "weekOf": "Semaine {range}",
+    "entriesCount": "{count} entrées",
+    "approveWeek": "Approuver la semaine",
+    "returnWeek": "Renvoyer",
+    "returnPrompt": "Pourquoi renvoyez-vous cette semaine ?",
+    "returned": "Renvoyée",
+    "approveHint": "Approuver une semaine approuve toutes ses entrées en attente pour la paie."
   }
 }

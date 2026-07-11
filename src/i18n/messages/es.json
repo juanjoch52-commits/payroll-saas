@@ -49,7 +49,7 @@
     "settings": "Configuración",
     "signOut": "Cerrar sesión",
     "clock": "Marcar",
-    "history": "Historial",
+    "history": "Horas",
     "paystubs": "Recibos",
     "profile": "Perfil",
     "production": "Producción",
@@ -240,7 +240,10 @@
     "submitting": "Enviando...",
     "clockedInSuccess": "Entrada registrada.",
     "clockedOutSuccess": "Salida registrada. Total: {duration}",
-    "outsideGeofence": "Estás fuera del sitio de trabajo. Tu manager será notificado."
+    "outsideGeofence": "Estás fuera del sitio de trabajo. Tu manager será notificado.",
+    "todaySoFar": "Hoy",
+    "weekSoFar": "Esta semana",
+    "viewHours": "Mis horas"
   },
   "timeTracking": {
     "title": "Asistencia",
@@ -257,7 +260,9 @@
     "clockInAt": "Entrada",
     "clockOutAt": "Salida",
     "worksite": "Sitio",
-    "flagged": "Fuera del sitio"
+    "flagged": "Fuera del sitio",
+    "open": "Abierto",
+    "edited": "Ajustado"
   },
   "worksites": {
     "title": "Sitios de trabajo",
@@ -1013,5 +1018,37 @@
     "margin": "Margen",
     "subtotal": "Subtotal (facturado)",
     "marginTotal": "Tu margen"
+  },
+  "myHours": {
+    "title": "Mis horas",
+    "weekOf": "Semana del {start} al {end}",
+    "prevWeek": "Semana anterior",
+    "nextWeek": "Semana siguiente",
+    "total": "Total",
+    "openShift": "en curso",
+    "submit": "Cerrar semana y pedir mi pago",
+    "submitting": "Enviando...",
+    "resubmit": "Reenviar semana",
+    "submitNote": "Nota para tu manager (opcional)",
+    "submitHint": "Vas a cerrar la semana con {total}. Tu manager la revisará y la aprobará para la nómina.",
+    "submittedBanner": "Semana enviada — en revisión",
+    "submittedOn": "Enviada el {date}",
+    "approvedBanner": "Semana aprobada",
+    "approvedHint": "Entrará en la próxima nómina.",
+    "rejectedBanner": "Semana devuelta",
+    "rejectedNoNote": "Revísala y vuelve a enviarla.",
+    "blockedOpenEntry": "Cierra tu turno actual antes de cerrar la semana.",
+    "blockedNoHours": "Aún no hay horas esta semana.",
+    "rejectedNotCounted": "{total} rechazadas (no cuentan)"
+  },
+  "timesheets": {
+    "title": "Solicitudes de pago (semanas cerradas)",
+    "weekOf": "Semana {range}",
+    "entriesCount": "{count} registros",
+    "approveWeek": "Aprobar semana",
+    "returnWeek": "Devolver",
+    "returnPrompt": "¿Por qué devuelves esta semana?",
+    "returned": "Devuelta",
+    "approveHint": "Aprobar una semana aprueba todas sus entradas pendientes para la nómina."
   }
 }
