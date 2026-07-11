@@ -243,7 +243,16 @@
     "outsideGeofence": "Estás fuera del sitio de trabajo. Tu manager será notificado.",
     "todaySoFar": "Hoy",
     "weekSoFar": "Esta semana",
-    "viewHours": "Mis horas"
+    "viewHours": "Mis horas",
+    "noLunch": "No tomé mi almuerzo ({minutes} min)",
+    "noLunchHint": "Se te pagará el tiempo completo. Tu manager verá esta marca.",
+    "noLunchShort": "No tomé almuerzo",
+    "forgotOutTitle": "¿Olvidaste hacer clock out?",
+    "forgotOutHint": "Este turno lleva mucho tiempo abierto. Ingresa tu hora real de salida y envíala para aprobación.",
+    "outDate": "Fecha de salida",
+    "outTime": "Hora de salida",
+    "fixReason": "¿Qué pasó? (obligatorio)",
+    "sendFix": "Enviar corrección"
   },
   "timeTracking": {
     "title": "Asistencia",
@@ -262,7 +271,10 @@
     "worksite": "Sitio",
     "flagged": "Fuera del sitio",
     "open": "Abierto",
-    "edited": "Ajustado"
+    "edited": "Ajustado",
+    "manual": "Manual",
+    "noLunchFlag": "Sin almuerzo",
+    "breakLabel": "almuerzo"
   },
   "worksites": {
     "title": "Sitios de trabajo",
@@ -1039,7 +1051,13 @@
     "rejectedNoNote": "Revísala y vuelve a enviarla.",
     "blockedOpenEntry": "Cierra tu turno actual antes de cerrar la semana.",
     "blockedNoHours": "Aún no hay horas esta semana.",
-    "rejectedNotCounted": "{total} rechazadas (no cuentan)"
+    "rejectedNotCounted": "{total} rechazadas (no cuentan)",
+    "manualTitle": "¿Olvidaste fichar? Reporta horas",
+    "manualHint": "Tu manager revisará este registro manual antes de que cuente para la nómina.",
+    "manualDate": "Fecha",
+    "manualReason": "¿Qué pasó? (obligatorio)",
+    "manualSubmit": "Enviar para aprobación",
+    "manualSent": "Enviado — tu manager lo revisará."
   },
   "timesheets": {
     "title": "Solicitudes de pago (semanas cerradas)",

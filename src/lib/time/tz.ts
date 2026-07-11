@@ -44,6 +44,28 @@ export function todayInTz(tz: string = DEFAULT_TZ): string {
   return dayKeyInTz(new Date(), tz)
 }
 
+/**
+ * Instante UTC (ISO) del "HH:MM" local de `dateStr` en `tz`.
+ * Dos pasadas de offset: la primera estima con el offset del mediodía; la
+ * segunda re-lee el offset en el instante estimado para acertar en los días
+ * de cambio de DST. En la hora inexistente del spring-forward devuelve el
+ * instante corrido (comportamiento estándar, sin lanzar).
+ */
+export function localTimeToUtc(dateStr: string, timeStr: string, tz: string = DEFAULT_TZ): string {
+  const zone = safeTz(tz)
+  const [hh, mm] = timeStr.split(':').map(Number)
+  const wallClockUtcMs = Date.parse(`${dateStr}T00:00:00Z`) + (hh * 60 + mm) * 60_000
+
+  let offsetMin = tzOffsetMinutes(new Date(`${dateStr}T12:00:00Z`), zone)
+  let utcMs = wallClockUtcMs - offsetMin * 60_000
+  const refined = tzOffsetMinutes(new Date(utcMs), zone)
+  if (refined !== offsetMin) {
+    offsetMin = refined
+    utcMs = wallClockUtcMs - offsetMin * 60_000
+  }
+  return new Date(utcMs).toISOString()
+}
+
 /** Offset (minutos, local−UTC) del timezone en un instante dado. */
 function tzOffsetMinutes(at: Date, tz: string): number {
   const parts = new Intl.DateTimeFormat('en-US', {

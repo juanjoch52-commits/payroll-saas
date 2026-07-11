@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { createAdminClient } from '@/lib/supabase/server'
 import { isWithinGeofence } from '@/lib/geo'
+import { applyAutoBreak } from '@/lib/time/breaks'
 
 // =============================================================================
 // Núcleo de clock in/out reutilizable (admin client). Lo usan los endpoints
@@ -21,6 +22,8 @@ export type ClockParams = {
   worksiteId?: string | null
   photoBuffer?: Buffer | null
   kioskDeviceId?: string | null
+  /** Clock out: el empleado declara que NO tomó su descanso (no se descuenta). */
+  skipBreak?: boolean
 }
 
 export async function performClockIn(
@@ -150,6 +153,25 @@ export async function performClockOut(
     Math.round((clockOutAt.getTime() - new Date(entry.clock_in_at).getTime()) / 60_000),
   )
 
+  // Descuento de almuerzo según la política de la org (waiveable desde la app).
+  const { data: pol } = await admin
+    .from('organizations')
+    .select('break_auto_deduct_minutes, break_auto_deduct_threshold_minutes')
+    .eq('id', p.organizationId)
+    .maybeSingle()
+  const polRow = pol as {
+    break_auto_deduct_minutes?: number
+    break_auto_deduct_threshold_minutes?: number
+  } | null
+  const policy = polRow
+    ? {
+        autoDeductMinutes: polRow.break_auto_deduct_minutes ?? 0,
+        thresholdMinutes: polRow.break_auto_deduct_threshold_minutes ?? 0,
+      }
+    : null
+  const waived = !!p.skipBreak && !!policy && policy.autoDeductMinutes > 0
+  const { breakMinutes, billableMinutes } = applyAutoBreak(durationMinutes, policy, waived)
+
   const { error } = await admin
     .from('time_entries')
     .update({
@@ -160,7 +182,9 @@ export async function performClockOut(
       clock_out_photo_path: photoPath,
       clock_out_outside_geofence: outsideGeofence,
       duration_minutes: durationMinutes,
-      billable_minutes: durationMinutes,
+      break_minutes: breakMinutes,
+      billable_minutes: billableMinutes,
+      break_waived: waived,
       status: 'pending',
     })
     .eq('id', entry.id)

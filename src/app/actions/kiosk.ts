@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs'
 import { createAdminClient } from '@/lib/supabase/server'
 import { authenticateKioskDevice } from '@/lib/kiosk/auth'
 import { isWithinGeofence } from '@/lib/geo'
+import { applyAutoBreak } from '@/lib/time/breaks'
 
 // =============================================================================
 // Server Actions — Runtime del kiosko (SIN sesión, autenticado por device_token)
@@ -269,6 +270,26 @@ export async function kioskCheckIn(input: {
       0,
       Math.round((clockOutAt.getTime() - new Date(entry.clock_in_at).getTime()) / 60_000),
     )
+    // Descuento de almuerzo de la org (desde el kiosko no se puede waivear;
+    // el manager ajusta con editTimeEntry si hace falta).
+    const { data: pol } = await admin
+      .from('organizations')
+      .select('break_auto_deduct_minutes, break_auto_deduct_threshold_minutes')
+      .eq('id', organizationId)
+      .maybeSingle()
+    const polRow = pol as {
+      break_auto_deduct_minutes?: number
+      break_auto_deduct_threshold_minutes?: number
+    } | null
+    const { breakMinutes, billableMinutes } = applyAutoBreak(
+      durationMinutes,
+      polRow
+        ? {
+            autoDeductMinutes: polRow.break_auto_deduct_minutes ?? 0,
+            thresholdMinutes: polRow.break_auto_deduct_threshold_minutes ?? 0,
+          }
+        : null,
+    )
     const { error } = await admin
       .from('time_entries')
       .update({
@@ -278,7 +299,8 @@ export async function kioskCheckIn(input: {
         clock_out_photo_path: photoPath,
         clock_out_outside_geofence: outsideGeofence,
         duration_minutes: durationMinutes,
-        billable_minutes: durationMinutes,
+        break_minutes: breakMinutes,
+        billable_minutes: billableMinutes,
         status: 'pending',
       })
       .eq('id', entry.id)

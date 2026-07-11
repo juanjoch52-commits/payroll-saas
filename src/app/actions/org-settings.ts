@@ -34,3 +34,37 @@ export async function setOrganizationTimezone(
   revalidatePath('/(app)/dashboard', 'page')
   return { success: true }
 }
+
+/**
+ * Política de descanso no pagado: descontar `minutes` de almuerzo cuando el
+ * turno alcanza `thresholdMinutes`. minutes=0 desactiva el descuento.
+ * Aplica a clock-outs FUTUROS (no recalcula entries existentes).
+ */
+export async function setBreakPolicy(
+  minutes: number,
+  thresholdMinutes: number,
+): Promise<{ success: boolean; error?: string }> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  if (!Number.isInteger(minutes) || minutes < 0 || minutes > 120) {
+    return { success: false, error: 'Los minutos de descanso deben estar entre 0 y 120.' }
+  }
+  if (!Number.isInteger(thresholdMinutes) || thresholdMinutes < 0 || thresholdMinutes > 720) {
+    return { success: false, error: 'El umbral debe estar entre 0 y 12 horas.' }
+  }
+
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('organizations')
+    .update({
+      break_auto_deduct_minutes: minutes,
+      break_auto_deduct_threshold_minutes: thresholdMinutes,
+    })
+    .eq('id', session.organizationId)
+  if (error) return { success: false, error: error.message }
+
+  revalidatePath('/(app)/settings/general', 'page')
+  return { success: true }
+}

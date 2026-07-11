@@ -243,7 +243,16 @@
     "outsideGeofence": "Vous êtes hors de la zone du chantier. Votre responsable sera notifié.",
     "todaySoFar": "Aujourd'hui",
     "weekSoFar": "Cette semaine",
-    "viewHours": "Mes heures"
+    "viewHours": "Mes heures",
+    "noLunch": "Je n’ai pas pris ma pause repas ({minutes} min)",
+    "noLunchHint": "Tout votre temps sera payé. Votre gestionnaire verra cet indicateur.",
+    "noLunchShort": "Je n’ai pas pris de pause repas",
+    "forgotOutTitle": "Oubli de pointage de sortie ?",
+    "forgotOutHint": "Ce quart est ouvert depuis longtemps. Saisissez votre heure réelle de sortie et envoyez-la pour approbation.",
+    "outDate": "Date de sortie",
+    "outTime": "Heure de sortie",
+    "fixReason": "Que s’est-il passé ? (obligatoire)",
+    "sendFix": "Envoyer la correction"
   },
   "timeTracking": {
     "title": "Suivi du temps",
@@ -262,7 +271,10 @@
     "worksite": "Chantier",
     "flagged": "Hors du chantier",
     "open": "Ouvert",
-    "edited": "Ajusté"
+    "edited": "Ajusté",
+    "manual": "Manuel",
+    "noLunchFlag": "Sans pause repas",
+    "breakLabel": "pause"
   },
   "worksites": {
     "title": "Chantiers",
@@ -1039,7 +1051,13 @@
     "rejectedNoNote": "Vérifiez-la et renvoyez-la.",
     "blockedOpenEntry": "Terminez votre quart en cours avant de clôturer la semaine.",
     "blockedNoHours": "Pas encore d'heures cette semaine.",
-    "rejectedNotCounted": "{total} rejetées (non comptées)"
+    "rejectedNotCounted": "{total} rejetées (non comptées)",
+    "manualTitle": "Oubli de pointage ? Déclarez vos heures",
+    "manualHint": "Votre gestionnaire validera cette entrée manuelle avant qu’elle compte pour la paie.",
+    "manualDate": "Date",
+    "manualReason": "Que s’est-il passé ? (obligatoire)",
+    "manualSubmit": "Envoyer pour approbation",
+    "manualSent": "Envoyé — votre gestionnaire va le vérifier."
   },
   "timesheets": {
     "title": "Demandes de paie (semaines clôturées)",

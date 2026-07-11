@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { IndustrySelector } from '@/components/settings/IndustrySelector'
 import { TimezoneSelector } from '@/components/settings/TimezoneSelector'
+import { BreakPolicyCard } from '@/components/settings/BreakPolicyCard'
 import { DataExportCard } from '@/components/settings/DataExportCard'
 import { type IndustryType } from '@/lib/industry/presets'
 
@@ -21,12 +22,19 @@ export default async function GeneralSettingsPage({
   const supabase = createClient()
   const { data: org } = await supabase
     .from('organizations')
-    .select('industry_type, timezone')
+    .select('industry_type, timezone, break_auto_deduct_minutes, break_auto_deduct_threshold_minutes')
     .eq('id', session.organizationId)
     .single()
 
   const industry = ((org?.industry_type as IndustryType) ?? 'general') as IndustryType
-  const timezone = ((org as { timezone?: string } | null)?.timezone ?? 'America/New_York') as string
+  const orgRow = org as {
+    timezone?: string
+    break_auto_deduct_minutes?: number
+    break_auto_deduct_threshold_minutes?: number
+  } | null
+  const timezone = (orgRow?.timezone ?? 'America/New_York') as string
+  const breakMinutes = orgRow?.break_auto_deduct_minutes ?? 0
+  const breakThreshold = orgRow?.break_auto_deduct_threshold_minutes ?? 360
 
   return (
     <div className="space-y-6">
@@ -39,6 +47,9 @@ export default async function GeneralSettingsPage({
       </div>
       <div className="rounded-lg border bg-card p-6">
         <TimezoneSelector current={timezone} />
+      </div>
+      <div className="rounded-lg border bg-card p-6">
+        <BreakPolicyCard currentMinutes={breakMinutes} currentThresholdMinutes={breakThreshold} />
       </div>
       <div className="rounded-lg border bg-card p-6">
         <DataExportCard />

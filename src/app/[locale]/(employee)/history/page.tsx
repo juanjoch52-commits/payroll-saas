@@ -16,6 +16,7 @@ import {
 } from '@/lib/timesheets/week'
 import { Card, CardContent } from '@/components/ui/card'
 import { WeekCloseCard } from '@/components/employee/WeekCloseCard'
+import { ManualEntryForm } from '@/components/employee/ManualEntryForm'
 import { cn } from '@/lib/utils'
 
 // Vista semanal de horas del empleado: lunes-domingo en el timezone de la org,
@@ -38,10 +39,16 @@ export default async function MyHoursPage({
       .eq('user_id', session.userId)
       .eq('organization_id', session.organizationId)
       .maybeSingle(),
-    supabase.from('organizations').select('timezone').eq('id', session.organizationId).maybeSingle(),
+    supabase
+      .from('organizations')
+      .select('timezone, break_auto_deduct_minutes')
+      .eq('id', session.organizationId)
+      .maybeSingle(),
   ])
 
-  const tz = (org as { timezone?: string } | null)?.timezone || 'America/New_York'
+  const orgRow = org as { timezone?: string; break_auto_deduct_minutes?: number } | null
+  const tz = orgRow?.timezone || 'America/New_York'
+  const breakPolicyOn = (orgRow?.break_auto_deduct_minutes ?? 0) > 0
   const todayKey = todayInTz(tz)
   const currentMonday = mondayOfKey(todayKey)
   const weekStart =
@@ -53,7 +60,9 @@ export default async function MyHoursPage({
     ? await Promise.all([
         supabase
           .from('time_entries')
-          .select('id, clock_in_at, clock_out_at, billable_minutes, status, clock_in_outside_geofence')
+          .select(
+            'id, clock_in_at, clock_out_at, billable_minutes, break_minutes, break_waived, manual_kind, status, clock_in_outside_geofence',
+          )
           .eq('employee_id', empId)
           .eq('organization_id', session.organizationId)
           .gte('clock_in_at', dayStartUtc(weekStart, tz))
@@ -73,6 +82,9 @@ export default async function MyHoursPage({
     clock_in_at: string
     clock_out_at: string | null
     billable_minutes: number | null
+    break_minutes: number | null
+    break_waived: boolean
+    manual_kind: 'full' | 'clock_out' | null
     status: TimeEntryStatus
     clock_in_outside_geofence: boolean
   }
@@ -85,6 +97,9 @@ export default async function MyHoursPage({
     status: r.status,
   }))
   const flaggedIds = new Set(rows.filter((r) => r.clock_in_outside_geofence).map((r) => r.id))
+  const extrasById = new Map(
+    rows.map((r) => [r.id, { breakMinutes: r.break_minutes ?? 0, manual: r.manual_kind !== null }]),
+  )
 
   const summary = summarizeWeek(weekEntries, weekStart, tz)
   const sub = submission as {
@@ -183,20 +198,33 @@ export default async function MyHoursPage({
               </div>
               {day.entries.length > 0 && (
                 <div className="mt-2 space-y-1 border-t pt-2">
-                  {day.entries.map((e) => (
-                    <div key={e.id} className="flex items-center justify-between text-xs">
-                      <span className="flex items-center gap-1 text-muted-foreground">
-                        {timeFmt.format(new Date(e.clockInAt))}
-                        {' → '}
-                        {e.clockOutAt ? timeFmt.format(new Date(e.clockOutAt)) : t('myHours.openShift')}
-                        {flaggedIds.has(e.id) && <AlertTriangle className="h-3 w-3 text-warning-foreground" />}
-                      </span>
-                      <span className={statusClass[e.status]}>
-                        {e.status !== 'open' && `${formatMinutes(Math.max(0, e.billableMinutes ?? 0))} · `}
-                        {t(`timeTracking.${e.status}` as 'timeTracking.pending')}
-                      </span>
-                    </div>
-                  ))}
+                  {day.entries.map((e) => {
+                    const extras = extrasById.get(e.id)
+                    return (
+                      <div key={e.id} className="flex items-center justify-between text-xs">
+                        <span className="flex items-center gap-1 text-muted-foreground">
+                          {timeFmt.format(new Date(e.clockInAt))}
+                          {' → '}
+                          {e.clockOutAt ? timeFmt.format(new Date(e.clockOutAt)) : t('myHours.openShift')}
+                          {flaggedIds.has(e.id) && <AlertTriangle className="h-3 w-3 text-warning-foreground" />}
+                          {extras?.manual && (
+                            <span className="rounded bg-muted px-1 text-[10px] uppercase text-muted-foreground">
+                              {t('timeTracking.manual')}
+                            </span>
+                          )}
+                          {(extras?.breakMinutes ?? 0) > 0 && (
+                            <span className="text-muted-foreground/70">
+                              −{extras!.breakMinutes}m
+                            </span>
+                          )}
+                        </span>
+                        <span className={statusClass[e.status]}>
+                          {e.status !== 'open' && `${formatMinutes(Math.max(0, e.billableMinutes ?? 0))} · `}
+                          {t(`timeTracking.${e.status}` as 'timeTracking.pending')}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               )}
             </CardContent>
@@ -209,6 +237,9 @@ export default async function MyHoursPage({
           {t('myHours.rejectedNotCounted', { total: formatMinutes(summary.rejectedMinutes) })}
         </p>
       )}
+
+      {/* ¿Olvidaste fichar? — turno manual pendiente de aprobación */}
+      <ManualEntryForm maxDate={todayKey} breakPolicyActive={breakPolicyOn} />
 
       {/* Cierre de semana / solicitud de pago */}
       <WeekCloseCard

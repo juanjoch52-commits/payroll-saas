@@ -243,7 +243,16 @@
     "outsideGeofence": "You're outside the worksite area. Your manager will be notified.",
     "todaySoFar": "Today",
     "weekSoFar": "This week",
-    "viewHours": "My hours"
+    "viewHours": "My hours",
+    "noLunch": "I did not take my lunch break ({minutes} min)",
+    "noLunchHint": "Your full time will be paid. Your manager will see this flag.",
+    "noLunchShort": "I did not take a lunch break",
+    "forgotOutTitle": "Forgot to clock out?",
+    "forgotOutHint": "This shift has been open for a long time. Enter your real end time and send it for approval.",
+    "outDate": "End date",
+    "outTime": "End time",
+    "fixReason": "What happened? (required)",
+    "sendFix": "Send correction"
   },
   "timeTracking": {
     "title": "Time tracking",
@@ -262,7 +271,10 @@
     "worksite": "Worksite",
     "flagged": "Outside worksite",
     "open": "Open",
-    "edited": "Adjusted"
+    "edited": "Adjusted",
+    "manual": "Manual",
+    "noLunchFlag": "No lunch",
+    "breakLabel": "lunch"
   },
   "worksites": {
     "title": "Worksites",
@@ -1039,7 +1051,13 @@
     "rejectedNoNote": "Review it and resubmit.",
     "blockedOpenEntry": "Close your current shift before closing the week.",
     "blockedNoHours": "No hours this week yet.",
-    "rejectedNotCounted": "{total} rejected (not counted)"
+    "rejectedNotCounted": "{total} rejected (not counted)",
+    "manualTitle": "Forgot to clock in? Report missed hours",
+    "manualHint": "Your manager will review this manual entry before it counts for payroll.",
+    "manualDate": "Date",
+    "manualReason": "What happened? (required)",
+    "manualSubmit": "Send for approval",
+    "manualSent": "Sent — your manager will review it."
   },
   "timesheets": {
     "title": "Pay requests (closed weeks)",

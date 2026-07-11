@@ -32,10 +32,15 @@ export function ClockControls({
   locale,
   employeeName,
   openEntry,
+  breakPolicyActive = false,
+  breakMinutes = 0,
 }: {
   locale: string
   employeeName: string | null
   openEntry: OpenEntry
+  /** La org descuenta almuerzo automático → mostrar "no tomé almuerzo" al salir. */
+  breakPolicyActive?: boolean
+  breakMinutes?: number
 }) {
   const t = useTranslations()
   const router = useRouter()
@@ -45,6 +50,7 @@ export function ClockControls({
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const [elapsed, setElapsed] = useState<{ h: number; m: number } | null>(null)
+  const [noBreak, setNoBreak] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Si hay turno abierto, actualizar contador cada minuto
@@ -181,6 +187,7 @@ export function ClockControls({
       fd.set('longitude', String(loc.lng))
       fd.set('accuracy', String(loc.acc))
       fd.set('photo', compressed)
+      fd.set('skipBreak', noBreak ? '1' : '0')
 
       startTransition(async () => {
         const res = await clockOut(fd)
@@ -279,6 +286,22 @@ export function ClockControls({
           </Button>
         </CardContent>
       </Card>
+
+      {/* Al salir: declarar que no tomó el almuerzo (queda flageado al manager) */}
+      {openEntry && breakPolicyActive && (
+        <label className="flex items-center gap-2 rounded-md border bg-card p-3 text-sm">
+          <input
+            type="checkbox"
+            checked={noBreak}
+            onChange={(e) => setNoBreak(e.target.checked)}
+            className="h-4 w-4"
+          />
+          <span>
+            {t('clock.noLunch', { minutes: breakMinutes })}
+            <span className="block text-xs text-muted-foreground">{t('clock.noLunchHint')}</span>
+          </span>
+        </label>
+      )}
 
       {/* Action button */}
       {openEntry ? (

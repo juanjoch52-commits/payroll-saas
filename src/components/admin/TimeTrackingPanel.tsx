@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Map, List, Check, X, AlertTriangle } from 'lucide-react'
+import { Map, List, Check, X, AlertTriangle, Pencil } from 'lucide-react'
 import { approveTimeEntry, rejectTimeEntry } from '@/app/actions/time-tracking'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -17,6 +17,10 @@ type Entry = {
   clock_in_at: string
   clock_out_at: string | null
   billable_minutes: number | null
+  break_minutes: number | null
+  break_waived: boolean
+  manual_kind: 'full' | 'clock_out' | null
+  manual_reason: string | null
   status: 'open' | 'pending' | 'approved' | 'rejected' | 'edited'
   clock_in_outside_geofence: boolean
   clock_in_lat: number | null
@@ -227,16 +231,41 @@ export function TimeTrackingPanel({
                     </td>
                     <td className="px-4 py-3">
                       {e.billable_minutes ? `${h}h ${m}m` : '—'}
+                      {(e.break_minutes ?? 0) > 0 && (
+                        <div className="text-xs text-muted-foreground">
+                          −{e.break_minutes}m {t('timeTracking.breakLabel')}
+                        </div>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {worksite?.name ?? '—'}
                     </td>
                     <td className="px-4 py-3">
-                      {e.clock_in_outside_geofence && (
-                        <Badge variant="warning" className="inline-flex items-center gap-1">
-                          <AlertTriangle className="h-3 w-3" />
-                          {t('timeTracking.flagged')}
-                        </Badge>
+                      <div className="flex flex-wrap gap-1">
+                        {e.clock_in_outside_geofence && (
+                          <Badge variant="warning" className="inline-flex items-center gap-1">
+                            <AlertTriangle className="h-3 w-3" />
+                            {t('timeTracking.flagged')}
+                          </Badge>
+                        )}
+                        {e.manual_kind && (
+                          <Badge
+                            variant="secondary"
+                            className="inline-flex items-center gap-1"
+                            title={e.manual_reason ?? undefined}
+                          >
+                            <Pencil className="h-3 w-3" />
+                            {t('timeTracking.manual')}
+                          </Badge>
+                        )}
+                        {e.break_waived && (
+                          <Badge variant="outline">{t('timeTracking.noLunchFlag')}</Badge>
+                        )}
+                      </div>
+                      {e.manual_reason && (
+                        <p className="mt-1 max-w-[16rem] truncate text-xs italic text-muted-foreground">
+                          “{e.manual_reason}”
+                        </p>
                       )}
                     </td>
                   </tr>

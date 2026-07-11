@@ -4,8 +4,9 @@ import { ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { ClockControls } from '@/components/employee/ClockControls'
+import { FixClockOutForm } from '@/components/employee/FixClockOutForm'
 import { Card, CardContent } from '@/components/ui/card'
-import { dayStartUtc, todayInTz } from '@/lib/time/tz'
+import { dayKeyInTz, dayStartUtc, todayInTz } from '@/lib/time/tz'
 import {
   addDays,
   mondayOfKey,
@@ -32,10 +33,19 @@ export default async function EmployeeClockPage({
       .eq('user_id', session.userId)
       .eq('organization_id', session.organizationId)
       .maybeSingle(),
-    supabase.from('organizations').select('timezone').eq('id', session.organizationId).maybeSingle(),
+    supabase
+      .from('organizations')
+      .select('timezone, break_auto_deduct_minutes, break_auto_deduct_threshold_minutes')
+      .eq('id', session.organizationId)
+      .maybeSingle(),
   ])
 
-  const tz = (org as { timezone?: string } | null)?.timezone || 'America/New_York'
+  const orgRow = org as {
+    timezone?: string
+    break_auto_deduct_minutes?: number
+  } | null
+  const tz = orgRow?.timezone || 'America/New_York'
+  const breakMinutes = orgRow?.break_auto_deduct_minutes ?? 0
   const todayKey = todayInTz(tz)
   const weekStart = mondayOfKey(todayKey)
 
@@ -75,12 +85,27 @@ export default async function EmployeeClockPage({
   const summary = summarizeWeek(weekEntries, weekStart, tz)
   const todayMinutes = summary.days.find((d) => d.day === todayKey)?.minutes ?? 0
 
+  // Turno abierto "olvidado": lleva más de 10h → ofrecer corrección de salida.
+  const open = openEntry as { id: string; clock_in_at: string; clock_in_outside_geofence: boolean } | null
+  const staleOpen = open && Date.now() - Date.parse(open.clock_in_at) > 10 * 3_600_000
+
   return (
     <div className="container max-w-md space-y-4 py-6">
+      {staleOpen && open && (
+        <FixClockOutForm
+          entryId={open.id}
+          defaultDate={dayKeyInTz(open.clock_in_at, tz)}
+          maxDate={todayKey}
+          breakPolicyActive={breakMinutes > 0}
+        />
+      )}
+
       <ClockControls
         locale={locale}
         employeeName={employee ? `${employee.first_name} ${employee.last_name}` : null}
-        openEntry={openEntry as { id: string; clock_in_at: string; clock_in_outside_geofence: boolean } | null}
+        openEntry={open}
+        breakPolicyActive={breakMinutes > 0}
+        breakMinutes={breakMinutes}
       />
 
       {/* Resumen: hoy + semana en curso, con acceso a la vista semanal */}
