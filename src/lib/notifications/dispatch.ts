@@ -17,6 +17,12 @@ import {
   broadcastEmail,
   settlementReadyEmail,
   settlementPaidEmail,
+  timesheetSubmittedEmail,
+  timesheetDecisionEmail,
+  timeOffRequestEmail,
+  timeOffDecisionEmail,
+  trialEndingEmail,
+  genericEmail,
   type EmailLocale,
   type EmailContent,
 } from '@/lib/email/templates'
@@ -244,6 +250,51 @@ function renderEmail(input: DispatchInput, locale: EmailLocale): EmailContent {
       },
     )
   }
+  if (input.type === 'timesheet_submitted' && input.emailTemplateData) {
+    return timesheetSubmittedEmail(
+      locale,
+      input.emailTemplateData as { employeeName: string; weekStart: string; totalLabel: string },
+    )
+  }
+  if (input.type === 'timesheet_decision' && input.emailTemplateData) {
+    return timesheetDecisionEmail(
+      locale,
+      input.emailTemplateData as {
+        weekStart: string
+        approved: boolean
+        minutesLabel?: string
+        note?: string
+      },
+    )
+  }
+  if (input.type === 'time_off_request' && input.emailTemplateData) {
+    return timeOffRequestEmail(
+      locale,
+      input.emailTemplateData as {
+        employeeName: string
+        startDate: string
+        endDate: string
+        hours: number
+      },
+    )
+  }
+  if (input.type === 'time_off_decision' && input.emailTemplateData) {
+    return timeOffDecisionEmail(
+      locale,
+      input.emailTemplateData as {
+        startDate: string
+        endDate: string
+        approved: boolean
+        note?: string
+      },
+    )
+  }
+  if (input.type === 'trial_ending' && input.emailTemplateData) {
+    return trialEndingEmail(
+      locale,
+      input.emailTemplateData as { orgName: string; daysLeft: number },
+    )
+  }
   if (input.type === 'broadcast') {
     return broadcastEmail(locale, {
       title: input.title,
@@ -251,12 +302,11 @@ function renderEmail(input: DispatchInput, locale: EmailLocale): EmailContent {
       cta: input.cta ? { label: input.cta.label, href: input.cta.url } : undefined,
     })
   }
-  // Fallback: generic
-  return {
-    subject: input.title,
-    html: `<h1>${input.title}</h1><p>${input.body}</p>${
-      input.cta ? `<p><a href="${input.cta.url}">${input.cta.label}</a></p>` : ''
-    }`,
-    text: `${input.title}\n\n${input.body}${input.cta ? `\n${input.cta.label}: ${input.cta.url}` : ''}`,
-  }
+  // Fallback: genérico con el wrapper de marca (payment_failed, plan_changed,
+  // support_reply, etc. salen con el mismo look que las plantillas dedicadas).
+  return genericEmail(
+    input.title,
+    input.body,
+    input.cta ? { label: input.cta.label, href: input.cta.url } : undefined,
+  )
 }

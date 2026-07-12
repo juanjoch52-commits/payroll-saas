@@ -716,6 +716,7 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
           title: 'Liquidación aprobada',
           body: `${session.organizationName}: cheque de ${formatMoney(s.totalCents)} autorizado (${run.period_start} → ${run.period_end}).`,
           dedupeKey: `settle-ready-${runId}-${s.rootId}`,
+          cta: { label: 'Ver mis liquidaciones', url: '/my-settlements' },
           emailTemplateData: {
             orgName: session.organizationName,
             periodStart: run.period_start,
@@ -806,6 +807,7 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
             body: 'A new payroll run that includes you was approved. Your paystub is available.',
             dedupeKey: `payroll_ready:${runId}`,
             data: { runId },
+            cta: { label: 'Ver mi paystub', url: '/paystubs' },
           }),
         ),
     )
@@ -863,6 +865,7 @@ export async function markPayrollRunPaid(runId: string): Promise<{ success: bool
         title: 'Cheque pagado',
         body: `${session.organizationName}: tu cheque de ${formatMoney(r.total_cents)} fue marcado como pagado.`,
         dedupeKey: `settle-paid-${runId}-${r.subcontractor_id}`,
+        cta: { label: 'Ver mis liquidaciones', url: '/my-settlements' },
         emailTemplateData: {
           orgName: session.organizationName,
           periodStart: r.period_start,

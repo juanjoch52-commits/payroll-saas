@@ -156,6 +156,12 @@ export async function approveTimesheetWeek(submissionId: string): Promise<Timesh
         title: 'Semana aprobada',
         body: `Tu semana del ${subRow.week_start} fue aprobada (${formatMinutes(summary.approvedMinutes)}). Entrará en la próxima nómina.`,
         dedupeKey: `tsheet-dec-${subRow.id}-${now}`,
+        cta: { label: 'Ver mis horas', url: '/history' },
+        emailTemplateData: {
+          weekStart: subRow.week_start,
+          approved: true,
+          minutesLabel: formatMinutes(summary.approvedMinutes),
+        },
       }).catch(() => {})
     } catch {
       /* no crítico */
@@ -238,6 +244,12 @@ export async function rejectTimesheetWeek(
         title: 'Semana devuelta',
         body: `Tu semana del ${subRow.week_start} fue devuelta: ${trimmed.slice(0, 200)}`,
         dedupeKey: `tsheet-dec-${subRow.id}-${now}`,
+        cta: { label: 'Corregir mi semana', url: '/history' },
+        emailTemplateData: {
+          weekStart: subRow.week_start,
+          approved: false,
+          note: trimmed.slice(0, 300),
+        },
       }).catch(() => {})
     } catch {
       /* no crítico */

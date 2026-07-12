@@ -137,7 +137,14 @@ export async function weekIsClosed(db: Db, employeeId: string, dayKey: string): 
 export async function notifyOrgManagers(
   organizationId: string,
   excludeUserId: string,
-  input: { type: NotifType; title: string; body: string; dedupePrefix: string },
+  input: {
+    type: NotifType
+    title: string
+    body: string
+    dedupePrefix: string
+    cta?: { label: string; url: string }
+    emailTemplateData?: Record<string, unknown>
+  },
 ) {
   try {
     const admin = createAdminClient()
@@ -156,6 +163,8 @@ export async function notifyOrgManagers(
         title: input.title,
         body: input.body,
         dedupeKey: `${input.dedupePrefix}-${m.user_id}`,
+        cta: input.cta,
+        emailTemplateData: input.emailTemplateData,
       }).catch(() => {})
     }
   } catch {
@@ -322,6 +331,12 @@ export async function submitWeekCore(
     title: 'Semana cerrada — solicitud de pago',
     body: `${name} cerró la semana del ${weekStart} con ${formatMinutes(summary.totalMinutes)} y pide su pago.`,
     dedupePrefix: `tsheet-sub-${submissionId}-${payload.submitted_at}`,
+    cta: { label: 'Revisar semanas', url: '/time-tracking' },
+    emailTemplateData: {
+      employeeName: name,
+      weekStart,
+      totalLabel: formatMinutes(summary.totalMinutes),
+    },
   })
 
   try {
@@ -417,6 +432,7 @@ export async function addManualEntryCore(
     title: 'Horas manuales por aprobar',
     body: `${name} reportó ${input.date} ${input.timeIn}–${input.timeOut} (${formatMinutes(billableMinutes)}): ${input.reason.trim()}`,
     dedupePrefix: `manual-${(entry as { id: string }).id}`,
+    cta: { label: 'Revisar fichadas', url: '/time-tracking' },
   })
 
   return { ok: true }
@@ -486,6 +502,7 @@ export async function fixClockOutCore(
     title: 'Salida corregida por aprobar',
     body: `${name} corrigió su salida olvidada: ${input.date} ${input.time} (${formatMinutes(billableMinutes)}): ${input.reason.trim()}`,
     dedupePrefix: `fixout-${input.entryId}-${clockOutAt}`,
+    cta: { label: 'Revisar fichadas', url: '/time-tracking' },
   })
 
   return { ok: true }

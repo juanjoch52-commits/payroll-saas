@@ -33,6 +33,13 @@ export default async function DashboardPage({
   const session = await requireSession(`/${locale}/login`)
   const supabase = createClient()
 
+  // trial_ending sin cron: al abrir el dashboard, avisa (una vez por umbral
+  // ≤7d y ≤2d) a owners/admins que la prueba está por terminar. Best-effort.
+  if (['owner', 'admin'].includes(session.role)) {
+    const { maybeNotifyTrialEnding } = await import('@/lib/billing/trial-notify')
+    await maybeNotifyTrialEnding(session.organizationId)
+  }
+
   // Timezone + estado de onboarding de la org (el "hoy" de los KPIs corta en
   // el día LOCAL de la org, no en UTC).
   const { data: org } = await supabase

@@ -58,7 +58,7 @@ export async function clockIn(formData: FormData): Promise<ClockInResult> {
   // 1) Encontrar el employee vinculado a este user
   const { data: employee } = await supabase
     .from('employees')
-    .select('id, organization_id, status')
+    .select('id, organization_id, status, first_name, last_name')
     .eq('user_id', session.userId)
     .eq('organization_id', session.organizationId)
     .maybeSingle()
@@ -161,6 +161,23 @@ export async function clockIn(formData: FormData): Promise<ClockInResult> {
       await supabase.storage.from('time-photos').remove([photoPath])
     }
     return { success: false, error: insErr?.message ?? 'No se pudo crear el registro.' }
+  }
+
+  // Anomalía de geofence: avisar a los managers (el flag ya quedó en el entry
+  // y el mapa lo pinta ámbar, pero sin aviso nadie lo veía a tiempo).
+  if (outsideGeofence) {
+    try {
+      const { notifyOrgManagers } = await import('@/lib/timesheets/core')
+      await notifyOrgManagers(employee.organization_id, session.userId, {
+        type: 'clock_anomaly',
+        title: 'Fichada fuera de zona',
+        body: `${employee.first_name} ${employee.last_name} marcó entrada FUERA del geofence de la obra.`,
+        dedupePrefix: `geo-in-${entry.id}`,
+        cta: { label: 'Ver fichadas', url: '/time-tracking' },
+      })
+    } catch {
+      /* no crítico */
+    }
   }
 
   revalidatePath('/(employee)', 'layout')
@@ -312,8 +329,54 @@ export async function approveTimeEntry(
   const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
   await dispatchWebhook(session.organizationId, 'time_entry.approved', { entryId })
 
+  await notifyEntryDecision(session.organizationId, entryId, true)
+
   revalidatePath('/(app)/time-tracking', 'page')
   return { success: true }
+}
+
+/**
+ * Aviso al empleado cuando el manager revisa su fichada (aprobada/rechazada).
+ * Best-effort: nunca rompe la acción del manager.
+ */
+async function notifyEntryDecision(
+  organizationId: string,
+  entryId: string,
+  approved: boolean,
+  note?: string,
+) {
+  try {
+    const { createAdminClient } = await import('@/lib/supabase/server')
+    const admin = createAdminClient()
+    const { data: entry } = await admin
+      .from('time_entries')
+      .select('clock_in_at, employees!inner(user_id)')
+      .eq('id', entryId)
+      .eq('organization_id', organizationId)
+      .maybeSingle()
+    const e = entry as unknown as {
+      clock_in_at: string
+      employees: { user_id: string | null } | { user_id: string | null }[]
+    } | null
+    const emp = e ? (Array.isArray(e.employees) ? e.employees[0] : e.employees) : null
+    if (!emp?.user_id) return
+    const day = e!.clock_in_at.slice(0, 10)
+
+    const { dispatch } = await import('@/lib/notifications/dispatch')
+    await dispatch({
+      userId: emp.user_id,
+      organizationId,
+      type: approved ? 'time_entry_approved' : 'time_entry_rejected',
+      title: approved ? 'Fichada aprobada' : 'Fichada rechazada',
+      body: approved
+        ? `Tu fichada del ${day} fue aprobada.`
+        : `Tu fichada del ${day} fue rechazada${note ? `: ${note.slice(0, 200)}` : '.'}`,
+      dedupeKey: `entry-dec-${entryId}`,
+      cta: { label: 'Ver mis horas', url: '/history' },
+    }).catch(() => {})
+  } catch {
+    /* no crítico */
+  }
 }
 
 export async function rejectTimeEntry(
@@ -338,6 +401,9 @@ export async function rejectTimeEntry(
     .eq('organization_id', session.organizationId)
 
   if (error) return { success: false, error: error.message }
+
+  await notifyEntryDecision(session.organizationId, entryId, false, notes)
+
   revalidatePath('/(app)/time-tracking', 'page')
   return { success: true }
 }

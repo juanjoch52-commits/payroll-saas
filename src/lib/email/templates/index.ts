@@ -320,3 +320,311 @@ export function settlementPaidEmail(
     text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
   }
 }
+
+// ---------- GENERIC (branded fallback) ----------
+/** Fallback con el wrapper de marca para tipos sin plantilla dedicada. */
+export function genericEmail(
+  title: string,
+  body: string,
+  cta?: { label: string; href: string },
+): EmailContent {
+  return {
+    subject: title,
+    html: wrap(title, `<p>${body}</p>`, cta),
+    text: `${title}\n\n${body}${cta ? `\n\n${cta.label}: ${cta.href}` : ''}`,
+  }
+}
+
+// ---------- TIMESHEET SUBMITTED (al manager) ----------
+export function timesheetSubmittedEmail(
+  locale: EmailLocale,
+  payload: { employeeName: string; weekStart: string; totalLabel: string },
+): EmailContent {
+  const { employeeName, weekStart, totalLabel } = payload
+  const url = `${APP_URL}/${locale}/time-tracking`
+
+  const dict = {
+    en: {
+      subject: `${employeeName} closed their week (${weekStart}) — ${totalLabel}`,
+      title: 'Week closed — pay request',
+      body: `<p><strong>${employeeName}</strong> closed the week of <strong>${weekStart}</strong> with <strong>${totalLabel}</strong> and is requesting payment.</p>
+        <p>Review and approve it so it lands in the next payroll.</p>`,
+      cta: 'Review weeks',
+    },
+    es: {
+      subject: `${employeeName} cerró su semana (${weekStart}) — ${totalLabel}`,
+      title: 'Semana cerrada — solicitud de pago',
+      body: `<p><strong>${employeeName}</strong> cerró la semana del <strong>${weekStart}</strong> con <strong>${totalLabel}</strong> y pide su pago.</p>
+        <p>Revísala y apruébala para que entre en la próxima nómina.</p>`,
+      cta: 'Revisar semanas',
+    },
+    fr: {
+      subject: `${employeeName} a clôturé sa semaine (${weekStart}) — ${totalLabel}`,
+      title: 'Semaine clôturée — demande de paiement',
+      body: `<p><strong>${employeeName}</strong> a clôturé la semaine du <strong>${weekStart}</strong> avec <strong>${totalLabel}</strong> et demande son paiement.</p>
+        <p>Vérifiez-la et approuvez-la pour qu'elle entre dans la prochaine paie.</p>`,
+      cta: 'Vérifier les semaines',
+    },
+    'fr-CA': {
+      subject: `${employeeName} a clôturé sa semaine (${weekStart}) — ${totalLabel}`,
+      title: 'Semaine clôturée — demande de paiement',
+      body: `<p><strong>${employeeName}</strong> a clôturé la semaine du <strong>${weekStart}</strong> avec <strong>${totalLabel}</strong> et demande son paiement.</p>
+        <p>Vérifiez-la et approuvez-la pour qu'elle entre dans la prochaine paie.</p>`,
+      cta: 'Vérifier les semaines',
+    },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}
+
+// ---------- TIMESHEET DECISION (al empleado) ----------
+export function timesheetDecisionEmail(
+  locale: EmailLocale,
+  payload: { weekStart: string; approved: boolean; minutesLabel?: string; note?: string },
+): EmailContent {
+  const { weekStart, approved, minutesLabel, note } = payload
+  const url = `${APP_URL}/${locale}/history`
+
+  const dict = {
+    en: approved
+      ? {
+          subject: `Your week of ${weekStart} was approved ✅`,
+          title: 'Week approved',
+          body: `<p>Your week of <strong>${weekStart}</strong> was approved${minutesLabel ? ` (<strong>${minutesLabel}</strong>)` : ''}.</p>
+            <p>It will be included in the next payroll.</p>`,
+          cta: 'View my hours',
+        }
+      : {
+          subject: `Your week of ${weekStart} was returned`,
+          title: 'Week returned',
+          body: `<p>Your week of <strong>${weekStart}</strong> was returned:</p>
+            <p style="border-left:3px solid #e2e8f0;padding-left:12px;color:#475569">${note ?? ''}</p>
+            <p>Fix what's needed and submit it again.</p>`,
+          cta: 'Fix my week',
+        },
+    es: approved
+      ? {
+          subject: `Tu semana del ${weekStart} fue aprobada ✅`,
+          title: 'Semana aprobada',
+          body: `<p>Tu semana del <strong>${weekStart}</strong> fue aprobada${minutesLabel ? ` (<strong>${minutesLabel}</strong>)` : ''}.</p>
+            <p>Entrará en la próxima nómina.</p>`,
+          cta: 'Ver mis horas',
+        }
+      : {
+          subject: `Tu semana del ${weekStart} fue devuelta`,
+          title: 'Semana devuelta',
+          body: `<p>Tu semana del <strong>${weekStart}</strong> fue devuelta:</p>
+            <p style="border-left:3px solid #e2e8f0;padding-left:12px;color:#475569">${note ?? ''}</p>
+            <p>Corrige lo necesario y vuelve a enviarla.</p>`,
+          cta: 'Corregir mi semana',
+        },
+    fr: approved
+      ? {
+          subject: `Votre semaine du ${weekStart} a été approuvée ✅`,
+          title: 'Semaine approuvée',
+          body: `<p>Votre semaine du <strong>${weekStart}</strong> a été approuvée${minutesLabel ? ` (<strong>${minutesLabel}</strong>)` : ''}.</p>
+            <p>Elle sera incluse dans la prochaine paie.</p>`,
+          cta: 'Voir mes heures',
+        }
+      : {
+          subject: `Votre semaine du ${weekStart} a été retournée`,
+          title: 'Semaine retournée',
+          body: `<p>Votre semaine du <strong>${weekStart}</strong> a été retournée :</p>
+            <p style="border-left:3px solid #e2e8f0;padding-left:12px;color:#475569">${note ?? ''}</p>
+            <p>Corrigez ce qui est nécessaire et renvoyez-la.</p>`,
+          cta: 'Corriger ma semaine',
+        },
+    'fr-CA': approved
+      ? {
+          subject: `Votre semaine du ${weekStart} a été approuvée ✅`,
+          title: 'Semaine approuvée',
+          body: `<p>Votre semaine du <strong>${weekStart}</strong> a été approuvée${minutesLabel ? ` (<strong>${minutesLabel}</strong>)` : ''}.</p>
+            <p>Elle sera incluse dans la prochaine paie.</p>`,
+          cta: 'Voir mes heures',
+        }
+      : {
+          subject: `Votre semaine du ${weekStart} a été retournée`,
+          title: 'Semaine retournée',
+          body: `<p>Votre semaine du <strong>${weekStart}</strong> a été retournée :</p>
+            <p style="border-left:3px solid #e2e8f0;padding-left:12px;color:#475569">${note ?? ''}</p>
+            <p>Corrigez ce qui est nécessaire et renvoyez-la.</p>`,
+          cta: 'Corriger ma semaine',
+        },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}
+
+// ---------- TIME OFF REQUEST (al owner/manager) ----------
+export function timeOffRequestEmail(
+  locale: EmailLocale,
+  payload: { employeeName: string; startDate: string; endDate: string; hours: number },
+): EmailContent {
+  const { employeeName, startDate, endDate, hours } = payload
+  const url = `${APP_URL}/${locale}/time-off`
+
+  const dict = {
+    en: {
+      subject: `Time-off request from ${employeeName} (${startDate} → ${endDate})`,
+      title: 'New time-off request',
+      body: `<p><strong>${employeeName}</strong> requested time off from <strong>${startDate}</strong> to <strong>${endDate}</strong> (${hours}h).</p>`,
+      cta: 'Review request',
+    },
+    es: {
+      subject: `Solicitud de tiempo libre de ${employeeName} (${startDate} → ${endDate})`,
+      title: 'Nueva solicitud de tiempo libre',
+      body: `<p><strong>${employeeName}</strong> solicitó tiempo libre del <strong>${startDate}</strong> al <strong>${endDate}</strong> (${hours}h).</p>`,
+      cta: 'Revisar solicitud',
+    },
+    fr: {
+      subject: `Demande de congé de ${employeeName} (${startDate} → ${endDate})`,
+      title: 'Nouvelle demande de congé',
+      body: `<p><strong>${employeeName}</strong> a demandé un congé du <strong>${startDate}</strong> au <strong>${endDate}</strong> (${hours} h).</p>`,
+      cta: 'Examiner la demande',
+    },
+    'fr-CA': {
+      subject: `Demande de congé de ${employeeName} (${startDate} → ${endDate})`,
+      title: 'Nouvelle demande de congé',
+      body: `<p><strong>${employeeName}</strong> a demandé un congé du <strong>${startDate}</strong> au <strong>${endDate}</strong> (${hours} h).</p>`,
+      cta: 'Examiner la demande',
+    },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}
+
+// ---------- TIME OFF DECISION (al empleado) ----------
+export function timeOffDecisionEmail(
+  locale: EmailLocale,
+  payload: { startDate: string; endDate: string; approved: boolean; note?: string },
+): EmailContent {
+  const { startDate, endDate, approved, note } = payload
+  const url = `${APP_URL}/${locale}/my-time-off`
+  const noteHtml = note
+    ? `<p style="border-left:3px solid #e2e8f0;padding-left:12px;color:#475569">${note}</p>`
+    : ''
+
+  const dict = {
+    en: approved
+      ? {
+          subject: `Time off approved: ${startDate} → ${endDate} ✅`,
+          title: 'Time off approved',
+          body: `<p>Your time-off request from <strong>${startDate}</strong> to <strong>${endDate}</strong> was approved.</p>${noteHtml}`,
+          cta: 'View my time off',
+        }
+      : {
+          subject: `Time off declined: ${startDate} → ${endDate}`,
+          title: 'Time off declined',
+          body: `<p>Your time-off request from <strong>${startDate}</strong> to <strong>${endDate}</strong> was declined.</p>${noteHtml}`,
+          cta: 'View my time off',
+        },
+    es: approved
+      ? {
+          subject: `Tiempo libre aprobado: ${startDate} → ${endDate} ✅`,
+          title: 'Tiempo libre aprobado',
+          body: `<p>Tu solicitud de tiempo libre del <strong>${startDate}</strong> al <strong>${endDate}</strong> fue aprobada.</p>${noteHtml}`,
+          cta: 'Ver mi tiempo libre',
+        }
+      : {
+          subject: `Tiempo libre rechazado: ${startDate} → ${endDate}`,
+          title: 'Tiempo libre rechazado',
+          body: `<p>Tu solicitud de tiempo libre del <strong>${startDate}</strong> al <strong>${endDate}</strong> fue rechazada.</p>${noteHtml}`,
+          cta: 'Ver mi tiempo libre',
+        },
+    fr: approved
+      ? {
+          subject: `Congé approuvé : ${startDate} → ${endDate} ✅`,
+          title: 'Congé approuvé',
+          body: `<p>Votre demande de congé du <strong>${startDate}</strong> au <strong>${endDate}</strong> a été approuvée.</p>${noteHtml}`,
+          cta: 'Voir mes congés',
+        }
+      : {
+          subject: `Congé refusé : ${startDate} → ${endDate}`,
+          title: 'Congé refusé',
+          body: `<p>Votre demande de congé du <strong>${startDate}</strong> au <strong>${endDate}</strong> a été refusée.</p>${noteHtml}`,
+          cta: 'Voir mes congés',
+        },
+    'fr-CA': approved
+      ? {
+          subject: `Congé approuvé : ${startDate} → ${endDate} ✅`,
+          title: 'Congé approuvé',
+          body: `<p>Votre demande de congé du <strong>${startDate}</strong> au <strong>${endDate}</strong> a été approuvée.</p>${noteHtml}`,
+          cta: 'Voir mes congés',
+        }
+      : {
+          subject: `Congé refusé : ${startDate} → ${endDate}`,
+          title: 'Congé refusé',
+          body: `<p>Votre demande de congé du <strong>${startDate}</strong> au <strong>${endDate}</strong> a été refusée.</p>${noteHtml}`,
+          cta: 'Voir mes congés',
+        },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}
+
+// ---------- TRIAL ENDING (al owner/admin) ----------
+export function trialEndingEmail(
+  locale: EmailLocale,
+  payload: { orgName: string; daysLeft: number },
+): EmailContent {
+  const { orgName, daysLeft } = payload
+  const url = `${APP_URL}/${locale}/billing`
+
+  const dict = {
+    en: {
+      subject: `Your MyJova trial ends in ${daysLeft} day${daysLeft === 1 ? '' : 's'}`,
+      title: 'Your trial is ending soon',
+      body: `<p>The free trial for <strong>${orgName}</strong> ends in <strong>${daysLeft} day${daysLeft === 1 ? '' : 's'}</strong>.</p>
+        <p>Pick a plan to keep payroll, time tracking and your team's access running without interruption.</p>`,
+      cta: 'Choose a plan',
+    },
+    es: {
+      subject: `Tu prueba de MyJova termina en ${daysLeft} día${daysLeft === 1 ? '' : 's'}`,
+      title: 'Tu prueba está por terminar',
+      body: `<p>La prueba gratis de <strong>${orgName}</strong> termina en <strong>${daysLeft} día${daysLeft === 1 ? '' : 's'}</strong>.</p>
+        <p>Elige un plan para que la nómina, el control de horas y el acceso de tu equipo sigan sin interrupción.</p>`,
+      cta: 'Elegir plan',
+    },
+    fr: {
+      subject: `Votre essai MyJova se termine dans ${daysLeft} jour${daysLeft === 1 ? '' : 's'}`,
+      title: 'Votre essai se termine bientôt',
+      body: `<p>L'essai gratuit de <strong>${orgName}</strong> se termine dans <strong>${daysLeft} jour${daysLeft === 1 ? '' : 's'}</strong>.</p>
+        <p>Choisissez un plan pour que la paie, le suivi des heures et l'accès de votre équipe continuent sans interruption.</p>`,
+      cta: 'Choisir un plan',
+    },
+    'fr-CA': {
+      subject: `Votre essai MyJova se termine dans ${daysLeft} jour${daysLeft === 1 ? '' : 's'}`,
+      title: 'Votre essai se termine bientôt',
+      body: `<p>L'essai gratuit de <strong>${orgName}</strong> se termine dans <strong>${daysLeft} jour${daysLeft === 1 ? '' : 's'}</strong>.</p>
+        <p>Choisissez un plan pour que la paie, le suivi des heures et l'accès de votre équipe continuent sans interruption.</p>`,
+      cta: 'Choisir un plan',
+    },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}

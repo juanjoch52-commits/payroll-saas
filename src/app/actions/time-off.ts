@@ -146,12 +146,27 @@ export async function requestTimeOff(input: z.input<typeof requestSchema>): Prom
       .maybeSingle()
     const ownerId = (org as { owner_user_id: string } | null)?.owner_user_id
     if (ownerId) {
+      const { data: empName } = await admin
+        .from('employees')
+        .select('first_name, last_name')
+        .eq('id', (emp as { id: string }).id)
+        .maybeSingle()
+      const en = empName as { first_name: string; last_name: string } | null
+      const employeeName = en ? `${en.first_name} ${en.last_name}` : 'Un empleado'
       const { dispatch } = await import('@/lib/notifications/dispatch')
       await dispatch({
         userId: ownerId,
+        organizationId: session.organizationId,
         type: 'time_off_request',
         title: 'Nueva solicitud de tiempo libre',
-        body: `${d.startDate} → ${d.endDate} (${d.hours}h)`,
+        body: `${employeeName}: ${d.startDate} → ${d.endDate} (${d.hours}h)`,
+        cta: { label: 'Revisar solicitud', url: '/time-off' },
+        emailTemplateData: {
+          employeeName,
+          startDate: d.startDate,
+          endDate: d.endDate,
+          hours: d.hours,
+        },
       }).catch(() => {})
     }
   } catch {
@@ -250,12 +265,19 @@ export async function respondTimeOff(
 
   const { data: req } = await supabase
     .from('time_off_requests')
-    .select('id, employee_id, policy_id, hours')
+    .select('id, employee_id, policy_id, hours, start_date, end_date')
     .eq('id', requestId)
     .eq('organization_id', session.organizationId)
     .maybeSingle()
   if (!req) return { success: false, error: 'Solicitud no encontrada.' }
-  const r = req as { id: string; employee_id: string; policy_id: string | null; hours: number }
+  const r = req as {
+    id: string
+    employee_id: string
+    policy_id: string | null
+    hours: number
+    start_date: string
+    end_date: string
+  }
 
   const { error } = await supabase
     .from('time_off_requests')
@@ -310,9 +332,20 @@ export async function respondTimeOff(
       const { dispatch } = await import('@/lib/notifications/dispatch')
       await dispatch({
         userId: uid,
+        organizationId: session.organizationId,
         type: 'time_off_decision',
         title: approve ? 'Tiempo libre aprobado' : 'Tiempo libre rechazado',
-        body: approve ? 'Tu solicitud fue aprobada.' : 'Tu solicitud fue rechazada.',
+        body: approve
+          ? `Tu solicitud del ${r.start_date} al ${r.end_date} fue aprobada.`
+          : `Tu solicitud del ${r.start_date} al ${r.end_date} fue rechazada.`,
+        dedupeKey: `pto-dec-${r.id}`,
+        cta: { label: 'Ver mi tiempo libre', url: '/my-time-off' },
+        emailTemplateData: {
+          startDate: r.start_date,
+          endDate: r.end_date,
+          approved: approve,
+          note: notes?.trim() ? notes.trim().slice(0, 300) : undefined,
+        },
       }).catch(() => {})
     }
   } catch {
