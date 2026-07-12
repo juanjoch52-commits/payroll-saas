@@ -65,8 +65,8 @@ margen**, + **HST 13%** sobre lo facturado.
 3. **Stripe**: crear 3 productos con **DOS precios mensuales cada uno** (flat base +
    per-unit seat licensed, NO metered) → 6 env vars `STRIPE_PRICE_<PLAN>_{BASE,SEAT}`;
    webhook prod → `<APP_URL>/api/webhooks/stripe` (añadir evento `invoice.payment_failed`).
-   Montos placeholder $29+5/$59+7/$99+10 — al cambiarlos, sincronizar los 3 sitios:
-   Stripe + migración `...033_seat_pricing.sql` (o UPDATE a `plans`) + `src/lib/pricing/plans.ts`.
+   Montos CONFIRMADOS: $29+5 / $59+7 / $99+10. Si algún día cambian, sincronizar
+   los 3 sitios: Stripe + tabla `plans` (UPDATE) + `src/lib/pricing/plans.ts`.
 4. **Smoke test E2E real (siguiente sesión, en cuanto 1-3 estén)**: signup → onboarding →
    empleado → fichar → aprobar → nómina → paystub/settlement contra el Supabase vivo.
    La app NUNCA ha corrido con DB real — espera 3-5 bugs de primera ejecución; arreglarlos.
@@ -75,8 +75,14 @@ margen**, + **HST 13%** sobre lo facturado.
 
 ### Decisiones de negocio PENDIENTES de Juan
 - ~~Modelo de cobro~~ **RESUELTO (2026-07-12)**: base + por-trabajador-activo,
-  implementado en BILL2. Solo falta que Juan confirme/ajuste los MONTOS placeholder
-  ($29+5 / $59+7 / $99+10) al crear los precios en Stripe.
+  implementado en BILL2. **Montos CONFIRMADOS por Juan** ("ok dejalo asi"):
+  Esencial $29+$5 · Avanzado $59+$7 · Premium $99+$10 — crear los precios en
+  Stripe con estos valores exactos.
+- ~~Plan del trial~~ **RESUELTO (2026-07-12)**: el trial de 30 días se queda en
+  **Esencial** (handle_new_user sin cambios). Nota consciente: en trial no se
+  pueden probar features de Avanzado (daily/commission/piecerate, tax forms) pero
+  el módulo de contratistas SÍ está disponible porque no tiene candado (ver
+  decisión pendiente de abajo).
 - **Candado por plan del módulo contratistas**: la landing lo vende como Premium, pero
   `uses_subcontractors` es activable en CUALQUIER plan (sin enforcement). Si Premium es
   exclusivo → plan feature flag + checkFeature en página/actions/toggle.
