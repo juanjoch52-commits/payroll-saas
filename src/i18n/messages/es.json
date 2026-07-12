@@ -204,33 +204,40 @@
     "plans": {
       "essential": {
         "name": "Esencial",
-        "tagline": "Para equipos pequeños",
+        "tagline": "Control de tiempo + nómina para equipos chicos",
         "features": [
           "Hasta 10 empleados",
-          "Pago por hora y salario",
-          "Cálculo básico de impuestos",
-          "1 usuario administrador"
+          "Fichaje con foto + geofence GPS",
+          "Kiosko de tablet con PIN + app móvil",
+          "Cierre de semana y solicitudes de pago",
+          "Reglas automáticas de almuerzo",
+          "Nómina por hora y salario con recibos"
         ]
       },
       "advanced": {
         "name": "Avanzado",
-        "tagline": "Para equipos en crecimiento",
+        "tagline": "Nómina completa para empresas en crecimiento",
         "features": [
           "Hasta 50 empleados",
-          "Todos los esquemas de pago (diario, comisión)",
-          "Reportes anuales W-2 y 1099",
-          "Multi-usuario con roles"
+          "Todo lo de Esencial",
+          "Todos los esquemas: día, comisión, por pieza",
+          "Impuestos, W-2 / 1099 y e-file",
+          "Horarios, PTO con acumulación y propinas",
+          "Integraciones QuickBooks y Square",
+          "Varios usuarios administradores"
         ]
       },
       "premium": {
-        "name": "Premium Bundle",
-        "tagline": "Para integración total",
+        "name": "Premium — Contratistas",
+        "tagline": "Para empresas que pagan cuadrillas de subcontratistas",
         "features": [
           "Empleados ilimitados",
-          "Acceso a API REST",
-          "Formularios de contratistas 1099-NEC y T4A",
-          "Integración con MyRavex",
-          "Soporte prioritario"
+          "Todo lo de Avanzado",
+          "Contratistas jerárquicos: un cheque consolidado",
+          "Tarifas facturadas por trabajador, márgenes y HST",
+          "Portal privado del contratista + emails de pagos",
+          "Registros congelados y reporte anual de ingresos",
+          "API, webhooks y soporte prioritario"
         ]
       }
     },

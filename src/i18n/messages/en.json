@@ -204,33 +204,40 @@
     "plans": {
       "essential": {
         "name": "Esencial",
-        "tagline": "For small teams",
+        "tagline": "Time tracking + payroll for small teams",
         "features": [
           "Up to 10 employees",
-          "Hourly + salary pay",
-          "Basic tax calculation",
-          "1 admin user"
+          "Clock in with photo + GPS geofence",
+          "Tablet kiosk with PIN + mobile app",
+          "Weekly close & pay requests",
+          "Auto lunch-break rules",
+          "Hourly + salary payroll with pay stubs"
         ]
       },
       "advanced": {
         "name": "Avanzado",
-        "tagline": "For growing teams",
+        "tagline": "Full payroll compliance for growing companies",
         "features": [
           "Up to 50 employees",
-          "All pay schemes (daily, commission)",
-          "Annual W-2 and 1099 reports",
-          "Multi-user with roles"
+          "Everything in Esencial",
+          "All pay schemes: daily, commission, piece-rate",
+          "Taxes, W-2 / 1099 & e-file exports",
+          "Scheduling, PTO accrual & tips",
+          "QuickBooks & Square integrations",
+          "Multiple admin users"
         ]
       },
       "premium": {
-        "name": "Premium Bundle",
-        "tagline": "For full integration",
+        "name": "Premium — Contractors",
+        "tagline": "For companies that pay subcontractor crews",
         "features": [
           "Unlimited employees",
-          "REST API access",
-          "1099-NEC and T4A contractor forms",
-          "MyRavex integration",
-          "Priority support"
+          "Everything in Avanzado",
+          "Hierarchical contractors: one consolidated check",
+          "Per-worker bill rates, margins & HST",
+          "Private contractor portal + payment emails",
+          "Frozen settlement records & annual income reports",
+          "API access, webhooks & priority support"
         ]
       }
     },
