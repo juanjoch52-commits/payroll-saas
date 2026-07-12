@@ -81,7 +81,7 @@
     "alreadyHaveAccount": "Already have an account?",
     "signInToContinue": "Sign in to continue to MyJova",
     "createYourCompany": "Create your company on MyJova",
-    "signUpHelp": "We'll set up a 14-day free trial of the Esencial plan.",
+    "signUpHelp": "We'll set up a 30-day free trial of the Esencial plan.",
     "checkYourEmail": "Check your email",
     "weSentConfirmation": "We sent a confirmation link to {email}.",
     "invalidCredentials": "Invalid email or password.",
@@ -335,7 +335,7 @@
       "sub": "Workers clock in with photo + GPS and close their week to request pay. Hours flow into payroll with taxes done. Paying subcontractors? One consolidated check per contractor, margins and HST included.",
       "primaryCta": "Start free trial",
       "secondaryCta": "See how it works",
-      "microcopy": "14-day free trial · No credit card required",
+      "microcopy": "30-day free trial · No credit card required",
       "mockupWorkerName": "Maria García",
       "mockupClockedSince": "Clocked in since 7:42 AM",
       "mockupJobsite": "Brooklyn job site",
@@ -431,7 +431,7 @@
       "mostPopular": "Most popular",
       "ctaStart": "Start free trial",
       "ctaSales": "Talk to sales",
-      "footer": "All plans include a 14-day free trial. Cancel anytime.",
+      "footer": "All plans include a 30-day free trial. Cancel anytime.",
       "monthly": "Monthly",
       "annual": "Annual",
       "perMonth": "/month",
@@ -619,7 +619,7 @@
       "items": {
         "card": {
           "q": "Do I need a credit card to start?",
-          "a": "No. You can start a 14-day free trial without a card. We only charge if you decide to keep using MyJova."
+          "a": "No. You can start a 30-day free trial without a card. We only charge if you decide to keep using MyJova."
         },
         "noEmail": {
           "q": "What if my workers don't have email?",
@@ -649,7 +649,7 @@
       "sub": "Join the small businesses tracking time and paying their teams with MyJova.",
       "cta": "Start free trial",
       "demo": "or explore the live preview →",
-      "microcopy": "14-day free trial · No credit card required"
+      "microcopy": "30-day free trial · No credit card required"
     },
     "footer": {
       "tagline": "Payroll and time tracking for contractors and restaurants in the US and Canada.",

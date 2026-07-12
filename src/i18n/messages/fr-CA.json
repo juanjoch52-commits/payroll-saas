@@ -81,7 +81,7 @@
     "alreadyHaveAccount": "Vous avez déjà un compte ?",
     "signInToContinue": "Connectez-vous pour continuer sur MyJova",
     "createYourCompany": "Créez votre entreprise sur MyJova",
-    "signUpHelp": "Nous activons un essai gratuit de 14 jours du plan Esencial.",
+    "signUpHelp": "Nous activons un essai gratuit de 30 jours du plan Esencial.",
     "checkYourEmail": "Vérifiez votre courriel",
     "weSentConfirmation": "Nous avons envoyé un lien de confirmation à {email}.",
     "invalidCredentials": "Courriel ou mot de passe invalide.",
@@ -335,7 +335,7 @@
       "sub": "Votre équipe pointe avec photo + GPS et clôture sa semaine pour demander sa paie. Les heures entrent seules dans la paie, impôts calculés. Vous payez des sous-traitants ? Un chèque consolidé par entrepreneur, marge et HST incluses.",
       "primaryCta": "Essai gratuit",
       "secondaryCta": "Voir comment ça fonctionne",
-      "microcopy": "Essai gratuit de 14 jours · Sans carte de crédit",
+      "microcopy": "Essai gratuit de 30 jours · Sans carte de crédit",
       "mockupWorkerName": "Maria García",
       "mockupClockedSince": "Poinçonnée depuis 7h42",
       "mockupJobsite": "Chantier de Brooklyn",
@@ -431,7 +431,7 @@
       "mostPopular": "Le plus populaire",
       "ctaStart": "Essai gratuit",
       "ctaSales": "Parler aux ventes",
-      "footer": "Tous les plans incluent un essai gratuit de 14 jours. Annulez à tout moment.",
+      "footer": "Tous les plans incluent un essai gratuit de 30 jours. Annulez à tout moment.",
       "monthly": "Mensuel",
       "annual": "Annuel",
       "perMonth": "/mois",
@@ -619,7 +619,7 @@
       "items": {
         "card": {
           "q": "Ai-je besoin d'une carte de crédit pour commencer ?",
-          "a": "Non. Vous pouvez démarrer un essai de 14 jours sans carte. Nous ne facturons que si vous décidez de continuer avec MyJova."
+          "a": "Non. Vous pouvez démarrer un essai de 30 jours sans carte. Nous ne facturons que si vous décidez de continuer avec MyJova."
         },
         "noEmail": {
           "q": "Et si mes employés n'ont pas de courriel ?",
@@ -649,7 +649,7 @@
       "sub": "Joignez-vous aux petites entreprises qui suivent le temps et paient leurs équipes avec MyJova.",
       "cta": "Essai gratuit",
       "demo": "ou explorez l'aperçu en direct →",
-      "microcopy": "14 jours gratuits · Sans carte de crédit"
+      "microcopy": "30 jours gratuits · Sans carte de crédit"
     },
     "footer": {
       "tagline": "Paie et suivi du temps pour les entrepreneurs et restaurants des États-Unis et du Canada.",

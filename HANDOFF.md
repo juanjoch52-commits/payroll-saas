@@ -6,8 +6,8 @@ Termina los mensajes de commit con `Co-Authored-By: Claude Opus 4.8 <noreply@ant
 ## Estado global (2026-07-11) — CÓDIGO COMPLETO, INFRA PENDIENTE
 
 **Todo el trabajo de producto está hecho y commiteado.** Gates: typecheck ✅ · lint ✅ ·
-build ✅ · **vitest 131/131 ✅**. Git limpio. **65 migraciones** (`db:push` aplica hasta
-`20260501000031`). **Próximo timestamp libre: `20260501000032`.**
+build ✅ · **vitest 131/131 ✅**. Git limpio. **66 migraciones** (`db:push` aplica hasta
+`20260501000032`). **Próximo timestamp libre: `20260501000033`.**
 
 Sprints completados (todos en esta rama, ver git log):
 | Sprint | Qué | Commits clave |
@@ -25,6 +25,7 @@ Sprints completados (todos en esta rama, ver git log):
 | GLP | Landing (9 features: +cierre de semana, +contratistas, +almuerzo; hero nuevo) · Signup con "¿pagas a subcontratistas?" → org nace con el flag (...028) · Dashboard: banner de semanas cerradas por aprobar + quick action guía · **Guía de inducción**: /guide (3 perfiles con anclas), /help (trabajador), /my-guide (contratista — OJO: /help colisionaba entre route groups) | `da3d88f` |
 | SFT | **Contador de jornada** (standard_shift_minutes, Settings→General): progreso + "te faltan X" + hora estimada de salida (jornada+almuerzo) + "completa ✓" en web y app Expo (via /time/week). **Geo de salidas**: mapa del manager pinta INs (azul/ámbar) y OUTs (gris) + pin→Google Maps por cada fichada | `0e6536c` |
 | REC | **Auditoría de liquidaciones** (4 tests: no-dup anidados, aislamiento raíces, sumas cuadradas, HST 1 redondeo) + **FIX drift**: `settlement_records` CONGELADOS al aprobar (unique run×sub) — reportes leen de ahí, cambios de asignación/tarifa ya no reescriben historia. **Reporte anual** (base caja por pay date, lib annual.ts+6 tests): año+CSV en portal contratista y /reports/settlements empresa (misma fuente). **Emails al contratista**: settlement_ready (aprobada, con totales) y settlement_paid (pagada) | `8f7d623` |
+| PRC/TRL | Pricing de landing vende el producto real (Premium — Contratistas con el módulo completo; $49/99/199 sin cambios) · **Trial de 30 días** (...032 handle_new_user + landing/signup/welcome/terms ×4 locales). PENDIENTE decisión Juan: flat-vs-por-trabajador y candado por plan del módulo contratistas | `c4bad2f`, `10c0d69` |
 | MOB | **App móvil al día** (ya NO está stale): core único `lib/timesheets/core.ts` (web actions + API v1 comparten lógica), endpoints `GET /api/v1/time/week` + `submit-week` + `manual-entry` + `fix-clock-out` + skipBreak en clock-out; Expo: tab Hours semanal con cierre de semana, form olvidé-fichar, switch no-tomé-almuerzo, fix de salida >10h, resumen hoy/semana. `apps/mobile` con `npm run typecheck` limpio (deps instaladas, lockfile commiteado) | `7e15d91` |
 
 ## Subcontratistas (feature clave — caso real de Juan)

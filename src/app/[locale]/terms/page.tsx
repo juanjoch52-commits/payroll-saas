@@ -24,7 +24,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
   {
     title: '3. Payments & trial',
     body: [
-      'New organizations start on a 14-day free trial. When it ends, core write actions pause until a plan is selected. Fees are billed via Stripe per the plan you choose and are non-refundable except where required by law.',
+      'New organizations start on a 30-day free trial. When it ends, core write actions pause until a plan is selected. Fees are billed via Stripe per the plan you choose and are non-refundable except where required by law.',
     ],
   },
   {

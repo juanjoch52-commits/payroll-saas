@@ -52,7 +52,7 @@ export function welcomeEmail(
     en: {
       subject: `Welcome to MyJova, ${firstName} 👋`,
       title: `Welcome to MyJova, ${firstName}`,
-      body: `<p>Your company <strong>${orgName}</strong> is ready. We've started your 14-day free trial of the Esencial plan.</p>
+      body: `<p>Your company <strong>${orgName}</strong> is ready. We've started your 30-day free trial of the Esencial plan.</p>
         <p>What to do next:</p>
         <ul><li>Add your first employees</li><li>Set up at least one worksite</li><li>Invite workers to clock in</li></ul>`,
       cta: 'Open dashboard',
@@ -60,7 +60,7 @@ export function welcomeEmail(
     es: {
       subject: `Bienvenido a MyJova, ${firstName} 👋`,
       title: `Bienvenido a MyJova, ${firstName}`,
-      body: `<p>Tu empresa <strong>${orgName}</strong> está lista. Iniciamos tu prueba gratis de 14 días del plan Esencial.</p>
+      body: `<p>Tu empresa <strong>${orgName}</strong> está lista. Iniciamos tu prueba gratis de 30 días del plan Esencial.</p>
         <p>Qué hacer ahora:</p>
         <ul><li>Agrega tus primeros empleados</li><li>Configura al menos un sitio de trabajo</li><li>Invita a los trabajadores a registrar su asistencia</li></ul>`,
       cta: 'Abrir panel',
@@ -68,7 +68,7 @@ export function welcomeEmail(
     fr: {
       subject: `Bienvenue sur MyJova, ${firstName} 👋`,
       title: `Bienvenue sur MyJova, ${firstName}`,
-      body: `<p>Votre entreprise <strong>${orgName}</strong> est prête. Nous avons activé votre essai gratuit de 14 jours du plan Esencial.</p>
+      body: `<p>Votre entreprise <strong>${orgName}</strong> est prête. Nous avons activé votre essai gratuit de 30 jours du plan Esencial.</p>
         <p>Prochaines étapes :</p>
         <ul><li>Ajoutez vos premiers employés</li><li>Configurez au moins un chantier</li><li>Invitez les employés à pointer</li></ul>`,
       cta: 'Ouvrir le tableau de bord',
@@ -76,7 +76,7 @@ export function welcomeEmail(
     'fr-CA': {
       subject: `Bienvenue sur MyJova, ${firstName} 👋`,
       title: `Bienvenue sur MyJova, ${firstName}`,
-      body: `<p>Votre entreprise <strong>${orgName}</strong> est prête. Nous avons activé votre essai gratuit de 14 jours du plan Esencial.</p>
+      body: `<p>Votre entreprise <strong>${orgName}</strong> est prête. Nous avons activé votre essai gratuit de 30 jours du plan Esencial.</p>
         <p>Prochaines étapes :</p>
         <ul><li>Ajoutez vos premiers employés</li><li>Configurez au moins un chantier</li><li>Invitez les employés à poinçonner</li></ul>`,
       cta: 'Ouvrir le tableau de bord',

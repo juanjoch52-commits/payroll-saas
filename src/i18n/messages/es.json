@@ -81,7 +81,7 @@
     "alreadyHaveAccount": "¿Ya tienes cuenta?",
     "signInToContinue": "Inicia sesión para continuar en MyJova",
     "createYourCompany": "Crea tu empresa en MyJova",
-    "signUpHelp": "Activamos una prueba gratuita de 14 días del plan Esencial.",
+    "signUpHelp": "Activamos una prueba gratuita de 30 días del plan Esencial.",
     "checkYourEmail": "Revisa tu correo",
     "weSentConfirmation": "Te enviamos un enlace de confirmación a {email}.",
     "invalidCredentials": "Correo o contraseña incorrectos.",
@@ -335,7 +335,7 @@
       "sub": "Tu equipo ficha con foto + GPS y cierra su semana para pedir su pago. Las horas entran solas a la nómina con impuestos calculados. ¿Pagas a subcontratistas? Un cheque consolidado por contratista, con margen y HST incluidos.",
       "primaryCta": "Probar gratis",
       "secondaryCta": "Ver cómo funciona",
-      "microcopy": "14 días gratis · No necesitas tarjeta",
+      "microcopy": "30 días gratis · No necesitas tarjeta",
       "mockupWorkerName": "María García",
       "mockupClockedSince": "Entró a las 7:42 AM",
       "mockupJobsite": "Obra en Brooklyn",
@@ -431,7 +431,7 @@
       "mostPopular": "Más popular",
       "ctaStart": "Probar gratis",
       "ctaSales": "Hablar con ventas",
-      "footer": "Todos los planes incluyen 14 días gratis. Cancela cuando quieras.",
+      "footer": "Todos los planes incluyen 30 días gratis. Cancela cuando quieras.",
       "monthly": "Mensual",
       "annual": "Anual",
       "perMonth": "/mes",
@@ -619,7 +619,7 @@
       "items": {
         "card": {
           "q": "¿Necesito tarjeta de crédito para empezar?",
-          "a": "No. Puedes empezar la prueba de 14 días sin tarjeta. Solo cobramos si decides seguir usando MyJova."
+          "a": "No. Puedes empezar la prueba de 30 días sin tarjeta. Solo cobramos si decides seguir usando MyJova."
         },
         "noEmail": {
           "q": "¿Y si mis trabajadores no tienen correo?",
@@ -649,7 +649,7 @@
       "sub": "Únete a los pequeños negocios que registran tiempo y pagan a su equipo con MyJova.",
       "cta": "Probar gratis",
       "demo": "o explora el preview en vivo →",
-      "microcopy": "14 días gratis · Sin tarjeta"
+      "microcopy": "30 días gratis · Sin tarjeta"
     },
     "footer": {
       "tagline": "Nómina y asistencia para contratistas y restaurantes en Estados Unidos y Canadá.",
