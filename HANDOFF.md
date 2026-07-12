@@ -3,11 +3,11 @@
 Rama: **`feature/myjova-full-rebuild`**. Commit por fase, gates verdes antes de cada commit.
 Termina los mensajes de commit con `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`.
 
-## Estado global (2026-07-12) — CÓDIGO COMPLETO, INFRA PENDIENTE
+## Estado global (2026-07-12, sesión 2) — CÓDIGO COMPLETO, INFRA PENDIENTE
 
 **Todo el trabajo de producto está hecho y commiteado.** Gates: typecheck ✅ · lint ✅ ·
-build ✅ · **vitest 131/131 ✅**. Git limpio. **66 migraciones** (`db:push` aplica hasta
-`20260501000032`). **Próximo timestamp libre: `20260501000033`.**
+build ✅ · **vitest 141/141 ✅**. Git limpio. **68 migraciones** (`db:push` aplica hasta
+`20260501000034`). **Próximo timestamp libre: `20260501000035`.**
 
 Sprints completados (todos en esta rama, ver git log):
 | Sprint | Qué | Commits clave |
@@ -27,6 +27,9 @@ Sprints completados (todos en esta rama, ver git log):
 | REC | **Auditoría de liquidaciones** (4 tests: no-dup anidados, aislamiento raíces, sumas cuadradas, HST 1 redondeo) + **FIX drift**: `settlement_records` CONGELADOS al aprobar (unique run×sub) — reportes leen de ahí, cambios de asignación/tarifa ya no reescriben historia. **Reporte anual** (base caja por pay date, lib annual.ts+6 tests): año+CSV en portal contratista y /reports/settlements empresa (misma fuente). **Emails al contratista**: settlement_ready (aprobada, con totales) y settlement_paid (pagada) | `8f7d623` |
 | PRC/TRL | Pricing de landing vende el producto real (Premium — Contratistas con el módulo completo; $49/99/199 sin cambios) · **Trial de 30 días** (...032 handle_new_user + landing/signup/welcome/terms ×4 locales) | `c4bad2f`, `2b9675e` |
 | LOC | **fr genérico OCULTO** (mercado US+CA): switcher muestra en/es/fr-CA; /fr/* → 308 /fr-CA/*; geo Europa y Accept-Language fr* caen en fr-CA. fr.json se conserva interno (fuente de fr-CA — el script de 4 archivos NO cambia) | `8de17fe` |
+| BILL2 | **Modelo de cobro base + por-trabajador-activo** (decisión de Juan 2026-07-12): plans.base/per_worker (placeholders 29+5/59+7/99+10), SIN caps, seats licensed sincronizados a Stripe (alta/baja + reconcilio en /billing), checkout 2 items, **cambio de plan in-place** (antes duplicaba suscripción), guard owner/admin, notifs plan_changed/payment_failed, landing/ROI/billing/admin-MRR con la fórmula real, 6 price IDs `_BASE/_SEAT` | `01dc61c` |
+| INV | **Facturas formales de liquidación** (sub raíz → empresa): invoice_number secuencial org×año (advisory lock, congelado en settlement_records, lazy para records viejos), identidad fiscal del sub (razón social/GST-HST nº/dirección en el form), PDF INVOICE solo lado facturado+HST (nunca pay/margen), botones en run aprobado y /my-settlements | `6064537` |
+| MAIL/NTF | 5 plantillas email nuevas ×4 locales (semana cerrada→manager, decisión de semana, PTO pedido/decidido, trial por terminar) + fallback genérico brandeado; eventos nuevos: time_entry_approved/rejected al empleado, clock_anomaly (geofence) a managers, trial_ending sin cron (dashboard, dedupe pre-dispatch ≤7d/≤2d); deep links (cta) en campana para paystubs/liquidaciones/semanas/PTO | `f16fdc2` |
 | MOB | **App móvil al día** (ya NO está stale): core único `lib/timesheets/core.ts` (web actions + API v1 comparten lógica), endpoints `GET /api/v1/time/week` + `submit-week` + `manual-entry` + `fix-clock-out` + skipBreak en clock-out; Expo: tab Hours semanal con cierre de semana, form olvidé-fichar, switch no-tomé-almuerzo, fix de salida >10h, resumen hoy/semana. `apps/mobile` con `npm run typecheck` limpio (deps instaladas, lockfile commiteado) | `7e15d91` |
 
 ## Subcontratistas (feature clave — caso real de Juan)
@@ -59,17 +62,21 @@ margen**, + **HST 13%** sobre lo facturado.
 2. **Supabase**: `npm run db:push` (66 migraciones) · habilitar Custom Access Token Hook ·
    Realtime en `notifications` · `insert into platform_admins (user_id) values ('<tu-uid>')`.
    SSO opcional: habilitar Google/Microsoft en Auth → Providers (redirect `<APP_URL>/auth/callback`).
-3. **Stripe**: crear 3 productos/precios, webhook prod → `<APP_URL>/api/webhooks/stripe`.
+3. **Stripe**: crear 3 productos con **DOS precios mensuales cada uno** (flat base +
+   per-unit seat licensed, NO metered) → 6 env vars `STRIPE_PRICE_<PLAN>_{BASE,SEAT}`;
+   webhook prod → `<APP_URL>/api/webhooks/stripe` (añadir evento `invoice.payment_failed`).
+   Montos placeholder $29+5/$59+7/$99+10 — al cambiarlos, sincronizar los 3 sitios:
+   Stripe + migración `...033_seat_pricing.sql` (o UPDATE a `plans`) + `src/lib/pricing/plans.ts`.
 4. **Smoke test E2E real (siguiente sesión, en cuanto 1-3 estén)**: signup → onboarding →
    empleado → fichar → aprobar → nómina → paystub/settlement contra el Supabase vivo.
    La app NUNCA ha corrido con DB real — espera 3-5 bugs de primera ejecución; arreglarlos.
 5. **Antes de cobrar**: revisión de abogado de `/privacy` + `/terms` (son plantillas) y
    validar una nómina real con contador.
 
-### Decisiones de negocio PENDIENTES de Juan (antes de configurar Stripe)
-- **Modelo de cobro**: hoy flat con topes ($49/99/199, caps 10/50/∞). Recomendado evaluar
-  base + por-trabajador-activo (requiere metered billing en Stripe). La landing ya vende
-  los 3 planes con features reales; solo faltan los price IDs.
+### Decisiones de negocio PENDIENTES de Juan
+- ~~Modelo de cobro~~ **RESUELTO (2026-07-12)**: base + por-trabajador-activo,
+  implementado en BILL2. Solo falta que Juan confirme/ajuste los MONTOS placeholder
+  ($29+5 / $59+7 / $99+10) al crear los precios en Stripe.
 - **Candado por plan del módulo contratistas**: la landing lo vende como Premium, pero
   `uses_subcontractors` es activable en CUALQUIER plan (sin enforcement). Si Premium es
   exclusivo → plan feature flag + checkFeature en página/actions/toggle.
@@ -85,11 +92,12 @@ margen**, + **HST 13%** sobre lo facturado.
 - E-file: archivos correctos (EFW2/941/Pub1220/CRA), transmisión manual (stub gateado).
 
 ## Backlog menor (post-lanzamiento, priorizar por demanda real)
-1099-NEC a empresa sub (capturar EIN) · ACH del cheque consolidado (cuenta bancaria del
-sub) · HST entrante amigo→Juan (facturas de compra / ITC) · CPP/EI Canadá · UI de
-adjustPtoBalance · paginación con controles UI (hoy trunca) · rate limit en DB si
-multi-región · edición de pay scheme versionada (effective_from/to) · app móvil:
-tiempo/horas AL DÍA (MOB); faltan schedule/PTO/documentos/banco — por demanda.
+1099-NEC a empresa sub (el nº fiscal YA se captura en `subcontractors.tax_number` — INV;
+falta el flujo 1099) · ACH del cheque consolidado (cuenta bancaria del sub) · HST
+entrante amigo→Juan (facturas de compra / ITC — la factura SALIENTE ya existe, INV) ·
+CPP/EI Canadá · UI de adjustPtoBalance · paginación con controles UI (hoy trunca) ·
+rate limit en DB si multi-región · edición de pay scheme versionada (effective_from/to) ·
+app móvil: tiempo/horas AL DÍA (MOB); faltan schedule/PTO/documentos/banco — por demanda.
 
 ## Cómo trabajar (convenciones — IMPORTANTE)
 - **Gates por fase**: `npm run typecheck` · `npm test` · `npm run lint` · `npm run build`.
@@ -117,12 +125,14 @@ tiempo/horas AL DÍA (MOB); faltan schedule/PTO/documentos/banco — por demanda
   'CA' Canadá excluido a propósito) + local (`localityCode`) . preTax baja gravable.
 - **`suppressWithholding: true`** (trabajador con `subcontractor_id`) → TODO en 0, neto=bruto.
 - Al aprobar run: fan-out `payroll_ready` + **PTO accrual** + webhook + **CONGELA
-  `settlement_records`** (unique run×sub — el reporte anual lee SOLO de ahí) + email
-  `settlement_ready` al contratista vinculado; al marcar pagado: webhook `payroll.paid`
-  + email `settlement_paid`. Trial gate en las 4 acciones core de escritura.
-Tests: `src/lib/**/*.test.ts` = **131** (engine 15, timesheets 13, tree 11, breaks 10,
+  `settlement_records`** (unique run×sub — el reporte anual lee SOLO de ahí) +
+  **numera la FACTURA** (invoice_number org×año vía `next_invoice_number`, lazy en el
+  primer download para records viejos) + email `settlement_ready` al contratista
+  vinculado; al marcar pagado: webhook `payroll.paid` + email `settlement_paid`.
+  Trial gate en las 4 acciones core de escritura.
+Tests: `src/lib/**/*.test.ts` = **141** (engine 15, timesheets 13, tree 11, breaks 10,
 nacha 10, local 10, tz 9, efw2 8, form941 8, accrual 7, sign 7, tips 6, annual 6,
-qbo 6, overtime 5).
+qbo 6, overtime 5, **pricing 5, invoice 5**).
 
 ## Memoria
 `~/.claude/projects/-Users-juanjo-Documents-Payroll-SaaS/memory/myjova-g-sprint.md` tiene
