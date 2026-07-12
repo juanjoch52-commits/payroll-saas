@@ -627,6 +627,82 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
   const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
   await dispatchWebhook(session.organizationId, 'payroll.approved', { runId })
 
+  // Liquidaciones de contratistas: CONGELAR el registro contable de cada sub
+  // raíz (settlement_records — el reporte anual lee de aquí, inmune a cambios
+  // posteriores de asignación/tarifa) y avisar por email al contratista
+  // vinculado que su cheque quedó autorizado. Best-effort: si falla, el portal
+  // cae al cálculo en vivo.
+  try {
+    const { data: runRow } = await supabase
+      .from('payroll_runs')
+      .select('period_start, period_end, pay_date')
+      .eq('id', runId)
+      .maybeSingle()
+    const run = runRow as { period_start: string; period_end: string; pay_date: string } | null
+
+    const { buildRunSettlements } = await import('@/lib/subcontractors/settlement-data')
+    const settlements = await buildRunSettlements(supabase, session.organizationId, runId)
+
+    if (run && settlements.length > 0) {
+      await supabase.from('settlement_records').upsert(
+        settlements.map((s) => ({
+          organization_id: session.organizationId,
+          payroll_run_id: runId,
+          subcontractor_id: s.rootId,
+          period_start: run.period_start,
+          period_end: run.period_end,
+          pay_date: run.pay_date,
+          subtotal_cents: s.subtotalCents,
+          tax_pct: s.taxPct,
+          tax_cents: s.taxCents,
+          total_cents: s.totalCents,
+          pay_total_cents: s.payTotalCents,
+          margin_cents: s.marginCents,
+          lines: s.lines,
+        })),
+        { onConflict: 'payroll_run_id,subcontractor_id' },
+      )
+
+      // Email al contratista raíz vinculado (settlement_ready).
+      const { createAdminClient } = await import('@/lib/supabase/server')
+      const admin = createAdminClient()
+      const { data: linkedSubs } = await admin
+        .from('subcontractors')
+        .select('id, user_id')
+        .eq('organization_id', session.organizationId)
+        .in('id', settlements.map((s) => s.rootId))
+        .not('user_id', 'is', null)
+      const userBySub = new Map(
+        ((linkedSubs ?? []) as { id: string; user_id: string }[]).map((s) => [s.id, s.user_id]),
+      )
+
+      const { formatMoney } = await import('@/lib/utils')
+      const { dispatch } = await import('@/lib/notifications/dispatch')
+      for (const s of settlements) {
+        const userId = userBySub.get(s.rootId)
+        if (!userId) continue
+        await dispatch({
+          userId,
+          organizationId: session.organizationId,
+          type: 'settlement_ready',
+          title: 'Liquidación aprobada',
+          body: `${session.organizationName}: cheque de ${formatMoney(s.totalCents)} autorizado (${run.period_start} → ${run.period_end}).`,
+          dedupeKey: `settle-ready-${runId}-${s.rootId}`,
+          emailTemplateData: {
+            orgName: session.organizationName,
+            periodStart: run.period_start,
+            periodEnd: run.period_end,
+            payDate: run.pay_date,
+            checkTotal: formatMoney(s.totalCents),
+            marginTotal: formatMoney(s.marginCents),
+          },
+        }).catch(() => {})
+      }
+    }
+  } catch {
+    /* no crítico */
+  }
+
   // Notificar a los empleados del run que su pago está en camino (payroll_ready:
   // inapp + email + push según sus preferencias). Best-effort con dedupe por run.
   try {
@@ -731,6 +807,45 @@ export async function markPayrollRunPaid(runId: string): Promise<{ success: bool
 
   const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
   await dispatchWebhook(session.organizationId, 'payroll.paid', { runId })
+
+  // Email al contratista vinculado: su cheque fue marcado como PAGADO.
+  // Lee de los registros congelados (misma fuente que el reporte anual).
+  try {
+    const { data: records } = await supabase
+      .from('settlement_records')
+      .select('subcontractor_id, total_cents, period_start, period_end, subcontractors!inner(user_id)')
+      .eq('payroll_run_id', runId)
+      .eq('organization_id', session.organizationId)
+
+    const { formatMoney } = await import('@/lib/utils')
+    const { dispatch } = await import('@/lib/notifications/dispatch')
+    for (const r of (records ?? []) as unknown as {
+      subcontractor_id: string
+      total_cents: number
+      period_start: string
+      period_end: string
+      subcontractors: { user_id: string | null }
+    }[]) {
+      const userId = r.subcontractors?.user_id
+      if (!userId) continue
+      await dispatch({
+        userId,
+        organizationId: session.organizationId,
+        type: 'settlement_paid',
+        title: 'Cheque pagado',
+        body: `${session.organizationName}: tu cheque de ${formatMoney(r.total_cents)} fue marcado como pagado.`,
+        dedupeKey: `settle-paid-${runId}-${r.subcontractor_id}`,
+        emailTemplateData: {
+          orgName: session.organizationName,
+          periodStart: r.period_start,
+          periodEnd: r.period_end,
+          checkTotal: formatMoney(r.total_cents),
+        },
+      }).catch(() => {})
+    }
+  } catch {
+    /* no crítico */
+  }
 
   revalidatePath('/(app)/payroll', 'layout')
   return { success: true }

@@ -82,6 +82,82 @@ export async function downloadSettlementPdf(runId: string, rootSubId: string): P
   return renderSettlementPdf(supabase, session.organizationId, session.organizationName, runId, rootSubId)
 }
 
+// -----------------------------------------------------------------------------
+// CSV anual (ingresos/gastos por contratista) — lee de settlement_records
+// -----------------------------------------------------------------------------
+
+async function settlementsCsvFor(
+  db: Db,
+  organizationId: string,
+  subcontractorId: string,
+  rootName: string,
+  year: number,
+): Promise<PdfResult> {
+  const { data: records } = await db
+    .from('settlement_records')
+    .select(
+      'payroll_run_id, subcontractor_id, period_start, period_end, pay_date, subtotal_cents, tax_pct, tax_cents, total_cents, pay_total_cents, margin_cents',
+    )
+    .eq('subcontractor_id', subcontractorId)
+    .eq('organization_id', organizationId)
+  const rows = (records ?? []) as import('@/lib/subcontractors/annual').SettlementRecordRow[]
+  if (rows.length === 0) {
+    return { success: false, error: 'No hay liquidaciones registradas para exportar.' }
+  }
+  const { annualCsv } = await import('@/lib/subcontractors/annual')
+  const csv = annualCsv(rootName, rows, year)
+  const safeName = rootName.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()
+  return {
+    success: true,
+    base64: Buffer.from(csv, 'utf8').toString('base64'),
+    filename: `settlements-${safeName}-${year}.csv`,
+  }
+}
+
+/** Contratista: CSV anual de SUS ingresos/gastos (para su contador). */
+export async function downloadMySettlementsCsv(year: number): Promise<PdfResult> {
+  const session = await requireSession('/en/login')
+  if (session.role !== 'contractor') return { success: false, error: 'No autorizado.' }
+  if (!Number.isInteger(year) || year < 2020 || year > 2100) {
+    return { success: false, error: 'Año inválido.' }
+  }
+
+  const admin = createAdminClient()
+  const { data: mySub } = await admin
+    .from('subcontractors')
+    .select('id, name')
+    .eq('organization_id', session.organizationId)
+    .eq('user_id', session.userId)
+    .maybeSingle()
+  if (!mySub) return { success: false, error: 'Tu cuenta no está vinculada a un contratista.' }
+  const sub = mySub as { id: string; name: string }
+  return settlementsCsvFor(admin, session.organizationId, sub.id, sub.name, year)
+}
+
+/** Empresa (manager+): CSV anual de un contratista raíz. */
+export async function downloadContractorSettlementsCsv(
+  subcontractorId: string,
+  year: number,
+): Promise<PdfResult> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin', 'manager'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  if (!Number.isInteger(year) || year < 2020 || year > 2100) {
+    return { success: false, error: 'Año inválido.' }
+  }
+  const supabase = createClient()
+  const { data: sub } = await supabase
+    .from('subcontractors')
+    .select('id, name')
+    .eq('id', subcontractorId)
+    .eq('organization_id', session.organizationId)
+    .maybeSingle()
+  if (!sub) return { success: false, error: 'Contratista no encontrado.' }
+  const s = sub as { id: string; name: string }
+  return settlementsCsvFor(supabase, session.organizationId, s.id, s.name, year)
+}
+
 /** Contratista logueado: SU liquidación del run (scoped a su vínculo). */
 export async function downloadMySettlementPdf(runId: string): Promise<PdfResult> {
   const session = await requireSession('/en/login')

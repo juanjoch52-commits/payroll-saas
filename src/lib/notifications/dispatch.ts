@@ -15,6 +15,8 @@ import {
   inviteEmail,
   payrollReadyEmail,
   broadcastEmail,
+  settlementReadyEmail,
+  settlementPaidEmail,
   type EmailLocale,
   type EmailContent,
 } from '@/lib/email/templates'
@@ -41,6 +43,8 @@ export type NotifType =
   | 'time_off_decision'
   | 'timesheet_submitted'
   | 'timesheet_decision'
+  | 'settlement_ready'
+  | 'settlement_paid'
 
 export type Channel = 'inapp' | 'email' | 'sms' | 'push'
 
@@ -85,6 +89,8 @@ const DEFAULT_PREFS: Record<NotifType, Record<Channel, boolean>> = {
   time_off_decision: { inapp: true, email: true, sms: false, push: true },
   timesheet_submitted: { inapp: true, email: true, sms: false, push: true },
   timesheet_decision: { inapp: true, email: true, sms: false, push: true },
+  settlement_ready: { inapp: true, email: true, sms: false, push: true },
+  settlement_paid: { inapp: true, email: true, sms: false, push: true },
 }
 
 export type DispatchResult = {
@@ -211,6 +217,30 @@ function renderEmail(input: DispatchInput, locale: EmailLocale): EmailContent {
         runUrl: string
         totalAmount: string
         employeeCount: number
+      },
+    )
+  }
+  if (input.type === 'settlement_ready' && input.emailTemplateData) {
+    return settlementReadyEmail(
+      locale,
+      input.emailTemplateData as {
+        orgName: string
+        periodStart: string
+        periodEnd: string
+        payDate: string
+        checkTotal: string
+        marginTotal: string
+      },
+    )
+  }
+  if (input.type === 'settlement_paid' && input.emailTemplateData) {
+    return settlementPaidEmail(
+      locale,
+      input.emailTemplateData as {
+        orgName: string
+        periodStart: string
+        periodEnd: string
+        checkTotal: string
       },
     )
   }

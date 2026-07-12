@@ -183,7 +183,19 @@
     "from": "From",
     "to": "To",
     "hours": "Hours CSV",
-    "tips": "Tips CSV"
+    "tips": "Tips CSV",
+    "settlementsTitle": "Contractor settlements (annual)",
+    "settlementsDesc": "Frozen at each payroll approval: billed, HST, checks, paid to crews and margin per contractor — same numbers each contractor sees in their portal.",
+    "settlementsOpen": "Open annual report",
+    "settlementsEmpty": "No settlement records yet",
+    "settlementsEmptyDesc": "Records freeze automatically when you approve a payroll that includes contractor crews.",
+    "colContractor": "Contractor",
+    "colRuns": "Runs",
+    "colBilled": "Billed",
+    "colChecks": "Checks",
+    "colPaidCrew": "Paid to crew",
+    "colMargin": "Margin",
+    "colTotal": "Total"
   },
   "billing": {
     "title": "Plans & billing",
@@ -1114,7 +1126,15 @@
     "yourMargin": "Your margin",
     "noSettlements": "No settlements yet. They appear when the company approves a payroll that includes your crew.",
     "pdf": "PDF",
-    "helpLink": "How does my portal work? Read the quick guide"
+    "helpLink": "How does my portal work? Read the quick guide",
+    "liveEstimate": "Live estimate (runs approved before frozen records existed).",
+    "annualTitle": "Annual income report — {year}",
+    "annualBilled": "Billed (income)",
+    "annualHst": "HST collected",
+    "annualChecks": "Checks received ({count})",
+    "annualPaidCrew": "Paid to your crew (expenses)",
+    "annualMargin": "Margin for the year",
+    "csvYear": "Download CSV {year}"
   },
   "guide": {
     "title": "Getting-started guide",

@@ -207,3 +207,116 @@ export function broadcastEmail(
     text: `${payload.title}\n\n${payload.body}${payload.cta ? `\n\n${payload.cta.label}: ${payload.cta.href}` : ''}`,
   }
 }
+
+// ---------- SETTLEMENT READY (contratista: cheque autorizado) ----------
+export function settlementReadyEmail(
+  locale: EmailLocale,
+  payload: {
+    orgName: string
+    periodStart: string
+    periodEnd: string
+    payDate: string
+    checkTotal: string
+    marginTotal: string
+  },
+): EmailContent {
+  const { orgName, periodStart, periodEnd, payDate, checkTotal, marginTotal } = payload
+  const url = `${APP_URL}/${locale}/my-settlements`
+
+  const dict = {
+    en: {
+      subject: `Your settlement from ${orgName} is approved — ${checkTotal}`,
+      title: 'Your settlement is approved',
+      body: `<p><strong>${orgName}</strong> approved the payroll for <strong>${periodStart} → ${periodEnd}</strong>.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Check total (billed + HST) · your margin this period: <strong>${marginTotal}</strong> · pay date: ${payDate}.</p>
+        <p>The full per-worker breakdown and the PDF for your books are in your portal.</p>`,
+      cta: 'View my settlements',
+    },
+    es: {
+      subject: `Tu liquidación de ${orgName} está aprobada — ${checkTotal}`,
+      title: 'Tu liquidación está aprobada',
+      body: `<p><strong>${orgName}</strong> aprobó la nómina del <strong>${periodStart} → ${periodEnd}</strong>.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Total del cheque (facturado + HST) · tu margen del período: <strong>${marginTotal}</strong> · fecha de pago: ${payDate}.</p>
+        <p>El desglose por trabajador y el PDF para tu contabilidad están en tu portal.</p>`,
+      cta: 'Ver mis liquidaciones',
+    },
+    fr: {
+      subject: `Votre règlement de ${orgName} est approuvé — ${checkTotal}`,
+      title: 'Votre règlement est approuvé',
+      body: `<p><strong>${orgName}</strong> a approuvé la paie du <strong>${periodStart} → ${periodEnd}</strong>.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Total du chèque (facturé + HST) · votre marge de la période : <strong>${marginTotal}</strong> · date de paie : ${payDate}.</p>
+        <p>Le détail par travailleur et le PDF pour votre comptabilité sont dans votre portail.</p>`,
+      cta: 'Voir mes règlements',
+    },
+    'fr-CA': {
+      subject: `Votre règlement de ${orgName} est approuvé — ${checkTotal}`,
+      title: 'Votre règlement est approuvé',
+      body: `<p><strong>${orgName}</strong> a approuvé la paie du <strong>${periodStart} → ${periodEnd}</strong>.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Total du chèque (facturé + HST) · votre marge de la période : <strong>${marginTotal}</strong> · date de paie : ${payDate}.</p>
+        <p>Le détail par travailleur et le PDF pour votre comptabilité sont dans votre portail.</p>`,
+      cta: 'Voir mes règlements',
+    },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}
+
+// ---------- SETTLEMENT PAID (contratista: cheque pagado) ----------
+export function settlementPaidEmail(
+  locale: EmailLocale,
+  payload: { orgName: string; periodStart: string; periodEnd: string; checkTotal: string },
+): EmailContent {
+  const { orgName, periodStart, periodEnd, checkTotal } = payload
+  const url = `${APP_URL}/${locale}/my-settlements`
+
+  const dict = {
+    en: {
+      subject: `${orgName} marked your check as paid — ${checkTotal}`,
+      title: 'Your check was paid',
+      body: `<p><strong>${orgName}</strong> marked the payroll <strong>${periodStart} → ${periodEnd}</strong> as paid.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Remember to pay your crew and keep the settlement PDF for your records.</p>`,
+      cta: 'View my settlements',
+    },
+    es: {
+      subject: `${orgName} marcó tu cheque como pagado — ${checkTotal}`,
+      title: 'Tu cheque fue pagado',
+      body: `<p><strong>${orgName}</strong> marcó como pagada la nómina del <strong>${periodStart} → ${periodEnd}</strong>.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Recuerda pagar a tu equipo y guardar el PDF de la liquidación para tus registros.</p>`,
+      cta: 'Ver mis liquidaciones',
+    },
+    fr: {
+      subject: `${orgName} a marqué votre chèque comme payé — ${checkTotal}`,
+      title: 'Votre chèque a été payé',
+      body: `<p><strong>${orgName}</strong> a marqué la paie du <strong>${periodStart} → ${periodEnd}</strong> comme payée.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Pensez à payer votre équipe et à conserver le PDF du règlement pour vos dossiers.</p>`,
+      cta: 'Voir mes règlements',
+    },
+    'fr-CA': {
+      subject: `${orgName} a marqué votre chèque comme payé — ${checkTotal}`,
+      title: 'Votre chèque a été payé',
+      body: `<p><strong>${orgName}</strong> a marqué la paie du <strong>${periodStart} → ${periodEnd}</strong> comme payée.</p>
+        <p style="font-size:22px;font-weight:700;margin:16px 0">${checkTotal}</p>
+        <p>Pensez à payer votre équipe et à conserver le PDF du règlement pour vos dossiers.</p>`,
+      cta: 'Voir mes règlements',
+    },
+  } as const
+
+  const d = dict[locale] ?? dict.en
+  return {
+    subject: d.subject,
+    html: wrap(d.title, d.body, { label: d.cta, href: url }),
+    text: `${d.title}\n\n${d.body.replace(/<[^>]*>/g, '')}\n\n${d.cta}: ${url}`,
+  }
+}

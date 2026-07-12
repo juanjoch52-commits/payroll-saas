@@ -183,7 +183,19 @@
     "from": "Du",
     "to": "Au",
     "hours": "Heures CSV",
-    "tips": "Pourboires CSV"
+    "tips": "Pourboires CSV",
+    "settlementsTitle": "Règlements par entrepreneur (annuel)",
+    "settlementsDesc": "Figés à l’approbation de chaque paie : facturé, HST, chèques, payé aux équipes et marge par entrepreneur — les mêmes chiffres que chaque entrepreneur voit dans son portail.",
+    "settlementsOpen": "Ouvrir le rapport annuel",
+    "settlementsEmpty": "Aucun registre de règlement pour le moment",
+    "settlementsEmptyDesc": "Les registres se figent automatiquement à l’approbation d’une paie incluant des équipes d’entrepreneurs.",
+    "colContractor": "Entrepreneur",
+    "colRuns": "Paies",
+    "colBilled": "Facturé",
+    "colChecks": "Chèques",
+    "colPaidCrew": "Payé à l’équipe",
+    "colMargin": "Marge",
+    "colTotal": "Total"
   },
   "billing": {
     "title": "Plans et facturation",
@@ -1114,7 +1126,15 @@
     "yourMargin": "Votre marge",
     "noSettlements": "Aucun règlement pour le moment. Ils apparaissent quand l’entreprise approuve une paie incluant votre équipe.",
     "pdf": "PDF",
-    "helpLink": "Comment fonctionne mon portail ? Lisez le guide rapide"
+    "helpLink": "Comment fonctionne mon portail ? Lisez le guide rapide",
+    "liveEstimate": "Estimation en direct (paies approuvées avant les registres figés).",
+    "annualTitle": "Rapport annuel de revenus — {year}",
+    "annualBilled": "Facturé (revenus)",
+    "annualHst": "HST perçue",
+    "annualChecks": "Chèques reçus ({count})",
+    "annualPaidCrew": "Payé à votre équipe (dépenses)",
+    "annualMargin": "Marge de l’année",
+    "csvYear": "Télécharger CSV {year}"
   },
   "guide": {
     "title": "Guide de démarrage",

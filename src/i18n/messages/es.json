@@ -183,7 +183,19 @@
     "from": "Desde",
     "to": "Hasta",
     "hours": "Horas CSV",
-    "tips": "Propinas CSV"
+    "tips": "Propinas CSV",
+    "settlementsTitle": "Liquidaciones por contratista (anual)",
+    "settlementsDesc": "Congeladas al aprobar cada nómina: facturado, HST, cheques, pagado a equipos y margen por contratista — los mismos números que cada contratista ve en su portal.",
+    "settlementsOpen": "Abrir reporte anual",
+    "settlementsEmpty": "Aún no hay registros de liquidación",
+    "settlementsEmptyDesc": "Los registros se congelan automáticamente al aprobar una nómina que incluya equipos de contratistas.",
+    "colContractor": "Contratista",
+    "colRuns": "Nóminas",
+    "colBilled": "Facturado",
+    "colChecks": "Cheques",
+    "colPaidCrew": "Pagado a equipo",
+    "colMargin": "Margen",
+    "colTotal": "Total"
   },
   "billing": {
     "title": "Planes y facturación",
@@ -1114,7 +1126,15 @@
     "yourMargin": "Tu margen",
     "noSettlements": "Aún no hay liquidaciones. Aparecen cuando la empresa aprueba una nómina que incluye a tu equipo.",
     "pdf": "PDF",
-    "helpLink": "¿Cómo funciona mi portal? Lee la guía rápida"
+    "helpLink": "¿Cómo funciona mi portal? Lee la guía rápida",
+    "liveEstimate": "Estimado en vivo (nóminas aprobadas antes de que existieran los registros congelados).",
+    "annualTitle": "Reporte anual de ingresos — {year}",
+    "annualBilled": "Facturado (ingresos)",
+    "annualHst": "HST cobrado",
+    "annualChecks": "Cheques recibidos ({count})",
+    "annualPaidCrew": "Pagado a tu equipo (gastos)",
+    "annualMargin": "Margen del año",
+    "csvYear": "Descargar CSV {year}"
   },
   "guide": {
     "title": "Guía de inicio",

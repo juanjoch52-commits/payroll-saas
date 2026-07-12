@@ -48,6 +48,21 @@ export default async function ReportsPage({
 
       <Card>
         <CardHeader>
+          <CardTitle>{t('reports.settlementsTitle')}</CardTitle>
+          <CardDescription>{t('reports.settlementsDesc')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <a
+            href={`/${locale}/reports/settlements`}
+            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+          >
+            {t('reports.settlementsOpen')} →
+          </a>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle>{t('reports.yearEnd')}</CardTitle>
           <CardDescription>
             {hasFeature ? t('reports.selectYear') : t('reports.upgradeRequired')}

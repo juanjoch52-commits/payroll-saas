@@ -77,3 +77,57 @@ describe('buildSettlements', () => {
     expect(s).toHaveLength(0)
   })
 })
+
+// =============================================================================
+// Auditoría de integridad del reporte de ingresos (no-duplicación, aislamiento)
+// =============================================================================
+describe('integridad de liquidaciones (reporte de ingresos)', () => {
+  const items = [
+    { employeeId: 'e1', workerName: 'Juan', subcontractorId: 'A', hours: 40, payCents: 148000, billCents: 148000 },
+    { employeeId: 'e2', workerName: 'Amigo', subcontractorId: 'C', hours: 40, payCents: 120000, billCents: 132000 },
+    { employeeId: 'e3', workerName: 'Delta W', subcontractorId: 'D', hours: 10, payCents: 30000, billCents: 35000 },
+  ]
+
+  it('un trabajador de un sub ANIDADO aparece UNA sola vez, y solo en su raíz', () => {
+    const s = buildSettlements(items, subs)
+    const apariciones = s.flatMap((x) => x.lines).filter((l) => l.employeeId === 'e2')
+    expect(apariciones).toHaveLength(1)
+    const alpha = s.find((x) => x.rootId === 'A')!
+    const delta = s.find((x) => x.rootId === 'D')!
+    expect(alpha.lines.some((l) => l.employeeId === 'e2')).toBe(true)
+    expect(delta.lines.some((l) => l.employeeId === 'e2')).toBe(false)
+  })
+
+  it('dos contratistas raíz NO se mezclan (aislamiento total)', () => {
+    const s = buildSettlements(items, subs)
+    const alpha = s.find((x) => x.rootId === 'A')!
+    const delta = s.find((x) => x.rootId === 'D')!
+    expect(alpha.lines.map((l) => l.employeeId).sort()).toEqual(['e1', 'e2'])
+    expect(delta.lines.map((l) => l.employeeId)).toEqual(['e3'])
+    expect(alpha.subtotalCents).toBe(148000 + 132000)
+    expect(delta.subtotalCents).toBe(35000)
+  })
+
+  it('las sumas SIEMPRE cuadran: Σ líneas = subtotal/payTotal/margen y total = subtotal + HST', () => {
+    const s = buildSettlements(items, subs)
+    for (const g of s) {
+      expect(g.lines.reduce((a, l) => a + l.billCents, 0)).toBe(g.subtotalCents)
+      expect(g.lines.reduce((a, l) => a + l.payCents, 0)).toBe(g.payTotalCents)
+      expect(g.lines.reduce((a, l) => a + l.marginCents, 0)).toBe(g.marginCents)
+      expect(g.totalCents).toBe(g.subtotalCents + g.taxCents)
+    }
+  })
+
+  it('el HST se redondea UNA vez sobre el subtotal (sin acumular centavos por línea)', () => {
+    const conHst: SubNode[] = [{ id: 'R', parent_id: null, name: 'Root', sales_tax_pct: 13 }]
+    const s = buildSettlements(
+      [
+        { employeeId: 'x1', workerName: 'W1', subcontractorId: 'R', hours: 1, payCents: 333, billCents: 333 },
+        { employeeId: 'x2', workerName: 'W2', subcontractorId: 'R', hours: 1, payCents: 333, billCents: 333 },
+      ],
+      conHst,
+    )
+    expect(s[0].taxCents).toBe(Math.round((666 * 13) / 100)) // 87, no 86 ni 88
+    expect(s[0].totalCents).toBe(666 + 87)
+  })
+})
