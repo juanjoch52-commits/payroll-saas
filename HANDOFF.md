@@ -59,8 +59,9 @@ margen**, + **HST 13%** sobre lo facturado.
    (`STRIPE_SECRET_KEY`, publishable, webhook secret, 3 price IDs), `ENCRYPTION_KEY`
    (`openssl rand -base64 32`), `RESEND_API_KEY` (+`RESEND_FROM_EMAIL` verificado).
    Opcionales: Mapbox, Twilio, VAPID, QBO, Square, `MYRAVEX_WEBHOOK_SECRET`.
-2. **Supabase**: `npm run db:push` (66 migraciones) · habilitar Custom Access Token Hook ·
-   Realtime en `notifications` · `insert into platform_admins (user_id) values ('<tu-uid>')`.
+2. **Supabase**: migraciones YA aplicables vía MCP/db:push (69 — Realtime en
+   `notifications` ahora es la migración ...035, ya no es paso manual) · habilitar
+   Custom Access Token Hook · `insert into platform_admins (user_id) values ('<tu-uid>')`.
    SSO opcional: habilitar Google/Microsoft en Auth → Providers (redirect `<APP_URL>/auth/callback`).
 3. **Stripe**: crear 3 productos con **DOS precios mensuales cada uno** (flat base +
    per-unit seat licensed, NO metered) → 6 env vars `STRIPE_PRICE_<PLAN>_{BASE,SEAT}`;
