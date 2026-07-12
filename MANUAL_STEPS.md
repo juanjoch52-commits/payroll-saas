@@ -54,10 +54,17 @@ Until this key is set, every map shows a friendly "Mapbox token not configured" 
 2. In **Developers → API keys**:
    - Publishable → `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
    - Secret → `STRIPE_SECRET_KEY`
-3. In **Products**, create 3 products and copy the recurring monthly Price ID for each:
-   - Esencial $49 → `STRIPE_PRICE_ESSENTIAL`
-   - Avanzado $99 → `STRIPE_PRICE_ADVANCED`
-   - Premium $199 → `STRIPE_PRICE_PREMIUM`
+3. In **Products**, create 3 products with **TWO recurring monthly prices each**
+   (billing model: base + per-active-worker; current placeholder amounts —
+   adjust freely, but keep them in sync with `supabase/migrations/*seat_pricing.sql`
+   and `src/lib/pricing/plans.ts`):
+   - Esencial: flat $29 → `STRIPE_PRICE_ESSENTIAL_BASE` · per-unit $5 → `STRIPE_PRICE_ESSENTIAL_SEAT`
+   - Avanzado: flat $59 → `STRIPE_PRICE_ADVANCED_BASE` · per-unit $7 → `STRIPE_PRICE_ADVANCED_SEAT`
+   - Premium: flat $99 → `STRIPE_PRICE_PREMIUM_BASE` · per-unit $10 → `STRIPE_PRICE_PREMIUM_SEAT`
+
+   The per-unit ("seat") price must be a **standard licensed price** (not metered):
+   the app updates the subscription item quantity itself whenever workers are
+   added/terminated, and reconciles on every visit to `/billing`.
 4. **Developers → Webhooks → Add endpoint** pointing to `https://<your-domain>/api/webhooks/stripe`.
    Copy the Signing Secret → `STRIPE_WEBHOOK_SECRET`.
 
@@ -153,9 +160,12 @@ vercel env add NEXT_PUBLIC_MAPBOX_TOKEN
 vercel env add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 vercel env add STRIPE_SECRET_KEY
 vercel env add STRIPE_WEBHOOK_SECRET
-vercel env add STRIPE_PRICE_ESSENTIAL
-vercel env add STRIPE_PRICE_ADVANCED
-vercel env add STRIPE_PRICE_PREMIUM
+vercel env add STRIPE_PRICE_ESSENTIAL_BASE
+vercel env add STRIPE_PRICE_ESSENTIAL_SEAT
+vercel env add STRIPE_PRICE_ADVANCED_BASE
+vercel env add STRIPE_PRICE_ADVANCED_SEAT
+vercel env add STRIPE_PRICE_PREMIUM_BASE
+vercel env add STRIPE_PRICE_PREMIUM_SEAT
 vercel env add RESEND_API_KEY
 vercel env add RESEND_FROM_EMAIL
 vercel env add NEXT_PUBLIC_VAPID_PUBLIC_KEY

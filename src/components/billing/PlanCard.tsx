@@ -10,19 +10,24 @@ type Plan = {
   id: string
   code: 'essential' | 'advanced' | 'premium' | string
   name: string
-  monthly_price_cents: number
-  max_employees: number | null
+  base_price_cents: number
+  per_worker_price_cents: number
   features: Record<string, unknown>
 }
+
+const fmt = (cents: number) => `$${(cents / 100).toFixed(0)}`
 
 export function PlanCard({
   plan,
   isCurrent,
+  activeWorkers,
   locale,
 }: {
   plan: Plan
   isCurrent: boolean
-  locale: 'en' | 'es'
+  /** Trabajadores activos de la org — para estimar el total mensual del plan. */
+  activeWorkers: number
+  locale: 'en' | 'es' | 'fr' | 'fr-CA'
 }) {
   const t = useTranslations()
   const [pending, startTransition] = useTransition()
@@ -45,6 +50,9 @@ export function PlanCard({
   const planKey = plan.code as 'essential' | 'advanced' | 'premium'
   const featureKeys = t.raw(`billing.plans.${planKey}.features`) as string[]
 
+  const estimatedCents =
+    plan.base_price_cents + plan.per_worker_price_cents * Math.max(0, activeWorkers)
+
   return (
     <Card className={isCurrent ? 'border-primary ring-2 ring-primary/30' : ''}>
       <CardHeader>
@@ -60,8 +68,16 @@ export function PlanCard({
           )}
         </div>
         <div className="mt-4">
-          <p className="text-3xl font-bold">${(plan.monthly_price_cents / 100).toFixed(0)}</p>
-          <p className="text-xs text-muted-foreground">/month</p>
+          <p className="text-3xl font-bold">{fmt(plan.base_price_cents)}</p>
+          <p className="text-xs text-muted-foreground">
+            {t('billing.perWorkerSuffix', { price: fmt(plan.per_worker_price_cents) })}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {t('billing.estimatedFor', {
+              total: fmt(estimatedCents),
+              workers: activeWorkers,
+            })}
+          </p>
         </div>
       </CardHeader>
       <CardContent>

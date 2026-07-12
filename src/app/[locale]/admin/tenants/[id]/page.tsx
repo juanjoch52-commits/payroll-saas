@@ -185,7 +185,7 @@ export default async function TenantDetailPage({
               <Row label="Plan code" value={unwrapPlan(sub?.plans)?.code ?? '—'} />
               <Row label="Plan name" value={unwrapPlan(sub?.plans)?.name ?? '—'} />
               <Row
-                label="Monthly price"
+                label="Monthly base (+ per-worker seats)"
                 value={
                   unwrapPlan(sub?.plans)?.monthly_price_cents
                     ? `$${(unwrapPlan(sub?.plans)!.monthly_price_cents / 100).toFixed(2)}`

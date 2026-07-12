@@ -5,6 +5,7 @@ import {
   currencyForCountry,
   type Currency,
 } from '@/lib/pricing/currency'
+import { PLAN_PRICING_USD } from '@/lib/pricing/plans'
 import { PricingTableClient, type PricedPlan } from './PricingTableClient'
 
 const COUNTRY_NAMES: Record<string, string> = {
@@ -27,9 +28,11 @@ const COUNTRY_NAMES: Record<string, string> = {
 
 /**
  * Server wrapper: detecta país, convierte precios USD → moneda local,
- * pasa todo al cliente que mantiene el toggle Monthly/Annual.
+ * pasa todo al cliente. Modelo de cobro: base mensual + por trabajador
+ * activo (sin topes de empleados) — la fuente de los números es
+ * src/lib/pricing/plans.ts.
  *
- *   Geo CA → CAD (1 USD ≈ 1.37 CAD), $49 → CA$67
+ *   Geo CA → CAD (1 USD ≈ 1.37 CAD)
  *   Geo FR/DE/ES → EUR
  *   Geo otro → USD (default)
  */
@@ -40,22 +43,16 @@ export function PricingTable({ locale }: { locale: string }) {
   const countryHint =
     geo.country && COUNTRY_NAMES[geo.country] ? COUNTRY_NAMES[geo.country] : null
 
-  // Base prices in USD; convert per plan
-  const PLANS_USD: Omit<PricedPlan, 'monthly' | 'annual'>[] = [
+  const PLANS: Omit<PricedPlan, 'base' | 'perWorker'>[] = [
     { key: 'essential', cta: 'start' },
     { key: 'advanced', popular: true, cta: 'start' },
     { key: 'premium', cta: 'sales' },
   ]
-  const PRICES_USD = {
-    essential: { monthly: 49, annual: 490 },
-    advanced: { monthly: 99, annual: 990 },
-    premium: { monthly: 199, annual: 1990 },
-  } as const
 
-  const plans: PricedPlan[] = PLANS_USD.map((p) => ({
+  const plans: PricedPlan[] = PLANS.map((p) => ({
     ...p,
-    monthly: convertFromUSD(PRICES_USD[p.key].monthly, currency),
-    annual: convertFromUSD(PRICES_USD[p.key].annual, currency),
+    base: convertFromUSD(PLAN_PRICING_USD[p.key].base, currency),
+    perWorker: convertFromUSD(PLAN_PRICING_USD[p.key].perWorker, currency),
   }))
 
   return (

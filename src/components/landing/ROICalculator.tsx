@@ -8,6 +8,7 @@ import { Calculator, TrendingUp, Clock, DollarSign } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { SectionReveal } from './SectionReveal'
 import { AnimatedCounter } from './AnimatedCounter'
+import { monthlyTotalUsd, typicalPlanForTeamSize } from '@/lib/pricing/plans'
 import {
   convertFromUSD,
   formatPrice,
@@ -46,8 +47,8 @@ export function ROICalculator({
     const monthlyPayroll = employees * hoursPerWeek * 4.33 * hourlyRate
     const errorCost = monthlyPayroll * 0.02
 
-    // Costo MyJova plan adecuado (convertir USD → moneda local)
-    const myjovaCostUsd = employees <= 10 ? 49 : employees <= 50 ? 99 : 199
+    // Costo MyJova: base del plan típico + por-trabajador-activo (USD → local)
+    const myjovaCostUsd = monthlyTotalUsd(typicalPlanForTeamSize(employees), employees)
     const myjovaCost = convertFromUSD(myjovaCostUsd, currency)
 
     const monthly = Math.max(0, Math.round(timeCost + errorCost - myjovaCost))

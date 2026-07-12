@@ -28,17 +28,9 @@ export default async function PlatformOverviewPage() {
     .select('id', { count: 'exact', head: true })
     .is('clock_out_at', null)
 
-  // MRR: suma de plans.monthly_price_cents por cada suscripción active
-  const { data: activeSubs } = await admin
-    .from('subscriptions')
-    .select('plans:plan_id (monthly_price_cents)')
-    .eq('status', 'active')
-
-  const mrr =
-    (activeSubs ?? []).reduce((sum: number, s: { plans: { monthly_price_cents: number } | { monthly_price_cents: number }[] | null }) => {
-      const plan = Array.isArray(s.plans) ? s.plans[0] : s.plans
-      return sum + (plan?.monthly_price_cents ?? 0)
-    }, 0) / 100
+  // MRR estimado: Σ (base + trabajadores activos × por-trabajador) de subs activas.
+  const { estimateMrrCents } = await import('@/lib/billing/seats')
+  const mrr = (await estimateMrrCents(admin)) / 100
 
   return (
     <div className="space-y-6">

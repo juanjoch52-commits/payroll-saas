@@ -206,7 +206,7 @@
         "name": "Esencial",
         "tagline": "Time tracking + payroll for small teams",
         "features": [
-          "Up to 10 employees",
+          "Unlimited workers — pay per active worker",
           "Clock in with photo + GPS geofence",
           "Tablet kiosk with PIN + mobile app",
           "Weekly close & pay requests",
@@ -218,7 +218,7 @@
         "name": "Avanzado",
         "tagline": "Full payroll compliance for growing companies",
         "features": [
-          "Up to 50 employees",
+          "Departments, benefits & labor reports",
           "Everything in Esencial",
           "All pay schemes: daily, commission, piece-rate",
           "Taxes, W-2 / 1099 & e-file exports",
@@ -231,7 +231,7 @@
         "name": "Premium — Contractors",
         "tagline": "For companies that pay subcontractor crews",
         "features": [
-          "Unlimited employees",
+          "SSO (Google / Microsoft)",
           "Everything in Avanzado",
           "Hierarchical contractors: one consolidated check",
           "Per-worker bill rates, margins & HST",
@@ -242,7 +242,16 @@
       }
     },
     "upgrade": "Upgrade",
-    "currentBadge": "Current"
+    "currentBadge": "Current",
+    "perWorkerSuffix": "+ {price} per active worker / month",
+    "estimatedFor": "≈ {total}/mo for your {workers} active workers",
+    "usage": {
+      "title": "Current subscription",
+      "activeWorkers": "Active workers",
+      "estimated": "Estimated monthly total",
+      "formula": "{base} base + {workers} × {perWorker} per worker",
+      "note": "You are billed monthly for workers with Active status. Seat changes apply on your next invoice."
+    }
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -427,7 +436,7 @@
     },
     "pricing": {
       "title": "Simple pricing",
-      "sub": "Start free. Pay only when your team grows.",
+      "sub": "Start free. Then a small monthly base + pay only for active workers.",
       "mostPopular": "Most popular",
       "ctaStart": "Start free trial",
       "ctaSales": "Talk to sales",
@@ -436,7 +445,8 @@
       "annual": "Annual",
       "perMonth": "/month",
       "perYear": "/year",
-      "currencyHint": "Prices in {currency} · detected location: {country}"
+      "currencyHint": "Prices in {currency} · detected location: {country}",
+      "plusPerWorker": "+ {price} per active worker / mo"
     },
     "comparison": {
       "title": "How MyJova compares",

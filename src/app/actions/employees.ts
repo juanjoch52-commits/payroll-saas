@@ -67,34 +67,9 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
   if (gateErr) return gateErr
   const supabase = createClient()
 
-  // 4) Enforcement de límite del tier
-  const { data: planRow } = await supabase
-    .from('subscriptions')
-    .select('plans:plan_id (max_employees)')
-    .eq('organization_id', session.organizationId)
-    .single()
-
-  // El join devuelve `plans` como objeto u array dependiendo de la versión de Supabase.
-  const plansData = planRow?.plans as unknown
-  const maxEmployees =
-    (Array.isArray(plansData)
-      ? (plansData[0] as { max_employees: number | null })?.max_employees
-      : (plansData as { max_employees: number | null } | null)?.max_employees) ?? null
-
-  if (maxEmployees !== null) {
-    const { count } = await supabase
-      .from('employees')
-      .select('id', { count: 'exact', head: true })
-      .eq('organization_id', session.organizationId)
-      .eq('status', 'active')
-
-    if ((count ?? 0) >= maxEmployees) {
-      return {
-        success: false,
-        error: `Has alcanzado el límite de ${maxEmployees} empleados de tu plan. Actualiza para agregar más.`,
-      }
-    }
-  }
+  // 4) Sin tope de empleados: el modelo de cobro es base + por-trabajador-activo.
+  // El costo escala solo — la cantidad de seats se sincroniza con Stripe al
+  // final de esta acción (syncStripeSeats).
 
   // 5) Esquemas que requieren feature del plan (daily/commission/piecerate).
   const gatedFeatureByScheme: Record<string, string> = {
@@ -181,6 +156,12 @@ export async function createEmployee(formData: FormData): Promise<EmployeeAction
     targetId: employee.id,
     newData: { name: `${input.firstName} ${input.lastName}`, scheme: paySchemeConfig.type },
   })
+
+  // Seats: reflejar el nuevo trabajador activo en la suscripción de Stripe.
+  if (input.status === 'active') {
+    const { syncStripeSeats } = await import('@/lib/billing/seats')
+    await syncStripeSeats(session.organizationId)
+  }
 
   const { dispatchWebhook } = await import('@/lib/webhooks/dispatch')
   await dispatchWebhook(session.organizationId, 'employee.created', {
@@ -322,6 +303,10 @@ export async function updateEmployeeStatus(
       // La revocación es best-effort; el estado ya quedó como terminated.
     }
   }
+
+  // Seats: cualquier cambio de status puede alterar el conteo de activos.
+  const { syncStripeSeats } = await import('@/lib/billing/seats')
+  await syncStripeSeats(session.organizationId)
 
   revalidatePath(`/(app)/employees`, 'page')
   return { success: true, employeeId }

@@ -88,9 +88,12 @@ vercel env add NEXT_PUBLIC_APP_URL production            # https://myjova.com
 vercel env add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY production
 vercel env add STRIPE_SECRET_KEY production              # sk_live_...
 vercel env add STRIPE_WEBHOOK_SECRET production          # whsec_...
-vercel env add STRIPE_PRICE_ESSENTIAL production
-vercel env add STRIPE_PRICE_ADVANCED production
-vercel env add STRIPE_PRICE_PREMIUM production
+vercel env add STRIPE_PRICE_ESSENTIAL_BASE production
+vercel env add STRIPE_PRICE_ESSENTIAL_SEAT production
+vercel env add STRIPE_PRICE_ADVANCED_BASE production
+vercel env add STRIPE_PRICE_ADVANCED_SEAT production
+vercel env add STRIPE_PRICE_PREMIUM_BASE production
+vercel env add STRIPE_PRICE_PREMIUM_SEAT production
 # Mapbox
 vercel env add NEXT_PUBLIC_MAPBOX_TOKEN production
 # Resend (email)

@@ -206,7 +206,7 @@
         "name": "Esencial",
         "tagline": "Temps + paie pour petites équipes",
         "features": [
-          "Jusqu'à 10 employés",
+          "Travailleurs illimités — payez par travailleur actif",
           "Pointage photo + géorepérage GPS",
           "Kiosque tablette à NIP + appli mobile",
           "Clôture de semaine et demandes de paie",
@@ -218,7 +218,7 @@
         "name": "Avanzado",
         "tagline": "Paie complète pour entreprises en croissance",
         "features": [
-          "Jusqu'à 50 employés",
+          "Départements, avantages sociaux et rapports de main-d'œuvre",
           "Tout Esencial",
           "Tous les modes : jour, commission, à la pièce",
           "Impôts, W-2 / 1099 et e-file",
@@ -231,7 +231,7 @@
         "name": "Premium — Entrepreneurs",
         "tagline": "Pour les entreprises qui paient des équipes de sous-traitants",
         "features": [
-          "Employés illimités",
+          "SSO (Google / Microsoft)",
           "Tout Avanzado",
           "Entrepreneurs hiérarchiques : un chèque consolidé",
           "Taux facturés par travailleur, marges et HST",
@@ -242,7 +242,16 @@
       }
     },
     "upgrade": "Mettre à niveau",
-    "currentBadge": "Actuel"
+    "currentBadge": "Actuel",
+    "perWorkerSuffix": "+ {price} par travailleur actif / mois",
+    "estimatedFor": "≈ {total}/mois pour vos {workers} travailleurs actifs",
+    "usage": {
+      "title": "Abonnement actuel",
+      "activeWorkers": "Travailleurs actifs",
+      "estimated": "Total mensuel estimé",
+      "formula": "{base} de base + {workers} × {perWorker} par travailleur",
+      "note": "Vous êtes facturé mensuellement pour les travailleurs au statut Actif. Les changements de sièges s'appliquent à votre prochaine facture."
+    }
   },
   "errors": {
     "generic": "Une erreur est survenue. Veuillez réessayer.",
@@ -427,7 +436,7 @@
     },
     "pricing": {
       "title": "Tarifs simples",
-      "sub": "Commencez gratuitement. Payez quand votre équipe grandit.",
+      "sub": "Commencez gratuitement. Ensuite, une petite base mensuelle + payez uniquement pour les travailleurs actifs.",
       "mostPopular": "Le plus populaire",
       "ctaStart": "Essai gratuit",
       "ctaSales": "Parler aux ventes",
@@ -436,7 +445,8 @@
       "annual": "Annuel",
       "perMonth": "/mois",
       "perYear": "/an",
-      "currencyHint": "Tarifs en {currency} · emplacement détecté : {country}"
+      "currencyHint": "Tarifs en {currency} · emplacement détecté : {country}",
+      "plusPerWorker": "+ {price} par travailleur actif / mois"
     },
     "comparison": {
       "title": "Comment MyJova se compare",

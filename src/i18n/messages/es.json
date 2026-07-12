@@ -206,7 +206,7 @@
         "name": "Esencial",
         "tagline": "Control de tiempo + nómina para equipos chicos",
         "features": [
-          "Hasta 10 empleados",
+          "Trabajadores ilimitados — paga por trabajador activo",
           "Fichaje con foto + geofence GPS",
           "Kiosko de tablet con PIN + app móvil",
           "Cierre de semana y solicitudes de pago",
@@ -218,7 +218,7 @@
         "name": "Avanzado",
         "tagline": "Nómina completa para empresas en crecimiento",
         "features": [
-          "Hasta 50 empleados",
+          "Departamentos, beneficios y reportes laborales",
           "Todo lo de Esencial",
           "Todos los esquemas: día, comisión, por pieza",
           "Impuestos, W-2 / 1099 y e-file",
@@ -231,7 +231,7 @@
         "name": "Premium — Contratistas",
         "tagline": "Para empresas que pagan cuadrillas de subcontratistas",
         "features": [
-          "Empleados ilimitados",
+          "SSO (Google / Microsoft)",
           "Todo lo de Avanzado",
           "Contratistas jerárquicos: un cheque consolidado",
           "Tarifas facturadas por trabajador, márgenes y HST",
@@ -242,7 +242,16 @@
       }
     },
     "upgrade": "Actualizar",
-    "currentBadge": "Actual"
+    "currentBadge": "Actual",
+    "perWorkerSuffix": "+ {price} por trabajador activo / mes",
+    "estimatedFor": "≈ {total}/mes con tus {workers} trabajadores activos",
+    "usage": {
+      "title": "Suscripción actual",
+      "activeWorkers": "Trabajadores activos",
+      "estimated": "Total mensual estimado",
+      "formula": "{base} base + {workers} × {perWorker} por trabajador",
+      "note": "Se factura mensualmente por los trabajadores con estado Activo. Los cambios de plazas aplican en tu próxima factura."
+    }
   },
   "errors": {
     "generic": "Algo salió mal. Inténtalo de nuevo.",
@@ -427,7 +436,7 @@
     },
     "pricing": {
       "title": "Precios simples",
-      "sub": "Empieza gratis. Paga solo cuando tu equipo crezca.",
+      "sub": "Empieza gratis. Luego una base mensual pequeña + pagas solo por trabajadores activos.",
       "mostPopular": "Más popular",
       "ctaStart": "Probar gratis",
       "ctaSales": "Hablar con ventas",
@@ -436,7 +445,8 @@
       "annual": "Anual",
       "perMonth": "/mes",
       "perYear": "/año",
-      "currencyHint": "Precios en {currency} · ubicación detectada: {country}"
+      "currencyHint": "Precios en {currency} · ubicación detectada: {country}",
+      "plusPerWorker": "+ {price} por trabajador activo / mes"
     },
     "comparison": {
       "title": "Cómo se compara MyJova",

@@ -24,17 +24,24 @@ export function getStripe(): Stripe {
 }
 
 /**
- * Mapeo plan code → env var con price_id.
- * Los IDs vienen de Stripe Dashboard después de crear los productos.
+ * Mapeo plan code → env vars con los price IDs (modelo base + por-trabajador).
+ * Cada plan tiene DOS precios en Stripe: la base mensual (flat) y el seat
+ * por trabajador activo (licensed per-unit). Los IDs vienen del Dashboard
+ * después de crear los 3 productos con sus 2 precios cada uno.
  */
-export function getStripePriceId(planCode: 'essential' | 'advanced' | 'premium'): string {
-  const key =
+export function getStripePriceIds(planCode: 'essential' | 'advanced' | 'premium'): {
+  base: string
+  seat: string
+} {
+  const prefix =
     planCode === 'essential'
       ? 'STRIPE_PRICE_ESSENTIAL'
       : planCode === 'advanced'
         ? 'STRIPE_PRICE_ADVANCED'
         : 'STRIPE_PRICE_PREMIUM'
-  const id = process.env[key]
-  if (!id) throw new Error(`${key} no está configurada.`)
-  return id
+  const base = process.env[`${prefix}_BASE`]
+  const seat = process.env[`${prefix}_SEAT`]
+  if (!base) throw new Error(`${prefix}_BASE no está configurada.`)
+  if (!seat) throw new Error(`${prefix}_SEAT no está configurada.`)
+  return { base, seat }
 }

@@ -77,18 +77,9 @@ export default async function AnalyticsPage({
     if (bucket) bucket.count++
   })
 
-  // MRR estimate (sum of monthly_price for active subs)
-  const { data: activeSubsWithPlans } = await admin
-    .from('subscriptions')
-    .select('plans:plan_id(monthly_price_cents)')
-    .eq('status', 'active')
-
-  const mrr =
-    ((activeSubsWithPlans ?? []) as { plans?: { monthly_price_cents?: number } | { monthly_price_cents?: number }[] }[])
-      .reduce((sum, s) => {
-        const plan = Array.isArray(s.plans) ? s.plans[0] : s.plans
-        return sum + (plan?.monthly_price_cents ?? 0)
-      }, 0) / 100
+  // MRR estimate: Σ (base + active workers × per-worker) across active subs.
+  const { estimateMrrCents } = await import('@/lib/billing/seats')
+  const mrr = (await estimateMrrCents(admin)) / 100
 
   return (
     <div className="space-y-6">
