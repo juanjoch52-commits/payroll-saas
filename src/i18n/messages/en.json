@@ -1079,7 +1079,8 @@
     "billed": "Billed",
     "margin": "Margin",
     "subtotal": "Subtotal (billed)",
-    "marginTotal": "Your margin"
+    "marginTotal": "Your margin",
+    "invoice": "Invoice"
   },
   "myHours": {
     "title": "My hours",
@@ -1151,7 +1152,8 @@
     "annualChecks": "Checks received ({count})",
     "annualPaidCrew": "Paid to your crew (expenses)",
     "annualMargin": "Margin for the year",
-    "csvYear": "Download CSV {year}"
+    "csvYear": "Download CSV {year}",
+    "invoicePdf": "Invoice (PDF)"
   },
   "guide": {
     "title": "Getting-started guide",

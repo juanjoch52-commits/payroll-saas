@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Callout } from '@/components/ui/callout'
 import { Badge } from '@/components/ui/badge'
 import { ContractorSettlementPdfButton } from '@/components/contractor/ContractorSettlementPdfButton'
+import { ContractorInvoicePdfButton } from '@/components/contractor/ContractorInvoicePdfButton'
 import { SettlementsCsvButton } from '@/components/contractor/SettlementsCsvButton'
 import { cn } from '@/lib/utils'
 
@@ -242,7 +243,11 @@ export default async function MySettlementsPage({
               </div>
             </div>
 
-            <ContractorSettlementPdfButton runId={rec.payroll_run_id} />
+            <div className="flex flex-wrap items-center gap-2">
+              <ContractorSettlementPdfButton runId={rec.payroll_run_id} />
+              {/* La factura sale del registro CONGELADO — no existe en modo estimado. */}
+              {!isLive && <ContractorInvoicePdfButton runId={rec.payroll_run_id} />}
+            </div>
           </CardContent>
         </Card>
       ))}

@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
 import { PayrollRunDetail } from '@/components/payroll/PayrollRunDetail'
 import { SettlementDownloadButton } from '@/components/payroll/SettlementDownloadButton'
+import { InvoiceDownloadButton } from '@/components/payroll/InvoiceDownloadButton'
 import { formatMoney } from '@/lib/utils'
 
 export default async function PayrollRunPage({
@@ -81,6 +82,9 @@ export default async function PayrollRunPage({
                   <p className="font-medium">{s.rootName}</p>
                   <span className="flex items-center gap-3">
                     <SettlementDownloadButton runId={id} rootSubId={s.rootId} />
+                    {['approved', 'paid', 'posted'].includes(run.status) && (
+                      <InvoiceDownloadButton runId={id} rootSubId={s.rootId} />
+                    )}
                     <p className="text-lg font-bold tabular-nums">{formatMoney(s.totalCents, locale)}</p>
                   </span>
                 </div>

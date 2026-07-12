@@ -22,6 +22,10 @@ const subSchema = z.object({
     (v) => (v === '' || v == null ? 0 : v),
     z.coerce.number().min(0).max(30),
   ),
+  // Identidad fiscal — se imprime en la FACTURA del sub raíz (INV).
+  businessLegalName: z.string().max(160).optional().or(z.literal('')),
+  taxNumber: z.string().max(40).optional().or(z.literal('')),
+  address: z.string().max(240).optional().or(z.literal('')),
 })
 
 function isManager(role: string) {
@@ -67,6 +71,9 @@ export async function createSubcontractor(input: z.input<typeof subSchema>): Pro
     email: d.email || null,
     phone: d.phone || null,
     sales_tax_pct: d.salesTaxPct,
+    business_legal_name: d.businessLegalName || null,
+    tax_number: d.taxNumber || null,
+    address: d.address || null,
   })
   if (error) return { success: false, error: error.message }
 
@@ -185,6 +192,9 @@ export async function updateSubcontractor(
       email: d.email || null,
       phone: d.phone || null,
       sales_tax_pct: d.salesTaxPct,
+      business_legal_name: d.businessLegalName || null,
+      tax_number: d.taxNumber || null,
+      address: d.address || null,
     })
     .eq('id', id)
     .eq('organization_id', session.organizationId)

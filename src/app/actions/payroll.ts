@@ -663,9 +663,37 @@ export async function approvePayrollRun(runId: string): Promise<{ success: boole
         { onConflict: 'payroll_run_id,subcontractor_id' },
       )
 
-      // Email al contratista raíz vinculado (settlement_ready).
+      // INV: numerar la factura de cada settlement recién congelado (secuencial
+      // por org × año vía next_invoice_number; el upsert de arriba NO toca
+      // invoice_number, así que las re-aprobaciones conservan su número).
       const { createAdminClient } = await import('@/lib/supabase/server')
       const admin = createAdminClient()
+      try {
+        const { formatInvoiceNumber } = await import('@/lib/subcontractors/invoice')
+        const { data: unnumbered } = await admin
+          .from('settlement_records')
+          .select('id, pay_date')
+          .eq('organization_id', session.organizationId)
+          .eq('payroll_run_id', runId)
+          .is('invoice_number', null)
+        for (const rec of (unnumbered ?? []) as { id: string; pay_date: string }[]) {
+          const year = Number(rec.pay_date.slice(0, 4))
+          const { data: n } = await admin.rpc('next_invoice_number', {
+            p_organization_id: session.organizationId,
+            p_year: year,
+          })
+          if (typeof n === 'number') {
+            await admin
+              .from('settlement_records')
+              .update({ invoice_number: formatInvoiceNumber(year, n) })
+              .eq('id', rec.id)
+          }
+        }
+      } catch {
+        /* la numeración perezosa del primer download cubre este fallo */
+      }
+
+      // Email al contratista raíz vinculado (settlement_ready).
       const { data: linkedSubs } = await admin
         .from('subcontractors')
         .select('id, user_id')

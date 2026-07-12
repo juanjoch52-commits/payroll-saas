@@ -182,3 +182,159 @@ export async function downloadMySettlementPdf(runId: string): Promise<PdfResult>
     (mySub as { id: string }).id,
   )
 }
+
+// -----------------------------------------------------------------------------
+// FACTURA formal (sub raíz → empresa) — SOLO desde settlement_records congelados
+// -----------------------------------------------------------------------------
+// A diferencia del settlement PDF (documento interno con pay/margen), la
+// factura muestra SOLO el lado facturado + HST, con la identidad fiscal del
+// sub. Existe únicamente después de aprobar la nómina (registro congelado).
+// -----------------------------------------------------------------------------
+
+async function renderInvoicePdf(
+  db: Db,
+  organizationId: string,
+  payerName: string,
+  runId: string,
+  rootSubId: string,
+): Promise<PdfResult> {
+  const { data: recRow } = await db
+    .from('settlement_records')
+    .select(
+      'id, period_start, period_end, pay_date, subtotal_cents, tax_pct, tax_cents, total_cents, lines, invoice_number, created_at',
+    )
+    .eq('organization_id', organizationId)
+    .eq('payroll_run_id', runId)
+    .eq('subcontractor_id', rootSubId)
+    .maybeSingle()
+  if (!recRow) {
+    return {
+      success: false,
+      error: 'La factura se genera al aprobar la nómina (aún no hay registro congelado).',
+    }
+  }
+  const rec = recRow as {
+    id: string
+    period_start: string
+    period_end: string
+    pay_date: string
+    subtotal_cents: number
+    tax_pct: number
+    tax_cents: number
+    total_cents: number
+    lines: import('@/lib/subcontractors/tree').SettlementLine[]
+    invoice_number: string | null
+    created_at: string
+  }
+
+  // Numeración perezosa: records congelados antes de la migración INV (o si
+  // falló la numeración al aprobar) reciben su número en el primer download.
+  let invoiceNumber = rec.invoice_number
+  if (!invoiceNumber) {
+    const admin = createAdminClient()
+    const year = Number(rec.pay_date.slice(0, 4))
+    const { formatInvoiceNumber } = await import('@/lib/subcontractors/invoice')
+    const { data: n } = await admin.rpc('next_invoice_number', {
+      p_organization_id: organizationId,
+      p_year: year,
+    })
+    if (typeof n !== 'number') {
+      return { success: false, error: 'No se pudo asignar número de factura.' }
+    }
+    invoiceNumber = formatInvoiceNumber(year, n)
+    await admin
+      .from('settlement_records')
+      .update({ invoice_number: invoiceNumber })
+      .eq('id', rec.id)
+  }
+
+  const { data: subRow } = await db
+    .from('subcontractors')
+    .select('name, business_legal_name, tax_number, address')
+    .eq('id', rootSubId)
+    .eq('organization_id', organizationId)
+    .maybeSingle()
+  if (!subRow) return { success: false, error: 'Contratista no encontrado.' }
+  const sub = subRow as {
+    name: string
+    business_legal_name: string | null
+    tax_number: string | null
+    address: string | null
+  }
+
+  const { invoiceLines } = await import('@/lib/subcontractors/invoice')
+  const { InvoicePdf } = await import('@/lib/pdf/invoice')
+
+  const buffer = await renderToBuffer(
+    <InvoicePdf
+      data={{
+        invoiceNumber,
+        issueDate: rec.created_at.slice(0, 10),
+        payDate: rec.pay_date,
+        periodStart: rec.period_start,
+        periodEnd: rec.period_end,
+        from: {
+          name: sub.name,
+          businessLegalName: sub.business_legal_name,
+          taxNumber: sub.tax_number,
+          address: sub.address,
+        },
+        billTo: { name: payerName },
+        lines: invoiceLines(rec.lines ?? []),
+        subtotalCents: rec.subtotal_cents,
+        taxPct: Number(rec.tax_pct),
+        taxCents: rec.tax_cents,
+        totalCents: rec.total_cents,
+      }}
+    />,
+  )
+  return {
+    success: true,
+    base64: Buffer.from(buffer).toString('base64'),
+    filename: `${invoiceNumber}.pdf`,
+  }
+}
+
+/** Empresa (manager+): factura del sub raíz para un run aprobado. */
+export async function downloadSettlementInvoicePdf(
+  runId: string,
+  rootSubId: string,
+): Promise<PdfResult> {
+  const session = await requireSession('/en/login')
+  if (!['owner', 'admin', 'manager'].includes(session.role)) {
+    return { success: false, error: 'No autorizado.' }
+  }
+  const supabase = createClient()
+  return renderInvoicePdf(
+    supabase,
+    session.organizationId,
+    session.organizationName,
+    runId,
+    rootSubId,
+  )
+}
+
+/** Contratista logueado: SU factura del run (scoped a su vínculo). */
+export async function downloadMySettlementInvoicePdf(runId: string): Promise<PdfResult> {
+  const session = await requireSession('/en/login')
+  if (session.role !== 'contractor') {
+    return { success: false, error: 'No autorizado.' }
+  }
+
+  const admin = createAdminClient()
+  const { data: mySub } = await admin
+    .from('subcontractors')
+    .select('id')
+    .eq('organization_id', session.organizationId)
+    .eq('user_id', session.userId)
+    .maybeSingle()
+  if (!mySub) return { success: false, error: 'Tu cuenta no está vinculada a un contratista.' }
+
+  return renderInvoicePdf(
+    admin,
+    session.organizationId,
+    session.organizationName,
+    runId,
+    (mySub as { id: string }).id,
+  )
+}

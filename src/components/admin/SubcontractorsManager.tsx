@@ -51,17 +51,32 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
   const [contactName, setContactName] = useState('')
   const [email, setEmail] = useState('')
   const [salesTaxPct, setSalesTaxPct] = useState('')
+  const [businessLegalName, setBusinessLegalName] = useState('')
+  const [taxNumber, setTaxNumber] = useState('')
+  const [address, setAddress] = useState('')
 
   function add() {
     setError(null)
     startTransition(async () => {
-      const res = await createSubcontractor({ name, parentId, contactName, email, salesTaxPct })
+      const res = await createSubcontractor({
+        name,
+        parentId,
+        contactName,
+        email,
+        salesTaxPct,
+        businessLegalName,
+        taxNumber,
+        address,
+      })
       if (res.success) {
         setName('')
         setParentId('')
         setContactName('')
         setEmail('')
         setSalesTaxPct('')
+        setBusinessLegalName('')
+        setTaxNumber('')
+        setAddress('')
         router.refresh()
       } else {
         setError(res.error ?? 'Error')
@@ -227,6 +242,39 @@ export function SubcontractorsManager({ subs }: { subs: SubRow[] }) {
               value={salesTaxPct}
               onChange={(e) => setSalesTaxPct(e.target.value)}
               placeholder="0"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="sub-legal" className="text-xs">
+              Legal business name (printed on invoices — optional)
+            </Label>
+            <Input
+              id="sub-legal"
+              value={businessLegalName}
+              onChange={(e) => setBusinessLegalName(e.target.value)}
+              placeholder="Beta Plumbing Ltd."
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="sub-taxnum" className="text-xs">
+              GST/HST number (invoices — top-level subs, optional)
+            </Label>
+            <Input
+              id="sub-taxnum"
+              value={taxNumber}
+              onChange={(e) => setTaxNumber(e.target.value)}
+              placeholder="123456789 RT0001"
+            />
+          </div>
+          <div className="space-y-1 sm:col-span-2">
+            <Label htmlFor="sub-address" className="text-xs">
+              Business address (invoices — optional)
+            </Label>
+            <Input
+              id="sub-address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="123 Main St, Toronto ON M1M 1M1"
             />
           </div>
         </div>

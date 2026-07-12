@@ -1079,7 +1079,8 @@
     "billed": "Facturé",
     "margin": "Marge",
     "subtotal": "Sous-total (facturé)",
-    "marginTotal": "Votre marge"
+    "marginTotal": "Votre marge",
+    "invoice": "Facture"
   },
   "myHours": {
     "title": "Mes heures",
@@ -1151,7 +1152,8 @@
     "annualChecks": "Chèques reçus ({count})",
     "annualPaidCrew": "Payé à votre équipe (dépenses)",
     "annualMargin": "Marge de l’année",
-    "csvYear": "Télécharger CSV {year}"
+    "csvYear": "Télécharger CSV {year}",
+    "invoicePdf": "Facture (PDF)"
   },
   "guide": {
     "title": "Guide de démarrage",
