@@ -41,7 +41,8 @@ function detectLocaleFromRequest(req: NextRequest): Locale {
 
   if (country === 'CA' && region === 'QC') return 'fr-CA'
   if (country === 'CA') return 'en'
-  if (['FR', 'BE', 'CH', 'MC', 'LU'].includes(country)) return 'fr'
+  // `fr` genérico está oculto (mercado US+CA): todo francófono cae en fr-CA.
+  if (['FR', 'BE', 'CH', 'MC', 'LU'].includes(country)) return 'fr-CA'
   if (
     [
       'ES', 'MX', 'AR', 'CL', 'PE', 'CO', 'VE', 'EC', 'PR', 'DO',
@@ -51,8 +52,7 @@ function detectLocaleFromRequest(req: NextRequest): Locale {
     return 'es'
 
   const al = (req.headers.get('accept-language') ?? '').toLowerCase()
-  if (al.startsWith('fr-ca')) return 'fr-CA'
-  if (al.startsWith('fr')) return 'fr'
+  if (al.startsWith('fr')) return 'fr-CA'
   if (al.startsWith('es')) return 'es'
   return defaultLocale
 }
@@ -82,6 +82,23 @@ export async function middleware(request: NextRequest) {
     pathname === '/sw.js'
   ) {
     return supabaseResponse
+  }
+
+  // `fr` genérico está oculto: cualquier URL /fr/* (marcadores viejos, cookie
+  // vieja, links) redirige permanente a su equivalente /fr-CA/*.
+  if (/^\/fr(\/|$)/i.test(pathname)) {
+    const url = request.nextUrl.clone()
+    url.pathname = pathname.replace(/^\/fr(?=\/|$)/i, '/fr-CA')
+    const redirect = NextResponse.redirect(url, 308)
+    redirect.cookies.set(LOCALE_COOKIE, 'fr-CA', {
+      maxAge: 60 * 60 * 24 * 365,
+      path: '/',
+      sameSite: 'lax',
+    })
+    for (const cookie of supabaseResponse.cookies.getAll()) {
+      redirect.cookies.set(cookie.name, cookie.value, cookie)
+    }
+    return redirect
   }
 
   // Paso 2: geo-detección de locale en first visit (sin cookie + sin locale en URL).

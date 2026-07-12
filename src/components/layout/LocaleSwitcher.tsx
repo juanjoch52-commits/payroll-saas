@@ -4,6 +4,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { Globe } from 'lucide-react'
 import {
   locales,
+  visibleLocales,
   localeLabels,
   localeFlags,
   localeShort,
@@ -52,7 +53,7 @@ export function LocaleSwitcher({ locale }: { locale: string }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {locales.map((l) => (
+        {visibleLocales.map((l) => (
           <DropdownMenuItem
             key={l}
             onClick={() => switchTo(l)}

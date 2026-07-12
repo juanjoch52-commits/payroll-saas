@@ -16,6 +16,14 @@
 export const locales = ['en', 'es', 'fr', 'fr-CA'] as const
 export type Locale = (typeof locales)[number]
 
+/**
+ * Locales VISIBLES para el usuario (mercado: US + Canadá). `fr` genérico queda
+ * OCULTO: sigue siendo válido internamente (es la fuente de la que se copia
+ * fr-CA en los scripts de i18n) pero no aparece en el switcher y el middleware
+ * redirige /fr/* → /fr-CA/*.
+ */
+export const visibleLocales = ['en', 'es', 'fr-CA'] as const
+
 export const defaultLocale: Locale = 'en'
 
 /** Etiquetas mostradas en el switcher de idioma. */
