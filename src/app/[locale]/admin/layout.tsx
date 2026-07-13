@@ -9,6 +9,7 @@ import {
   LifeBuoy,
   Megaphone,
   TrendingUp,
+  Users,
 } from 'lucide-react'
 import { requirePlatformAdmin } from '@/lib/auth/platform'
 import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
@@ -33,6 +34,7 @@ export default async function PlatformAdminLayout({
   const navItems = [
     { href: '/admin', label: 'Overview', icon: LayoutDashboard },
     { href: '/admin/tenants', label: 'Tenants', icon: Building2 },
+    { href: '/admin/users', label: 'Users', icon: Users },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: CreditCard },
     { href: '/admin/analytics', label: 'Analytics', icon: TrendingUp },
     { href: '/admin/metrics', label: 'Metrics', icon: BarChart3 },

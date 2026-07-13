@@ -2,8 +2,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeft, ExternalLink } from 'lucide-react'
 
-import { createAdminClient } from '@/lib/supabase/server'
+import { createAdminClient, createClient } from '@/lib/supabase/server'
 import { requirePlatformAdmin } from '@/lib/auth/platform'
+import { adminSetPlan, adminSetSuspended, adminSetTrialEnd } from '@/app/actions/admin-tenants'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -36,6 +37,18 @@ export default async function TenantDetailPage({
     return p as PlanRow
   }
 
+  // Emails/last-login de los miembros: RPC guardado por is_platform_admin(),
+  // llamado con el cliente del USUARIO (el guard necesita su JWT).
+  const supabase = createClient()
+  type MemberDetail = {
+    user_id: string
+    email: string
+    full_name: string | null
+    last_sign_in_at: string | null
+    email_confirmed_at: string | null
+    memberships: { organization_id: string; org_name: string; role: string }[]
+  }
+
   const [
     { data: members },
     { data: sub },
@@ -43,6 +56,8 @@ export default async function TenantDetailPage({
     { data: auditRecent },
     { data: overrides },
     { data: tickets },
+    { data: memberDetailsRaw },
+    { data: allPlans },
   ] = await Promise.all([
     admin
       .from('memberships')
@@ -50,7 +65,9 @@ export default async function TenantDetailPage({
       .eq('organization_id', id),
     admin
       .from('subscriptions')
-      .select('status, current_period_end, plans:plan_id(code, name, monthly_price_cents)')
+      .select(
+        'id, status, current_period_end, trial_ends_at, stripe_subscription_id, plans:plan_id(code, name, monthly_price_cents)',
+      )
       .eq('organization_id', id)
       .order('created_at', { ascending: false })
       .limit(1)
@@ -75,7 +92,13 @@ export default async function TenantDetailPage({
       .eq('organization_id', id)
       .order('created_at', { ascending: false })
       .limit(10),
+    supabase.rpc('admin_list_users', { p_search: null, p_org_id: id, p_limit: 200, p_offset: 0 }),
+    admin.from('plans').select('code, name').order('sort_order'),
   ])
+
+  const memberDetails = new Map(
+    ((memberDetailsRaw ?? []) as MemberDetail[]).map((m) => [m.user_id, m]),
+  )
 
   return (
     <div className="space-y-6">
@@ -152,23 +175,52 @@ export default async function TenantDetailPage({
               <table className="w-full text-sm">
                 <thead className="border-b bg-muted/30 text-left text-xs uppercase text-muted-foreground">
                   <tr>
-                    <th className="px-4 py-3">User ID</th>
+                    <th className="px-4 py-3">User</th>
                     <th className="px-4 py-3">Role</th>
+                    <th className="px-4 py-3">Confirmed</th>
                     <th className="px-4 py-3">Joined</th>
+                    <th className="px-4 py-3">Last sign-in</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {(members ?? []).map((m) => (
-                    <tr key={m.user_id} className="border-b last:border-0">
-                      <td className="px-4 py-3 font-mono text-xs">{m.user_id}</td>
-                      <td className="px-4 py-3">
-                        <Badge variant="muted">{m.role}</Badge>
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground">
-                        {new Date(m.created_at).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
+                  {(members ?? []).map((m) => {
+                    const d = memberDetails.get(m.user_id)
+                    return (
+                      <tr key={m.user_id} className="border-b last:border-0">
+                        <td className="px-4 py-3">
+                          {d ? (
+                            <div>
+                              <p className="font-medium">{d.email}</p>
+                              <p className="font-mono text-[10px] text-muted-foreground">
+                                {d.full_name ? `${d.full_name} · ` : ''}
+                                {m.user_id.slice(0, 8)}…
+                              </p>
+                            </div>
+                          ) : (
+                            <span className="font-mono text-xs">{m.user_id}</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge variant="muted">{m.role}</Badge>
+                        </td>
+                        <td className="px-4 py-3">
+                          {d?.email_confirmed_at ? (
+                            <Badge variant="success">Yes</Badge>
+                          ) : (
+                            <Badge variant="warning">Pending</Badge>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-muted-foreground">
+                          {new Date(m.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="px-4 py-3 text-xs text-muted-foreground">
+                          {d?.last_sign_in_at
+                            ? new Date(d.last_sign_in_at).toLocaleString()
+                            : 'Never'}
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </CardContent>
@@ -176,7 +228,7 @@ export default async function TenantDetailPage({
         </TabsContent>
 
         {/* Subscription */}
-        <TabsContent value="subscription">
+        <TabsContent value="subscription" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Subscription</CardTitle>
@@ -194,11 +246,25 @@ export default async function TenantDetailPage({
               />
               <Row label="Status" value={sub?.status ?? '—'} />
               <Row
+                label="Trial ends"
+                value={sub?.trial_ends_at ? new Date(sub.trial_ends_at).toLocaleDateString() : '—'}
+              />
+              <Row
                 label="Renews"
                 value={sub?.current_period_end ? new Date(sub.current_period_end).toLocaleDateString() : '—'}
               />
+              <Row label="Stripe" value={sub?.stripe_subscription_id ? 'Linked' : 'Not linked'} />
             </CardContent>
           </Card>
+
+          <SubscriptionControls
+            orgId={id}
+            status={sub?.status ?? null}
+            trialEndsAt={sub?.trial_ends_at ?? null}
+            currentPlanCode={unwrapPlan(sub?.plans)?.code ?? null}
+            hasStripe={Boolean(sub?.stripe_subscription_id)}
+            plans={(allPlans ?? []) as { code: string; name: string }[]}
+          />
         </TabsContent>
 
         {/* Audit */}
@@ -312,6 +378,114 @@ function Row({ label, value }: { label: string; value: string }) {
       <span className="text-muted-foreground">{label}</span>
       <span className="font-medium">{value}</span>
     </div>
+  )
+}
+
+/**
+ * Controles manuales de la suscripción (extender trial, comp de plan,
+ * suspender/reactivar). NO tocan Stripe — para cuentas pagas con Stripe
+ * linkeado, el próximo webhook puede sobreescribir el estado.
+ */
+function SubscriptionControls({
+  orgId,
+  status,
+  trialEndsAt,
+  currentPlanCode,
+  hasStripe,
+  plans,
+}: {
+  orgId: string
+  status: string | null
+  trialEndsAt: string | null
+  currentPlanCode: string | null
+  hasStripe: boolean
+  plans: { code: string; name: string }[]
+}) {
+  async function doSetTrial(formData: FormData) {
+    'use server'
+    const date = String(formData.get('trialEndsAt') ?? '')
+    if (date) await adminSetTrialEnd(String(formData.get('orgId')), date)
+  }
+  async function doSetPlan(formData: FormData) {
+    'use server'
+    const code = String(formData.get('planCode') ?? '')
+    if (code) await adminSetPlan(String(formData.get('orgId')), code)
+  }
+  async function doSuspend(formData: FormData) {
+    'use server'
+    await adminSetSuspended(
+      String(formData.get('orgId')),
+      formData.get('suspend') === 'true',
+    )
+  }
+
+  // Default del input: trial actual o hoy+30
+  const defaultTrialDate = new Date(
+    trialEndsAt ? new Date(trialEndsAt).getTime() : Date.now() + 30 * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10)
+
+  const suspended = status === 'canceled' || status === 'unpaid'
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Admin controls</CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Manual overrides — they do not touch Stripe.
+          {hasStripe && ' This org IS linked to Stripe: the next webhook may overwrite status/plan.'}
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <form action={doSetTrial} className="flex flex-wrap items-center gap-2">
+          <input type="hidden" name="orgId" value={orgId} />
+          <span className="w-40 text-sm text-muted-foreground">Set trial end</span>
+          <input
+            type="date"
+            name="trialEndsAt"
+            defaultValue={defaultTrialDate}
+            className="h-9 rounded-md border bg-background px-3 text-sm"
+          />
+          <Button type="submit" size="sm" variant="outline">
+            Apply (sets status to trialing)
+          </Button>
+        </form>
+
+        <form action={doSetPlan} className="flex flex-wrap items-center gap-2">
+          <input type="hidden" name="orgId" value={orgId} />
+          <span className="w-40 text-sm text-muted-foreground">Change plan</span>
+          <select
+            name="planCode"
+            defaultValue={currentPlanCode ?? ''}
+            className="h-9 rounded-md border bg-background px-3 text-sm"
+          >
+            <option value="" disabled>
+              Pick a plan…
+            </option>
+            {plans.map((p) => (
+              <option key={p.code} value={p.code}>
+                {p.name} ({p.code})
+              </option>
+            ))}
+          </select>
+          <Button type="submit" size="sm" variant="outline">
+            Apply
+          </Button>
+        </form>
+
+        <form action={doSuspend} className="flex flex-wrap items-center gap-2">
+          <input type="hidden" name="orgId" value={orgId} />
+          <input type="hidden" name="suspend" value={suspended ? 'false' : 'true'} />
+          <span className="w-40 text-sm text-muted-foreground">
+            {suspended ? 'Suspended' : 'Access'}
+          </span>
+          <Button type="submit" size="sm" variant={suspended ? 'default' : 'destructive'}>
+            {suspended ? 'Reactivate (set active)' : 'Suspend (blocks core writes)'}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 

@@ -28,6 +28,20 @@ export default async function PlatformOverviewPage() {
     .select('id', { count: 'exact', head: true })
     .is('clock_out_at', null)
 
+  // Pulso de inscripciones: orgs nuevas (7d) y trials que vencen en ≤7 días.
+  const now = Date.now()
+  const { count: signups7d } = await admin
+    .from('organizations')
+    .select('id', { count: 'exact', head: true })
+    .gte('created_at', new Date(now - 7 * 86_400_000).toISOString())
+
+  const { count: trialsExpiring7d } = await admin
+    .from('subscriptions')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'trialing')
+    .gte('trial_ends_at', new Date(now).toISOString())
+    .lte('trial_ends_at', new Date(now + 7 * 86_400_000).toISOString())
+
   // MRR estimado: Σ (base + trabajadores activos × por-trabajador) de subs activas.
   const { estimateMrrCents } = await import('@/lib/billing/seats')
   const mrr = (await estimateMrrCents(admin)) / 100
@@ -74,6 +88,18 @@ export default async function PlatformOverviewPage() {
           <CardHeader>
             <CardDescription>Workers clocked in now</CardDescription>
             <p className="text-3xl font-bold">{openShiftsCount ?? 0}</p>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardDescription>Signups (last 7 days)</CardDescription>
+            <p className="text-3xl font-bold">{signups7d ?? 0}</p>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardDescription>Trials expiring ≤7 days</CardDescription>
+            <p className="text-3xl font-bold">{trialsExpiring7d ?? 0}</p>
           </CardHeader>
         </Card>
       </div>
