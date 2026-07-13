@@ -54,3 +54,22 @@ Thumbs.db
 local.db
 *.sqlite
 .supabase
+
+# Jova
+_legacy_backup/
+.vercel
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Playwright
+/tests/test-results
+/tests/playwright-report
+/tests/screenshots
+/playwright/.cache
+
+# Expo / mobile app
+apps/mobile/node_modules
+apps/mobile/.expo
+apps/mobile/dist
+apps/mobile/web-build
+apps/*/.env

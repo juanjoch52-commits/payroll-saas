@@ -1,0 +1,1254 @@
+{
+  "common": {
+    "appName": "MyJova",
+    "tagline": "Paie et déclarations fiscales, simplifiées.",
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "back": "Retour",
+    "next": "Suivant",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "actions": "Actions",
+    "noData": "Aucune donnée à afficher",
+    "yes": "Oui",
+    "no": "Non",
+    "theme": {
+      "toggle": "Changer le thème",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "revoked": "Révoqué",
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Refusé",
+      "open": "Ouvert",
+      "closed": "Fermé",
+      "flagged": "Signalé",
+      "outsideGeofence": "Hors de la zone"
+    },
+    "comingSoon": "Bientôt disponible",
+    "saved": "Enregistré",
+    "copy": "Copier"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "employees": "Employés",
+    "payroll": "Paie",
+    "timeTracking": "Suivi du temps",
+    "worksites": "Chantiers",
+    "reports": "Rapports",
+    "billing": "Facturation",
+    "settings": "Paramètres",
+    "signOut": "Déconnexion",
+    "clock": "Poinçon",
+    "history": "Heures",
+    "paystubs": "Bulletins de paie",
+    "profile": "Profil",
+    "production": "Production",
+    "schedule": "Horaire",
+    "timeOff": "Congés",
+    "documents": "Documents",
+    "tips": "Pourboires",
+    "jobs": "Chantiers",
+    "announcements": "Équipe",
+    "deductions": "Retenues",
+    "sections": {
+      "overview": "Aperçu",
+      "people": "Personnel",
+      "time": "Temps",
+      "payroll": "Paie",
+      "communication": "Communication",
+      "organization": "Organisation"
+    },
+    "subcontractors": "Sous-traitants"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "email": "Courriel",
+    "password": "Mot de passe",
+    "organizationName": "Nom de l'entreprise",
+    "forgotPassword": "Mot de passe oublié ?",
+    "createAccount": "Créer un compte",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "signInToContinue": "Connectez-vous pour continuer sur MyJova",
+    "createYourCompany": "Créez votre entreprise sur MyJova",
+    "signUpHelp": "Nous activons un essai gratuit de 30 jours du plan Esencial.",
+    "checkYourEmail": "Vérifiez votre courriel",
+    "weSentConfirmation": "Nous avons envoyé un lien de confirmation à {email}.",
+    "invalidCredentials": "Courriel ou mot de passe invalide.",
+    "signUpFailed": "Impossible de créer le compte. Réessayez.",
+    "industry": "Secteur",
+    "orContinueWith": "Ou continuer avec",
+    "continueWithGoogle": "Continuer avec Google",
+    "continueWithMicrosoft": "Continuer avec Microsoft",
+    "agreePrefix": "En vous inscrivant, vous acceptez nos",
+    "paysSubs": "Je paie des entrepreneurs ou sous-traitants",
+    "paysSubsHint": "Active les chèques consolidés, les taux facturés, la HST et le portail entrepreneur. Modifiable plus tard dans les réglages."
+  },
+  "dashboard": {
+    "welcome": "Bienvenue sur MyJova",
+    "summary": "Voici ce qui se passe dans votre entreprise.",
+    "activeEmployees": "Employés actifs",
+    "lastPayrollRun": "Dernière paie",
+    "upcomingFilings": "Déclarations fiscales à venir",
+    "noRunsYet": "Aucune paie pour l'instant — commencez par la première.",
+    "clockedInNow": "Pointés maintenant",
+    "hoursToday": "Heures aujourd’hui",
+    "pendingApprovals": "Approbations en attente",
+    "review": "Réviser",
+    "liveActivity": "Activité en direct",
+    "nobodyClockedIn": "Personne n’est pointé en ce moment.",
+    "working": "au travail",
+    "quickActions": "Actions rapides",
+    "view": "Voir",
+    "actions": {
+      "runPayroll": "Lancer la paie",
+      "reviewTime": "Réviser le temps",
+      "reports": "Rapports",
+      "guide": "Guide de démarrage"
+    },
+    "submittedWeeks": "{count} semaine(s) clôturée(s) en attente de votre approbation",
+    "reviewWeeks": "Vérifier et approuver"
+  },
+  "employees": {
+    "title": "Employés",
+    "addEmployee": "Ajouter un employé",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Courriel",
+    "hireDate": "Date d'embauche",
+    "status": "Statut",
+    "type": "Type",
+    "payScheme": "Mode de rémunération",
+    "jurisdiction": "Juridiction",
+    "schemes": {
+      "hourly": "Horaire",
+      "salary": "Salaire",
+      "daily": "Journalier",
+      "commission": "Commission",
+      "piecerate": "À la pièce"
+    },
+    "limitReached": "Vous avez atteint la limite d'employés de votre plan. Améliorez votre plan pour en ajouter plus.",
+    "piecerate": {
+      "ratePerUnit": "Taux par unité ($)",
+      "unitLabel": "Libellé d’unité",
+      "minFloor": "Salaire minimum ($/h, optionnel)"
+    },
+    "locality": "Taxe locale (ville)",
+    "localityNone": "Aucune",
+    "subcontractor": "Sous-traitant",
+    "subcontractorNone": "Aucun (travailleur interne)",
+    "subcontractorHint": "Les travailleurs d’un sous-traitant sont payés en BRUT (sans retenues) — leur paie entre dans le chèque du sous-traitant.",
+    "billRate": "Taux facturé à l’entrepreneur ($/h)",
+    "billRateHint": "Ce que l’entrepreneur paie pour l’heure de ce travailleur (ex. 33). Le taux de paie du travailleur est ce que VOUS lui payez (ex. 30) — la différence est la marge du sous-traitant."
+  },
+  "payroll": {
+    "title": "Paie",
+    "newRun": "Nouvelle paie",
+    "periodStart": "Début de période",
+    "periodEnd": "Fin de période",
+    "payDate": "Date de paie",
+    "status": {
+      "draft": "Brouillon",
+      "approved": "Approuvée",
+      "paid": "Payée",
+      "posted": "Comptabilisée"
+    },
+    "grossPay": "Salaire brut",
+    "netPay": "Salaire net",
+    "totalTaxes": "Total des retenues",
+    "approve": "Approuver",
+    "markPaid": "Marquer comme payée",
+    "employeesCount": "Employés"
+  },
+  "reports": {
+    "title": "Rapports fiscaux",
+    "yearEnd": "Feuillets de fin d'année",
+    "generateW2": "Générer les feuillets T4",
+    "generate1099": "Générer les T4A",
+    "selectYear": "Sélectionner l'année fiscale",
+    "upgradeRequired": "La génération de rapports fiscaux nécessite le plan Avanzado ou supérieur.",
+    "exports": "Rapports et exports",
+    "exportsDesc": "Téléchargez la paie, les heures et les pourboires en CSV.",
+    "payrollRegister": "Registre de paie",
+    "from": "Du",
+    "to": "Au",
+    "hours": "Heures CSV",
+    "tips": "Pourboires CSV",
+    "settlementsTitle": "Règlements par entrepreneur (annuel)",
+    "settlementsDesc": "Figés à l’approbation de chaque paie : facturé, HST, chèques, payé aux équipes et marge par entrepreneur — les mêmes chiffres que chaque entrepreneur voit dans son portail.",
+    "settlementsOpen": "Ouvrir le rapport annuel",
+    "settlementsEmpty": "Aucun registre de règlement pour le moment",
+    "settlementsEmptyDesc": "Les registres se figent automatiquement à l’approbation d’une paie incluant des équipes d’entrepreneurs.",
+    "colContractor": "Entrepreneur",
+    "colRuns": "Paies",
+    "colBilled": "Facturé",
+    "colChecks": "Chèques",
+    "colPaidCrew": "Payé à l’équipe",
+    "colMargin": "Marge",
+    "colTotal": "Total"
+  },
+  "billing": {
+    "title": "Plans et facturation",
+    "currentPlan": "Votre plan actuel",
+    "trialEndsIn": "L'essai se termine dans {days} jours",
+    "plans": {
+      "essential": {
+        "name": "Esencial",
+        "tagline": "Temps + paie pour petites équipes",
+        "features": [
+          "Travailleurs illimités — payez par travailleur actif",
+          "Pointage photo + géorepérage GPS",
+          "Kiosque tablette à NIP + appli mobile",
+          "Clôture de semaine et demandes de paie",
+          "Règles automatiques de pause repas",
+          "Paie horaire et salaire avec bulletins"
+        ]
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "tagline": "Paie complète pour entreprises en croissance",
+        "features": [
+          "Départements, avantages sociaux et rapports de main-d'œuvre",
+          "Tout Esencial",
+          "Tous les modes : jour, commission, à la pièce",
+          "Impôts, W-2 / 1099 et e-file",
+          "Horaires, congés cumulés et pourboires",
+          "Intégrations QuickBooks et Square",
+          "Plusieurs administrateurs"
+        ]
+      },
+      "premium": {
+        "name": "Premium — Entrepreneurs",
+        "tagline": "Pour les entreprises qui paient des équipes de sous-traitants",
+        "features": [
+          "SSO (Google / Microsoft)",
+          "Tout Avanzado",
+          "Entrepreneurs hiérarchiques : un chèque consolidé",
+          "Taux facturés par travailleur, marges et HST",
+          "Portail privé de l’entrepreneur + courriels de paiement",
+          "Registres figés et rapport annuel de revenus",
+          "API, webhooks et soutien prioritaire"
+        ]
+      }
+    },
+    "upgrade": "Mettre à niveau",
+    "currentBadge": "Actuel",
+    "perWorkerSuffix": "+ {price} par travailleur actif / mois",
+    "estimatedFor": "≈ {total}/mois pour vos {workers} travailleurs actifs",
+    "usage": {
+      "title": "Abonnement actuel",
+      "activeWorkers": "Travailleurs actifs",
+      "estimated": "Total mensuel estimé",
+      "formula": "{base} de base + {workers} × {perWorker} par travailleur",
+      "note": "Vous êtes facturé mensuellement pour les travailleurs au statut Actif. Les changements de sièges s'appliquent à votre prochaine facture."
+    }
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "unauthorized": "Vous n'êtes pas autorisé à faire cela.",
+    "notFound": "Introuvable."
+  },
+  "clock": {
+    "title": "Poinçon",
+    "clockIn": "Poinçonner l'entrée",
+    "clockOut": "Poinçonner la sortie",
+    "currentlyClockedIn": "Vous êtes poinçonné",
+    "since": "Depuis {time}",
+    "openTurnDuration": "{hours}h {minutes}m jusqu'à présent",
+    "notClockedIn": "Non poinçonné",
+    "tapToClockIn": "Appuyez sur le bouton ci-dessous pour commencer votre quart.",
+    "needsCamera": "La caméra et la localisation sont requises.",
+    "capturingLocation": "Obtention de votre position...",
+    "uploadingPhoto": "Envoi de la photo...",
+    "submitting": "Envoi en cours...",
+    "clockedInSuccess": "Poinçon d'entrée enregistré.",
+    "clockedOutSuccess": "Poinçon de sortie enregistré. Total : {duration}",
+    "outsideGeofence": "Vous êtes hors de la zone du chantier. Votre superviseur sera avisé.",
+    "todaySoFar": "Aujourd'hui",
+    "weekSoFar": "Cette semaine",
+    "viewHours": "Mes heures",
+    "noLunch": "Je n’ai pas pris ma pause repas ({minutes} min)",
+    "noLunchHint": "Tout votre temps sera payé. Votre gestionnaire verra cet indicateur.",
+    "noLunchShort": "Je n’ai pas pris de pause repas",
+    "forgotOutTitle": "Oubli de pointage de sortie ?",
+    "forgotOutHint": "Ce quart est ouvert depuis longtemps. Saisissez votre heure réelle de sortie et envoyez-la pour approbation.",
+    "outDate": "Date de sortie",
+    "outTime": "Heure de sortie",
+    "fixReason": "Que s’est-il passé ? (obligatoire)",
+    "sendFix": "Envoyer la correction",
+    "helpLink": "Comment ça marche ? Lisez le guide rapide",
+    "shiftRemaining": "Il vous reste {time} pour compléter votre quart",
+    "estOut": "sortie est. {time}",
+    "shiftDone": "Quart complété — vous pouvez pointer la sortie ✓"
+  },
+  "timeTracking": {
+    "title": "Suivi du temps",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Refusé",
+    "approveSelected": "Approuver la sélection",
+    "rejectSelected": "Refuser la sélection",
+    "viewMap": "Vue carte",
+    "viewTable": "Vue tableau",
+    "filterAll": "Tous",
+    "noEntries": "Aucune entrée de temps à afficher.",
+    "duration": "Durée",
+    "clockInAt": "Entrée",
+    "clockOutAt": "Sortie",
+    "worksite": "Chantier",
+    "flagged": "Hors du chantier",
+    "open": "Ouvert",
+    "edited": "Ajusté",
+    "manual": "Manuel",
+    "noLunchFlag": "Sans pause repas",
+    "breakLabel": "pause"
+  },
+  "worksites": {
+    "title": "Chantiers",
+    "addWorksite": "Ajouter un chantier",
+    "name": "Nom",
+    "address": "Adresse",
+    "radius": "Rayon (mètres)",
+    "active": "Actif",
+    "selectOnMap": "Cliquez sur la carte pour définir l'emplacement"
+  },
+  "landing": {
+    "nav": {
+      "features": "Fonctionnalités",
+      "pricing": "Tarifs",
+      "faq": "FAQ",
+      "howItWorks": "Comment ça marche",
+      "industries": "Industries",
+      "signIn": "Se connecter",
+      "startTrial": "Essai gratuit",
+      "about": "À propos",
+      "contact": "Contact",
+      "legal": "Légal",
+      "docs": "Documentation",
+      "status": "Statut",
+      "changelog": "Changements"
+    },
+    "hero": {
+      "badge": "Nouveau · Règlements des entrepreneurs avec marge et HST",
+      "headline": "Paie et suivi du temps, simplifiés pour les équipes sur le terrain",
+      "sub": "Votre équipe pointe avec photo + GPS et clôture sa semaine pour demander sa paie. Les heures entrent seules dans la paie, impôts calculés. Vous payez des sous-traitants ? Un chèque consolidé par entrepreneur, marge et HST incluses.",
+      "primaryCta": "Essai gratuit",
+      "secondaryCta": "Voir comment ça fonctionne",
+      "microcopy": "Essai gratuit de 30 jours · Sans carte de crédit",
+      "mockupWorkerName": "Maria García",
+      "mockupClockedSince": "Poinçonnée depuis 7h42",
+      "mockupJobsite": "Chantier de Brooklyn",
+      "trustSecurity": "Prêt SOC 2 · Sécurité bancaire",
+      "trustSpeed": "Poinçon en moins d'une seconde depuis n'importe quel téléphone",
+      "stats": {
+        "savedPerEmp": "économisées/mois par employé",
+        "fewer": "d'erreurs de paie en moins",
+        "trial": "gratuit · sans carte"
+      }
+    },
+    "trust": {
+      "title": "Conçu pour les entreprises qui bâtissent l'Amérique",
+      "industries": {
+        "construction": "Construction",
+        "restaurants": "Restauration",
+        "trades": "Métiers manuels",
+        "painting": "Peinture"
+      }
+    },
+    "features": {
+      "title": "Tout ce qu'il faut pour payer votre équipe correctement",
+      "sub": "Du premier poinçon au feuillet fiscal de fin d'année, MyJova s'occupe du travail.",
+      "items": {
+        "clockIn": {
+          "title": "Poinçon avec preuve",
+          "desc": "Photo et GPS capturés à chaque quart. Le géorepérage signale les entrées hors du chantier."
+        },
+        "paySchemes": {
+          "title": "4 modes de rémunération",
+          "desc": "Horaire avec heures supplémentaires, salaire, journalier et commissions par paliers — d'un seul moteur."
+        },
+        "taxForms": {
+          "title": "Feuillets fiscaux de fin d'année",
+          "desc": "Feuillets T4 et T4A générés et stockés automatiquement à la clôture de l'année."
+        },
+        "dashboard": {
+          "title": "Tableau de bord en direct",
+          "desc": "Voyez qui travaille, où ils sont et combien d'heures vous leur devez — en temps réel."
+        },
+        "mobile": {
+          "title": "Portail employé mobile",
+          "desc": "Les employés voient leurs heures et bulletins depuis n'importe quel téléphone. Aucune installation requise."
+        },
+        "secure": {
+          "title": "Sécurisé par conception",
+          "desc": "Sécurité au niveau des lignes dans la base de données. Les données de chaque entreprise sont totalement isolées."
+        },
+        "weeklyClose": {
+          "title": "Clôturer la semaine, demander la paie",
+          "desc": "Le travailleur vérifie sa semaine et l’envoie. Vous approuvez tout en un geste et ça entre directement dans la paie."
+        },
+        "contractors": {
+          "title": "Entrepreneurs hiérarchiques",
+          "desc": "Taux facturé par travailleur, un chèque consolidé par entrepreneur racine, HST et marges suivies — avec un portail privé pour l’entrepreneur."
+        },
+        "breaks": {
+          "title": "Règles de pause repas intelligentes",
+          "desc": "Déduit la pause non payée seulement sur les quarts complets. La demi-journée garde ses heures et le travailleur peut signaler « pas de pause aujourd’hui »."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "Des feuilles de temps papier au paiement en 3 étapes",
+      "steps": {
+        "invite": {
+          "title": "Invitez votre équipe",
+          "desc": "Ajoutez des employés et envoyez les invitations au portail par courriel en quelques secondes."
+        },
+        "clock": {
+          "title": "Les employés poinçonnent",
+          "desc": "Depuis le chantier, avec photo et GPS capturés automatiquement."
+        },
+        "pay": {
+          "title": "Lancez la paie",
+          "desc": "Les heures approuvées alimentent la paie. Les retenues sont calculées. Les bulletins livrés."
+        }
+      },
+      "sub": "Trois étapes du chantier à une équipe payée — sans tableurs ni feuilles de temps à courir après."
+    },
+    "mobile": {
+      "title": "Conçu pour le chantier",
+      "sub": "Les employés n'ont rien à télécharger. Le portail MyJova fonctionne sur n'importe quel navigateur mobile moderne — même en 4G lente.",
+      "bullets": {
+        "clock": "Poinçonnez en un seul appui",
+        "history": "Consultez vos quarts passés et totaux",
+        "paystubs": "Voyez vos bulletins de paie à tout moment",
+        "geofence": "Soyez avisé si vous êtes hors du chantier"
+      }
+    },
+    "pricing": {
+      "title": "Tarifs simples",
+      "sub": "Commencez gratuitement. Ensuite, une petite base mensuelle + payez uniquement pour les travailleurs actifs.",
+      "mostPopular": "Le plus populaire",
+      "ctaStart": "Essai gratuit",
+      "ctaSales": "Parler aux ventes",
+      "footer": "Tous les plans incluent un essai gratuit de 30 jours. Annulez à tout moment.",
+      "monthly": "Mensuel",
+      "annual": "Annuel",
+      "perMonth": "/mois",
+      "perYear": "/an",
+      "currencyHint": "Tarifs en {currency} · emplacement détecté : {country}",
+      "plusPerWorker": "+ {price} par travailleur actif / mois"
+    },
+    "comparison": {
+      "title": "Comment MyJova se compare",
+      "sub": "Côte à côte avec les apps de paie et de suivi du temps les plus populaires.",
+      "disclaimer": "Les marques sont la propriété de leurs détenteurs respectifs. Comparaison basée sur les tarifs et fonctionnalités publiques au 2026-05.",
+      "th": {
+        "feature": "Fonctionnalité"
+      },
+      "rows": {
+        "clockInPhoto": "Poinçon avec preuve photo",
+        "geofence": "Alertes GPS géorepérage",
+        "payrollUS": "Paie fédérale US",
+        "payrollCA": "Paie Canada (T4/T4A/RE)",
+        "w2_1099": "T4 / T4A fin d'année",
+        "spanish": "Interface espagnole pour employés",
+        "french": "Interface française (Québec)",
+        "smallBizPricing": "Prix de départ",
+        "mobileApp": "Portail mobile-first",
+        "apiAccess": "API REST publique"
+      }
+    },
+    "roi": {
+      "badge": "Calculateur gratuit",
+      "title": "Voyez combien vous allez économiser",
+      "sub": "Ajustez les curseurs pour estimer vos économies mensuelles vs feuilles de temps papier et Excel.",
+      "inputs": {
+        "employees": "Employés",
+        "hoursPerWeek": "Heures par semaine / employé",
+        "hourlyRate": "Taux horaire moyen"
+      },
+      "results": {
+        "monthly": "Vous économisez par mois",
+        "yearly": "Économies annuelles",
+        "hoursReclaimed": "{hours} heures/mois d'administration récupérées",
+        "planCost": "Coût MyJova : {cost}/mois",
+        "roi": "{roi}% de ROI sur MyJova"
+      },
+      "disclaimer": "Estimations basées sur 12 min/employé/jour de suivi manuel + 2% de taux d'erreur de paie (APA 2024)."
+    },
+    "video": {
+      "title": "MyJova en action",
+      "sub": "Tour de 90 secondes : poinçon, paie et feuillets fiscaux.",
+      "play": "Lire la démo",
+      "duration": "0:00 / 1:32",
+      "comingSoonTitle": "Vidéo démo bientôt disponible",
+      "comingSoonBody": "Nous enregistrons une nouvelle visite guidée. En attendant, entrez directement dans l'aperçu en direct depuis le tableau de bord."
+    },
+    "testimonials": {
+      "title": "Adopté par les équipes sur le terrain",
+      "sub": "Histoires d'entrepreneurs et restaurants qui utilisent MyJova tous les jours.",
+      "prev": "Précédent",
+      "next": "Suivant",
+      "disclaimer": "Les noms et entreprises affichés sont des exemples représentatifs en attendant les témoignages clients signés.",
+      "quotes": {
+        "construction": "Avant MyJova mes contremaîtres m'envoyaient les heures par texto le dimanche. Maintenant tout est étiqueté avec photo et GPS. La paie prend 20 minutes au lieu de toute la fin de semaine.",
+        "restaurants": "Trois emplacements, 40 personnes. La cuisine poinçonne sur une tablette, les serveurs sur leur cellulaire. Plus de chicane d'arrondis au pourboire.",
+        "trades": "Les alertes de géorepérage ont attrapé deux assistants qui gonflaient leurs heures sur un chantier à 50 km du site. A payé l'année en une semaine.",
+        "painting": "J'ai une équipe de 12. Le portail en espagnol a été décisif — les employés l'utilisent sans que je doive l'expliquer dix fois.",
+        "cleaning": "Les T4 de fin d'année prenaient une fin de semaine entière à ma comptable. Avec MyJova ils sont prêts pour le 5 janvier.",
+        "landscaping": "Le poinçon mobile m'a évité d'acheter des horloges biométriques pour chaque camion. ROI dès le premier mois."
+      }
+    },
+    "integrations": {
+      "title": "S'intègre bien à votre stack",
+      "footer": "Les intégrations directes avec ces outils arrivent en 2026."
+    },
+    "useCases": {
+      "title": "Conçu pour votre vraie façon de travailler",
+      "sub": "Choisissez votre industrie pour voir comment MyJova s'intègre à votre quotidien.",
+      "benefitsLabel": "Ce que vous obtenez",
+      "industries": {
+        "construction": {
+          "label": "Construction",
+          "headline": "Des fondations à la facture finale",
+          "story": "Les équipes vont sur différents chantiers chaque semaine. MyJova rattache chaque heure à un chantier géolocalisé pour facturer les projets précisément et prouver la conformité lors d'une vérification.",
+          "benefits": [
+            "Étiquetage par projet pour un job costing précis",
+            "Poinçon géorepéré avec photo à chaque quart",
+            "Paiement journalier, horaire et T4A sous-traitants en une app",
+            "Feuillets T4 + T4A prêts à fin d'année"
+          ]
+        },
+        "restaurants": {
+          "label": "Restauration",
+          "headline": "Salle, cuisine, multi-emplacements",
+          "story": "Cuisine sur tablette, serveurs sur cellulaire. Tip pools et tip credits gérés dans le moteur de paie. Ventes quotidiennes importées pour les rôles à commission.",
+          "benefits": [
+            "Champs tip pool / declared tips intégrés",
+            "Bascule entre emplacements en un tap",
+            "Pourboires CSST/CNESST gérés correctement",
+            "Alertes d'heures supplémentaires conscientes de l'horaire"
+          ]
+        },
+        "trades": {
+          "label": "Métiers manuels",
+          "headline": "Plomberie, CVC, électricité",
+          "story": "Le technicien tourne entre les appels toute la journée. Clock-out auto à la dernière intervention. Notes par appel attachées pour la facturation aval.",
+          "benefits": [
+            "Capture temps + matériel par intervention",
+            "Kilométrage entre les chantiers via GPS",
+            "Factures client dans la même entrée de temps",
+            "Préset géorepérage 'camion comme chantier'"
+          ]
+        },
+        "painting": {
+          "label": "Peinture",
+          "headline": "Équipes sur 3-4 chantiers par jour",
+          "story": "Les employés passent d'un intérieur résidentiel le matin à un site commercial l'après-midi. Chaque poinçon étiquette le bon projet pour des estimés précis.",
+          "benefits": [
+            "Étiquetage multi-projets dans le même quart",
+            "Flux bilingue (espagnol-first)",
+            "Preuve photo du prep work terminé",
+            "Mode de paie journalier pour les courts chantiers"
+          ]
+        },
+        "cleaning": {
+          "label": "Nettoyage",
+          "headline": "Conciergerie, résidentiel, commercial",
+          "story": "Équipes de nuit en quarts de 2-3 personnes. Poinçon à l'entrée du bâtiment, photo de checklist requise par les clients corporatifs.",
+          "benefits": [
+            "Support de scheduling par quarts",
+            "Photo de checklist attachée à l'entrée",
+            "Différentiel horaire par bâtiment",
+            "Paie hebdomadaire par défaut"
+          ]
+        },
+        "landscaping": {
+          "label": "Aménagement paysager",
+          "headline": "Équipes saisonnières, par tournée",
+          "story": "Les équipes font des tournées de 8-12 propriétés par jour. Poinçon rapide à chaque arrêt capture arrivée, départ et photo de la propriété.",
+          "benefits": [
+            "Poinçon rapide par arrêt sans quitter l'app",
+            "Totaux par propriété pour facturation précise",
+            "Le chef d'équipe poinçonne son équipe en un tap",
+            "Feuillets pour travailleur saisonnier prêts à fin d'année"
+          ]
+        }
+      }
+    },
+    "mobileShowcase": {
+      "title": "Les employés l'adorent dès le premier jour",
+      "sub": "Aucune installation d'app. Fonctionne sur tout cellulaire avec navigateur. Le portail complet en trois taps.",
+      "mockCta": "Poinçonner l'entrée",
+      "mockLocationOk": "Sur site · GPS précis à 4m",
+      "mockLastPaystub": "Dernier bulletin",
+      "mockYtd": "Revenus de l'année",
+      "mockHourlyRole": "Horaire · 28 $/h",
+      "mockProfilePay": "Détails de paiement",
+      "mockProfileTaxes": "Infos fiscales",
+      "mockProfileLang": "Langue",
+      "screens": {
+        "clock": {
+          "label": "Poinçonner",
+          "title": "Poinçon en un tap",
+          "desc": "Photo + GPS capturés automatiquement. Alerte si hors du chantier.",
+          "color": "primary"
+        },
+        "history": {
+          "label": "Historique",
+          "title": "Voir chaque quart",
+          "desc": "Totaux quotidiens, modifications, approbations — les employés savent toujours où ils en sont.",
+          "color": "emerald"
+        },
+        "paystubs": {
+          "label": "Bulletins",
+          "title": "Bulletins dans leur poche",
+          "desc": "Téléchargement PDF, totaux annuels, retenues expliquées ligne par ligne.",
+          "color": "purple"
+        },
+        "profile": {
+          "label": "Profil",
+          "title": "Profil libre-service",
+          "desc": "Mise à jour des infos fiscales, bancaires et langue sans passer par les RH.",
+          "color": "orange"
+        }
+      }
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": {
+        "card": {
+          "q": "Ai-je besoin d'une carte de crédit pour commencer ?",
+          "a": "Non. Vous pouvez démarrer un essai de 30 jours sans carte. Nous ne facturons que si vous décidez de continuer avec MyJova."
+        },
+        "noEmail": {
+          "q": "Et si mes employés n'ont pas de courriel ?",
+          "a": "Dans la version actuelle, chaque employé a besoin d'un courriel pour recevoir son invitation au portail. Nous ajoutons un accès par NIP pour les bornes partagées dans une prochaine version."
+        },
+        "states": {
+          "q": "Quelles provinces ou états sont supportés pour la retenue d'impôt ?",
+          "a": "La retenue fédérale US (IRS Pub 15-T 2026) est entièrement supportée. Les retenues provinciales canadiennes (T4127) et provinciales clés (QC, ON, BC, AB) sont en déploiement."
+        },
+        "filing": {
+          "q": "MyJova produit-il mes déclarations fiscales ?",
+          "a": "MyJova génère les feuillets T4 et T4A. La transmission officielle à l'ARC est encore manuelle aujourd'hui. L'intégration NETFILE direct est sur notre feuille de route 2026."
+        },
+        "secure": {
+          "q": "Mes données sont-elles sécurisées ?",
+          "a": "Oui. Nous utilisons Supabase avec sécurité au niveau des lignes dans la base, chiffrement au repos, et isolation multi-locataire stricte. Aucune entreprise ne peut voir les données d'une autre."
+        },
+        "cancel": {
+          "q": "Puis-je annuler à tout moment ?",
+          "a": "Oui. Pas de contrat, pas d'engagement minimum. Annulez depuis la page facturation en un clic."
+        }
+      }
+    },
+    "finalCta": {
+      "badge": "Quand vous êtes prêt",
+      "title": "Prêt à simplifier la paie ?",
+      "sub": "Joignez-vous aux petites entreprises qui suivent le temps et paient leurs équipes avec MyJova.",
+      "cta": "Essai gratuit",
+      "demo": "ou explorez l'aperçu en direct →",
+      "microcopy": "30 jours gratuits · Sans carte de crédit"
+    },
+    "footer": {
+      "tagline": "Paie et suivi du temps pour les entrepreneurs et restaurants des États-Unis et du Canada.",
+      "product": "Produit",
+      "company": "Entreprise",
+      "resources": "Ressources",
+      "about": "À propos",
+      "contact": "Contact",
+      "legal": "Légal",
+      "docs": "Documentation",
+      "status": "Statut",
+      "changelog": "Changements",
+      "copyright": "© 2026 MyJova. Tous droits réservés.",
+      "newsletterPlaceholder": "votre@courriel.com",
+      "newsletterCta": "S'abonner",
+      "newsletterSuccess": "Merci ! On vous tient au courant."
+    }
+  },
+  "production": {
+    "title": "Production",
+    "subtitle": "Enregistrez la production à la pièce et approuvez-la pour la paie.",
+    "recordTitle": "Enregistrer la production",
+    "employee": "Employé",
+    "date": "Date",
+    "quantity": "Quantité",
+    "unitLabel": "Unité",
+    "ratePerUnit": "Tarif par unité ($)",
+    "rateHint": "Utilise le tarif du barème",
+    "record": "Enregistrer",
+    "recent": "Entrées récentes",
+    "empty": "Aucune entrée de production.",
+    "noEmployees": "Aucun employé à la pièce. Créez un employé avec un barème « À la pièce » pour enregistrer la production.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "status": {
+      "open": "Ouvert",
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Rejeté",
+      "edited": "Modifié"
+    }
+  },
+  "industry": {
+    "types": {
+      "general": "Général",
+      "construction": "Construction",
+      "restaurant": "Restaurant",
+      "retail": "Commerce de détail",
+      "cleaning": "Entretien ménager",
+      "landscaping": "Aménagement paysager",
+      "manufacturing": "Fabrication",
+      "healthcare": "Santé",
+      "transportation": "Transport"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": "Général",
+      "subtitle": "Secteur et préférences de l’organisation.",
+      "industry": "Secteur",
+      "recommendedPay": "Types de paie recommandés",
+      "suggestions": "Configuration suggérée",
+      "setUp": "Configurer",
+      "nudges": {
+        "kiosk": "Configurez un kiosque sur tablette pour le pointage partagé",
+        "worksites": "Définissez vos chantiers",
+        "geofence": "Activez la géolocalisation au pointage",
+        "production": "Enregistrez la production à la pièce",
+        "tips": "Suivez les pourboires"
+      }
+    }
+  },
+  "paystub": {
+    "back": "Retour",
+    "payDate": "Date de paie",
+    "net": "Salaire net",
+    "gross": "Salaire brut",
+    "earnings": "Revenus",
+    "deductions": "Impôts et retenues",
+    "noDeductions": "Aucune retenue",
+    "download": "Télécharger le PDF"
+  },
+  "kiosk": {
+    "pairTitle": "Jumeler cette tablette",
+    "pairPrompt": "Entrez le code de jumelage de votre panneau d’administration",
+    "pair": "Jumeler",
+    "pairHint": "Générez un code dans Paramètres → Appareils",
+    "title": "Pointeuse",
+    "noEmployees": "Aucun employé actif",
+    "noPin": "Sans NIP",
+    "enterPin": "Entrez votre NIP à 4 chiffres",
+    "takePhoto": "Prenez une photo pour pointer",
+    "cameraHint": "Centrez votre visage",
+    "confirm": "Confirmer",
+    "clockedIn": "Entrée enregistrée",
+    "clockedOut": "Sortie enregistrée",
+    "outsideGeofence": "Hors de la zone du site",
+    "tryAgain": "Réessayer",
+    "unpairConfirm": "Dissocier cette tablette ? Vous aurez besoin d’un nouveau code.",
+    "deleteDigit": "Effacer"
+  },
+  "devices": {
+    "title": "Appareils et kiosque",
+    "subtitle": "Configurez les kiosques sur tablette et les NIP des employés.",
+    "pairTablet": "Jumeler une tablette",
+    "worksite": "Site",
+    "deviceName": "Nom de l’appareil",
+    "generateCode": "Générer un code",
+    "codeReady": "Ouvrez l’URL du kiosque sur la tablette et entrez ce code :",
+    "codeExpires": "Ce code expire dans 15 minutes.",
+    "openKiosk": "Ouvrir le kiosque",
+    "noWorksites": "Créez d’abord un site pour y associer un kiosque.",
+    "devicesList": "Appareils jumelés",
+    "noDevices": "Aucun appareil.",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "lastSeen": "Vu",
+    "never": "Jamais connecté",
+    "deactivate": "Désactiver",
+    "confirmDelete": "Supprimer cet appareil ?",
+    "employeePins": "NIP des employés",
+    "pinsHint": "Les employés ont besoin d’un NIP à 4 chiffres pour pointer au kiosque.",
+    "hasPin": "NIP défini",
+    "noPin": "Sans NIP",
+    "setPin": "Définir le NIP",
+    "changePin": "Changer le NIP",
+    "clearPin": "Retirer",
+    "noEmployees": "Aucun employé actif."
+  },
+  "quickbooks": {
+    "desc": "Synchronisez la paie vers QuickBooks (écritures) ou exportez en IIF/CSV.",
+    "planTag": "Avancé",
+    "upgrade": "Améliorez votre forfait",
+    "connected": "Connecté",
+    "notConnected": "Non connecté",
+    "serverNote": "La synchronisation en ligne nécessite des clés Intuit sur le serveur. Lexport de fichiers (IIF/CSV) fonctionne déjà.",
+    "connect": "Connecter QuickBooks",
+    "disconnect": "Déconnecter",
+    "syncEmployees": "Synchroniser les employés",
+    "lastSync": "Dernière synchro",
+    "accountMapping": "Correspondance des comptes",
+    "mappingHint": "Collez les ID de comptes QuickBooks pour les écritures.",
+    "recentRuns": "Paies récentes",
+    "noRuns": "Aucune paie.",
+    "sync": "Synchroniser"
+  },
+  "schedule": {
+    "title": "Horaire",
+    "subtitle": "Planifiez les quarts, publiez et comblez les quarts ouverts.",
+    "myTitle": "Mon horaire",
+    "addShift": "Ajouter un quart",
+    "publish": "Publier",
+    "totalHours": "Heures",
+    "shifts": "Quarts",
+    "open": "Ouverts",
+    "projectedCost": "Coût est.",
+    "employee": "Employé",
+    "worksite": "Site",
+    "date": "Date",
+    "start": "Début",
+    "end": "Fin",
+    "role": "Rôle",
+    "openShift": "Quart ouvert",
+    "draft": "Brouillon",
+    "upcoming": "Prochains quarts",
+    "noShifts": "Aucun quart à venir.",
+    "swap": "Échanger",
+    "swapRequested": "Échange demandé",
+    "openShifts": "Quarts ouverts",
+    "noOpen": "Aucun quart ouvert.",
+    "claim": "Prendre",
+    "claimed": "Quart pris"
+  },
+  "timeOff": {
+    "title": "Congés",
+    "subtitle": "Approuvez les demandes et gérez les politiques.",
+    "myTitle": "Mes congés",
+    "pending": "Demandes en attente",
+    "noPending": "Aucune demande en attente.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "policies": "Politiques",
+    "policyName": "Nom",
+    "type": "Type",
+    "paid": "Payé",
+    "unpaidTag": "Non payé",
+    "noPolicies": "Aucune politique.",
+    "history": "Historique",
+    "request": "Demander un congé",
+    "policy": "Politique",
+    "from": "Du",
+    "to": "Au",
+    "hours": "Heures",
+    "reason": "Motif",
+    "submit": "Envoyer la demande",
+    "myRequests": "Mes demandes",
+    "noRequests": "Aucune demande.",
+    "types": {
+      "vacation": "Vacances",
+      "sick": "Maladie",
+      "personal": "Personnel",
+      "unpaid": "Non payé",
+      "other": "Autre"
+    },
+    "status": {
+      "approved": "Approuvé",
+      "pending": "En attente",
+      "rejected": "Rejeté",
+      "cancelled": "Annulé"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "Téléversez des documents et recueillez des signatures.",
+    "myTitle": "Mes documents",
+    "name": "Nom",
+    "kind": "Type",
+    "assignTo": "Attribuer à",
+    "everyone": "Tout le monde",
+    "file": "Fichier (PDF)",
+    "requireSignature": "Signature requise",
+    "upload": "Téléverser",
+    "library": "Bibliothèque",
+    "empty": "Aucun document.",
+    "none": "Aucun document.",
+    "signed": "Signé",
+    "sign": "Signer",
+    "signTitle": "Signer le document",
+    "yourName": "Tapez votre nom complet",
+    "clear": "Effacer",
+    "confirmSign": "Signer",
+    "legalNote": "En signant, vous acceptez quil sagit de votre signature électronique.",
+    "kinds": {
+      "offer_letter": "Lettre doffre",
+      "handbook": "Manuel",
+      "policy": "Politique",
+      "tax_form": "Formulaire fiscal",
+      "id_doc": "Pièce didentité",
+      "contract": "Contrat",
+      "other": "Autre"
+    }
+  },
+  "tips": {
+    "title": "Pourboires",
+    "subtitle": "Enregistrez les pourboires et répartissez les cagnottes.",
+    "record": "Enregistrer un pourboire",
+    "employee": "Employé",
+    "date": "Date",
+    "amount": "Montant",
+    "source": "Source",
+    "add": "Ajouter",
+    "pool": "Cagnotte",
+    "total": "Total",
+    "method": "Méthode",
+    "byHours": "Par heures",
+    "equal": "Égal",
+    "distribute": "Répartir",
+    "recent": "Pourboires récents",
+    "empty": "Aucun pourboire.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "sources": {
+      "card": "Carte",
+      "cash": "Comptant",
+      "pool": "Cagnotte",
+      "declared": "Déclaré"
+    },
+    "status": {
+      "approved": "Approuvé",
+      "pending": "En attente",
+      "rejected": "Rejeté"
+    }
+  },
+  "square": {
+    "desc": "Importez les totaux de pourboires de Square.",
+    "serverNote": "Nécessite les clés Square sur le serveur. Les pourboires fonctionnent manuellement.",
+    "connect": "Connecter Square",
+    "tipTotals": "Totaux de pourboires par jour",
+    "from": "Du",
+    "to": "Au",
+    "pull": "Obtenir les totaux",
+    "mockNote": "Données de démo (Square non connecté).",
+    "noTips": "Aucun pourboire.",
+    "distributeHint": "Utilisez ces totaux dans loutil de cagnotte."
+  },
+  "bank": {
+    "myTitle": "Dépôt direct",
+    "title": "Paiements et dépôt direct",
+    "subtitle": "Compte de lentreprise + génération de fichier ACH.",
+    "routing": "Numéro dacheminement",
+    "account": "Numéro de compte",
+    "accountType": "Type de compte",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "onFile": "Au dossier",
+    "secureNote": "Vos coordonnées bancaires sont chiffrées et servent uniquement à vous payer.",
+    "companyAccount": "Compte bancaire de lentreprise",
+    "companyName": "Nom de lentreprise",
+    "companyId": "ID dentreprise (NACHA)",
+    "encNote": "Configurez ENCRYPTION_KEY sur le serveur pour stocker les coordonnées.",
+    "achTitle": "Fichier ACH (dépôt direct)",
+    "achHint": "Générez un fichier NACHA par paie à téléverser à votre banque.",
+    "noRuns": "Aucune paie.",
+    "downloadAch": "Télécharger ACH",
+    "missingNote": "{n} employé(s) ignoré(s) (sans compte).",
+    "types": {
+      "checking": "Chèques",
+      "savings": "Épargne"
+    }
+  },
+  "jobs": {
+    "title": "Chantiers et paie certifiée",
+    "subtitle": "Suivez les projets, les coûts et générez le WH-347.",
+    "name": "Nom du chantier",
+    "worksite": "Site",
+    "contract": "N° de contrat",
+    "prevailing": "Salaire en vigueur",
+    "list": "Chantiers",
+    "empty": "Aucun chantier.",
+    "noWorksite": "Aucun site lié"
+  },
+  "team": {
+    "title": "Équipe et annonces",
+    "subtitle": "Publiez des annonces et discutez avec votre équipe.",
+    "myTitle": "Équipe",
+    "announcements": "Annonces",
+    "announceTitle": "Titre",
+    "announceBody": "Message",
+    "post": "Publier",
+    "noAnnouncements": "Aucune annonce.",
+    "markRead": "Compris",
+    "board": "Babillard",
+    "writeMessage": "Écrivez un message…",
+    "noMessages": "Aucun message."
+  },
+  "deductions": {
+    "title": "Avantages et retenues",
+    "subtitle": "Les retenues récurrentes (santé, REER…) alimentent chaque paie.",
+    "employee": "Employé",
+    "label": "Libellé",
+    "code": "Code",
+    "amount": "Montant",
+    "preTax": "Avant impôt",
+    "current": "Retenues actuelles",
+    "none": "Aucune retenue pour cet employé."
+  },
+  "departments": {
+    "title": "Départements",
+    "subtitle": "Organisez les employés en équipes.",
+    "list": "Départements",
+    "none": "Aucun département.",
+    "assign": "Affecter les employés"
+  },
+  "profileEdit": {
+    "edit": "Modifier mes coordonnées",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "city": "Ville",
+    "region": "Province",
+    "postal": "Code postal"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Bienvenue sur MyJova 👋",
+      "body": "Configurons votre entreprise. Faites un tour rapide de 60 secondes ou commencez directement.",
+      "start": "Démarrer le tour",
+      "skip": "Plus tard"
+    },
+    "checklist": {
+      "title": "Premiers pas",
+      "subtitle": "Complétez ces étapes pour configurer votre entreprise.",
+      "dismiss": "Masquer la liste",
+      "takeTour": "Voir le tour",
+      "steps": {
+        "addEmployee": "Ajoutez votre premier employé",
+        "addWorksite": "Ajoutez un lieu de travail",
+        "runPayroll": "Lancez votre première paie",
+        "inviteTeam": "Invitez votre équipe"
+      }
+    },
+    "tour": {
+      "skip": "Passer",
+      "back": "Retour",
+      "next": "Suivant",
+      "done": "Terminé",
+      "actions": {
+        "title": "Actions rapides",
+        "body": "Ajoutez des employés, lancez la paie et révisez le temps ici."
+      },
+      "kpis": {
+        "title": "Vos indicateurs clés",
+        "body": "Un aperçu en direct de votre équipe : qui est actif, qui travaille et ce qui demande attention."
+      },
+      "activity": {
+        "title": "Activité en direct",
+        "body": "Voyez qui a pointé sur la carte, avec des alertes de géorepérage."
+      },
+      "nav": {
+        "title": "Naviguez partout",
+        "body": "Utilisez la barre latérale pour horaires, documents, rapports, paramètres et plus."
+      }
+    }
+  },
+  "subscription": {
+    "trialExpired": "Votre essai gratuit est terminé. Les actions principales sont en pause jusqu’au choix d’un forfait.",
+    "inactive": "Votre abonnement n’est pas actif. Les actions principales sont en pause.",
+    "choosePlan": "Choisir un forfait",
+    "trialEndingSoon": "Votre essai se termine dans {days, plural, one {# jour} other {# jours}}."
+  },
+  "subcontractors": {
+    "subtitle": "Hiérarchie de sous-traitants. Les heures sont suivies par travailleur; le paiement est consolidé en un seul chèque au sous-traitant principal.",
+    "settlementTitle": "Règlement des sous-traitants — un chèque par sous-traitant principal",
+    "settlementHint": "Chaque total inclut les travailleurs de ce sous-traitant ET de ses sous-traitants imbriqués. Payez le total; le détail montre la répartition.",
+    "worker": "Travailleur",
+    "hours": "Heures",
+    "payWorker": "Payer le travailleur",
+    "billed": "Facturé",
+    "margin": "Marge",
+    "subtotal": "Sous-total (facturé)",
+    "marginTotal": "Votre marge",
+    "invoice": "Facture"
+  },
+  "myHours": {
+    "title": "Mes heures",
+    "weekOf": "Semaine du {start} au {end}",
+    "prevWeek": "Semaine précédente",
+    "nextWeek": "Semaine suivante",
+    "total": "Total",
+    "openShift": "en cours",
+    "submit": "Clôturer la semaine et demander ma paie",
+    "submitting": "Envoi...",
+    "resubmit": "Renvoyer la semaine",
+    "submitNote": "Note pour votre gestionnaire (facultatif)",
+    "submitHint": "Vous clôturez cette semaine avec {total}. Votre gestionnaire la validera pour la paie.",
+    "submittedBanner": "Semaine envoyée — en attente de validation",
+    "submittedOn": "Envoyée le {date}",
+    "approvedBanner": "Semaine approuvée",
+    "approvedHint": "Elle sera incluse dans la prochaine paie.",
+    "rejectedBanner": "Semaine renvoyée",
+    "rejectedNoNote": "Vérifiez-la et renvoyez-la.",
+    "blockedOpenEntry": "Terminez votre quart en cours avant de clôturer la semaine.",
+    "blockedNoHours": "Pas encore d'heures cette semaine.",
+    "rejectedNotCounted": "{total} rejetées (non comptées)",
+    "manualTitle": "Oubli de pointage ? Déclarez vos heures",
+    "manualHint": "Votre gestionnaire validera cette entrée manuelle avant qu’elle compte pour la paie.",
+    "manualDate": "Date",
+    "manualReason": "Que s’est-il passé ? (obligatoire)",
+    "manualSubmit": "Envoyer pour approbation",
+    "manualSent": "Envoyé — votre gestionnaire va le vérifier."
+  },
+  "timesheets": {
+    "title": "Demandes de paie (semaines clôturées)",
+    "weekOf": "Semaine {range}",
+    "entriesCount": "{count} entrées",
+    "approveWeek": "Approuver la semaine",
+    "returnWeek": "Renvoyer",
+    "returnPrompt": "Pourquoi renvoyez-vous cette semaine ?",
+    "returned": "Renvoyée",
+    "approveHint": "Approuver une semaine approuve toutes ses entrées en attente pour la paie."
+  },
+  "contractor": {
+    "navCrew": "Mon équipe",
+    "navSettlements": "Règlements",
+    "notLinked": "Compte non lié",
+    "notLinkedHint": "Votre compte n’est pas encore lié à un entrepreneur. Demandez à l’entreprise de renvoyer l’invitation.",
+    "crewTitle": "Mon équipe",
+    "weekHours": "Heures cette semaine",
+    "weekBilled": "Facturé (est.)",
+    "weekMargin": "Marge (est.)",
+    "estimateHint": "Estimation de la semaine en cours — les montants finaux arrivent avec chaque règlement de paie.",
+    "youPay": "Vous payez",
+    "youBill": "Vous facturez",
+    "margin": "Marge",
+    "noCrew": "Aucun travailleur assigné pour le moment.",
+    "settlementsTitle": "Mes règlements",
+    "payDate": "Date de paie",
+    "paid": "Payé",
+    "approved": "Approuvé",
+    "subtotal": "Sous-total facturé",
+    "checkTotal": "Total du chèque",
+    "youPayCrew": "Vous payez votre équipe",
+    "yourMargin": "Votre marge",
+    "noSettlements": "Aucun règlement pour le moment. Ils apparaissent quand l’entreprise approuve une paie incluant votre équipe.",
+    "pdf": "PDF",
+    "helpLink": "Comment fonctionne mon portail ? Lisez le guide rapide",
+    "liveEstimate": "Estimation en direct (paies approuvées avant les registres figés).",
+    "annualTitle": "Rapport annuel de revenus — {year}",
+    "annualBilled": "Facturé (revenus)",
+    "annualHst": "HST perçue",
+    "annualChecks": "Chèques reçus ({count})",
+    "annualPaidCrew": "Payé à votre équipe (dépenses)",
+    "annualMargin": "Marge de l’année",
+    "csvYear": "Télécharger CSV {year}",
+    "invoicePdf": "Facture (PDF)"
+  },
+  "guide": {
+    "title": "Guide de démarrage",
+    "sub": "Comment MyJova fonctionne pour chaque profil — partagez-le avec chaque nouvel arrivant.",
+    "askManager": "Des questions ? Demandez à votre gestionnaire ou à l’administrateur.",
+    "sections": {
+      "company": "Pour l’entreprise",
+      "worker": "Pour les travailleurs",
+      "contractor": "Pour les entrepreneurs"
+    },
+    "company": {
+      "intro": "De zéro à votre première paie en sept étapes.",
+      "s1": {
+        "t": "Configurez votre organisation",
+        "d": "Réglages → Général : fuseau horaire, pause repas non payée (ex. 30 min dès 6 h de quart) et si vous payez des entrepreneurs."
+      },
+      "s2": {
+        "t": "Créez vos sites de travail",
+        "d": "Adresse + rayon du géorepérage. Les pointages hors zone sont signalés pour vérification."
+      },
+      "s3": {
+        "t": "Ajoutez votre équipe",
+        "d": "Employés avec leur mode de paie (heure, jour, salaire, commission ou à la pièce), invités par courriel — ou associez une tablette comme kiosque à NIP."
+      },
+      "s4": {
+        "t": "Ils pointent, vous approuvez",
+        "d": "Chaque quart arrive avec photo + GPS. Vérifiez les heures et approuvez les entrées — ou des semaines entières quand l’équipe les clôture."
+      },
+      "s5": {
+        "t": "Lancez la paie",
+        "d": "Choisissez la période et les employés. Le moteur calcule heures supplémentaires, impôts et net ; approuvez et marquez payé."
+      },
+      "s6": {
+        "t": "Bulletins et formulaires",
+        "d": "Chacun télécharge son bulletin ; W-2 et 1099-NEC générés en fin d’année."
+      },
+      "s7": {
+        "t": "Vous payez des entrepreneurs ?",
+        "d": "Activez le module, définissez les taux facturés par travailleur : chaque paie produit un chèque consolidé par entrepreneur racine avec HST et détail complet. Invitez-le à son portail."
+      }
+    },
+    "worker": {
+      "intro": "Tout ce que vous faites tient dans votre téléphone.",
+      "s1": {
+        "t": "Acceptez votre invitation",
+        "d": "Vous recevez un courriel — créez votre mot de passe et connectez-vous depuis votre téléphone."
+      },
+      "s2": {
+        "t": "Pointez votre entrée",
+        "d": "Un grand bouton : selfie + position. Sur les sites avec tablette, tapez votre NIP au kiosque."
+      },
+      "s3": {
+        "t": "Pointez votre sortie",
+        "d": "Si vous n’avez pas pris votre pause repas, cochez la case pour être payé au complet."
+      },
+      "s4": {
+        "t": "Oubli de pointage ?",
+        "d": "Corrigez une sortie oubliée depuis l’écran de pointage, ou déclarez le quart complet dans « Heures ». Votre gestionnaire approuve."
+      },
+      "s5": {
+        "t": "Vérifiez vos heures",
+        "d": "L’onglet « Heures » montre votre semaine jour par jour avec le statut de chaque entrée."
+      },
+      "s6": {
+        "t": "Clôturez votre semaine et demandez votre paie",
+        "d": "Semaine terminée ? Touchez « Clôturer la semaine ». Votre gestionnaire l’approuve et elle entre dans la paie."
+      },
+      "s7": {
+        "t": "Recevez votre bulletin",
+        "d": "Dans « Paie », chaque bulletin avec le détail complet, téléchargeable en PDF."
+      }
+    },
+    "contractor": {
+      "intro": "Votre portail montre seulement votre équipe et votre argent.",
+      "s1": {
+        "t": "Acceptez l’invitation de l’entreprise",
+        "d": "Votre compte est lié à votre entreprise d’entrepreneur."
+      },
+      "s2": {
+        "t": "Mon équipe",
+        "d": "Vos travailleurs, ce que vous les payez, ce que vous facturez à l’entreprise et votre marge horaire — plus les heures de la semaine."
+      },
+      "s3": {
+        "t": "Votre équipe pointe avec l’entreprise",
+        "d": "Vous ne gérez pas la paie : l’entreprise approuve les heures et paie. Vous suivez tout depuis votre portail."
+      },
+      "s4": {
+        "t": "Mes règlements",
+        "d": "Pour chaque paie : sous-total facturé, HST, le total de votre chèque, ce que vous payez à votre équipe et votre marge — avec PDF pour votre comptabilité."
+      },
+      "s5": {
+        "t": "Confidentialité intégrée",
+        "d": "Vos travailleurs ne voient que LEUR taux. Ce que vous facturez à l’entreprise reste entre vous et l’entreprise."
+      }
+    }
+  }
+}

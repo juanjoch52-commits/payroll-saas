@@ -1,0 +1,1254 @@
+{
+  "common": {
+    "appName": "MyJova",
+    "tagline": "Nómina e impuestos, simplificados.",
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "actions": "Acciones",
+    "noData": "Sin datos para mostrar",
+    "yes": "Sí",
+    "no": "No",
+    "theme": {
+      "toggle": "Cambiar tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "revoked": "Revocado",
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "open": "Abierto",
+      "closed": "Cerrado",
+      "flagged": "Marcado",
+      "outsideGeofence": "Fuera del área"
+    },
+    "comingSoon": "Próximamente",
+    "saved": "Guardado",
+    "copy": "Copiar"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "employees": "Empleados",
+    "payroll": "Nómina",
+    "timeTracking": "Asistencia",
+    "worksites": "Sitios de trabajo",
+    "reports": "Reportes",
+    "billing": "Suscripción",
+    "settings": "Configuración",
+    "signOut": "Cerrar sesión",
+    "clock": "Marcar",
+    "history": "Horas",
+    "paystubs": "Recibos",
+    "profile": "Perfil",
+    "production": "Producción",
+    "schedule": "Horario",
+    "timeOff": "Tiempo libre",
+    "documents": "Documentos",
+    "tips": "Propinas",
+    "jobs": "Obras",
+    "announcements": "Equipo",
+    "deductions": "Deducciones",
+    "sections": {
+      "overview": "Resumen",
+      "people": "Personas",
+      "time": "Tiempo",
+      "payroll": "Nómina",
+      "communication": "Comunicación",
+      "organization": "Organización"
+    },
+    "subcontractors": "Subcontratistas"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "organizationName": "Nombre de la empresa",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "createAccount": "Crear cuenta",
+    "alreadyHaveAccount": "¿Ya tienes cuenta?",
+    "signInToContinue": "Inicia sesión para continuar en MyJova",
+    "createYourCompany": "Crea tu empresa en MyJova",
+    "signUpHelp": "Activamos una prueba gratuita de 30 días del plan Esencial.",
+    "checkYourEmail": "Revisa tu correo",
+    "weSentConfirmation": "Te enviamos un enlace de confirmación a {email}.",
+    "invalidCredentials": "Correo o contraseña incorrectos.",
+    "signUpFailed": "No se pudo crear la cuenta. Inténtalo de nuevo.",
+    "industry": "Industria",
+    "orContinueWith": "O continúa con",
+    "continueWithGoogle": "Continuar con Google",
+    "continueWithMicrosoft": "Continuar con Microsoft",
+    "agreePrefix": "Al registrarte aceptas nuestros",
+    "paysSubs": "Pago a contratistas o subcontratistas",
+    "paysSubsHint": "Activa cheques consolidados, tarifas facturadas, HST y el portal del contratista. Puedes cambiarlo después en Configuración."
+  },
+  "dashboard": {
+    "welcome": "Bienvenido a MyJova",
+    "summary": "Este es el estado actual de tu empresa.",
+    "activeEmployees": "Empleados activos",
+    "lastPayrollRun": "Última nómina",
+    "upcomingFilings": "Declaraciones próximas",
+    "noRunsYet": "Aún no tienes nóminas — empieza con la primera.",
+    "clockedInNow": "Fichados ahora",
+    "hoursToday": "Horas hoy",
+    "pendingApprovals": "Aprobaciones pendientes",
+    "review": "Revisar",
+    "liveActivity": "Actividad en vivo",
+    "nobodyClockedIn": "Nadie está fichado ahora mismo.",
+    "working": "trabajando ahora",
+    "quickActions": "Acciones rápidas",
+    "view": "Ver",
+    "actions": {
+      "runPayroll": "Procesar nómina",
+      "reviewTime": "Revisar tiempo",
+      "reports": "Reportes",
+      "guide": "Guía de inicio"
+    },
+    "submittedWeeks": "{count} semana(s) cerrada(s) esperando tu aprobación",
+    "reviewWeeks": "Revisar y aprobar"
+  },
+  "employees": {
+    "title": "Empleados",
+    "addEmployee": "Agregar empleado",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "hireDate": "Fecha de contratación",
+    "status": "Estado",
+    "type": "Tipo",
+    "payScheme": "Esquema de pago",
+    "jurisdiction": "Jurisdicción",
+    "schemes": {
+      "hourly": "Por hora",
+      "salary": "Salario",
+      "daily": "Por día",
+      "commission": "Comisión",
+      "piecerate": "Por producción"
+    },
+    "limitReached": "Alcanzaste el límite de empleados de tu plan. Actualiza para agregar más.",
+    "piecerate": {
+      "ratePerUnit": "Tarifa por unidad ($)",
+      "unitLabel": "Etiqueta de unidad",
+      "minFloor": "Salario mínimo ($/h, opcional)"
+    },
+    "locality": "Impuesto local (ciudad)",
+    "localityNone": "Ninguno",
+    "subcontractor": "Subcontratista",
+    "subcontractorNone": "Ninguno (trabajador propio)",
+    "subcontractorHint": "Los trabajadores de un subcontratista cobran en BRUTO (sin retenciones) — su pago entra en el cheque del subcontratista.",
+    "billRate": "Tarifa facturada al contratista ($/h)",
+    "billRateHint": "Lo que el contratista paga por la hora de este trabajador (ej. 33). El esquema de pago del trabajador es lo que TÚ le pagas (ej. 30) — la diferencia es el margen del subcontratista."
+  },
+  "payroll": {
+    "title": "Nómina",
+    "newRun": "Nueva nómina",
+    "periodStart": "Inicio del período",
+    "periodEnd": "Fin del período",
+    "payDate": "Fecha de pago",
+    "status": {
+      "draft": "Borrador",
+      "approved": "Aprobada",
+      "paid": "Pagada",
+      "posted": "Cerrada"
+    },
+    "grossPay": "Pago bruto",
+    "netPay": "Pago neto",
+    "totalTaxes": "Impuestos totales",
+    "approve": "Aprobar",
+    "markPaid": "Marcar como pagada",
+    "employeesCount": "Empleados"
+  },
+  "reports": {
+    "title": "Reportes fiscales",
+    "yearEnd": "Formularios anuales",
+    "generateW2": "Generar W-2",
+    "generate1099": "Generar 1099-NEC",
+    "selectYear": "Selecciona el año fiscal",
+    "upgradeRequired": "Generar reportes fiscales requiere el plan Avanzado o superior.",
+    "exports": "Reportes y exportaciones",
+    "exportsDesc": "Descarga nómina, horas y propinas en CSV.",
+    "payrollRegister": "Registro de nómina",
+    "from": "Desde",
+    "to": "Hasta",
+    "hours": "Horas CSV",
+    "tips": "Propinas CSV",
+    "settlementsTitle": "Liquidaciones por contratista (anual)",
+    "settlementsDesc": "Congeladas al aprobar cada nómina: facturado, HST, cheques, pagado a equipos y margen por contratista — los mismos números que cada contratista ve en su portal.",
+    "settlementsOpen": "Abrir reporte anual",
+    "settlementsEmpty": "Aún no hay registros de liquidación",
+    "settlementsEmptyDesc": "Los registros se congelan automáticamente al aprobar una nómina que incluya equipos de contratistas.",
+    "colContractor": "Contratista",
+    "colRuns": "Nóminas",
+    "colBilled": "Facturado",
+    "colChecks": "Cheques",
+    "colPaidCrew": "Pagado a equipo",
+    "colMargin": "Margen",
+    "colTotal": "Total"
+  },
+  "billing": {
+    "title": "Planes y facturación",
+    "currentPlan": "Tu plan actual",
+    "trialEndsIn": "La prueba termina en {days} días",
+    "plans": {
+      "essential": {
+        "name": "Esencial",
+        "tagline": "Control de tiempo + nómina para equipos chicos",
+        "features": [
+          "Trabajadores ilimitados — paga por trabajador activo",
+          "Fichaje con foto + geofence GPS",
+          "Kiosko de tablet con PIN + app móvil",
+          "Cierre de semana y solicitudes de pago",
+          "Reglas automáticas de almuerzo",
+          "Nómina por hora y salario con recibos"
+        ]
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "tagline": "Nómina completa para empresas en crecimiento",
+        "features": [
+          "Departamentos, beneficios y reportes laborales",
+          "Todo lo de Esencial",
+          "Todos los esquemas: día, comisión, por pieza",
+          "Impuestos, W-2 / 1099 y e-file",
+          "Horarios, PTO con acumulación y propinas",
+          "Integraciones QuickBooks y Square",
+          "Varios usuarios administradores"
+        ]
+      },
+      "premium": {
+        "name": "Premium — Contratistas",
+        "tagline": "Para empresas que pagan cuadrillas de subcontratistas",
+        "features": [
+          "SSO (Google / Microsoft)",
+          "Todo lo de Avanzado",
+          "Contratistas jerárquicos: un cheque consolidado",
+          "Tarifas facturadas por trabajador, márgenes y HST",
+          "Portal privado del contratista + emails de pagos",
+          "Registros congelados y reporte anual de ingresos",
+          "API, webhooks y soporte prioritario"
+        ]
+      }
+    },
+    "upgrade": "Actualizar",
+    "currentBadge": "Actual",
+    "perWorkerSuffix": "+ {price} por trabajador activo / mes",
+    "estimatedFor": "≈ {total}/mes con tus {workers} trabajadores activos",
+    "usage": {
+      "title": "Suscripción actual",
+      "activeWorkers": "Trabajadores activos",
+      "estimated": "Total mensual estimado",
+      "formula": "{base} base + {workers} × {perWorker} por trabajador",
+      "note": "Se factura mensualmente por los trabajadores con estado Activo. Los cambios de plazas aplican en tu próxima factura."
+    }
+  },
+  "errors": {
+    "generic": "Algo salió mal. Inténtalo de nuevo.",
+    "unauthorized": "No tienes permiso para hacer eso.",
+    "notFound": "No encontrado."
+  },
+  "clock": {
+    "title": "Marcar entrada / salida",
+    "clockIn": "Marcar entrada",
+    "clockOut": "Marcar salida",
+    "currentlyClockedIn": "Estás trabajando",
+    "since": "Desde {time}",
+    "openTurnDuration": "Llevas {hours}h {minutes}m",
+    "notClockedIn": "Sin turno activo",
+    "tapToClockIn": "Toca el botón para iniciar tu turno.",
+    "needsCamera": "Se requiere cámara y ubicación.",
+    "capturingLocation": "Obteniendo tu ubicación...",
+    "uploadingPhoto": "Subiendo foto...",
+    "submitting": "Enviando...",
+    "clockedInSuccess": "Entrada registrada.",
+    "clockedOutSuccess": "Salida registrada. Total: {duration}",
+    "outsideGeofence": "Estás fuera del sitio de trabajo. Tu manager será notificado.",
+    "todaySoFar": "Hoy",
+    "weekSoFar": "Esta semana",
+    "viewHours": "Mis horas",
+    "noLunch": "No tomé mi almuerzo ({minutes} min)",
+    "noLunchHint": "Se te pagará el tiempo completo. Tu manager verá esta marca.",
+    "noLunchShort": "No tomé almuerzo",
+    "forgotOutTitle": "¿Olvidaste hacer clock out?",
+    "forgotOutHint": "Este turno lleva mucho tiempo abierto. Ingresa tu hora real de salida y envíala para aprobación.",
+    "outDate": "Fecha de salida",
+    "outTime": "Hora de salida",
+    "fixReason": "¿Qué pasó? (obligatorio)",
+    "sendFix": "Enviar corrección",
+    "helpLink": "¿Cómo funciona? Lee la guía rápida",
+    "shiftRemaining": "Te faltan {time} para completar tu jornada",
+    "estOut": "salida est. {time}",
+    "shiftDone": "Jornada completa — ya puedes fichar tu salida ✓"
+  },
+  "timeTracking": {
+    "title": "Asistencia",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "approveSelected": "Aprobar seleccionados",
+    "rejectSelected": "Rechazar seleccionados",
+    "viewMap": "Vista mapa",
+    "viewTable": "Vista tabla",
+    "filterAll": "Todos",
+    "noEntries": "No hay registros de tiempo.",
+    "duration": "Duración",
+    "clockInAt": "Entrada",
+    "clockOutAt": "Salida",
+    "worksite": "Sitio",
+    "flagged": "Fuera del sitio",
+    "open": "Abierto",
+    "edited": "Ajustado",
+    "manual": "Manual",
+    "noLunchFlag": "Sin almuerzo",
+    "breakLabel": "almuerzo"
+  },
+  "worksites": {
+    "title": "Sitios de trabajo",
+    "addWorksite": "Agregar sitio",
+    "name": "Nombre",
+    "address": "Dirección",
+    "radius": "Radio (metros)",
+    "active": "Activo",
+    "selectOnMap": "Haz click en el mapa para fijar la ubicación"
+  },
+  "landing": {
+    "nav": {
+      "features": "Funciones",
+      "pricing": "Precios",
+      "faq": "Preguntas",
+      "howItWorks": "Cómo funciona",
+      "industries": "Industrias",
+      "signIn": "Iniciar sesión",
+      "startTrial": "Probar gratis",
+      "about": "Acerca",
+      "contact": "Contacto",
+      "legal": "Legal",
+      "docs": "Documentación",
+      "status": "Estado",
+      "changelog": "Cambios"
+    },
+    "hero": {
+      "badge": "Nuevo · Liquidaciones de contratistas con margen y HST",
+      "headline": "Nómina y asistencia, simplificadas para tu equipo en campo",
+      "sub": "Tu equipo ficha con foto + GPS y cierra su semana para pedir su pago. Las horas entran solas a la nómina con impuestos calculados. ¿Pagas a subcontratistas? Un cheque consolidado por contratista, con margen y HST incluidos.",
+      "primaryCta": "Probar gratis",
+      "secondaryCta": "Ver cómo funciona",
+      "microcopy": "30 días gratis · No necesitas tarjeta",
+      "mockupWorkerName": "María García",
+      "mockupClockedSince": "Entró a las 7:42 AM",
+      "mockupJobsite": "Obra en Brooklyn",
+      "trustSecurity": "Listo para SOC 2 · Seguridad bancaria",
+      "trustSpeed": "Marcado en menos de un segundo desde cualquier teléfono",
+      "stats": {
+        "savedPerEmp": "ahorradas/mes por empleado",
+        "fewer": "menos errores de nómina",
+        "trial": "gratis · sin tarjeta"
+      }
+    },
+    "trust": {
+      "title": "Hecho para los negocios que construyen el país",
+      "industries": {
+        "construction": "Construcción",
+        "restaurants": "Restaurantes",
+        "trades": "Oficios",
+        "painting": "Pintura"
+      }
+    },
+    "features": {
+      "title": "Todo lo que necesitas para pagarle bien a tu gente",
+      "sub": "Desde el primer clock-in hasta el formulario fiscal del fin de año, MyJova hace el trabajo.",
+      "items": {
+        "clockIn": {
+          "title": "Clock in con prueba",
+          "desc": "Foto y GPS capturados en cada turno. Geofence marca entradas fuera del sitio."
+        },
+        "paySchemes": {
+          "title": "4 esquemas de pago",
+          "desc": "Por hora con overtime, salario fijo, por día y comisiones por tramos — todo desde un mismo motor."
+        },
+        "taxForms": {
+          "title": "Formularios fiscales anuales",
+          "desc": "W-2 y 1099-NEC en PDF generados y guardados automáticamente al cierre del año."
+        },
+        "dashboard": {
+          "title": "Panel admin en vivo",
+          "desc": "Ve quién está trabajando, dónde están y cuántas horas debes — en tiempo real."
+        },
+        "mobile": {
+          "title": "Portal móvil del empleado",
+          "desc": "Tus trabajadores ven sus horas y recibos desde cualquier teléfono. Sin instalar app."
+        },
+        "secure": {
+          "title": "Seguro por diseño",
+          "desc": "Row-level security a nivel de base de datos. Los datos de cada empresa están totalmente aislados."
+        },
+        "weeklyClose": {
+          "title": "Cierra la semana y pide el pago",
+          "desc": "El trabajador revisa su semana y la envía. Tú apruebas todo de un toque y entra directo a la nómina."
+        },
+        "contractors": {
+          "title": "Contratistas jerárquicos",
+          "desc": "Tarifa facturada por trabajador, un cheque consolidado por contratista raíz, HST y márgenes controlados — con portal privado del contratista."
+        },
+        "breaks": {
+          "title": "Reglas de almuerzo inteligentes",
+          "desc": "Descuenta el almuerzo no pagado solo en turnos completos. El medio día conserva sus horas y el trabajador puede marcar \"hoy no tomé almuerzo\"."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "De la tarjeta de papel al pago en 3 pasos",
+      "steps": {
+        "invite": {
+          "title": "Invita a tu equipo",
+          "desc": "Agrega empleados y manda invitaciones al portal en segundos."
+        },
+        "clock": {
+          "title": "Los trabajadores marcan entrada y salida",
+          "desc": "Desde el sitio de trabajo, con foto y GPS automáticos."
+        },
+        "pay": {
+          "title": "Corre la nómina",
+          "desc": "Las horas aprobadas entran a la nómina. Impuestos calculados. Recibos generados."
+        }
+      },
+      "sub": "Tres pasos de la obra al equipo pagado — sin hojas de cálculo ni perseguir partes de horas."
+    },
+    "mobile": {
+      "title": "Diseñado para el sitio de trabajo",
+      "sub": "Los trabajadores no necesitan descargar nada. El portal MyJova funciona desde cualquier navegador móvil moderno — incluso con 4G lento.",
+      "bullets": {
+        "clock": "Marcar entrada y salida con un toque",
+        "history": "Ver turnos pasados y totales",
+        "paystubs": "Consultar recibos de pago cuando quieran",
+        "geofence": "Alerta si están fuera del sitio de trabajo"
+      }
+    },
+    "pricing": {
+      "title": "Precios simples",
+      "sub": "Empieza gratis. Luego una base mensual pequeña + pagas solo por trabajadores activos.",
+      "mostPopular": "Más popular",
+      "ctaStart": "Probar gratis",
+      "ctaSales": "Hablar con ventas",
+      "footer": "Todos los planes incluyen 30 días gratis. Cancela cuando quieras.",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "perMonth": "/mes",
+      "perYear": "/año",
+      "currencyHint": "Precios en {currency} · ubicación detectada: {country}",
+      "plusPerWorker": "+ {price} por trabajador activo / mes"
+    },
+    "comparison": {
+      "title": "Cómo se compara MyJova",
+      "sub": "Lado a lado con las apps de nómina y asistencia más populares.",
+      "disclaimer": "Las marcas son propiedad de sus respectivos dueños. La comparación refleja precios y funciones públicas a fecha de 2026-05.",
+      "th": {
+        "feature": "Función"
+      },
+      "rows": {
+        "clockInPhoto": "Marcado con foto como prueba",
+        "geofence": "Alertas GPS por geocerca",
+        "payrollUS": "Nómina federal US",
+        "payrollCA": "Nómina Canadá (T4/T4A/ROE)",
+        "w2_1099": "W-2 / 1099-NEC fin de año",
+        "spanish": "Interfaz en español para empleados",
+        "french": "Interfaz en francés (Quebec)",
+        "smallBizPricing": "Precio inicial",
+        "mobileApp": "Portal mobile-first",
+        "apiAccess": "API REST pública"
+      }
+    },
+    "roi": {
+      "badge": "Calculadora gratis",
+      "title": "Mira cuánto vas a ahorrar",
+      "sub": "Mueve los sliders para estimar tu ahorro mensual frente a planillas en papel y Excel.",
+      "inputs": {
+        "employees": "Empleados",
+        "hoursPerWeek": "Horas por semana / empleado",
+        "hourlyRate": "Tarifa por hora promedio"
+      },
+      "results": {
+        "monthly": "Ahorras al mes",
+        "yearly": "Ahorro anual",
+        "hoursReclaimed": "{hours} horas/mes de administración recuperadas",
+        "planCost": "Costo MyJova: {cost}/mes",
+        "roi": "{roi}% de ROI sobre MyJova"
+      },
+      "disclaimer": "Estimaciones basadas en 12 min/empleado/día de tracking manual + 2% de error en nómina (estudio APA 2024)."
+    },
+    "video": {
+      "title": "MyJova en acción",
+      "sub": "Tour de 90 segundos por marcado, nómina y formularios fiscales.",
+      "play": "Reproducir demo",
+      "duration": "0:00 / 1:32",
+      "comingSoonTitle": "Video demo próximamente",
+      "comingSoonBody": "Estamos grabando un recorrido nuevo. Mientras tanto, entra directo al preview en vivo desde el dashboard."
+    },
+    "testimonials": {
+      "title": "Confiado por equipos en campo",
+      "sub": "Historias de contratistas y restaurantes que usan MyJova todos los días.",
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "disclaimer": "Los nombres y empresas son ejemplos representativos mientras recopilamos testimonios firmados de clientes.",
+      "quotes": {
+        "construction": "Antes de MyJova mis capataces me mandaban las horas por texto los domingos. Ahora todo viene con foto y GPS. La nómina toma 20 minutos en vez de todo el fin de semana.",
+        "restaurants": "Tres locales, 40 personas. Cocina marca desde una tablet, meseros desde su teléfono. Se acabaron las peleas por el redondeo de propinas.",
+        "trades": "Las alertas de geocerca atraparon a dos ayudantes inflando horas en un trabajo a 50 km del sitio. Pagó el año en una semana.",
+        "painting": "Tengo cuadrilla de 12. El portal en español fue clave — los trabajadores lo usan sin que tenga que explicarlo diez veces.",
+        "cleaning": "Los W-2 de fin de año le tomaban un fin de semana a mi contadora. Con MyJova ya están listos para el 5 de enero.",
+        "landscaping": "El marcado móvil me evitó comprar relojes biométricos para cada camioneta. ROI en el primer mes."
+      }
+    },
+    "integrations": {
+      "title": "Se lleva bien con tu stack",
+      "footer": "Las integraciones directas con estas herramientas llegan durante 2026."
+    },
+    "useCases": {
+      "title": "Hecho para tu forma real de trabajar",
+      "sub": "Elige tu industria para ver cómo MyJova encaja en tu día a día.",
+      "benefitsLabel": "Lo que obtienes",
+      "industries": {
+        "construction": {
+          "label": "Construcción",
+          "headline": "Del cimiento a la factura final",
+          "story": "Las cuadrillas van a diferentes obras cada semana. MyJova ata cada hora a un sitio geoetiquetado para que factures proyectos con precisión y demuestres cumplimiento en una auditoría DOL.",
+          "benefits": [
+            "Etiquetado por proyecto para job costing preciso",
+            "Marcado geofenced con foto en cada turno",
+            "Pago diario, por hora y a 1099 subcontratistas en una app",
+            "Formularios W-2 + 1099-NEC listos a fin de año"
+          ]
+        },
+        "restaurants": {
+          "label": "Restaurantes",
+          "headline": "Salón, cocina, varias sedes",
+          "story": "Cocina en tablet, meseros en teléfono. Tip pools y tip credits los maneja el motor de nómina. Ventas diarias importadas para roles con comisión sobre venta.",
+          "benefits": [
+            "Campos de tip pool / declared tips integrados",
+            "Cambio entre sedes en un tap",
+            "FICA tip credit calculado automáticamente",
+            "Alertas de overtime conscientes del horario"
+          ]
+        },
+        "trades": {
+          "label": "Oficios",
+          "headline": "Plomería, HVAC, eléctrico",
+          "story": "El técnico rota entre servicios todo el día. Clock-out automático en la última parada. Notas por servicio adjuntas para facturación posterior.",
+          "benefits": [
+            "Captura tiempo + materiales por servicio",
+            "Kilometraje entre trabajos rastreado por GPS",
+            "Facturas al cliente desde la misma entrada",
+            "Geocerca preset para 'camioneta como sitio'"
+          ]
+        },
+        "painting": {
+          "label": "Pintura",
+          "headline": "Cuadrillas en 3-4 trabajos por día",
+          "story": "Los trabajadores van de un interior residencial en la mañana a un comercial por la tarde. Cada marcado etiqueta el proyecto correcto para mantener estimados precisos.",
+          "benefits": [
+            "Etiquetado multi-proyecto en un mismo turno",
+            "Flujo bilingüe (español-first)",
+            "Foto de evidencia de prep work terminado",
+            "Esquema diario para trabajos cortos"
+          ]
+        },
+        "cleaning": {
+          "label": "Limpieza",
+          "headline": "Conserjería, residencial, comercial",
+          "story": "Cuadrillas trabajan de noche en turnos de 2-3 personas. Marcado en entrada del edificio, foto del checklist requerida por clientes corporativos.",
+          "benefits": [
+            "Soporte de scheduling por turnos",
+            "Foto de checklist adjunta al time entry",
+            "Diferencial por hora por edificio",
+            "Nómina semanal por defecto"
+          ]
+        },
+        "landscaping": {
+          "label": "Paisajismo",
+          "headline": "Cuadrillas de temporada, por ruta",
+          "story": "Las cuadrillas corren rutas de 8-12 propiedades al día. Marcado rápido en cada parada captura llegada, salida y foto de la propiedad.",
+          "benefits": [
+            "Marcado rápido por parada sin salir de la app",
+            "Total por propiedad para facturar exacto",
+            "El líder de cuadrilla marca a su equipo en un tap",
+            "Formularios H-2B de trabajador estacional a fin de año"
+          ]
+        }
+      }
+    },
+    "mobileShowcase": {
+      "title": "A tus empleados les encanta desde el día uno",
+      "sub": "Sin instalación de app. Funciona en cualquier teléfono con navegador. El portal completo en tres taps.",
+      "mockCta": "Marcar entrada",
+      "mockLocationOk": "En sitio · GPS preciso a 4m",
+      "mockLastPaystub": "Último recibo",
+      "mockYtd": "Ingresos del año",
+      "mockHourlyRole": "Por hora · $28/h",
+      "mockProfilePay": "Datos de pago",
+      "mockProfileTaxes": "Datos fiscales",
+      "mockProfileLang": "Idioma",
+      "screens": {
+        "clock": {
+          "label": "Marcar",
+          "title": "Marcado en un tap",
+          "desc": "Foto + GPS capturados automáticamente. Aviso si está fuera del sitio.",
+          "color": "primary"
+        },
+        "history": {
+          "label": "Historial",
+          "title": "Ve cada turno",
+          "desc": "Totales diarios, ediciones, aprobaciones — los trabajadores siempre saben dónde están parados.",
+          "color": "emerald"
+        },
+        "paystubs": {
+          "label": "Recibos",
+          "title": "Recibos en su bolsillo",
+          "desc": "Descarga PDF, totales del año, deducciones explicadas línea por línea.",
+          "color": "purple"
+        },
+        "profile": {
+          "label": "Perfil",
+          "title": "Perfil self-service",
+          "desc": "Actualiza datos fiscales, banco e idioma sin involucrar a Recursos Humanos.",
+          "color": "orange"
+        }
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": {
+        "card": {
+          "q": "¿Necesito tarjeta de crédito para empezar?",
+          "a": "No. Puedes empezar la prueba de 30 días sin tarjeta. Solo cobramos si decides seguir usando MyJova."
+        },
+        "noEmail": {
+          "q": "¿Y si mis trabajadores no tienen correo?",
+          "a": "En la versión actual cada trabajador necesita un email para recibir la invitación al portal. Estamos añadiendo acceso por PIN para tablets compartidas en una versión futura."
+        },
+        "states": {
+          "q": "¿Qué estados soportan retención fiscal?",
+          "a": "La retención federal de US (IRS Pub 15-T 2026) está completa. La retención estatal está actualmente en cero para todos los estados — la estamos sumando estado por estado, priorizando CA, NY, TX, FL, IL."
+        },
+        "filing": {
+          "q": "¿MyJova presenta los impuestos por mí?",
+          "a": "MyJova genera los PDFs de W-2 y 1099-NEC. La presentación oficial ante IRS / SSA sigue siendo manual hoy. La integración de e-filing directo está en nuestro roadmap 2026."
+        },
+        "secure": {
+          "q": "¿Mis datos están seguros?",
+          "a": "Sí. Usamos Supabase con Row Level Security a nivel de base de datos, encripción en reposo, y aislamiento estricto multi-tenant. Ninguna empresa puede ver los datos de otra."
+        },
+        "cancel": {
+          "q": "¿Puedo cancelar cuando quiera?",
+          "a": "Sí. Sin contratos ni compromisos mínimos. Cancela desde la página de facturación en un click."
+        }
+      }
+    },
+    "finalCta": {
+      "badge": "Cuando quieras empezar",
+      "title": "¿Listo para simplificar tu nómina?",
+      "sub": "Únete a los pequeños negocios que registran tiempo y pagan a su equipo con MyJova.",
+      "cta": "Probar gratis",
+      "demo": "o explora el preview en vivo →",
+      "microcopy": "30 días gratis · Sin tarjeta"
+    },
+    "footer": {
+      "tagline": "Nómina y asistencia para contratistas y restaurantes en Estados Unidos y Canadá.",
+      "product": "Producto",
+      "company": "Empresa",
+      "resources": "Recursos",
+      "about": "Acerca",
+      "contact": "Contacto",
+      "legal": "Legal",
+      "docs": "Documentación",
+      "status": "Estado",
+      "changelog": "Novedades",
+      "copyright": "© 2026 MyJova. Todos los derechos reservados.",
+      "newsletterPlaceholder": "tu@email.com",
+      "newsletterCta": "Suscribirme",
+      "newsletterSuccess": "¡Gracias! Te mantendremos al tanto."
+    }
+  },
+  "production": {
+    "title": "Producción",
+    "subtitle": "Registra la producción a destajo y apruébala para la nómina.",
+    "recordTitle": "Registrar producción",
+    "employee": "Empleado",
+    "date": "Fecha",
+    "quantity": "Cantidad",
+    "unitLabel": "Unidad",
+    "ratePerUnit": "Tarifa por unidad ($)",
+    "rateHint": "Usa la tarifa del esquema",
+    "record": "Registrar",
+    "recent": "Entradas recientes",
+    "empty": "Aún no hay producción registrada.",
+    "noEmployees": "No hay empleados a destajo. Crea un empleado con esquema \"Por producción\" para registrar producción.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "status": {
+      "open": "Abierto",
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "edited": "Editado"
+    }
+  },
+  "industry": {
+    "types": {
+      "general": "General",
+      "construction": "Construcción",
+      "restaurant": "Restaurante",
+      "retail": "Comercio minorista",
+      "cleaning": "Limpieza",
+      "landscaping": "Jardinería",
+      "manufacturing": "Manufactura",
+      "healthcare": "Salud",
+      "transportation": "Transporte"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": "General",
+      "subtitle": "Industria y valores por defecto de la organización.",
+      "industry": "Industria",
+      "recommendedPay": "Tipos de pago recomendados",
+      "suggestions": "Configuración sugerida",
+      "setUp": "Configurar",
+      "nudges": {
+        "kiosk": "Configura un kiosko en tablet para fichaje compartido",
+        "worksites": "Define tus sitios de trabajo",
+        "geofence": "Activa el geocerco en el fichaje",
+        "production": "Registra producción a destajo",
+        "tips": "Registra las propinas"
+      }
+    }
+  },
+  "paystub": {
+    "back": "Atrás",
+    "payDate": "Fecha de pago",
+    "net": "Pago neto",
+    "gross": "Pago bruto",
+    "earnings": "Ingresos",
+    "deductions": "Impuestos y deducciones",
+    "noDeductions": "Sin deducciones",
+    "download": "Descargar PDF"
+  },
+  "kiosk": {
+    "pairTitle": "Emparejar esta tablet",
+    "pairPrompt": "Ingresa el código de tu panel de administración",
+    "pair": "Emparejar",
+    "pairHint": "Genera un código en Ajustes → Dispositivos",
+    "title": "Reloj checador",
+    "noEmployees": "No hay empleados activos",
+    "noPin": "Sin PIN",
+    "enterPin": "Ingresa tu PIN de 4 dígitos",
+    "takePhoto": "Tómate una foto para fichar",
+    "cameraHint": "Centra tu rostro",
+    "confirm": "Confirmar",
+    "clockedIn": "Entrada registrada",
+    "clockedOut": "Salida registrada",
+    "outsideGeofence": "Fuera del área del sitio",
+    "tryAgain": "Intentar de nuevo",
+    "unpairConfirm": "¿Desemparejar esta tablet? Necesitarás un nuevo código para configurarla.",
+    "deleteDigit": "Borrar"
+  },
+  "devices": {
+    "title": "Dispositivos y kiosko",
+    "subtitle": "Configura kioskos en tablet y PINs de empleados para fichaje compartido.",
+    "pairTablet": "Emparejar una tablet",
+    "worksite": "Sitio de trabajo",
+    "deviceName": "Nombre del dispositivo",
+    "generateCode": "Generar código",
+    "codeReady": "Abre la URL del kiosko en la tablet e ingresa este código:",
+    "codeExpires": "Este código expira en 15 minutos.",
+    "openKiosk": "Abrir kiosko",
+    "noWorksites": "Crea un sitio de trabajo primero para ligar un kiosko.",
+    "devicesList": "Dispositivos emparejados",
+    "noDevices": "Aún no hay dispositivos.",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "lastSeen": "Visto",
+    "never": "Nunca conectado",
+    "deactivate": "Desactivar",
+    "confirmDelete": "¿Borrar este dispositivo?",
+    "employeePins": "PINs de empleados",
+    "pinsHint": "Los empleados necesitan un PIN de 4 dígitos para fichar en el kiosko.",
+    "hasPin": "PIN listo",
+    "noPin": "Sin PIN",
+    "setPin": "Poner PIN",
+    "changePin": "Cambiar PIN",
+    "clearPin": "Quitar",
+    "noEmployees": "No hay empleados activos."
+  },
+  "quickbooks": {
+    "desc": "Sincroniza la nómina a QuickBooks como asientos, o exporta IIF/CSV.",
+    "planTag": "Avanzado",
+    "upgrade": "Mejora tu plan para conectar",
+    "connected": "Conectado",
+    "notConnected": "No conectado",
+    "serverNote": "La sincronización en línea necesita llaves de Intuit en el servidor. El export de archivos (IIF/CSV) ya funciona.",
+    "connect": "Conectar QuickBooks",
+    "disconnect": "Desconectar",
+    "syncEmployees": "Sincronizar empleados",
+    "lastSync": "Última sincronización",
+    "accountMapping": "Mapeo de cuentas",
+    "mappingHint": "Pega los IDs de cuentas de QuickBooks donde se postearán los asientos.",
+    "recentRuns": "Nóminas recientes",
+    "noRuns": "Aún no hay nóminas.",
+    "sync": "Sincronizar"
+  },
+  "schedule": {
+    "title": "Horario",
+    "subtitle": "Planea turnos, publícalos y cubre turnos abiertos.",
+    "myTitle": "Mi horario",
+    "addShift": "Añadir turno",
+    "publish": "Publicar",
+    "totalHours": "Horas",
+    "shifts": "Turnos",
+    "open": "Abiertos",
+    "projectedCost": "Costo est.",
+    "employee": "Empleado",
+    "worksite": "Sitio",
+    "date": "Fecha",
+    "start": "Inicio",
+    "end": "Fin",
+    "role": "Rol",
+    "openShift": "Turno abierto",
+    "draft": "Borrador",
+    "upcoming": "Próximos turnos",
+    "noShifts": "No tienes turnos próximos.",
+    "swap": "Cambiar",
+    "swapRequested": "Cambio solicitado",
+    "openShifts": "Turnos abiertos",
+    "noOpen": "No hay turnos abiertos.",
+    "claim": "Tomar",
+    "claimed": "Turno tomado"
+  },
+  "timeOff": {
+    "title": "Tiempo libre",
+    "subtitle": "Aprueba solicitudes y gestiona políticas.",
+    "myTitle": "Mi tiempo libre",
+    "pending": "Solicitudes pendientes",
+    "noPending": "Sin solicitudes pendientes.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "policies": "Políticas",
+    "policyName": "Nombre",
+    "type": "Tipo",
+    "paid": "Pagado",
+    "unpaidTag": "Sin pago",
+    "noPolicies": "Aún no hay políticas.",
+    "history": "Historial",
+    "request": "Solicitar tiempo libre",
+    "policy": "Política",
+    "from": "Desde",
+    "to": "Hasta",
+    "hours": "Horas",
+    "reason": "Motivo",
+    "submit": "Enviar solicitud",
+    "myRequests": "Mis solicitudes",
+    "noRequests": "Aún no hay solicitudes.",
+    "types": {
+      "vacation": "Vacaciones",
+      "sick": "Enfermedad",
+      "personal": "Personal",
+      "unpaid": "Sin pago",
+      "other": "Otro"
+    },
+    "status": {
+      "approved": "Aprobado",
+      "pending": "Pendiente",
+      "rejected": "Rechazado",
+      "cancelled": "Cancelado"
+    }
+  },
+  "documents": {
+    "title": "Documentos",
+    "subtitle": "Sube documentos y recoge firmas electrónicas.",
+    "myTitle": "Mis documentos",
+    "name": "Nombre",
+    "kind": "Tipo",
+    "assignTo": "Asignar a",
+    "everyone": "Todos",
+    "file": "Archivo (PDF)",
+    "requireSignature": "Requiere firma",
+    "upload": "Subir",
+    "library": "Biblioteca de documentos",
+    "empty": "Aún no hay documentos.",
+    "none": "No hay documentos.",
+    "signed": "Firmado",
+    "sign": "Firmar",
+    "signTitle": "Firmar documento",
+    "yourName": "Escribe tu nombre completo",
+    "clear": "Borrar",
+    "confirmSign": "Firmar",
+    "legalNote": "Al firmar aceptas que esta es tu firma electrónica.",
+    "kinds": {
+      "offer_letter": "Carta de oferta",
+      "handbook": "Manual",
+      "policy": "Política",
+      "tax_form": "Formulario fiscal",
+      "id_doc": "Identificación",
+      "contract": "Contrato",
+      "other": "Otro"
+    }
+  },
+  "tips": {
+    "title": "Propinas",
+    "subtitle": "Registra propinas y reparte pools — entran a la nómina.",
+    "record": "Registrar propina",
+    "employee": "Empleado",
+    "date": "Fecha",
+    "amount": "Monto",
+    "source": "Origen",
+    "add": "Añadir",
+    "pool": "Pool de propinas",
+    "total": "Total",
+    "method": "Método",
+    "byHours": "Por horas",
+    "equal": "Igual",
+    "distribute": "Repartir",
+    "recent": "Propinas recientes",
+    "empty": "Aún no hay propinas.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "sources": {
+      "card": "Tarjeta",
+      "cash": "Efectivo",
+      "pool": "Pool",
+      "declared": "Declarada"
+    },
+    "status": {
+      "approved": "Aprobado",
+      "pending": "Pendiente",
+      "rejected": "Rechazado"
+    }
+  },
+  "square": {
+    "desc": "Trae el total de propinas de Square por día para repartir.",
+    "serverNote": "Necesita llaves de Square en el servidor. Las propinas funcionan manual igual.",
+    "connect": "Conectar Square",
+    "tipTotals": "Total de propinas por día",
+    "from": "Desde",
+    "to": "Hasta",
+    "pull": "Obtener totales",
+    "mockNote": "Datos de prueba (Square no conectado).",
+    "noTips": "Sin propinas en el rango.",
+    "distributeHint": "Usa estos totales en el pool de propinas para repartir."
+  },
+  "bank": {
+    "myTitle": "Depósito directo",
+    "title": "Pagos y depósito directo",
+    "subtitle": "Cuenta de la empresa + generación de archivo ACH (NACHA).",
+    "routing": "Número de ruta (routing)",
+    "account": "Número de cuenta",
+    "accountType": "Tipo de cuenta",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "onFile": "Registrada",
+    "secureNote": "Tus datos bancarios se cifran y solo se usan para pagarte.",
+    "companyAccount": "Cuenta bancaria de la empresa",
+    "companyName": "Nombre de la empresa (en la cuenta)",
+    "companyId": "ID de empresa (NACHA)",
+    "encNote": "Configura ENCRYPTION_KEY en el servidor para guardar datos bancarios.",
+    "achTitle": "Archivo ACH (depósito directo)",
+    "achHint": "Genera un archivo NACHA por nómina para subir a tu banco.",
+    "noRuns": "Aún no hay nóminas.",
+    "downloadAch": "Descargar ACH",
+    "missingNote": "{n} empleado(s) omitido(s) (sin cuenta).",
+    "types": {
+      "checking": "Corriente",
+      "savings": "Ahorros"
+    }
+  },
+  "jobs": {
+    "title": "Obras y nómina certificada",
+    "subtitle": "Controla proyectos, costos por obra y genera WH-347.",
+    "name": "Nombre de la obra",
+    "worksite": "Sitio",
+    "contract": "N.º de contrato",
+    "prevailing": "Salario prevaleciente",
+    "list": "Obras",
+    "empty": "Aún no hay obras.",
+    "noWorksite": "Sin sitio ligado"
+  },
+  "team": {
+    "title": "Equipo y anuncios",
+    "subtitle": "Publica anuncios y chatea con tu equipo.",
+    "myTitle": "Equipo",
+    "announcements": "Anuncios",
+    "announceTitle": "Título",
+    "announceBody": "Mensaje",
+    "post": "Publicar",
+    "noAnnouncements": "No hay anuncios.",
+    "markRead": "Entendido",
+    "board": "Tablón de mensajes",
+    "writeMessage": "Escribe un mensaje…",
+    "noMessages": "Aún no hay mensajes."
+  },
+  "deductions": {
+    "title": "Beneficios y deducciones",
+    "subtitle": "Las deducciones recurrentes (salud, 401k…) entran a cada nómina.",
+    "employee": "Empleado",
+    "label": "Etiqueta",
+    "code": "Código",
+    "amount": "Monto",
+    "preTax": "Pre-impuestos",
+    "current": "Deducciones actuales",
+    "none": "Sin deducciones para este empleado."
+  },
+  "departments": {
+    "title": "Departamentos",
+    "subtitle": "Organiza empleados en equipos.",
+    "list": "Departamentos",
+    "none": "Aún no hay departamentos.",
+    "assign": "Asignar empleados"
+  },
+  "profileEdit": {
+    "edit": "Editar mis datos de contacto",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "region": "Estado",
+    "postal": "C.P."
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Bienvenido a MyJova 👋",
+      "body": "Vamos a configurar tu empresa. Haz un tour rápido de 60 segundos o empieza directamente.",
+      "start": "Iniciar tour",
+      "skip": "Ahora no"
+    },
+    "checklist": {
+      "title": "Primeros pasos",
+      "subtitle": "Completa estos pasos para configurar tu empresa.",
+      "dismiss": "Descartar checklist",
+      "takeTour": "Ver el tour",
+      "steps": {
+        "addEmployee": "Agrega tu primer empleado",
+        "addWorksite": "Agrega un lugar de trabajo",
+        "runPayroll": "Procesa tu primera nómina",
+        "inviteTeam": "Invita a tu equipo"
+      }
+    },
+    "tour": {
+      "skip": "Omitir",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "done": "Listo",
+      "actions": {
+        "title": "Acciones rápidas",
+        "body": "Agrega empleados, procesa la nómina y revisa el tiempo desde aquí."
+      },
+      "kpis": {
+        "title": "Tus métricas clave",
+        "body": "Una vista en vivo de tu equipo: quién está activo, quién trabaja y qué requiere atención."
+      },
+      "activity": {
+        "title": "Actividad en vivo",
+        "body": "Mira quién fichó en el mapa, con alertas de geocerca para lo inusual."
+      },
+      "nav": {
+        "title": "Navega por todo",
+        "body": "Usa la barra lateral para horarios, documentos, reportes, ajustes y más."
+      }
+    }
+  },
+  "subscription": {
+    "trialExpired": "Tu período de prueba terminó. Las acciones principales están pausadas hasta que elijas un plan.",
+    "inactive": "Tu suscripción no está activa. Las acciones principales están pausadas.",
+    "choosePlan": "Elegir un plan",
+    "trialEndingSoon": "Tu prueba termina en {days, plural, one {# día} other {# días}}."
+  },
+  "subcontractors": {
+    "subtitle": "Jerarquía de subcontratistas. Las horas se controlan por trabajador; el pago se consolida en un solo cheque al subcontratista mayor.",
+    "settlementTitle": "Liquidación de subcontratistas — un cheque por sub mayor",
+    "settlementHint": "Cada total incluye a los trabajadores de ese subcontratista Y de sus subs menores. Paga el total; el desglose muestra cómo repartir.",
+    "worker": "Trabajador",
+    "hours": "Horas",
+    "payWorker": "Pagar al trabajador",
+    "billed": "Facturado",
+    "margin": "Margen",
+    "subtotal": "Subtotal (facturado)",
+    "marginTotal": "Tu margen",
+    "invoice": "Factura"
+  },
+  "myHours": {
+    "title": "Mis horas",
+    "weekOf": "Semana del {start} al {end}",
+    "prevWeek": "Semana anterior",
+    "nextWeek": "Semana siguiente",
+    "total": "Total",
+    "openShift": "en curso",
+    "submit": "Cerrar semana y pedir mi pago",
+    "submitting": "Enviando...",
+    "resubmit": "Reenviar semana",
+    "submitNote": "Nota para tu manager (opcional)",
+    "submitHint": "Vas a cerrar la semana con {total}. Tu manager la revisará y la aprobará para la nómina.",
+    "submittedBanner": "Semana enviada — en revisión",
+    "submittedOn": "Enviada el {date}",
+    "approvedBanner": "Semana aprobada",
+    "approvedHint": "Entrará en la próxima nómina.",
+    "rejectedBanner": "Semana devuelta",
+    "rejectedNoNote": "Revísala y vuelve a enviarla.",
+    "blockedOpenEntry": "Cierra tu turno actual antes de cerrar la semana.",
+    "blockedNoHours": "Aún no hay horas esta semana.",
+    "rejectedNotCounted": "{total} rechazadas (no cuentan)",
+    "manualTitle": "¿Olvidaste fichar? Reporta horas",
+    "manualHint": "Tu manager revisará este registro manual antes de que cuente para la nómina.",
+    "manualDate": "Fecha",
+    "manualReason": "¿Qué pasó? (obligatorio)",
+    "manualSubmit": "Enviar para aprobación",
+    "manualSent": "Enviado — tu manager lo revisará."
+  },
+  "timesheets": {
+    "title": "Solicitudes de pago (semanas cerradas)",
+    "weekOf": "Semana {range}",
+    "entriesCount": "{count} registros",
+    "approveWeek": "Aprobar semana",
+    "returnWeek": "Devolver",
+    "returnPrompt": "¿Por qué devuelves esta semana?",
+    "returned": "Devuelta",
+    "approveHint": "Aprobar una semana aprueba todas sus entradas pendientes para la nómina."
+  },
+  "contractor": {
+    "navCrew": "Mi equipo",
+    "navSettlements": "Liquidaciones",
+    "notLinked": "Cuenta sin vincular",
+    "notLinkedHint": "Tu login aún no está vinculado a un contratista. Pide a la empresa que te reenvíe la invitación.",
+    "crewTitle": "Mi equipo",
+    "weekHours": "Horas esta semana",
+    "weekBilled": "Facturado (est.)",
+    "weekMargin": "Margen (est.)",
+    "estimateHint": "Estimado de la semana en curso — los números finales llegan con cada liquidación de nómina.",
+    "youPay": "Le pagas",
+    "youBill": "Facturas",
+    "margin": "Margen",
+    "noCrew": "Aún no tienes trabajadores asignados.",
+    "settlementsTitle": "Mis liquidaciones",
+    "payDate": "Fecha de pago",
+    "paid": "Pagada",
+    "approved": "Aprobada",
+    "subtotal": "Subtotal facturado",
+    "checkTotal": "Total del cheque",
+    "youPayCrew": "Pagas a tu equipo",
+    "yourMargin": "Tu margen",
+    "noSettlements": "Aún no hay liquidaciones. Aparecen cuando la empresa aprueba una nómina que incluye a tu equipo.",
+    "pdf": "PDF",
+    "helpLink": "¿Cómo funciona mi portal? Lee la guía rápida",
+    "liveEstimate": "Estimado en vivo (nóminas aprobadas antes de que existieran los registros congelados).",
+    "annualTitle": "Reporte anual de ingresos — {year}",
+    "annualBilled": "Facturado (ingresos)",
+    "annualHst": "HST cobrado",
+    "annualChecks": "Cheques recibidos ({count})",
+    "annualPaidCrew": "Pagado a tu equipo (gastos)",
+    "annualMargin": "Margen del año",
+    "csvYear": "Descargar CSV {year}",
+    "invoicePdf": "Factura (PDF)"
+  },
+  "guide": {
+    "title": "Guía de inicio",
+    "sub": "Cómo funciona MyJova para cada perfil — compártela con quien llegue nuevo a tu equipo.",
+    "askManager": "¿Dudas? Pregunta a tu manager o al administrador de la empresa.",
+    "sections": {
+      "company": "Para la empresa",
+      "worker": "Para trabajadores",
+      "contractor": "Para contratistas"
+    },
+    "company": {
+      "intro": "De cero a tu primera nómina en siete pasos.",
+      "s1": {
+        "t": "Configura tu organización",
+        "d": "Configuración → General: timezone, política de almuerzo no pagado (ej. 30 min cuando el turno llega a 6 h) y si pagas a contratistas."
+      },
+      "s2": {
+        "t": "Crea tus sitios de trabajo",
+        "d": "Dirección + radio del geofence. Las fichadas fuera del área quedan marcadas para tu revisión."
+      },
+      "s3": {
+        "t": "Agrega a tu equipo",
+        "d": "Empleados con su esquema de pago (hora, día, salario, comisión o por pieza) e invítalos por email — o empareja una tablet como kiosko con PIN."
+      },
+      "s4": {
+        "t": "Ellos fichan, tú apruebas",
+        "d": "Cada turno llega con foto + GPS. Revisa horas en Control de tiempo y aprueba entradas — o semanas completas cuando el equipo las cierre."
+      },
+      "s5": {
+        "t": "Corre la nómina",
+        "d": "Elige período y empleados. El motor calcula horas extra, impuestos y neto; aprueba y márcala pagada."
+      },
+      "s6": {
+        "t": "Recibos y formularios",
+        "d": "Cada quien descarga su recibo; W-2 y 1099-NEC se generan al cierre del año."
+      },
+      "s7": {
+        "t": "¿Pagas a contratistas?",
+        "d": "Activa el módulo, define tarifas facturadas por trabajador y cada nómina produce un cheque consolidado por contratista raíz con HST y desglose completo. Invítalo a su portal."
+      }
+    },
+    "worker": {
+      "intro": "Todo lo que haces cabe en tu teléfono.",
+      "s1": {
+        "t": "Acepta tu invitación",
+        "d": "Te llega un email — crea tu contraseña y entra desde tu teléfono."
+      },
+      "s2": {
+        "t": "Ficha tu entrada",
+        "d": "Un botón grande: selfie + ubicación. En sitios con tablet, marca tu PIN en el kiosko."
+      },
+      "s3": {
+        "t": "Ficha tu salida al terminar",
+        "d": "Si no tomaste tu almuerzo, marca \"No tomé mi almuerzo\" para que se te pague el tiempo completo."
+      },
+      "s4": {
+        "t": "¿Se te olvidó fichar?",
+        "d": "Corrige una salida olvidada desde la pantalla de fichar, o reporta el turno completo en \"Horas\". Tu manager lo aprueba."
+      },
+      "s5": {
+        "t": "Revisa tus horas",
+        "d": "La pestaña \"Horas\" muestra tu semana día por día con el estado de cada registro."
+      },
+      "s6": {
+        "t": "Cierra tu semana y pide tu pago",
+        "d": "Al terminar tu semana, toca \"Cerrar semana y pedir mi pago\". Tu manager la aprueba y entra a la nómina."
+      },
+      "s7": {
+        "t": "Recibe tu recibo de pago",
+        "d": "En \"Pagos\" encuentras cada recibo con el detalle completo, listo para descargar en PDF."
+      }
+    },
+    "contractor": {
+      "intro": "Tu portal muestra solo tu equipo y tu dinero.",
+      "s1": {
+        "t": "Acepta la invitación de la empresa",
+        "d": "Tu cuenta queda vinculada a tu compañía contratista."
+      },
+      "s2": {
+        "t": "Mi equipo",
+        "d": "Tus trabajadores, lo que les pagas, lo que facturas a la empresa y tu margen por hora — más las horas de la semana en curso."
+      },
+      "s3": {
+        "t": "Tu equipo ficha con la empresa",
+        "d": "Tú no corres la nómina: la empresa aprueba horas y paga. Tú lo ves todo desde tu portal."
+      },
+      "s4": {
+        "t": "Mis liquidaciones",
+        "d": "Por cada nómina: subtotal facturado, HST, el total de tu cheque, lo que pagas a tu gente y tu margen — con PDF para tu contabilidad."
+      },
+      "s5": {
+        "t": "Privacidad de fábrica",
+        "d": "Tus trabajadores solo ven SU tarifa. Lo que tú facturas a la empresa queda entre tú y la empresa."
+      }
+    }
+  }
+}

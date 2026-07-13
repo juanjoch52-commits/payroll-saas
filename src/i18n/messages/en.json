@@ -1,0 +1,1254 @@
+{
+  "common": {
+    "appName": "MyJova",
+    "tagline": "Payroll & tax reporting, simplified.",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "noData": "No data to show",
+    "yes": "Yes",
+    "no": "No",
+    "theme": {
+      "toggle": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "revoked": "Revoked",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "open": "Open",
+      "closed": "Closed",
+      "flagged": "Flagged",
+      "outsideGeofence": "Outside geofence"
+    },
+    "comingSoon": "Coming soon",
+    "saved": "Saved",
+    "copy": "Copy"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "payroll": "Payroll",
+    "timeTracking": "Time tracking",
+    "worksites": "Worksites",
+    "reports": "Reports",
+    "billing": "Billing",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "clock": "Clock",
+    "history": "Hours",
+    "paystubs": "Pay stubs",
+    "profile": "Profile",
+    "production": "Production",
+    "schedule": "Schedule",
+    "timeOff": "Time off",
+    "documents": "Documents",
+    "tips": "Tips",
+    "jobs": "Jobs",
+    "announcements": "Team",
+    "deductions": "Deductions",
+    "sections": {
+      "overview": "Overview",
+      "people": "People",
+      "time": "Time",
+      "payroll": "Payroll",
+      "communication": "Communication",
+      "organization": "Organization"
+    },
+    "subcontractors": "Subcontractors"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "organizationName": "Company name",
+    "forgotPassword": "Forgot password?",
+    "createAccount": "Create an account",
+    "alreadyHaveAccount": "Already have an account?",
+    "signInToContinue": "Sign in to continue to MyJova",
+    "createYourCompany": "Create your company on MyJova",
+    "signUpHelp": "We'll set up a 30-day free trial of the Esencial plan.",
+    "checkYourEmail": "Check your email",
+    "weSentConfirmation": "We sent a confirmation link to {email}.",
+    "invalidCredentials": "Invalid email or password.",
+    "signUpFailed": "Could not create account. Try again.",
+    "industry": "Industry",
+    "orContinueWith": "Or continue with",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithMicrosoft": "Continue with Microsoft",
+    "agreePrefix": "By signing up you agree to our",
+    "paysSubs": "I pay contractors or subcontractors",
+    "paysSubsHint": "Turns on consolidated checks, bill rates, HST and the contractor portal. You can change this later in Settings."
+  },
+  "dashboard": {
+    "welcome": "Welcome to MyJova",
+    "summary": "Here's what's happening in your company.",
+    "activeEmployees": "Active employees",
+    "lastPayrollRun": "Last payroll run",
+    "upcomingFilings": "Upcoming tax filings",
+    "noRunsYet": "No payroll runs yet — start with your first one.",
+    "clockedInNow": "Clocked in now",
+    "hoursToday": "Hours today",
+    "pendingApprovals": "Pending approvals",
+    "review": "Review",
+    "liveActivity": "Live activity",
+    "nobodyClockedIn": "Nobody is clocked in right now.",
+    "working": "currently working",
+    "quickActions": "Quick actions",
+    "view": "View",
+    "actions": {
+      "runPayroll": "Run payroll",
+      "reviewTime": "Review time",
+      "reports": "Reports",
+      "guide": "Getting-started guide"
+    },
+    "submittedWeeks": "{count} closed week(s) waiting for your approval",
+    "reviewWeeks": "Review and approve"
+  },
+  "employees": {
+    "title": "Employees",
+    "addEmployee": "Add employee",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "hireDate": "Hire date",
+    "status": "Status",
+    "type": "Type",
+    "payScheme": "Pay scheme",
+    "jurisdiction": "Jurisdiction",
+    "schemes": {
+      "hourly": "Hourly",
+      "salary": "Salary",
+      "daily": "Daily",
+      "commission": "Commission",
+      "piecerate": "Piece rate"
+    },
+    "limitReached": "You've reached the employee limit of your current plan. Upgrade to add more.",
+    "piecerate": {
+      "ratePerUnit": "Rate per unit ($)",
+      "unitLabel": "Unit label",
+      "minFloor": "Min wage floor ($/h, optional)"
+    },
+    "locality": "Local tax (city)",
+    "localityNone": "None",
+    "subcontractor": "Subcontractor",
+    "subcontractorNone": "None (own worker)",
+    "subcontractorHint": "Workers of a subcontractor are paid GROSS (no withholding) — their pay rolls into the subcontractor’s check.",
+    "billRate": "Bill rate to contractor ($/h)",
+    "billRateHint": "What the contractor pays for this worker’s hour (e.g. 33). The worker’s pay scheme is what YOU pay them (e.g. 30) — the difference is the subcontractor’s margin."
+  },
+  "payroll": {
+    "title": "Payroll",
+    "newRun": "New payroll run",
+    "periodStart": "Period start",
+    "periodEnd": "Period end",
+    "payDate": "Pay date",
+    "status": {
+      "draft": "Draft",
+      "approved": "Approved",
+      "paid": "Paid",
+      "posted": "Posted"
+    },
+    "grossPay": "Gross pay",
+    "netPay": "Net pay",
+    "totalTaxes": "Total taxes",
+    "approve": "Approve",
+    "markPaid": "Mark as paid",
+    "employeesCount": "Employees"
+  },
+  "reports": {
+    "title": "Tax reports",
+    "yearEnd": "Year-end forms",
+    "generateW2": "Generate W-2s",
+    "generate1099": "Generate 1099-NECs",
+    "selectYear": "Select tax year",
+    "upgradeRequired": "Tax report generation requires the Avanzado plan or higher.",
+    "exports": "Reports & exports",
+    "exportsDesc": "Download payroll, hours and tips as CSV.",
+    "payrollRegister": "Payroll register",
+    "from": "From",
+    "to": "To",
+    "hours": "Hours CSV",
+    "tips": "Tips CSV",
+    "settlementsTitle": "Contractor settlements (annual)",
+    "settlementsDesc": "Frozen at each payroll approval: billed, HST, checks, paid to crews and margin per contractor — same numbers each contractor sees in their portal.",
+    "settlementsOpen": "Open annual report",
+    "settlementsEmpty": "No settlement records yet",
+    "settlementsEmptyDesc": "Records freeze automatically when you approve a payroll that includes contractor crews.",
+    "colContractor": "Contractor",
+    "colRuns": "Runs",
+    "colBilled": "Billed",
+    "colChecks": "Checks",
+    "colPaidCrew": "Paid to crew",
+    "colMargin": "Margin",
+    "colTotal": "Total"
+  },
+  "billing": {
+    "title": "Plans & billing",
+    "currentPlan": "Your current plan",
+    "trialEndsIn": "Trial ends in {days} days",
+    "plans": {
+      "essential": {
+        "name": "Esencial",
+        "tagline": "Time tracking + payroll for small teams",
+        "features": [
+          "Unlimited workers — pay per active worker",
+          "Clock in with photo + GPS geofence",
+          "Tablet kiosk with PIN + mobile app",
+          "Weekly close & pay requests",
+          "Auto lunch-break rules",
+          "Hourly + salary payroll with pay stubs"
+        ]
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "tagline": "Full payroll compliance for growing companies",
+        "features": [
+          "Departments, benefits & labor reports",
+          "Everything in Esencial",
+          "All pay schemes: daily, commission, piece-rate",
+          "Taxes, W-2 / 1099 & e-file exports",
+          "Scheduling, PTO accrual & tips",
+          "QuickBooks & Square integrations",
+          "Multiple admin users"
+        ]
+      },
+      "premium": {
+        "name": "Premium — Contractors",
+        "tagline": "For companies that pay subcontractor crews",
+        "features": [
+          "SSO (Google / Microsoft)",
+          "Everything in Avanzado",
+          "Hierarchical contractors: one consolidated check",
+          "Per-worker bill rates, margins & HST",
+          "Private contractor portal + payment emails",
+          "Frozen settlement records & annual income reports",
+          "API access, webhooks & priority support"
+        ]
+      }
+    },
+    "upgrade": "Upgrade",
+    "currentBadge": "Current",
+    "perWorkerSuffix": "+ {price} per active worker / month",
+    "estimatedFor": "≈ {total}/mo for your {workers} active workers",
+    "usage": {
+      "title": "Current subscription",
+      "activeWorkers": "Active workers",
+      "estimated": "Estimated monthly total",
+      "formula": "{base} base + {workers} × {perWorker} per worker",
+      "note": "You are billed monthly for workers with Active status. Seat changes apply on your next invoice."
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "unauthorized": "You're not authorized to do that.",
+    "notFound": "Not found."
+  },
+  "clock": {
+    "title": "Clock in / out",
+    "clockIn": "Clock in",
+    "clockOut": "Clock out",
+    "currentlyClockedIn": "You're clocked in",
+    "since": "Since {time}",
+    "openTurnDuration": "{hours}h {minutes}m so far",
+    "notClockedIn": "Not clocked in",
+    "tapToClockIn": "Tap the button below to start your shift.",
+    "needsCamera": "Camera and location are required.",
+    "capturingLocation": "Getting your location...",
+    "uploadingPhoto": "Uploading photo...",
+    "submitting": "Submitting...",
+    "clockedInSuccess": "Clocked in successfully.",
+    "clockedOutSuccess": "Clocked out. Total: {duration}",
+    "outsideGeofence": "You're outside the worksite area. Your manager will be notified.",
+    "todaySoFar": "Today",
+    "weekSoFar": "This week",
+    "viewHours": "My hours",
+    "noLunch": "I did not take my lunch break ({minutes} min)",
+    "noLunchHint": "Your full time will be paid. Your manager will see this flag.",
+    "noLunchShort": "I did not take a lunch break",
+    "forgotOutTitle": "Forgot to clock out?",
+    "forgotOutHint": "This shift has been open for a long time. Enter your real end time and send it for approval.",
+    "outDate": "End date",
+    "outTime": "End time",
+    "fixReason": "What happened? (required)",
+    "sendFix": "Send correction",
+    "helpLink": "How does this work? Read the quick guide",
+    "shiftRemaining": "{time} left to complete your shift",
+    "estOut": "est. leave {time}",
+    "shiftDone": "Shift complete — you can clock out ✓"
+  },
+  "timeTracking": {
+    "title": "Time tracking",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "approveSelected": "Approve selected",
+    "rejectSelected": "Reject selected",
+    "viewMap": "Map view",
+    "viewTable": "Table view",
+    "filterAll": "All",
+    "noEntries": "No time entries to show.",
+    "duration": "Duration",
+    "clockInAt": "Clock in",
+    "clockOutAt": "Clock out",
+    "worksite": "Worksite",
+    "flagged": "Outside worksite",
+    "open": "Open",
+    "edited": "Adjusted",
+    "manual": "Manual",
+    "noLunchFlag": "No lunch",
+    "breakLabel": "lunch"
+  },
+  "worksites": {
+    "title": "Worksites",
+    "addWorksite": "Add worksite",
+    "name": "Name",
+    "address": "Address",
+    "radius": "Radius (meters)",
+    "active": "Active",
+    "selectOnMap": "Click on the map to set location"
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "howItWorks": "How it works",
+      "industries": "Industries",
+      "signIn": "Sign in",
+      "startTrial": "Start free trial",
+      "about": "About",
+      "contact": "Contact",
+      "legal": "Legal",
+      "docs": "Docs",
+      "status": "Status",
+      "changelog": "Changelog"
+    },
+    "hero": {
+      "badge": "New · Contractor settlements with margins & HST",
+      "headline": "Payroll and time tracking, simplified for field teams",
+      "sub": "Workers clock in with photo + GPS and close their week to request pay. Hours flow into payroll with taxes done. Paying subcontractors? One consolidated check per contractor, margins and HST included.",
+      "primaryCta": "Start free trial",
+      "secondaryCta": "See how it works",
+      "microcopy": "30-day free trial · No credit card required",
+      "mockupWorkerName": "Maria García",
+      "mockupClockedSince": "Clocked in since 7:42 AM",
+      "mockupJobsite": "Brooklyn job site",
+      "trustSecurity": "SOC 2-ready · Bank-grade security",
+      "trustSpeed": "Sub-second clock in from any phone",
+      "stats": {
+        "savedPerEmp": "saved/month per employee",
+        "fewer": "fewer payroll errors",
+        "trial": "free trial · no card"
+      }
+    },
+    "trust": {
+      "title": "Built for the businesses that build America",
+      "industries": {
+        "construction": "Construction",
+        "restaurants": "Restaurants",
+        "trades": "Trades",
+        "painting": "Painting"
+      }
+    },
+    "features": {
+      "title": "Everything you need to pay your team right",
+      "sub": "From the first clock-in to the year-end tax form, MyJova handles the work.",
+      "items": {
+        "clockIn": {
+          "title": "Clock in with proof",
+          "desc": "Photo and GPS captured on every shift. Geofence flags entries outside the worksite."
+        },
+        "paySchemes": {
+          "title": "4 pay schemes",
+          "desc": "Hourly with overtime, salary, daily rate, and tiered commissions — all from one engine."
+        },
+        "taxForms": {
+          "title": "Year-end tax forms",
+          "desc": "W-2 and 1099-NEC PDFs generated and stored automatically when the year closes."
+        },
+        "dashboard": {
+          "title": "Live admin dashboard",
+          "desc": "See who's working, where they are, and how many hours you owe — in real time."
+        },
+        "mobile": {
+          "title": "Mobile employee portal",
+          "desc": "Workers see their hours and pay stubs from any phone. No app store install required."
+        },
+        "secure": {
+          "title": "Secure by design",
+          "desc": "Row-level security at the database. Each company's data is fully isolated."
+        },
+        "weeklyClose": {
+          "title": "Close the week, request pay",
+          "desc": "Workers review their week and submit it. You approve everything in one tap and it flows straight into payroll."
+        },
+        "contractors": {
+          "title": "Hierarchical contractors",
+          "desc": "Per-worker bill rates, one consolidated check per top contractor, HST and margins tracked — plus a private contractor portal."
+        },
+        "breaks": {
+          "title": "Smart lunch rules",
+          "desc": "Auto-deduct unpaid lunch only on full shifts. Half days keep their hours, and workers can flag 'no lunch today'."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "From paper timecards to paid in 3 steps",
+      "steps": {
+        "invite": {
+          "title": "Invite your team",
+          "desc": "Add employees and send portal invitations by email in seconds."
+        },
+        "clock": {
+          "title": "Workers clock in & out",
+          "desc": "From the job site, with a photo and GPS automatically captured."
+        },
+        "pay": {
+          "title": "Run payroll",
+          "desc": "Approved hours flow into payroll. Taxes calculated. Pay stubs delivered."
+        }
+      },
+      "sub": "Three steps from the job site to a paid team — no spreadsheets, no chasing timesheets."
+    },
+    "mobile": {
+      "title": "Designed for the job site",
+      "sub": "Workers don't need to download anything. The MyJova portal works on any modern phone browser — even on slow 4G.",
+      "bullets": {
+        "clock": "Clock in and out with one tap",
+        "history": "See past shifts and totals",
+        "paystubs": "View pay stubs anytime",
+        "geofence": "Get alerted if you're outside the worksite"
+      }
+    },
+    "pricing": {
+      "title": "Simple pricing",
+      "sub": "Start free. Then a small monthly base + pay only for active workers.",
+      "mostPopular": "Most popular",
+      "ctaStart": "Start free trial",
+      "ctaSales": "Talk to sales",
+      "footer": "All plans include a 30-day free trial. Cancel anytime.",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "currencyHint": "Prices in {currency} · detected location: {country}",
+      "plusPerWorker": "+ {price} per active worker / mo"
+    },
+    "comparison": {
+      "title": "How MyJova compares",
+      "sub": "Side-by-side with the most popular payroll and time-tracking apps.",
+      "disclaimer": "Trademarks are property of their respective owners. Comparison reflects publicly available pricing and feature sets as of 2026-05.",
+      "th": {
+        "feature": "Feature"
+      },
+      "rows": {
+        "clockInPhoto": "Clock in with photo proof",
+        "geofence": "GPS geofence alerts",
+        "payrollUS": "US federal payroll",
+        "payrollCA": "Canada payroll (T4/T4A/ROE)",
+        "w2_1099": "W-2 / 1099-NEC year-end",
+        "spanish": "Spanish UI for workers",
+        "french": "French UI (Quebec ready)",
+        "smallBizPricing": "Starting price",
+        "mobileApp": "Mobile-first portal",
+        "apiAccess": "Public REST API"
+      }
+    },
+    "roi": {
+      "badge": "Free calculator",
+      "title": "See how much you'll save",
+      "sub": "Adjust the sliders to estimate your monthly savings vs paper timesheets and Excel.",
+      "inputs": {
+        "employees": "Employees",
+        "hoursPerWeek": "Hours per week / employee",
+        "hourlyRate": "Average hourly rate"
+      },
+      "results": {
+        "monthly": "You save per month",
+        "yearly": "Yearly savings",
+        "hoursReclaimed": "{hours} hours/month of admin reclaimed",
+        "planCost": "MyJova cost: {cost}/month",
+        "roi": "{roi}% ROI on MyJova"
+      },
+      "disclaimer": "Estimates based on 12 min/employee/day of manual tracking + 2% payroll error rate (APA 2024 reports)."
+    },
+    "video": {
+      "title": "See MyJova in action",
+      "sub": "A 90-second tour of clock in, payroll and tax forms.",
+      "play": "Play demo video",
+      "duration": "0:00 / 1:32",
+      "comingSoonTitle": "Demo video coming soon",
+      "comingSoonBody": "We're recording a fresh walkthrough. In the meantime, jump straight into the live preview from the dashboard."
+    },
+    "testimonials": {
+      "title": "Trusted by teams in the field",
+      "sub": "Stories from contractors and restaurants using MyJova every day.",
+      "prev": "Previous",
+      "next": "Next",
+      "disclaimer": "Names and companies shown are representative examples while we collect signed customer testimonials.",
+      "quotes": {
+        "construction": "Before MyJova my foremen texted me hours on Sundays. Now everything's tagged with photo and GPS. Payroll takes 20 minutes instead of all weekend.",
+        "restaurants": "Three locations, 40 staff. The kitchen clocks in from one tablet, servers from their phones. No more rounding fights when we close out tips.",
+        "trades": "Geofence alerts caught two helpers padding time on a job 30 miles from the site. Paid for the year in one week.",
+        "painting": "I run a 12-person crew. The Spanish portal was the dealbreaker — workers actually use it without me explaining it ten times.",
+        "cleaning": "Year-end W-2s used to take my CPA a whole weekend. With MyJova they're already prepared by January 5.",
+        "landscaping": "Mobile clock in saved me from buying biometric punch clocks for every truck. ROI in month one."
+      }
+    },
+    "integrations": {
+      "title": "Plays nice with your stack",
+      "footer": "Direct API integrations with these tools are rolling out in 2026."
+    },
+    "useCases": {
+      "title": "Built for the way you actually work",
+      "sub": "Choose your industry to see how MyJova fits your daily flow.",
+      "benefitsLabel": "What you get",
+      "industries": {
+        "construction": {
+          "label": "Construction",
+          "headline": "From foundation to final invoice",
+          "story": "Crews show up at different sites every week. MyJova ties every hour to a geo-tagged worksite so you can bill projects accurately and prove compliance during a DOL audit.",
+          "benefits": [
+            "Per-project hour tagging for accurate job costing",
+            "Geofenced clock in with photo proof for every shift",
+            "Daily, hourly and 1099 subcontractor payment in one app",
+            "Tax forms ready for W-2 + 1099-NEC at year end"
+          ]
+        },
+        "restaurants": {
+          "label": "Restaurants",
+          "headline": "FOH, BOH, multi-location",
+          "story": "Kitchen on a tablet, servers on phones. Tip pools and tip credits handled in the payroll engine. Daily sales pulled in for percent-of-sales commission roles.",
+          "benefits": [
+            "Tip pool / declared tips fields built into time entries",
+            "Multi-location switch in one tap",
+            "FICA tip credit calculated automatically",
+            "Schedule-aware overtime warnings"
+          ]
+        },
+        "trades": {
+          "label": "Trades",
+          "headline": "Plumbing, HVAC, electrical",
+          "story": "Tech rolls between calls all day. Auto clock-out at the last service stop. Per-call notes attached to the time entry for downstream invoicing.",
+          "benefits": [
+            "Per-call time + materials capture",
+            "Mileage between jobs tracked from GPS pings",
+            "Customer-facing invoices in the same time entry",
+            "Truck-as-worksite geofence presets"
+          ]
+        },
+        "painting": {
+          "label": "Painting",
+          "headline": "Crews split across 3-4 jobs a day",
+          "story": "Workers move from a residential interior in the morning to a commercial site in the afternoon. Each clock-in tags the right project so estimates stay accurate.",
+          "benefits": [
+            "Multi-project tagging in a single shift",
+            "Bilingual workflow (Spanish-first option)",
+            "Photo evidence of completed prep work",
+            "Daily pay scheme for short jobs"
+          ]
+        },
+        "cleaning": {
+          "label": "Cleaning",
+          "headline": "Janitorial, residential, commercial",
+          "story": "Crews work overnight in shifts of 2-3 people. Clock in/out at building entry, photo of completed checklist required by enterprise clients.",
+          "benefits": [
+            "Shift-based scheduling support",
+            "Checklist photo attached to time entry",
+            "Per-building hourly differential",
+            "Weekly payroll runs default"
+          ]
+        },
+        "landscaping": {
+          "label": "Landscaping",
+          "headline": "Seasonal crews, route-based",
+          "story": "Crews run a route of 8-12 properties per day. Quick clock in at each stop captures arrival, departure and a property photo.",
+          "benefits": [
+            "Quick stop-based punches without leaving the app",
+            "Per-property time totals for accurate billing",
+            "Crew leader can clock in their team in one tap",
+            "Seasonal H-2B worker forms ready at year end"
+          ]
+        }
+      }
+    },
+    "mobileShowcase": {
+      "title": "Workers love it on day one",
+      "sub": "No app store install. Works on every phone with a browser. The full portal in three taps.",
+      "mockCta": "Clock in",
+      "mockLocationOk": "On site · GPS accurate to 4m",
+      "mockLastPaystub": "Last pay stub",
+      "mockYtd": "Year-to-date earnings",
+      "mockHourlyRole": "Hourly · $28/h",
+      "mockProfilePay": "Payment details",
+      "mockProfileTaxes": "Tax info",
+      "mockProfileLang": "Language",
+      "screens": {
+        "clock": {
+          "label": "Clock in",
+          "title": "One-tap clock in",
+          "desc": "Photo + GPS captured automatically. Geofence warning if outside the worksite.",
+          "color": "primary"
+        },
+        "history": {
+          "label": "History",
+          "title": "See every shift",
+          "desc": "Daily totals, edits, approvals — workers always know where they stand.",
+          "color": "emerald"
+        },
+        "paystubs": {
+          "label": "Pay stubs",
+          "title": "Pay stubs in their pocket",
+          "desc": "PDF downloads, year-to-date totals, deductions explained line by line.",
+          "color": "purple"
+        },
+        "profile": {
+          "label": "Profile",
+          "title": "Self-service profile",
+          "desc": "Update tax info, banking and language without HR involvement.",
+          "color": "orange"
+        }
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": {
+        "card": {
+          "q": "Do I need a credit card to start?",
+          "a": "No. You can start a 30-day free trial without a card. We only charge if you decide to keep using MyJova."
+        },
+        "noEmail": {
+          "q": "What if my workers don't have email?",
+          "a": "In the current version, each worker needs an email to receive their portal invitation. We're adding PIN-based access for shared kiosks in a future release."
+        },
+        "states": {
+          "q": "Which states are supported for tax withholding?",
+          "a": "Federal US withholding (IRS Pub 15-T 2026) is fully supported. State withholding is currently zero for all states — we're rolling out state-by-state, prioritizing CA, NY, TX, FL, IL."
+        },
+        "filing": {
+          "q": "Does MyJova file taxes for me?",
+          "a": "MyJova generates the W-2 and 1099-NEC PDFs. The official filing with IRS / SSA is still manual today. Direct e-filing integration is on our 2026 roadmap."
+        },
+        "secure": {
+          "q": "Is my data secure?",
+          "a": "Yes. We use Supabase with Row Level Security at the database, encrypted at rest, and strict multi-tenancy isolation. No company can see another's data."
+        },
+        "cancel": {
+          "q": "Can I cancel anytime?",
+          "a": "Yes. No contracts, no minimum commitment. Cancel from the billing page in one click."
+        }
+      }
+    },
+    "finalCta": {
+      "badge": "Ready when you are",
+      "title": "Ready to simplify payroll?",
+      "sub": "Join the small businesses tracking time and paying their teams with MyJova.",
+      "cta": "Start free trial",
+      "demo": "or explore the live preview →",
+      "microcopy": "30-day free trial · No credit card required"
+    },
+    "footer": {
+      "tagline": "Payroll and time tracking for contractors and restaurants in the US and Canada.",
+      "product": "Product",
+      "company": "Company",
+      "resources": "Resources",
+      "about": "About",
+      "contact": "Contact",
+      "legal": "Legal",
+      "docs": "Docs",
+      "status": "Status",
+      "changelog": "Changelog",
+      "copyright": "© 2026 MyJova. All rights reserved.",
+      "newsletterPlaceholder": "your@email.com",
+      "newsletterCta": "Subscribe",
+      "newsletterSuccess": "Thanks! We'll keep you posted."
+    }
+  },
+  "production": {
+    "title": "Production",
+    "subtitle": "Record piece-rate output and approve it for payroll.",
+    "recordTitle": "Record production",
+    "employee": "Employee",
+    "date": "Date",
+    "quantity": "Quantity",
+    "unitLabel": "Unit",
+    "ratePerUnit": "Rate per unit ($)",
+    "rateHint": "Defaults to scheme rate",
+    "record": "Record",
+    "recent": "Recent entries",
+    "empty": "No production entries yet.",
+    "noEmployees": "No piece-rate employees yet. Add an employee with a \"Piece rate\" pay scheme to record production.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "status": {
+      "open": "Open",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "edited": "Edited"
+    }
+  },
+  "industry": {
+    "types": {
+      "general": "General",
+      "construction": "Construction",
+      "restaurant": "Restaurant",
+      "retail": "Retail",
+      "cleaning": "Cleaning",
+      "landscaping": "Landscaping",
+      "manufacturing": "Manufacturing",
+      "healthcare": "Healthcare",
+      "transportation": "Transportation"
+    }
+  },
+  "settings": {
+    "general": {
+      "title": "General",
+      "subtitle": "Industry and organization defaults.",
+      "industry": "Industry",
+      "recommendedPay": "Recommended pay types",
+      "suggestions": "Suggested setup",
+      "setUp": "Set up",
+      "nudges": {
+        "kiosk": "Set up a tablet kiosk for shared check-in",
+        "worksites": "Define your worksites",
+        "geofence": "Enable geofence on check-in",
+        "production": "Record piece-rate production",
+        "tips": "Track employee tips"
+      }
+    }
+  },
+  "paystub": {
+    "back": "Back",
+    "payDate": "Pay date",
+    "net": "Net pay",
+    "gross": "Gross pay",
+    "earnings": "Earnings",
+    "deductions": "Taxes & deductions",
+    "noDeductions": "No deductions",
+    "download": "Download PDF"
+  },
+  "kiosk": {
+    "pairTitle": "Pair this tablet",
+    "pairPrompt": "Enter the pairing code from your admin panel",
+    "pair": "Pair",
+    "pairHint": "Generate a code in Settings → Devices",
+    "title": "Time clock",
+    "noEmployees": "No active employees",
+    "noPin": "No PIN",
+    "enterPin": "Enter your 4-digit PIN",
+    "takePhoto": "Take a photo to clock in or out",
+    "cameraHint": "Center your face",
+    "confirm": "Confirm",
+    "clockedIn": "Clocked in",
+    "clockedOut": "Clocked out",
+    "outsideGeofence": "Outside the worksite area",
+    "tryAgain": "Try again",
+    "unpairConfirm": "Unpair this tablet? You will need a new code to set it up again.",
+    "deleteDigit": "Delete"
+  },
+  "devices": {
+    "title": "Devices & kiosk",
+    "subtitle": "Set up tablet kiosks and employee PINs for shared check-in.",
+    "pairTablet": "Pair a tablet",
+    "worksite": "Worksite",
+    "deviceName": "Device name",
+    "generateCode": "Generate code",
+    "codeReady": "Open the kiosk URL on the tablet and enter this code:",
+    "codeExpires": "This code expires in 15 minutes.",
+    "openKiosk": "Open kiosk",
+    "noWorksites": "Create a worksite first to bind a kiosk to it.",
+    "devicesList": "Paired devices",
+    "noDevices": "No devices yet.",
+    "active": "Active",
+    "inactive": "Inactive",
+    "lastSeen": "Last seen",
+    "never": "Never connected",
+    "deactivate": "Deactivate",
+    "confirmDelete": "Delete this device?",
+    "employeePins": "Employee PINs",
+    "pinsHint": "Employees need a 4-digit PIN to clock in at the kiosk.",
+    "hasPin": "PIN set",
+    "noPin": "No PIN",
+    "setPin": "Set PIN",
+    "changePin": "Change PIN",
+    "clearPin": "Remove",
+    "noEmployees": "No active employees."
+  },
+  "quickbooks": {
+    "desc": "Sync payroll to QuickBooks as journal entries, or export IIF/CSV.",
+    "planTag": "Advanced",
+    "upgrade": "Upgrade to connect",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "serverNote": "Online sync needs Intuit keys on the server. File export (IIF/CSV) works now.",
+    "connect": "Connect QuickBooks",
+    "disconnect": "Disconnect",
+    "syncEmployees": "Sync employees",
+    "lastSync": "Last sync",
+    "accountMapping": "Account mapping",
+    "mappingHint": "Paste the QuickBooks account IDs to post journal entries to.",
+    "recentRuns": "Recent payroll runs",
+    "noRuns": "No payroll runs yet.",
+    "sync": "Sync"
+  },
+  "schedule": {
+    "title": "Schedule",
+    "subtitle": "Plan shifts, publish them, and fill open shifts.",
+    "myTitle": "My schedule",
+    "addShift": "Add shift",
+    "publish": "Publish",
+    "totalHours": "Hours",
+    "shifts": "Shifts",
+    "open": "Open",
+    "projectedCost": "Est. cost",
+    "employee": "Employee",
+    "worksite": "Worksite",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "role": "Role",
+    "openShift": "Open shift",
+    "draft": "Draft",
+    "upcoming": "Upcoming shifts",
+    "noShifts": "No upcoming shifts.",
+    "swap": "Swap",
+    "swapRequested": "Swap requested",
+    "openShifts": "Open shifts",
+    "noOpen": "No open shifts.",
+    "claim": "Take it",
+    "claimed": "Shift claimed"
+  },
+  "timeOff": {
+    "title": "Time off",
+    "subtitle": "Approve requests and manage policies.",
+    "myTitle": "My time off",
+    "pending": "Pending requests",
+    "noPending": "No pending requests.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "policies": "Policies",
+    "policyName": "Policy name",
+    "type": "Type",
+    "paid": "Paid",
+    "unpaidTag": "Unpaid",
+    "noPolicies": "No policies yet.",
+    "history": "History",
+    "request": "Request time off",
+    "policy": "Policy",
+    "from": "From",
+    "to": "To",
+    "hours": "Hours",
+    "reason": "Reason",
+    "submit": "Submit request",
+    "myRequests": "My requests",
+    "noRequests": "No requests yet.",
+    "types": {
+      "vacation": "Vacation",
+      "sick": "Sick",
+      "personal": "Personal",
+      "unpaid": "Unpaid",
+      "other": "Other"
+    },
+    "status": {
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "Upload documents and collect e-signatures.",
+    "myTitle": "My documents",
+    "name": "Name",
+    "kind": "Type",
+    "assignTo": "Assign to",
+    "everyone": "Everyone",
+    "file": "File (PDF)",
+    "requireSignature": "Require signature",
+    "upload": "Upload",
+    "library": "Document library",
+    "empty": "No documents yet.",
+    "none": "No documents.",
+    "signed": "Signed",
+    "sign": "Sign",
+    "signTitle": "Sign document",
+    "yourName": "Type your full name",
+    "clear": "Clear",
+    "confirmSign": "Sign",
+    "legalNote": "By signing you agree this is your electronic signature.",
+    "kinds": {
+      "offer_letter": "Offer letter",
+      "handbook": "Handbook",
+      "policy": "Policy",
+      "tax_form": "Tax form",
+      "id_doc": "ID",
+      "contract": "Contract",
+      "other": "Other"
+    }
+  },
+  "tips": {
+    "title": "Tips",
+    "subtitle": "Record tips and distribute pools — they flow into payroll.",
+    "record": "Record a tip",
+    "employee": "Employee",
+    "date": "Date",
+    "amount": "Amount",
+    "source": "Source",
+    "add": "Add",
+    "pool": "Tip pool",
+    "total": "Total",
+    "method": "Method",
+    "byHours": "By hours",
+    "equal": "Equal",
+    "distribute": "Distribute",
+    "recent": "Recent tips",
+    "empty": "No tips yet.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "sources": {
+      "card": "Card",
+      "cash": "Cash",
+      "pool": "Pool",
+      "declared": "Declared"
+    },
+    "status": {
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    }
+  },
+  "square": {
+    "desc": "Pull daily tip totals from Square to distribute.",
+    "serverNote": "Needs Square keys on the server. Tips still work manually.",
+    "connect": "Connect Square",
+    "tipTotals": "Tip totals by day",
+    "from": "From",
+    "to": "To",
+    "pull": "Get totals",
+    "mockNote": "Demo data (Square not connected).",
+    "noTips": "No tips in range.",
+    "distributeHint": "Use these totals in the Tip pool tool to distribute."
+  },
+  "bank": {
+    "myTitle": "Direct deposit",
+    "title": "Payments & direct deposit",
+    "subtitle": "Company bank account + ACH (NACHA) file generation.",
+    "routing": "Routing number",
+    "account": "Account number",
+    "accountType": "Account type",
+    "save": "Save",
+    "saved": "Saved",
+    "onFile": "On file",
+    "secureNote": "Your bank info is encrypted and only used to pay you.",
+    "companyAccount": "Company bank account",
+    "companyName": "Company name (on the account)",
+    "companyId": "Company ID (NACHA)",
+    "encNote": "Set ENCRYPTION_KEY on the server to store bank info.",
+    "achTitle": "ACH file (direct deposit)",
+    "achHint": "Generate a NACHA file per payroll run to upload to your bank.",
+    "noRuns": "No payroll runs yet.",
+    "downloadAch": "Download ACH",
+    "missingNote": "{n} employee(s) skipped (no bank account).",
+    "types": {
+      "checking": "Checking",
+      "savings": "Savings"
+    }
+  },
+  "jobs": {
+    "title": "Jobs & certified payroll",
+    "subtitle": "Track projects, job costs, and generate WH-347.",
+    "name": "Job name",
+    "worksite": "Worksite",
+    "contract": "Contract #",
+    "prevailing": "Prevailing wage",
+    "list": "Jobs",
+    "empty": "No jobs yet.",
+    "noWorksite": "No worksite linked"
+  },
+  "team": {
+    "title": "Team & announcements",
+    "subtitle": "Post announcements and chat with your team.",
+    "myTitle": "Team",
+    "announcements": "Announcements",
+    "announceTitle": "Title",
+    "announceBody": "Message",
+    "post": "Post",
+    "noAnnouncements": "No announcements.",
+    "markRead": "Got it",
+    "board": "Message board",
+    "writeMessage": "Write a message…",
+    "noMessages": "No messages yet."
+  },
+  "deductions": {
+    "title": "Benefits & deductions",
+    "subtitle": "Recurring deductions (health, 401k…) feed each payroll run.",
+    "employee": "Employee",
+    "label": "Label",
+    "code": "Code",
+    "amount": "Amount",
+    "preTax": "Pre-tax",
+    "current": "Current deductions",
+    "none": "No deductions for this employee."
+  },
+  "departments": {
+    "title": "Departments",
+    "subtitle": "Organize employees into teams.",
+    "list": "Departments",
+    "none": "No departments yet.",
+    "assign": "Assign employees"
+  },
+  "profileEdit": {
+    "edit": "Edit my contact info",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "region": "State",
+    "postal": "ZIP"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to MyJova 👋",
+      "body": "Let’s get your company set up. Take a quick 60-second tour or jump right in.",
+      "start": "Start tour",
+      "skip": "Skip for now"
+    },
+    "checklist": {
+      "title": "Get started",
+      "subtitle": "Complete these steps to set up your company.",
+      "dismiss": "Dismiss checklist",
+      "takeTour": "Take the tour",
+      "steps": {
+        "addEmployee": "Add your first employee",
+        "addWorksite": "Add a worksite",
+        "runPayroll": "Run your first payroll",
+        "inviteTeam": "Invite your team"
+      }
+    },
+    "tour": {
+      "skip": "Skip",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "actions": {
+        "title": "Quick actions",
+        "body": "Add employees, run payroll, and review time right from here."
+      },
+      "kpis": {
+        "title": "Your key metrics",
+        "body": "A live snapshot of your team — who’s active, who’s working, and what needs attention."
+      },
+      "activity": {
+        "title": "Live activity",
+        "body": "See who’s clocked in on the map, with geofence flags for anything unusual."
+      },
+      "nav": {
+        "title": "Navigate everywhere",
+        "body": "Use the sidebar to reach scheduling, documents, reports, settings and more."
+      }
+    }
+  },
+  "subscription": {
+    "trialExpired": "Your free trial has ended. Core actions are paused until you pick a plan.",
+    "inactive": "Your subscription is not active. Core actions are paused.",
+    "choosePlan": "Choose a plan",
+    "trialEndingSoon": "Your trial ends in {days, plural, one {# day} other {# days}}."
+  },
+  "subcontractors": {
+    "subtitle": "Hierarchy of subcontractors. Hours are tracked per worker; payment rolls up into one check to the top-level subcontractor.",
+    "settlementTitle": "Subcontractor settlement — one check per top-level sub",
+    "settlementHint": "Each total includes the workers of that subcontractor AND of its nested subs. Pay the total; the breakdown shows how to distribute.",
+    "worker": "Worker",
+    "hours": "Hours",
+    "payWorker": "Pay worker",
+    "billed": "Billed",
+    "margin": "Margin",
+    "subtotal": "Subtotal (billed)",
+    "marginTotal": "Your margin",
+    "invoice": "Invoice"
+  },
+  "myHours": {
+    "title": "My hours",
+    "weekOf": "Week of {start} – {end}",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "total": "Total",
+    "openShift": "in progress",
+    "submit": "Close week & request pay",
+    "submitting": "Sending...",
+    "resubmit": "Resubmit week",
+    "submitNote": "Note for your manager (optional)",
+    "submitHint": "You are closing this week with {total}. Your manager will review it and approve it for payroll.",
+    "submittedBanner": "Week submitted — pending review",
+    "submittedOn": "Submitted {date}",
+    "approvedBanner": "Week approved",
+    "approvedHint": "It will be included in the next payroll.",
+    "rejectedBanner": "Week returned",
+    "rejectedNoNote": "Review it and resubmit.",
+    "blockedOpenEntry": "Close your current shift before closing the week.",
+    "blockedNoHours": "No hours this week yet.",
+    "rejectedNotCounted": "{total} rejected (not counted)",
+    "manualTitle": "Forgot to clock in? Report missed hours",
+    "manualHint": "Your manager will review this manual entry before it counts for payroll.",
+    "manualDate": "Date",
+    "manualReason": "What happened? (required)",
+    "manualSubmit": "Send for approval",
+    "manualSent": "Sent — your manager will review it."
+  },
+  "timesheets": {
+    "title": "Pay requests (closed weeks)",
+    "weekOf": "Week {range}",
+    "entriesCount": "{count} entries",
+    "approveWeek": "Approve week",
+    "returnWeek": "Return",
+    "returnPrompt": "Why are you returning this week?",
+    "returned": "Returned",
+    "approveHint": "Approving a week approves all its pending entries for payroll."
+  },
+  "contractor": {
+    "navCrew": "My crew",
+    "navSettlements": "Settlements",
+    "notLinked": "Account not linked",
+    "notLinkedHint": "Your login is not linked to a contractor yet. Ask the company to re-invite you.",
+    "crewTitle": "My crew",
+    "weekHours": "Hours this week",
+    "weekBilled": "Billed (est.)",
+    "weekMargin": "Margin (est.)",
+    "estimateHint": "Estimates from this week so far — final numbers come with each payroll settlement.",
+    "youPay": "You pay",
+    "youBill": "You bill",
+    "margin": "Margin",
+    "noCrew": "No workers assigned to you yet.",
+    "settlementsTitle": "My settlements",
+    "payDate": "Pay date",
+    "paid": "Paid",
+    "approved": "Approved",
+    "subtotal": "Billed subtotal",
+    "checkTotal": "Check total",
+    "youPayCrew": "You pay your crew",
+    "yourMargin": "Your margin",
+    "noSettlements": "No settlements yet. They appear when the company approves a payroll that includes your crew.",
+    "pdf": "PDF",
+    "helpLink": "How does my portal work? Read the quick guide",
+    "liveEstimate": "Live estimate (runs approved before frozen records existed).",
+    "annualTitle": "Annual income report — {year}",
+    "annualBilled": "Billed (income)",
+    "annualHst": "HST collected",
+    "annualChecks": "Checks received ({count})",
+    "annualPaidCrew": "Paid to your crew (expenses)",
+    "annualMargin": "Margin for the year",
+    "csvYear": "Download CSV {year}",
+    "invoicePdf": "Invoice (PDF)"
+  },
+  "guide": {
+    "title": "Getting-started guide",
+    "sub": "How MyJova works for each profile — share it with anyone joining your team.",
+    "askManager": "Questions? Ask your manager or the company admin.",
+    "sections": {
+      "company": "For the company",
+      "worker": "For workers",
+      "contractor": "For contractors"
+    },
+    "company": {
+      "intro": "From zero to your first payroll in seven steps.",
+      "s1": {
+        "t": "Set up your organization",
+        "d": "Settings → General: timezone, unpaid lunch policy (e.g. 30 min once a shift reaches 6 h) and whether you pay contractors."
+      },
+      "s2": {
+        "t": "Create your worksites",
+        "d": "Address + geofence radius. Clock-ins outside the area get flagged for your review."
+      },
+      "s3": {
+        "t": "Add your team",
+        "d": "Employees with their pay scheme (hourly, daily, salary, commission or piece-rate) and invite them by email — or pair a tablet as a PIN kiosk."
+      },
+      "s4": {
+        "t": "They clock, you approve",
+        "d": "Every shift comes with photo + GPS. Review hours in Time tracking and approve entries — or whole weeks when workers close them."
+      },
+      "s5": {
+        "t": "Run payroll",
+        "d": "Pick the period and employees. The engine computes overtime, taxes and net pay; approve and mark it paid."
+      },
+      "s6": {
+        "t": "Pay stubs & tax forms",
+        "d": "Everyone downloads their own stub; W-2 and 1099-NEC generate at year end."
+      },
+      "s7": {
+        "t": "Paying contractors?",
+        "d": "Turn the module on, set per-worker bill rates, and each payroll produces one consolidated check per top contractor with HST and a full breakdown. Invite them to their portal."
+      }
+    },
+    "worker": {
+      "intro": "Everything you do fits in your phone.",
+      "s1": {
+        "t": "Accept your invitation",
+        "d": "You get an email — create your password and sign in from your phone."
+      },
+      "s2": {
+        "t": "Clock in",
+        "d": "One big button: selfie + location. On sites with a tablet, type your PIN at the kiosk."
+      },
+      "s3": {
+        "t": "Clock out when you leave",
+        "d": "If you skipped your lunch break, check 'I did not take my lunch' so your full time is paid."
+      },
+      "s4": {
+        "t": "Forgot to clock?",
+        "d": "Fix a forgotten clock-out right from the clock screen, or report the full shift under 'Hours'. Your manager approves it."
+      },
+      "s5": {
+        "t": "Check your hours",
+        "d": "The 'Hours' tab shows your week day by day with each entry's status."
+      },
+      "s6": {
+        "t": "Close your week & request pay",
+        "d": "When your week is done, tap 'Close week & request pay'. Your manager approves it and it goes into payroll."
+      },
+      "s7": {
+        "t": "Get your pay stub",
+        "d": "Under 'Pay' you'll find every stub with the full detail, ready to download as PDF."
+      }
+    },
+    "contractor": {
+      "intro": "Your portal shows only your crew and your money.",
+      "s1": {
+        "t": "Accept the company invitation",
+        "d": "Your login gets linked to your contractor company."
+      },
+      "s2": {
+        "t": "My crew",
+        "d": "Your workers, what you pay them, what you bill the company and your margin per hour — plus this week’s hours."
+      },
+      "s3": {
+        "t": "Your crew clocks with the company",
+        "d": "You don’t run payroll: the company approves hours and pays. You watch it all from your portal."
+      },
+      "s4": {
+        "t": "My settlements",
+        "d": "For each payroll: billed subtotal, HST, your check total, what you pay your crew and your margin — with a PDF for your books."
+      },
+      "s5": {
+        "t": "Privacy built in",
+        "d": "Your workers only ever see THEIR rate. What you bill the company stays between you and the company."
+      }
+    }
+  }
+}

@@ -1,14 +1,27 @@
+const createNextIntlPlugin = require('next-intl/plugin')
+
+// Apunta al archivo de configuración i18n (locales soportados, defaultLocale, etc.).
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  // El lint se corre aparte (`npm run lint`); no bloquea el build de producción
+  // para no romper el deploy por warnings de estilo pre-existentes.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
-    unoptimized: process.env.VERCEL === "1" ? false : true,
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
+    ],
   },
-  env: {
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '4mb',
+    },
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig)

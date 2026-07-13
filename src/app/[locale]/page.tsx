@@ -1,0 +1,64 @@
+import { setRequestLocale } from 'next-intl/server'
+import { LandingHeader } from '@/components/landing/LandingHeader'
+import { Hero } from '@/components/landing/Hero'
+import { TrustBar } from '@/components/landing/TrustBar'
+import { Features } from '@/components/landing/Features'
+import { UseCases } from '@/components/landing/UseCases'
+import { HowItWorks } from '@/components/landing/HowItWorks'
+import { MobileShowcase } from '@/components/landing/MobileShowcase'
+import { ROICalculator } from '@/components/landing/ROICalculator'
+import { Comparison } from '@/components/landing/Comparison'
+import { Testimonials } from '@/components/landing/Testimonials'
+import { IntegrationsLogos } from '@/components/landing/IntegrationsLogos'
+import { PricingTable } from '@/components/landing/PricingTable'
+import { VideoDemo } from '@/components/landing/VideoDemo'
+import { FAQ } from '@/components/landing/FAQ'
+import { FinalCTA } from '@/components/landing/FinalCTA'
+import { LandingFooter } from '@/components/landing/LandingFooter'
+import { getGeoFromHeaders } from '@/lib/geo/country'
+import { bcp47Locale, currencyForCountry } from '@/lib/pricing/currency'
+
+/**
+ * Landing page de MyJova.
+ *
+ * 15 secciones, todas con animaciones premium (framer-motion + GSAP),
+ * 4 locales (EN/ES/FR/FR-CA), competitiva con Gusto/Square/Homebase.
+ *
+ * Geo detection:
+ *   - CA → CAD, US → USD, EU → EUR (PricingTable + ROICalculator)
+ *   - CA-QC → entrada automática en /fr-CA (middleware)
+ */
+export default async function LandingPage({
+  params: { locale },
+}: {
+  params: { locale: string }
+}) {
+  setRequestLocale(locale)
+
+  const geo = getGeoFromHeaders()
+  const currency = currencyForCountry(geo.country)
+  const bcp47 = bcp47Locale(locale)
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      <LandingHeader locale={locale} />
+      <main>
+        <Hero locale={locale} />
+        <TrustBar />
+        <Features />
+        <UseCases />
+        <HowItWorks />
+        <MobileShowcase />
+        <ROICalculator currency={currency} bcp47={bcp47} />
+        <Comparison />
+        <Testimonials />
+        <IntegrationsLogos />
+        <PricingTable locale={locale} />
+        <VideoDemo />
+        <FAQ />
+        <FinalCTA locale={locale} />
+      </main>
+      <LandingFooter locale={locale} />
+    </div>
+  )
+}
