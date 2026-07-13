@@ -6,8 +6,8 @@ Termina los mensajes de commit con `Co-Authored-By: Claude Fable 5 <noreply@anth
 ## Estado global (2026-07-12, sesión 2) — CÓDIGO COMPLETO, INFRA PENDIENTE
 
 **Todo el trabajo de producto está hecho y commiteado.** Gates: typecheck ✅ · lint ✅ ·
-build ✅ · **vitest 141/141 ✅**. Git limpio. **68 migraciones** (`db:push` aplica hasta
-`20260501000034`). **Próximo timestamp libre: `20260501000035`.**
+build ✅ · **vitest 141/141 ✅**. Git limpio. **72 migraciones** aplicadas al Supabase real (ref gfexbpsxmhisozzgwcsw, org MyJova Pro).
+**Próximo timestamp libre: `20260501000038`.**
 
 Sprints completados (todos en esta rama, ver git log):
 | Sprint | Qué | Commits clave |
@@ -68,9 +68,14 @@ margen**, + **HST 13%** sobre lo facturado.
    webhook prod → `<APP_URL>/api/webhooks/stripe` (añadir evento `invoice.payment_failed`).
    Montos CONFIRMADOS: $29+5 / $59+7 / $99+10. Si algún día cambian, sincronizar
    los 3 sitios: Stripe + tabla `plans` (UPDATE) + `src/lib/pricing/plans.ts`.
-4. **Smoke test E2E real (siguiente sesión, en cuanto 1-3 estén)**: signup → onboarding →
-   empleado → fichar → aprobar → nómina → paystub/settlement contra el Supabase vivo.
-   La app NUNCA ha corrido con DB real — espera 3-5 bugs de primera ejecución; arreglarlos.
+4. ~~Smoke test E2E~~ **HECHO (2026-07-12, sesión 3)** contra el Supabase real
+   (ref gfexbpsxmhisozzgwcsw). Verificado por API/DB con auth real: signup→trigger
+   (org+owner+trial 30d+flags), login, hook active_org_id, RLS multi-tenant aislada,
+   precios correctos. **3 bugs de primera ejecución hallados y arreglados** (migración
+   check_plan_feature rename, plans sin RLS, hook grants — commits e2d1470/031a704/17a839f)
+   + 2 de contenido en landing (ce6afcd). La UI no se clickeó (el panel de navegador no
+   teclea en el form controlado — limitación de herramienta, no bug); Juan puede loguearse
+   a mano. Test user borrado, DB de producción limpia.
 5. **Antes de cobrar**: revisión de abogado de `/privacy` + `/terms` (son plantillas) y
    validar una nómina real con contador.
 
