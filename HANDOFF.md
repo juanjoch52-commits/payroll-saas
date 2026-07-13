@@ -3,6 +3,66 @@
 Rama: **`feature/myjova-full-rebuild`**. Commit por fase, gates verdes antes de cada commit.
 Termina los mensajes de commit con `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`.
 
+---
+
+## 🔴 REANUDAR AQUÍ (próxima sesión — 2026-07-12 sesión 3, puesta en línea)
+
+**Dónde estamos**: código 100% completo + **Supabase de producción YA en línea y verificado
+con un smoke test real** (signup→trigger→login→hook→RLS multi-tenant, todo OK; 3 bugs de
+primera ejecución hallados y arreglados). Falta: subir el código a GitHub, Stripe, deploy en
+Vercel, dominio. Gates: typecheck/lint/build ✅ · vitest **141/141**.
+
+### Infra Supabase (HECHA)
+- **Proyecto**: `MyJova` · ref **`gfexbpsxmhisozzgwcsw`** · región **us-east-1** · plan Micro.
+  Org Supabase **MyJova Pro** (id `jwvlfaebpjdpjmwwfvva`, $25/mes). URL
+  `https://gfexbpsxmhisozzgwcsw.supabase.co`.
+  ⚠️ El **conector MCP de Supabase está scoped SOLO a la org MyJova** (no ve la org vieja).
+- **72 migraciones aplicadas** vía MCP `execute_sql` (no hay CLI local ni DB password): en
+  lotes ≤20KB con inserts manuales de historial a `supabase_migrations.schema_migrations`
+  usando las versiones locales → un `db push` futuro las verá aplicadas. **Próximo ts libre:
+  `20260501000038`** (última local: `...037_fix_auth_hook_grants`).
+- **Auth Hook** `custom_access_token_hook` HABILITADO por Juan (Dashboard→Auth→Hooks) ✅.
+- **`.env.local` LLENO** con lo de Supabase: URL, anon key, **service_role**, y
+  **ENCRYPTION_KEY** (generada — Juan debe guardarla en su password manager; sin ella los
+  datos cifrados quedan ilegibles). **FALTA en .env.local**: Stripe (6), Resend, Mapbox.
+- Smoke test user borrado → **DB de producción limpia (0 users, 0 orgs)**: el 1er signup de
+  Juan será el primero real. Tras ese signup: insertarlo en `platform_admins` (SQL) para /admin.
+
+### 3 bugs de primera ejecución arreglados (commits en la rama)
+1. `check_plan_feature` renombraba params en `create or replace` (42P13) — `e2d1470`.
+2. Tabla `plans` sin RLS desde enero (editable con anon key) — `031a704` (migración ...036).
+3. **El Auth Hook rompía TODO el login** ("Error running hook URI"): regresión de mi ...036
+   que revocó `EXECUTE` de `user_org_ids` de PUBLIC y `supabase_auth_admin` (que corre el
+   hook) lo perdió — `17a839f` (migración ...037). **Lección: NUNCA revocar de PUBLIC los
+   helpers SECURITY DEFINER que invocan las RLS policies.** + 2 bugs de landing (`ce6afcd`).
+
+### ⏭️ PRÓXIMOS PASOS (en orden; Juan debe autorizar el push y el deploy)
+1. **Push a GitHub** — **88 commits SIN PUSH** en `feature/myjova-full-rebuild`. Repo
+   `github.com/juanjoch52-commits/payroll-saas` (remote `origin`, HTTPS). Actualiza el PR #1.
+   *No hacer push sin OK explícito de Juan (actualiza repo público).*
+2. **Stripe** — crear 3 productos con **2 precios recurrentes mensuales c/u** (base flat +
+   seat licensed, NO metered): $29+5 / $59+7 / $99+10 → 6 env `STRIPE_PRICE_<PLAN>_{BASE,SEAT}`
+   + `STRIPE_SECRET_KEY` + publishable + webhook secret (endpoint prod
+   `<APP_URL>/api/webhooks/stripe`, añadir evento `invoice.payment_failed`). Ver MANUAL_STEPS §3.
+3. **Vercel** — la app está DUPLICADA en 2 proyectos del team **"Juan's projects"**
+   (`team_lYNy3fAjAtNaqT98TczsNam1`): **`myjova`** (`prj_28lvNlFUYdCpyEjUHmqiUPNlwgLH`,
+   linkeado a `.vercel/project.json`, tiene dominio `myjova.vercel.app`) y **`payroll-saas`**
+   (`prj_8eQQrCzuA2dvHBARIEHh7SMQk9PZ`, conectado al repo GitHub). Ambos con deploy de MAYO,
+   ninguno con el código actual. **Plan: consolidar en `myjova`, conectarle GitHub, cargar
+   env vars, deploy prod, y borrar `payroll-saas`.** Vercel **Pro $20/mes** para uso comercial.
+4. **Dominio** — `myjova.com` LIBRE ~$11.25/año en Vercel (aún sin comprar).
+5. **Resend** — verificar dominio `myjova.com` tras comprarlo → `RESEND_API_KEY` + `RESEND_FROM_EMAIL`.
+
+### Gotchas de herramientas (para no perder tiempo)
+- El **panel de navegador NO logra teclear** en el form de login (inputs controlados de React
+  se resetean con las recompilaciones de Next dev). No es bug de la app — un teclado humano
+  funciona. Para verificar UI autenticada: pedir a Juan que se loguee, o testear por API/REST
+  con el JWT (como se hizo el smoke test: signup admin API + query REST con Bearer = prueba RLS).
+- Migraciones nuevas: aplicarlas por MCP `execute_sql` (ALTER TYPE ADD VALUE en statement propio)
+  + insert manual a `supabase_migrations.schema_migrations`.
+
+---
+
 ## Estado global (2026-07-12, sesión 2) — CÓDIGO COMPLETO, INFRA PENDIENTE
 
 **Todo el trabajo de producto está hecho y commiteado.** Gates: typecheck ✅ · lint ✅ ·
