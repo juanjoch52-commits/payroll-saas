@@ -422,7 +422,8 @@
           "title": "Run payroll",
           "desc": "Approved hours flow into payroll. Taxes calculated. Pay stubs delivered."
         }
-      }
+      },
+      "sub": "Three steps from the job site to a paid team — no spreadsheets, no chasing timesheets."
     },
     "mobile": {
       "title": "Designed for the job site",

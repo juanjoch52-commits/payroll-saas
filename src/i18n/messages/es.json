@@ -422,7 +422,8 @@
           "title": "Corre la nómina",
           "desc": "Las horas aprobadas entran a la nómina. Impuestos calculados. Recibos generados."
         }
-      }
+      },
+      "sub": "Tres pasos de la obra al equipo pagado — sin hojas de cálculo ni perseguir partes de horas."
     },
     "mobile": {
       "title": "Diseñado para el sitio de trabajo",

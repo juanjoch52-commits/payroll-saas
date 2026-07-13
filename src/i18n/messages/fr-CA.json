@@ -422,7 +422,8 @@
           "title": "Lancez la paie",
           "desc": "Les heures approuvées alimentent la paie. Les retenues sont calculées. Les bulletins livrés."
         }
-      }
+      },
+      "sub": "Trois étapes du chantier à une équipe payée — sans tableurs ni feuilles de temps à courir après."
     },
     "mobile": {
       "title": "Conçu pour le chantier",

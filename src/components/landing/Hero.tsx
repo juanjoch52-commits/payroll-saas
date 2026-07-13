@@ -121,7 +121,7 @@ export function Hero({ locale }: { locale: string }) {
             </div>
             <div>
               <p className="text-2xl font-bold tabular-nums text-foreground md:text-3xl">
-                14<span className="text-base">d</span>
+                30<span className="text-base">d</span>
               </p>
               <p className="text-xs text-muted-foreground">{t('landing.hero.stats.trial')}</p>
             </div>
