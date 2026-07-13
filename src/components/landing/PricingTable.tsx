@@ -10,20 +10,6 @@ import { PricingTableClient, type PricedPlan } from './PricingTableClient'
 
 const COUNTRY_NAMES: Record<string, string> = {
   CA: 'Canada',
-  US: 'United States',
-  FR: 'France',
-  BE: 'Belgique',
-  CH: 'Suisse',
-  ES: 'España',
-  MX: 'México',
-  AR: 'Argentina',
-  CL: 'Chile',
-  CO: 'Colombia',
-  PE: 'Perú',
-  DE: 'Deutschland',
-  IT: 'Italia',
-  PT: 'Portugal',
-  NL: 'Nederland',
 }
 
 /**
@@ -33,15 +19,20 @@ const COUNTRY_NAMES: Record<string, string> = {
  * src/lib/pricing/plans.ts.
  *
  *   Geo CA → CAD (1 USD ≈ 1.37 CAD)
- *   Geo FR/DE/ES → EUR
- *   Geo otro → USD (default)
+ *   Geo otro → USD (default; mercado US+CA — EUR eliminado 2026-07-12)
+ *
+ * El hint "precios en X · país" solo se muestra cuando hubo conversión
+ * (CAD): mostrar "detected France" con precios USD confundía a visitantes
+ * de mercados que no atendemos.
  */
 export function PricingTable({ locale }: { locale: string }) {
   const geo = getGeoFromHeaders()
   const currency: Currency = currencyForCountry(geo.country)
   const bcp47 = bcp47Locale(locale)
   const countryHint =
-    geo.country && COUNTRY_NAMES[geo.country] ? COUNTRY_NAMES[geo.country] : null
+    currency !== 'USD' && geo.country && COUNTRY_NAMES[geo.country]
+      ? COUNTRY_NAMES[geo.country]
+      : null
 
   const PLANS: Omit<PricedPlan, 'base' | 'perWorker'>[] = [
     { key: 'essential', cta: 'start' },

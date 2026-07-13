@@ -2,7 +2,10 @@
  * Currency conversion + formatting para la landing y dashboards.
  *
  * Los precios "fuente" están en USD. Convertimos al display currency según
- * la geolocación detectada (CA → CAD, EU → EUR, resto → USD).
+ * la geolocación detectada (CA → CAD, resto → USD).
+ *
+ * Mercado atendido: US + Canadá (decisión 2026-07-12 — EUR eliminado; los
+ * visitantes europeos ven USD, igual que el resto del mundo).
  *
  * Para producción a escala se recomienda:
  *   - actualizar `CURRENCY_RATES` desde una API (ECB, OXR) vía cron diario
@@ -11,31 +14,25 @@
  * Para este sprint usamos tipos de cambio estables proyectados 2026.
  */
 
-export type Currency = 'USD' | 'CAD' | 'EUR'
+export type Currency = 'USD' | 'CAD'
 
 /** USD as base = 1. Approximations as of 2026-05. Update via cron in prod. */
 export const CURRENCY_RATES: Record<Currency, number> = {
   USD: 1,
   CAD: 1.37,
-  EUR: 0.92,
 }
 
 /** Display symbol. Avoid bare `$` for non-USD to prevent confusion. */
 export const CURRENCY_SYMBOLS: Record<Currency, string> = {
   USD: '$',
   CAD: 'CA$',
-  EUR: '€',
 }
 
 const FRENCH_SPEAKING_LOCALES = new Set(['fr', 'fr-CA', 'fr-FR'])
 
 export function currencyForCountry(country: string | null | undefined): Currency {
   if (!country) return 'USD'
-  const c = country.toUpperCase()
-  if (c === 'CA') return 'CAD'
-  if (['FR', 'BE', 'CH', 'LU', 'DE', 'ES', 'IT', 'NL', 'PT', 'AT', 'IE', 'GR', 'FI'].includes(c))
-    return 'EUR'
-  return 'USD'
+  return country.toUpperCase() === 'CA' ? 'CAD' : 'USD'
 }
 
 /**

@@ -25,7 +25,7 @@ import { bcp47Locale, currencyForCountry } from '@/lib/pricing/currency'
  * 4 locales (EN/ES/FR/FR-CA), competitiva con Gusto/Square/Homebase.
  *
  * Geo detection:
- *   - CA → CAD, US → USD, EU → EUR (PricingTable + ROICalculator)
+ *   - CA → CAD, resto → USD (PricingTable + ROICalculator; mercado US+CA)
  *   - CA-QC → entrada automática en /fr-CA (middleware)
  */
 export default async function LandingPage({

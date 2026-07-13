@@ -34,8 +34,8 @@ export function ROICalculator({
   const t = useTranslations('landing.roi')
   const [employees, setEmployees] = useState(15)
   const [hoursPerWeek, setHoursPerWeek] = useState(40)
-  // Default hourly rate adjusted to local currency (28 USD ≈ 38 CAD ≈ 26 EUR)
-  const defaultHourly = currency === 'CAD' ? 38 : currency === 'EUR' ? 26 : 28
+  // Default hourly rate adjusted to local currency (28 USD ≈ 38 CAD)
+  const defaultHourly = currency === 'CAD' ? 38 : 28
   const [hourlyRate, setHourlyRate] = useState(defaultHourly)
 
   const savings = useMemo(() => {
@@ -59,7 +59,7 @@ export function ROICalculator({
   }, [employees, hoursPerWeek, hourlyRate, currency])
 
   // Currency symbol for the hourly slider prefix
-  const currencySymbol = currency === 'CAD' ? 'CA$' : currency === 'EUR' ? '€' : '$'
+  const currencySymbol = currency === 'CAD' ? 'CA$' : '$'
 
   return (
     <section id="roi" className="py-16 md:py-24">
