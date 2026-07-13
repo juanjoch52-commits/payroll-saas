@@ -1,7 +1,12 @@
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { Lock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
+import { hasSubcontractorsAccess } from '@/lib/auth/subcontractorsAccess'
 import { PageHeader } from '@/components/ui/page-header'
+import { Button } from '@/components/ui/button'
+import { Callout } from '@/components/ui/callout'
 import { SubcontractorsManager, type SubRow } from '@/components/admin/SubcontractorsManager'
 
 export const dynamic = 'force-dynamic'
@@ -15,6 +20,25 @@ export default async function SubcontractorsPage({
   const session = await requireSession(`/${locale}/login`)
   if (!['owner', 'admin', 'manager'].includes(session.role)) {
     return <p className="p-6 text-destructive">{t('errors.unauthorized')}</p>
+  }
+
+  // Candado por plan: Premium (o trial activo / override). Los datos ya
+  // creados no se pierden — solo se bloquea la gestión hasta subir de plan.
+  if (!(await hasSubcontractorsAccess(session.organizationId))) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          title={t('nav.subcontractors')}
+          description={t('subcontractors.subtitle')}
+        />
+        <Callout variant="warning" icon={Lock} title={t('subcontractors.premiumLock.title')}>
+          <p>{t('subcontractors.premiumLock.body')}</p>
+          <Button asChild size="sm" className="mt-3">
+            <Link href={`/${locale}/billing`}>{t('subcontractors.premiumLock.cta')}</Link>
+          </Button>
+        </Callout>
+      </div>
+    )
   }
 
   const supabase = createClient()

@@ -1081,7 +1081,12 @@
     "margin": "Margen",
     "subtotal": "Subtotal (facturado)",
     "marginTotal": "Tu margen",
-    "invoice": "Factura"
+    "invoice": "Factura",
+    "premiumLock": {
+      "title": "Contratistas es una función Premium",
+      "body": "Tu plan actual no incluye el módulo de subcontratistas. Sube a Premium para gestionar jerarquías de contratistas, tarifas facturadas, liquidaciones consolidadas y facturas. Tus datos existentes están a salvo y te esperan al subir de plan.",
+      "cta": "Ver planes en Billing"
+    }
   },
   "myHours": {
     "title": "Mis horas",

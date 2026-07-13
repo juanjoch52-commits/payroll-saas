@@ -47,6 +47,13 @@ export async function setUsesSubcontractors(
   if (!['owner', 'admin'].includes(session.role)) {
     return { success: false, error: 'No autorizado.' }
   }
+  // Candado Premium: ACTIVAR el módulo requiere trial activo o plan con la
+  // feature (apagar siempre se puede).
+  if (enabled) {
+    const { requireSubcontractorsAccess } = await import('@/lib/auth/subcontractorsAccess')
+    const lockErr = await requireSubcontractorsAccess(session.organizationId)
+    if (lockErr) return lockErr
+  }
   const supabase = createClient()
   const { error } = await supabase
     .from('organizations')

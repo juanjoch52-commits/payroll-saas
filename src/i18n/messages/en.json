@@ -1081,7 +1081,12 @@
     "margin": "Margin",
     "subtotal": "Subtotal (billed)",
     "marginTotal": "Your margin",
-    "invoice": "Invoice"
+    "invoice": "Invoice",
+    "premiumLock": {
+      "title": "Contractors is a Premium feature",
+      "body": "Your current plan does not include the subcontractors module. Upgrade to Premium to manage contractor hierarchies, bill rates, consolidated settlements and invoices. Your existing data is safe and will be right here when you upgrade.",
+      "cta": "View plans in Billing"
+    }
   },
   "myHours": {
     "title": "My hours",

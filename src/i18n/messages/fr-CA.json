@@ -1081,7 +1081,12 @@
     "margin": "Marge",
     "subtotal": "Sous-total (facturé)",
     "marginTotal": "Votre marge",
-    "invoice": "Facture"
+    "invoice": "Facture",
+    "premiumLock": {
+      "title": "Le module Entrepreneurs est une fonction Premium",
+      "body": "Votre forfait actuel n’inclut pas le module de sous-traitants. Passez à Premium pour gérer les hiérarchies d’entrepreneurs, les taux facturés, les règlements consolidés et les factures. Vos données existantes sont en sécurité et vous attendront après la mise à niveau.",
+      "cta": "Voir les forfaits dans Facturation"
+    }
   },
   "myHours": {
     "title": "Mes heures",

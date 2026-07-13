@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { requireSession } from '@/lib/auth/session'
+import { requireSubcontractorsAccess } from '@/lib/auth/subcontractorsAccess'
 
 // =============================================================================
 // Server Actions — Subcontratistas (jerárquicos)
@@ -58,6 +59,8 @@ async function wouldCycle(
 export async function createSubcontractor(input: z.input<typeof subSchema>): Promise<SubResult> {
   const session = await requireSession('/en/login')
   if (!isManager(session.role)) return { success: false, error: 'No autorizado.' }
+  const lockErr = await requireSubcontractorsAccess(session.organizationId)
+  if (lockErr) return lockErr
   const parsed = subSchema.safeParse(input)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
   const d = parsed.data
@@ -111,6 +114,8 @@ export async function inviteContractor(
   if (!['owner', 'admin'].includes(session.role)) {
     return { success: false, error: 'Solo owner/admin pueden invitar contratistas.' }
   }
+  const lockErr = await requireSubcontractorsAccess(session.organizationId)
+  if (lockErr) return lockErr
   const parsed = inviteContractorSchema.safeParse(input)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
   const d = parsed.data
@@ -174,6 +179,8 @@ export async function updateSubcontractor(
 ): Promise<SubResult> {
   const session = await requireSession('/en/login')
   if (!isManager(session.role)) return { success: false, error: 'No autorizado.' }
+  const lockErr = await requireSubcontractorsAccess(session.organizationId)
+  if (lockErr) return lockErr
   const parsed = subSchema.safeParse(input)
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message }
   const d = parsed.data
@@ -206,6 +213,8 @@ export async function updateSubcontractor(
 export async function toggleSubcontractor(id: string, isActive: boolean): Promise<SubResult> {
   const session = await requireSession('/en/login')
   if (!isManager(session.role)) return { success: false, error: 'No autorizado.' }
+  const lockErr = await requireSubcontractorsAccess(session.organizationId)
+  if (lockErr) return lockErr
   const supabase = createClient()
   const { error } = await supabase
     .from('subcontractors')
