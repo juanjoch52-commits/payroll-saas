@@ -5,12 +5,31 @@ Termina los mensajes de commit con `Co-Authored-By: Claude Fable 5 <noreply@anth
 
 ---
 
-## 🔴 REANUDAR AQUÍ (próxima sesión — 2026-07-12 sesión 3, puesta en línea)
+## 🔴 REANUDAR AQUÍ (próxima sesión — 2026-07-12 sesión 4, LIVE en Vercel)
 
-**Dónde estamos**: código 100% completo + **Supabase de producción YA en línea y verificado
-con un smoke test real** (signup→trigger→login→hook→RLS multi-tenant, todo OK; 3 bugs de
-primera ejecución hallados y arreglados). Falta: subir el código a GitHub, Stripe, deploy en
-Vercel, dominio. Gates: typecheck/lint/build ✅ · vitest **141/141**.
+**Dónde estamos**: código 100% completo + Supabase de prod en línea + **la app YA está
+DESPLEGADA y live en https://myjova.vercel.app** (código de esta rama, deploy directo por
+CLI, HTTP 200). Gates: typecheck/lint/build ✅ · vitest **141/141**.
+- **GitHub**: rama `feature/myjova-full-rebuild` **PUSHEADA** (0 commits pendientes). PR #1 al día.
+- **Admin**: `juanjoch52@gmail.com` → platform_admin por allowlist de email (migración
+  `...038`, tabla `platform_admin_emails` + `is_platform_admin()` extendido, APLICADA en prod).
+  Será admin en su PRIMER login, sin insertar a mano en `platform_admins`.
+- **Vercel**: `myjova` = proyecto único, con env de Supabase (URL/anon/service_role),
+  `ENCRYPTION_KEY` y `NEXT_PUBLIC_APP_URL=https://myjova.vercel.app` en Production; conectado
+  al repo GitHub. **PENDIENTE (Juan)**: borrar el proyecto Vercel duplicado `payroll-saas`
+  (`vercel project rm payroll-saas` o dashboard → Settings → Delete). El clasificador bloqueó
+  el borrado automático.
+- **Falta para vender**: Stripe (6 price IDs + secret/publishable/webhook — slots vacíos ya en
+  `.env.local` Y a cargar en Vercel), Resend, Mapbox, dominio `myjova.com`. Ver §"LO ÚNICO QUE FALTA".
+- **Auto-deploy**: la rama productiva de Vercel es `main` (viejo). Para que los pushes
+  auto-desplieguen el código nuevo, **mergear PR #1 → main**. Mientras tanto el deploy por CLI
+  (`vercel --prod`) sirve el código actual.
+- **Cuenta de prueba** `encuestap@gmail.com`: signup normal desde la app (crea su tenant+trial);
+  no requiere setup en DB. Claude no puede crear cuentas/contraseñas por política.
+
+### Estado anterior (sesión 3, puesta en línea de Supabase)
+Código 100% completo + Supabase de producción verificado con smoke test real
+(signup→trigger→login→hook→RLS multi-tenant, todo OK; 3 bugs de primera ejecución arreglados).
 
 ### Infra Supabase (HECHA)
 - **Proyecto**: `MyJova` · ref **`gfexbpsxmhisozzgwcsw`** · región **us-east-1** · plan Micro.
@@ -36,22 +55,22 @@ Vercel, dominio. Gates: typecheck/lint/build ✅ · vitest **141/141**.
    hook) lo perdió — `17a839f` (migración ...037). **Lección: NUNCA revocar de PUBLIC los
    helpers SECURITY DEFINER que invocan las RLS policies.** + 2 bugs de landing (`ce6afcd`).
 
-### ⏭️ PRÓXIMOS PASOS (en orden; Juan debe autorizar el push y el deploy)
-1. **Push a GitHub** — **88 commits SIN PUSH** en `feature/myjova-full-rebuild`. Repo
-   `github.com/juanjoch52-commits/payroll-saas` (remote `origin`, HTTPS). Actualiza el PR #1.
-   *No hacer push sin OK explícito de Juan (actualiza repo público).*
-2. **Stripe** — crear 3 productos con **2 precios recurrentes mensuales c/u** (base flat +
+### ⏭️ PRÓXIMOS PASOS (en orden)
+1. ~~**Push a GitHub**~~ **HECHO (sesión 4)** — rama pusheada, 0 commits pendientes, PR #1 al día.
+2. **Stripe (Juan)** — crear 3 productos con **2 precios recurrentes mensuales c/u** (base flat +
    seat licensed, NO metered): $29+5 / $59+7 / $99+10 → 6 env `STRIPE_PRICE_<PLAN>_{BASE,SEAT}`
    + `STRIPE_SECRET_KEY` + publishable + webhook secret (endpoint prod
-   `<APP_URL>/api/webhooks/stripe`, añadir evento `invoice.payment_failed`). Ver MANUAL_STEPS §3.
-3. **Vercel** — la app está DUPLICADA en 2 proyectos del team **"Juan's projects"**
-   (`team_lYNy3fAjAtNaqT98TczsNam1`): **`myjova`** (`prj_28lvNlFUYdCpyEjUHmqiUPNlwgLH`,
-   linkeado a `.vercel/project.json`, tiene dominio `myjova.vercel.app`) y **`payroll-saas`**
-   (`prj_8eQQrCzuA2dvHBARIEHh7SMQk9PZ`, conectado al repo GitHub). Ambos con deploy de MAYO,
-   ninguno con el código actual. **Plan: consolidar en `myjova`, conectarle GitHub, cargar
-   env vars, deploy prod, y borrar `payroll-saas`.** Vercel **Pro $20/mes** para uso comercial.
-4. **Dominio** — `myjova.com` LIBRE ~$11.25/año en Vercel (aún sin comprar).
+   `https://myjova.vercel.app/api/webhooks/stripe`, añadir evento `invoice.payment_failed`).
+   Ver MANUAL_STEPS §3. **Cargar los 8 valores también en Vercel** (`vercel env add ... production`).
+3. **Vercel** — CONSOLIDADO en **`myjova`** (`prj_28lvNlFUYdCpyEjUHmqiUPNlwgLH`), desplegado y
+   live con env de Supabase + conectado a GitHub. **PENDIENTE (Juan)**: borrar el duplicado
+   `payroll-saas` (`prj_8eQQrCzuA2dvHBARIEHh7SMQk9PZ`) — `vercel project rm payroll-saas` o
+   dashboard. Vercel **Pro $20/mes** para uso comercial.
+4. **Dominio** — `myjova.com` LIBRE ~$11.25/año en Vercel (aún sin comprar). Tras comprarlo:
+   actualizar `NEXT_PUBLIC_APP_URL` en Vercel y las redirect URLs de Supabase Auth.
 5. **Resend** — verificar dominio `myjova.com` tras comprarlo → `RESEND_API_KEY` + `RESEND_FROM_EMAIL`.
+6. **Supabase Auth** — añadir `https://myjova.vercel.app` en Auth → URL Configuration (redirect
+   URLs) para que login/OAuth funcionen en el dominio de prod.
 
 ### Gotchas de herramientas (para no perder tiempo)
 - El **panel de navegador NO logra teclear** en el form de login (inputs controlados de React
